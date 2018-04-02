@@ -1,37 +1,22 @@
 function Page() {
     var id = 1;
+    var param = [];
     this.init = function () {
         $(window).scroll(function () {
 
             if ($(this).scrollTop() > 0) {
-//                $("#main-menu-id").removeClass("main-menu", 800).fadeIn(1000);
-                $("#main-menu-id").animate({
-                    paddingTop: '0px'
-                });
-
-//                $("#slider-main").removeClass("main-slider", 800).fadeIn(1000);
-                $("#slider-main").animate({
-                    paddingTop: '0px'
-                });
-
+                $("#main-menu-id").removeClass("main-menu").addClass("main-menu-out");
+//                $("#slider-main").removeClass("main-slider");
                 $('.go-top').slideDown(300);
             } else {
-                
-                $("#main-menu-id").animate({
-                    paddingTop: '100px'
-                });
-
-
-                $("#slider-main").animate({
-                    paddingTop: '160px'
-                });
+                $("#main-menu-id").addClass("main-menu").removeClass("main-menu-out");
+//                $("#slider-main").addClass("main-slider");
 
                 $('.go-top').slideUp(300);
+
             }
         });
         $('.go-top').click(function () {
-//            $("#main-menu-id").addClass("main-menu", {duration: 800});
-//            $("#slider-main").addClass("main-slider", {duration: 000});
             $('body, html').animate({
                 scrollTop: '0px'
             }, 300);
@@ -84,83 +69,6 @@ function Page() {
             elem.attr("disabled", false);
         });
 
-
-//        $(".test").smoove({
-//            offset: '15%',
-//            // moveX is overridden to -200px for ".bar" object
-//            moveX: '100px',
-//            moveY: '100px',
-//        });
-
-
-
-        $('.list-group.checked-list-box .list-group-item').each(function () {
-
-            // Settings
-            var $widget = $(this),
-                    $checkbox = $('<input type="checkbox" class="hidden" />'),
-                    color = ($widget.data('color') ? $widget.data('color') : "primary"),
-                    style = ($widget.data('style') == "button" ? "btn-" : "list-group-item-"),
-                    settings = {
-                        on: {
-                            icon: 'glyphicon glyphicon-check'
-                        },
-                        off: {
-                            icon: 'glyphicon glyphicon-unchecked'
-                        }
-                    };
-
-            $widget.css('cursor', 'pointer')
-            $widget.append($checkbox);
-
-            // Event Handlers
-            $widget.on('click', function () {
-                $checkbox.prop('checked', !$checkbox.is(':checked'));
-                $checkbox.triggerHandler('change');
-                updateDisplay();
-            });
-            $checkbox.on('change', function () {
-                updateDisplay();
-            });
-
-
-            // Actions
-            function updateDisplay() {
-                var isChecked = $checkbox.is(':checked');
-
-                // Set the button's state
-                $widget.data('state', (isChecked) ? "on" : "off");
-
-                // Set the button's icon
-                $widget.find('.state-icon')
-                        .removeClass()
-                        .addClass('state-icon ' + settings[$widget.data('state')].icon);
-
-                // Update the button's color
-                if (isChecked) {
-                    $widget.addClass(style + color + ' active');
-                } else {
-                    $widget.removeClass(style + color + ' active');
-                }
-            }
-
-            // Initialization
-            function init() {
-
-                if ($widget.data('checked') == true) {
-                    $checkbox.prop('checked', !$checkbox.is(':checked'));
-                }
-
-                updateDisplay();
-
-                // Inject the icon if applicable
-                if ($widget.find('.state-icon').length == 0) {
-                    $widget.prepend('<span class="state-icon ' + settings[$widget.data('state')].icon + '"></span>');
-                }
-            }
-            init();
-        });
-
         $('#get-checked-data').on('click', function (event) {
             event.preventDefault();
             var checkedItems = {}, counter = 0;
@@ -170,8 +78,6 @@ function Page() {
             });
             $('#display-json').html(JSON.stringify(checkedItems, null, '\t'));
         });
-
-
 
     }
 
@@ -203,7 +109,95 @@ function Page() {
         $("#type_stakeholder").val(id);
     }
 
+    this.reloadCategories = function (slug) {
+        var data = {};
+
+        var categories = [];
+        var cat = "", subcategories = [];
+        $("input[name='categories[]']:checked").each(function () {
+            cat += (cat == '') ? '' : '&';
+            cat += $(this).val();
+            categories.push($(this).val());
+        })
+
+
+
+        $("input[name='subcategories[]']:checked").each(function () {
+            subcategories.push($(this).val());
+        })
+
+        data.subcategories = subcategories;
+        data.categories = categories;
+
+        var html = "";
+
+        $.ajax({
+            url: PATH + '/search',
+            method: 'get',
+            data: data,
+            success: function (data) {
+
+                $("#divproducts").empty();
+                var cont = 0;
+                html += ' <div class="row justify-content-center text-center" style="padding-bottom: 2%">';
+                $.each(data.products, function (i, value) {
+                    html += `
+                     <div class="col-3 text-center">
+                                <div class="card">
+                                    <img class="card-img-top img-fluid" src="/${value.thumbnail}" alt="Card image cap" onclick="obj.redirectProduct('${value.slug}')">
+                                    <div class="card-body">
+                                        <h5 class="card-title" style="min-height:60px">${value.short_description}</h5>
+                                        <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                        <a href="/productDetail/${value.slug}" class="btn btn-primary">Comprar</a>
+                                    </div>
+                                </div>
+                    </div>
+                    `;
+
+                    cont++;
+                    if (cont == 4) {
+                        cont = 0;
+                        html += `    
+                            </div>
+                            <div class="row" style="padding-top: 2%;padding-bottom: 2%">
+                                `;
+                    }
+
+                })
+                html += `</div>`;
+
+                $("#divproducts").html(html);
+
+                $("#content-subcategories").empty();
+                html = "";
+                $.each(data.categories, function (i, val) {
+                    html += `
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-10">
+                                    ${val.short_description}
+                                </div>
+                                <div class="col-2">
+                                    <input type="checkbox" name="subcategories[]" class="form-control" value="${val.slug}" onclick=obj.reloadCategories('${val.slug}')>
+                                </div>
+                            </div>
+                        </li>`;
+                })
+
+
+                $("#content-subcategories").html(html);
+
+
+            }, error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr)
+//                toastr.error(xhr.responseJSON.msg);
+//                elem.attr("disabled", false);
+            }
+
+        })
+    }
+
 }
 
-objPage = new Page();
-objPage.init();
+obj = new Page();
+obj.init();

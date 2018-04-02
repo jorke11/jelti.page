@@ -88,24 +88,7 @@
                 }
             } 
 
-            .go-top {
-                position: fixed;
-                bottom: 4em;
-                right: 2em;
-                text-decoration: none;
-                color: #fff;
-                background-color: rgba(0, 0, 0, 0.3);
-                font-size: 12px;
-                padding: 1em;
-                display: none;
-                z-index: 1000;
-                border-radius: 50% 50% 50% 50%;
-            }
 
-            .go-top:hover {
-                background-color: rgba(0, 0, 0, 0.6);
-                color:white;
-            }
 
             /* CSS REQUIRED */
             .state-icon {
@@ -121,112 +104,154 @@
                 margin-bottom: 0px;
             }
 
+
+            .list-group-item {
+                background-color: rgba(255,255,255,0);
+                padding: .40rem 1.25rem;
+                border: 0px;
+                font-size: 20px;color: black;
+            }
+
+            #categories-filter .list-group .list-group-item.active{
+                background-color: #30c594 !important;
+                color:#ffffff
+            }
+
+
         </style>
-    </div>
-    <section>
-        <div class="container-fluid" style="padding-left: 0; padding-right: 0">
-            <div class="col-xs-offset-2">
-                @include("header")
-            </div>
 
 
-            <a class="go-top" href="#">Subir</a>
-
-            <section id="slider-main" class="main-slider">
-                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img class="d-block w-100" src="{{$row_category->banner}}" alt="Second slide">
-                        </div>
+    </style>
+</div>
+<section>
+    @include("header")
+    <div class="container-fluid" style="padding-left: 0; padding-right: 0">
+        <section id="slider-main" class="main-slider">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="d-block w-100" src="{{url($row_category->banner)}}" alt="Second slide">
                     </div>
                 </div>
-            </section>
-        </div>
-    </section>
-    <section style="padding-top: 100px">
-        <div class="container-fluid" style="padding-left: 0; padding-right: 0">
-            <div class="row">
-                <div class="col-3">
-                    <div class="row">
-                        <div class="col-12">
-                            <ul class="list-group">
-                                <li class="list-group-item">CATEGORIAS</li>
+            </div>
+        </section>
+    </div>
+</section>
+
+<section style="padding-top: 50px">
+    <div class="container-fluid" style="padding-left: 0; padding-right: 0">
+        <div class="row">
+            <div class="col-2">
+                <div class="row row-space" style="border:1px #ccc solid;border-radius: 10px; margin-bottom: 20px" id="categories-filter">
+                    <div class="col-12" style="padding-right:0px">
+                        <ul class="list-group">
+                            <li class="list-group-item"><b>CATEGORIAS</b></li>
+                            <div id="content-categories">
                                 <?php
                                 $active = "";
+                                $check = "";
+                                $check = "";
+
                                 foreach ($category as $val) {
+                                    if ($slug_category == $val->slug) {
+                                        $check = "checked";
+                                    } else {
+                                        $check = "";
+                                    }
+                                    ?>
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-10 ">
+                                                {{$val->description}}
+                                            </div>
+                                            <div class="col-2">
+                                                <input type="checkbox" class="form-control" name="categories[]" <?php echo $check ?> value="{{$val->slug}}" onclick="obj.reloadCategories('{{$val->slug}}')">
+                                            </div>
+                                        </div>
+
+                                    </li>
+                                    <?php
+                                }
+                                ?>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row " style="border:1px #ccc solid;border-radius: 10px">
+                    <div class="col-12">
+                        <ul class="list-group">
+                            <li class="list-group-item"><b>SUBCATEGORIAS</b></li>
+                            <div id="content-subcategories">
+                                <?php
+                                $active = "";
+                                foreach ($subcategory as $val) {
                                     if ($slug_category == $val->slug) {
                                         $active = "active";
                                     } else {
                                         $active = "";
                                     }
                                     ?>
-                                    <li class="list-group-item {{$active}}">
-                                        {{$val->description}}
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                {{$val->short_description}}
+                                            </div>
+                                            <div class="col-2">
+                                                <input type="checkbox" name="subcategories[]" class="form-control" value="{{$val->slug}}" onclick=obj.reloadCategories('{{$val->asdslug}}')>
+                                            </div>
+                                        </div>
+
                                     </li>
                                     <?php
                                 }
                                 ?>
-                            </ul>
-                        </div>
+                            </div>
+                        </ul>
                     </div>
                 </div>
-                <div class="col-9">
-                    <section>
-                        <div class="row" style="padding-top: 2%;padding-bottom: 2%">
-                            <?php
-                            $cont = 0;
-                            foreach ($products as $value) {
-                                ?>
-                                <div class="col-lg-3">
-                                    <div class="thumbnail" style="padding: 0">
-                                        <img src="/{{$value->thumbnail}}" alt="Pending" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer">
-                                        <div class="caption" style="padding: 0">
-                                            <h5 class="text-center" style="min-height: 70px"><a href="/productDetail/{{$value->slug}}" style="color:black;font-weight: 400;letter-spacing:2px"><?php echo $value->short_description; ?></a></h5>
-                                            @if(!Auth::guest())
-                                            <p>
-                                            <h4 class="text-center" style="color:black;font-weight: 400;">$ {{number_format($value->price_sf,0,",",".")}}</h4>
-                                            </p>
-                                            @endif
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    @if(!Auth::guest())
-                                                    <a href="/productDetail/{{$value->slug}}" class="btn btn-success form-control" style="background-color: #30c594;">COMPRAR</a>
-                                                    @else
-                                                    <a href="/login" class="btn btn-success form-control" style="background-color: #30c594;">COMPRAR</a>
-                                                    @endif
+            </div>
+            <div class="col-10 justify-content-center text-center">
+                <section id="divproducts">
+                    <div class="row justify-content-center text-center" style="padding-bottom: 2%" >
+                        <?php
+                        $cont = 0;
+                        foreach ($products as $value) {
+                            ?>
+                            <div class="col text-center">
 
-                                                </div>
-                                            </div>
-
-
-                                        </div>
+                                <div class="card">
+                                    <img class="card-img-top img-fluid" src="/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')">
+                                    <div class="card-body">
+                                        <h5 class="card-title" style="min-height:60px"><?php echo $value->short_description; ?></h5>
+                                        <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                        <a href="/productDetail/{{$value->slug}}" class="btn btn-primary">Comprar</a>
                                     </div>
                                 </div>
-                                <?php
-                                $cont++;
-                                if ($cont == 4) {
-                                    $cont = 0;
-                                    ?>
-                                </div>
-                                <div class="row" style="padding-top: 2%;padding-bottom: 2%">
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </div>
-                        <div class="row row-center" style="padding-top: 2%;padding-bottom: 2%">
-                            <div class="col-8 text-center offset-1">
-                                <nav aria-label="Page navigation example">
-                                    {{ $products->links("pagination::bootstrap-4") }}
-                                </nav>
                             </div>
+                            <?php
+                            $cont++;
+                            if ($cont == 4) {
+                                $cont = 0;
+                                ?>
+                            </div>
+                            <div class="row" style="padding-top: 2%;padding-bottom: 2%">
+                                <?php
+                            }
+                        }
+                        ?>
+                    </div>
+                    <div class="row row-center justify-content-center" style="padding-top: 2%;padding-bottom: 2%">
+                        <div class="col text-center justify-content-center">
+                            {{ $products->links("pagination::bootstrap-4") }}
                         </div>
-                    </section>
-                </div>
+                    </div>
+                </section>
             </div>
-    </section>
+        </div>
+    </div>
+</section>
 
-    @include("footer")
+@include("footer")
 
 
 </body>

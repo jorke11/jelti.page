@@ -70,7 +70,7 @@ clearstatcache();
             }
         </style>
 
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="background-color: rgba(74,74,74,.7) !important;padding-top: 7%;">
+        <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" style="background-color: rgba(74,74,74,.7) !important;padding-top: 7%;">
             <div class="modal-dialog" role="document">
                 <div class="modal-content" style="background-color: rgba(255,255,255,.3) !important;border: 3px solid #ffffff;border-radius: 20px;">
 
@@ -162,7 +162,7 @@ clearstatcache();
             /* Para 480px */  
             @media only screen and (max-width: 500px) and (min-width: 341px) {  
                 #slider-main{
-                    padding-top: 98px
+                    /*padding-top: 98px*/
                 }
             }  
 
@@ -179,7 +179,7 @@ clearstatcache();
                 right: 2em;
                 text-decoration: none;
                 color: #fff;
-                background-color: rgba(0, 0, 0, 0.3);
+                background-color: rgb(90,176,153,0.8);
                 font-size: 12px;
                 padding: 1em;
                 display: none;
@@ -195,12 +195,11 @@ clearstatcache();
         </style>
 
         <div class="container-fluid" style="padding-left: 0; padding-right: 0">
-            <div class="col-xs-offset-2">
+            <div class="">
                 @include("header")
             </div>
 
-
-            <a class="go-top" href="#">Subir</a>
+          
 
             <section id="slider-main" class="main-slider">
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -227,46 +226,10 @@ clearstatcache();
                 </div>
             </section>
         </div>
-
-        <!--<div id="carousel-example-generic" class="carousel slide test" data-ride="carousel">
-            
-            <ol class="carousel-indicators">
-                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-            </ol>
-
-            
-            <div class="carousel-inner" role="listbox">
-                <div class="item active">
-                    <img src="images/banner_main.jpg" alt="Bebés" class="img-responsive" width="100%">
-                    <div class="carousel-caption" style="padding-left: 45%">
-                        <button type="button" class="btn btn-primary btn-lg hidden-xs" id="buttonMain" style="" data-toggle="modal" data-target="#myModal">
-                            Registrate como<br>
-                            <span style="font-size: 30px;color:#000"><b>Cliente</b> o <b>Proveedor</b></span>
-                        </button>
-                    </div>
-                </div>
-                <div class="item">
-                    <img src="images/banner_bebe.jpg" alt="Navidad" width="100%">
-                    <div class="carousel-caption" style="padding-left: 40%">
-                        <a href="/ecommerce/18" class="hidden-xs" style="color:white;background-color: #139c9e;border: 1px solid white;
-                           border-radius: 30px;padding:10px 40px 10px 40px;font-size: 40px;font-weight: 800">BEBES</a>
-                    </div>
-                </div>
-            </div>
-            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>-->
     </section>
 
 
-    <section id="divProduct" style="padding-top:4%" class="pendient-classs">
+    <section id="divProduct" style="padding-top:4%" class="d-none d-lg-block">
         <div class="container-fluid ">
             <div class="row">
                 <div class="col-lg-12">
@@ -276,19 +239,19 @@ clearstatcache();
             <div class="row row-space">
                 <div class="col-lg-12"><p class="text-center font-color" style="font-size: 18px" >Entregamos todas tus marcas saludables favoritas directamente a tu Negocio.</p></div>
             </div>
-            <div class="row text-center">
-                <div class='col-10 offset-1'>
+            <div class="row justify-content-center">
+                <div class='col-10'>
                     <div class="carousel slide media-carousel" id="media">
                         <div class="carousel-inner">
                             <div class="item  active">
-                                <div class="row row-center">
+                                <div class="row ">
                                     <?php
                                     $cont = 0;
                                     foreach ($category as $i => $val) {
                                         if ($val->image != '') {
                                             ?>
-                                            <div class="col-md-2 col-sm-2 col-xs-2" style="padding:0px">
-                                                <a class="fancybox thumbnail" style="padding:0px;border:0px;" rel="gallery1" href="{{$val->slug}}">
+                                            <div class="col" style="padding:0px">
+                                                <a class="fancybox thumbnail" style="padding:0px;border:0px;" rel="gallery1" href="products/{{$val->slug}}">
                                                     <img src="http://www.superfuds.com/{{$val->image}}" alt="Image" >
                                                 </a>
                                             </div>
@@ -300,7 +263,7 @@ clearstatcache();
                                             </div>
                                         </div>
                                         <div class="item">
-                                            <div class="row row-center">
+                                            <div class="row">
                                                 <?php
                                             }
                                         }
@@ -309,32 +272,14 @@ clearstatcache();
                                 </div>
                             </div>
                         </div>
-
-                        <!--                    <a class="left carousel-control" href="#media" role="button" data-slide="prev">
-                                                                 <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                                                                 <span class="sr-only">Previous</span>
-                                                             </a>
-                                                                         <a class="right carousel-control" href="#media" role="button" data-slide="next">
-                                                                 <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                                                                 <span class="sr-only">Next</span>
-                                                                 </a>-->
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12"></div>
             </div>
-            <style>
-                .thumbnail{
-                    padding: 0px;
-                    border: 0px;
-                    background-color: rgba(0,0,0,0);
-                }
-            </style>
-            <div class="row row-space test">
-                <div class="col-8 offset-2 ">
-
-
+            <div class="row row-space justify-content-center">
+                <div class="col-8">
 
                     <div id="carouselExampleIndicators1" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
@@ -346,7 +291,7 @@ clearstatcache();
 
 
                             <div class="carousel-item active">
-                                <div class="row">
+                                <div class="row justify-content-center">
                                     <?php
                                     $cont = 0;
                                     $max = count($subcategory) / 6;
@@ -400,7 +345,7 @@ clearstatcache();
         <br>
     </section>
 
-    <section id="divProduct" style="padding-top:4%" class="d-lg-none d-lg-block d-xl-none">
+    <section id="divProduct" style="padding-top:4%" class="d-none d-lg-none">
         <div class="container-fluid ">
             <div class="row">
                 <div class="col-lg-12">
@@ -421,7 +366,7 @@ clearstatcache();
                                     foreach ($category as $i => $val) {
                                         if ($val->image != '') {
                                             ?>
-                                            <div class="col-sm-2 col-xs-6" style="padding:0px">
+                                            <div class="col" style="padding:0px">
                                                 <a class="fancybox thumbnail" style="padding:0px;border:0px;" rel="gallery1" href="ecommerce/{{$val->id}}">
                                                     <img src="http://www.superfuds.com/{{$val->image}}" alt="Image" >
                                                 </a>
@@ -513,54 +458,38 @@ clearstatcache();
         </div>
         <br>
     </section>
-
-    <section style="padding-top: 1%;padding-bottom: 2%" class="pendiente-class">   
+    <!--Web-->
+    <section style="padding-top: 1%;padding-bottom: 2%" class="d-none d-lg-block d-md-none">   
         <div class="container-fluid test">
-            <div class="row row-center">
-                <div class="col-lg-3 col-lg-offset-2 col-md-3 col-md-offset-2 col-sm-3 col-sm-offset-2 col-xs-6"><h3 class="color-font">Lo Nuevo</h3></div>
-                <div class="col-lg-3 col-lg-offset-4 col-md-3 col-md-offset-3 col-sm-3 col-sm-offset-3 col-xs-5 col-xs-offset-2">
+            <div class="row row-center justify-content-center text-center">
+                <div class="col-4"><h3 class="color-font">Lo Nuevo</h3></div>
+                <div class="col-4">
                     <a href="ecommerce/0" class="anim-underline text-muted">Ver Todo</a></div>
             </div>
             <div class="row row-center">
                 <div class="col-lg-8"><hr style="border-top: 1px solid #ccc"></div>
             </div>
             <div class="row row-center test" >
-                <div class="col-lg-8 col-md-8">
+                <div class="col-8">
 
 
                     <div id="carouselExampleIndicators3" class="carousel slide" data-ride="carousel">
 
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <div class="row">
+                                <div class="row text-center">
                                     <?php
                                     $cont = 0;
 
                                     foreach ($newproducts as $i => $value) {
                                         ?>
-                                        <div class="col-md-3">
-                                            <div class="thumbnail" style="border: 0;padding: 0;">
-                                                                                                    <!--<img src="{{url("/")."/".$value->thumbnail}}" alt="image"  onclick="objPage.redirectProduct('{{$value->slug}}')" style="cursor: pointer">-->
-                                                <img src="{{url("/")."/".$value->thumbnail}}" alt="image"  onclick="objPage.redirectProduct('{{$value->slug}}')" style="cursor: pointer">
-                                                <div class="caption" style="padding: 0">
-                                                    <h5 class="text-center" style="min-height: 90px"><a href="/productDetail/{{$value->slug}}" style="color:black;font-weight: 400;letter-spacing:2px"><?php echo $value->short_description; ?></a></h5>
-                                                    @if(!Auth::guest())
-                                                    <p>
-                                                    <h4 class="text-center" style="color:black;font-weight: 400;">$ {{number_format($value->price_sf,0,",",".")}}</h4>
-                                                    </p>
-                                                    @endif
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            @if(!Auth::guest())
-                                                            <a href="/productDetail/{{$value->slug}}" class="btn btn-success form-control" style="background-color: #30c594;">COMPRAR</a>
-                                                            @else
-                                                            <a href="/login" class="btn btn-success form-control" style="background-color: #30c594;">COMPRAR</a>
-                                                            @endif
-
-                                                        </div>
-                                                    </div>
-
-
+                                        <div class="col-3">
+                                            <div class="card" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer">
+                                                <img class="card-img-top img-fluid" src="/{{$value->thumbnail}}" alt="Card image cap">
+                                                <div class="card-body text-center">
+                                                    <h5 class="card-title" style="min-height:60px"><?php echo $value->short_description; ?></h5>
+                                                    <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                    <a href="/productDetail/{{$value->slug}}" class="btn btn-primary">Comprar</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -581,8 +510,6 @@ clearstatcache();
                             </div>
                         </div>
 
-
-
                         <a class="carousel-control-prev" href="#carouselExampleIndicators3" role="button" data-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="sr-only">Previous</span>
@@ -596,19 +523,19 @@ clearstatcache();
             </div>
         </div>
     </section>
-
-    <section style="padding-top: 1%;padding-bottom: 2%" class="d-lg-none d-lg-block d-xl-none">   
+    
+    <!--Movile-->
+    <section style="padding-top: 1%;padding-bottom: 2%" class="d-xs-block d-sm-block d-md-block d-lg-none">   
         <div class="container-fluid">
-            <div class="row row-center">
-                <!--<div class="col-lg-3 col-lg-offset-2 col-md-3 col-md-offset-2 col-sm-3 col-sm-offset-2 col-xs-5 "><h3 class="color-font">Lo Nuevo</h3></div>-->
-                <div class="col-lg-3 col-lg-offset-2 col-md-3 col-md-offset-2 col-sm-3 col-xs-5 "><a href="ecommerce/0" class="anim-underline text-muted">Lo Nuevo</a></div>
-                <div class="col-lg-3 col-lg-offset-4 col-md-3 col-md-offset-3 col-sm-3 col-sm-offset-3 col-xs-5 col-xs-offset-2"><a href="ecommerce/0" class="anim-underline text-muted">Ver Todo</a></div>
+            <div class="row row-center text-center">
+                <div class="col-6"><a href="ecommerce/0" class="anim-underline text-muted">Lo Nuevo</a></div>
+                <div class="col-6"><a href="ecommerce/0" class="anim-underline text-muted">Ver Todo</a></div>
             </div>
             <div class="row row-center">
-                <div class="col-lg-8"><hr style="border-top: 1px solid #ccc"></div>
+                <div class="col"><hr style="border-top: 1px solid #ccc"></div>
             </div>
-            <div class="row" >
-                <div class="col-lg-8 col-md-8 col-xs-12">
+            <div class="row  justify-content-center" >
+                <div class="col-10">
                     <div class="carousel slide media-carousel" id="newproducts">
                         <div class="carousel-inner">
                             <div class="item  active">
@@ -618,30 +545,13 @@ clearstatcache();
 
                                     foreach ($newproducts as $i => $value) {
                                         ?>
-                                        <div class="col-md-3 col-sm-6 col-xs-6">
-                                            <div class="thumbnail" style="border: 0;padding: 0;">
-
-                                                                                                                                                                                                                <!--<img src="{{url("/")."/".$value->thumbnail}}" alt="image" onclick="objPage.redirectProduct('{{$value->slug}}')" style="cursor: pointer">-->
-                                                <img src="http://www.superfuds.com/{{"/".$value->thumbnail}}" alt="image" onclick="objPage.redirectProduct('{{$value->slug}}')" style="cursor: pointer">
-                                                <div class="caption" style="padding: 0">
-                                                    <h5 class="text-center" style="min-height: 45px"><a href="/productDetail/{{$value->slug}}" style="color:black;font-weight: 400;letter-spacing:2px"><?php echo $value->short_description; ?></a></h5>
-                                                    @if(!Auth::guest())
-                                                    <p>
-                                                    <h4 class="text-center" style="color:black;font-weight: 400;">$ {{number_format($value->price_sf,0,",",".")}}</h4>
-                                                    </p>
-                                                    @endif
-                                                    <div class="row">
-                                                        <div class="col-lg-12">
-                                                            @if(!Auth::guest())
-                                                            <a href="/productDetail/{{$value->id}}" class="btn btn-success form-control" style="background-color: #30c594;">COMPRAR</a>
-                                                            @else
-                                                            <a href="/login" class="btn btn-success form-control" style="background-color: #30c594;">COMPRAR</a>
-                                                            @endif
-
-                                                        </div>
-                                                    </div>
-
-
+                                        <div class="col-6">
+                                            <div class="card" onclick="obj.redirectProduct('{{$value->slug}}')">
+                                                <img class="card-img-top" src="/{{$value->thumbnail}}" alt="Card image cap" >
+                                                <div class="card-body text-center">
+                                                    <h5 class="card-title" style="min-height:60px"><?php echo $value->short_description; ?></h5>
+                                                    <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                    <a href="/productDetail/{{$value->slug}}" class="btn btn-primary">Comprar</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -652,7 +562,7 @@ clearstatcache();
                                             ?>
                                         </div>
                                     </div>
-                                    <div class="item">
+                                    <div class="carousel-item ">
                                         <div class="row">
                                             <?php
                                         }
@@ -676,8 +586,6 @@ clearstatcache();
             </div>
         </div>
     </section>
-
-
 
     <section style="padding-top: 3%;padding-bottom: 2%" >
         <div class="container-fluid">
@@ -745,8 +653,8 @@ clearstatcache();
 
     <section style="padding-bottom: 2%;padding-top: 2%" class="pendiente-class">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-11 offset-1">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
 
                     <div id="carouselExampleIndicators5" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
@@ -755,50 +663,50 @@ clearstatcache();
                         </ol>
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <div class="row">
-                                    <div class="col-3">
+                                <div class="row text-center">
+                                    <div class="col ">
                                         <img src="logos/olimpica.png" alt="..." class=" center-block img-fluid " width="40%">
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col">
                                         <img src="logos/la14.png" alt="..." class="center-block img-fluid" width="40%">
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col">
                                         <img src="logos/farmatodo.png" alt="..." class=" center-block img-fluid" width="40%" >
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col">
                                         <img src="logos/rappi-3.png" alt="..." class="img-fluid  center-block" width="40%">
                                     </div>
                                 </div>
                             </div>
                             <div class="carousel-item">
-                                <div class="row">
-                                    <div class="col-3">
+                                <div class="row text-center">
+                                    <div class="col">
                                         <img src="logos/click_clack-4.png" alt="..." class="img-fluid center-block" width="40%">
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col">
                                         <img src="logos/locatel-5.png" alt="..." class="img-fluid center-block" width="40%">
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col">
                                         <img src="logos/altoque-6.png" alt="..." class="img-fluid center-block" width="40%">
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col">
                                         <img src="logos/cruz_verde-7.png" alt="..." class="img-fluid center-block" width="40%">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="carousel-item">
-                                <div class="row">
-                                    <div class="col-3">
+                                <div class="row text-center">
+                                    <div class="col">
                                         <img src="logos/gastronomy-8.png" alt="..." class="img-responsive center-block" width="40%">
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col">
                                         <img src="logos/enjoy_fit-11.png" alt="..." class="img-responsive center-block" width="40%">
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col">
                                         <img src="logos/juliao-10.png" alt="..." class="img-responsive center-block" width="40%">
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col">
                                         <img src="logos/tiger_market-9.png" alt="..." class="img-responsive center-block" width="40%">
                                     </div>
                                 </div>
@@ -818,7 +726,7 @@ clearstatcache();
         </div>
     </section>
 
-    <section style="padding-bottom: 2%;padding-top: 2%" class="d-lg-none d-lg-block d-xl-none">
+    <section style="padding-bottom: 2%;padding-top: 2%" class="d-none d-xs-block">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
@@ -910,8 +818,8 @@ clearstatcache();
     </section>
 
     <div class="container-fluid " style="background-color: #fffbf2">
-        <div class="row row-space" style="padding-top: 1%">
-            <div class="col-10 offset-2">
+        <div class="row row-space justify-content-center" style="padding-top: 1%">
+            <div class="col-10">
                 <form class="form-inline my-2 my-lg-1">
                     <label class=" mr-sm-5" style="font-size: 25px">Regístrate y recibe tips, recetas y mucho más!</label>
                     <input class="form-control mr-sm-2 form-control-sm" type="text" placeholder="email" aria-label="Search" style="width: 500px">
@@ -921,40 +829,6 @@ clearstatcache();
         </div>
     </div>
 
-<!--    <section>
-<div class="container-fluid grey-bk" style="padding-top: 3%">
-    <div class="row">
-        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6">
-            <p class="text-center col-lg-offset-5"><img src="/images/movil.png" class="img-responsive"></p>
-        </div>
-        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-6" style="padding-top: 5%">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2 class="text-center" style="color:#4a4a4a">Descarga SuperFüds</h2>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <h4 class="text-center" style="color:#4a4a4a">Para  que puedas  llevar  la vida saludable a todas partes</h4>
-                </div>
-            </div>
-            <br>
-            <br>
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <img src="/images/appstore.png" class="img-responsive">
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <img src="/images/googleplay.png" class="img-responsive">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</section>-->
 
     @include("footer")
 

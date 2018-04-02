@@ -68,11 +68,23 @@ Route::get('/', function () {
 });
 
 
-Route::get('/{slug_category}', function ($slug_category) {
-    $row_category = Models\Administration\Categories::where("slug", $slug_category)->where("type_category_id", 1)->where("node_id",0)->first();
+Route::get('/products/{slug_category}', function ($slug_category) {
+    $row_category = Models\Administration\Categories::where("slug", $slug_category)->where("type_category_id", 1)->where("node_id", 0)->first();
     $category = Models\Administration\Categories::where("status_id", 1)->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->orderBy("order", "asc")->get();
-    
+
+
+
+    $subcategory = Models\Administration\Categories::where("status_id", 1)->where("node_id", $row_category->id)->orderBy("order", "asc")->get();
+
     $products = DB::table("vproducts")->whereNotNull("image")->whereNotNull("warehouse")->orderBy("title", "desc")->paginate(16);
 
-    return view('listproducts', compact("category","row_category",'products',"slug_category"));
+    return view('listproducts', compact("category", "row_category", 'products', "slug_category", "subcategory"));
 });
+
+Route::get('/search', 'PageController@getProducts');
+Route::get('/productDetail/{id}', 'Ecommerce\ShoppingController@getProduct');
+Route::get('/getComment/{id}', 'Ecommerce\ShoppingController@getComment');
+Route::get('/getCounter', 'Ecommerce\ShoppingController@getCountOrders');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
