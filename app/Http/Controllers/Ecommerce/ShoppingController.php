@@ -17,14 +17,33 @@ use Auth;
 use DB;
 use App\Http\Controllers\Inventory\StockController;
 
-
 class ShoppingController extends Controller {
 
     public $stock;
+    public $total;
+    public $subtotal;
+    public $tax5;
+    public $tax19;
+    public $dietas;
 
     public function __construct() {
 //        $this->middleware("auth");
         $this->stock = new StockController();
+
+        $this->dietas = array(
+            (object) array("id" => 1, "description" => "Paleo"),
+            (object) array("id" => 2, "description" => "Vegano"),
+            (object) array("id" => 3, "description" => "Sin gluten"),
+            (object) array("id" => 4, "description" => "Organico"),
+            (object) array("id" => 5, "description" => "Sin grasas Trans"),
+            (object) array("id" => 6, "description" => "Sin azucar"),
+        );
+
+
+        $this->total = 0;
+        $this->subtotal = 0;
+        $this->tax5 = 0;
+        $this->tax19 = 0;
     }
 
     public function index() {
@@ -33,12 +52,14 @@ class ShoppingController extends Controller {
 
     public function getDetailProduct($id) {
 
+
+        $dietas = $this->dietas;
         $subcategory = Characteristic::where("status_id", 1)->whereNotNull("img")->where("type_subcategory_id", 1)->orderBy("order", "asc")->get();
 
         if ($id == '0') {
             $products = DB::table("vproducts")->whereNotNull("image")->whereNotNull("warehouse")->orderBy("title", "desc")->paginate(16);
             $category = Categories::all();
-            return view("Ecommerce.shopping.specific", compact("category", "products", "subcategory", "deviceSessionId"));
+            return view("Ecommerce.shopping.specific", compact("category", "products", "subcategory", "deviceSessionId", "dietas"));
         } else {
 
             if (strpos($id, "_") !== false) {
@@ -49,14 +70,14 @@ class ShoppingController extends Controller {
 
                 $products = DB::table("vproducts")->where(DB::raw("characteristic->>0"), $id)->whereNotNull("image")->whereNotNull("warehouse")->orderBy("title", "desc")->paginate(12);
 
-                return view("Ecommerce.shopping.specific", compact("category", "products", "subcategory"));
+                return view("Ecommerce.shopping.specific", compact("category", "products", "subcategory", "dietas"));
             } if (strpos($id, "sub") !== false) {
                 $id = str_replace("sub", "", $id);
 
                 $category = Categories::find($id);
 
                 $products = DB::table("vproducts")->where("category_id", $id)->whereNotNull("image")->whereNotNull("warehouse")->orderBy("title", "desc")->paginate(12);
-                return view("Ecommerce.shopping.specific", compact("category", "products", "subcategory"));
+                return view("Ecommerce.shopping.specific", compact("category", "products", "subcategory", "dietas"));
             } else {
 
                 $category = Categories::find($id);
@@ -104,8 +125,46 @@ class ShoppingController extends Controller {
 
                 $subcategory = Characteristic::where("status_id", 1)->whereNotNull("img")->where("type_subcategory_id", 1)->whereIn("id", $sub)->orderBy("order", "asc")->get();
 
-                return view("Ecommerce.shopping.detail", compact("category", "categoryAssoc", "subcategory", "id"));
+                return view("Ecommerce.shopping.detail", compact("category", "categoryAssoc", "subcategory", "id", "dietas"));
             }
+        }
+    }
+
+    public function getProduct($id) {
+        $product = DB::table("vproducts")->where("slug", $id)->first();
+        $dietas = $this->dietas;
+
+        if ($product != null) {
+
+            $detail = ProductsImage::where("product_id", $product->id)->get();
+
+            $relations = DB::table("vproducts")->where("category_id", $product->category_id)->whereNotNull("image")->get();
+
+
+            $supplier = Stakeholder::find($product->supplier_id);
+
+            if ($product->characteristic != null) {
+                $cod = json_decode($product->characteristic, true);
+                $id = array();
+
+                foreach ($cod as $value) {
+                    $id[] = (int) $value;
+                }
+
+                if (count($id) > 0) {
+                    $cha = Characteristic::whereIn("id", $cod)->get();
+                    $product->characteristic = $cha;
+                }
+            }
+
+            $available = $this->stock->getInventory($product->id);
+
+            $categories = Categories::where("node_id", 0)->get();
+
+
+            return view("Ecommerce.payment.product", compact("product", "detail", "relations", "supplier", "available", "categories", "dietas"));
+        } else {
+            return response(view('errors.503'), 404);
         }
     }
 
@@ -173,41 +232,6 @@ class ShoppingController extends Controller {
         return Categories::all();
     }
 
-    public function getProduct($id) {
-        $product = DB::table("vproducts")->where("slug", $id)->first();
-
-
-        if ($product != null) {
-
-            $detail = ProductsImage::where("product_id", $product->id)->get();
-
-            $relations = DB::table("vproducts")->where("category_id", $product->category_id)->whereNotNull("image")->get();
-
-
-            $supplier = Stakeholder::find($product->supplier_id);
-
-            if ($product->characteristic != null) {
-                $cod = json_decode($product->characteristic, true);
-                $id = array();
-
-                foreach ($cod as $value) {
-                    $id[] = (int) $value;
-                }
-
-                if (count($id) > 0) {
-                    $cha = Characteristic::whereIn("id", $cod)->get();
-                    $product->characteristic = $cha;
-                }
-            }
-
-            $available = $this->stock->getInventory($product->id);
-
-            return view("Ecommerce.shopping.product", compact("product", "detail", "relations", "supplier", "available"));
-        } else {
-            return response(view('errors.503'), 404);
-        }
-    }
-
     public function addComment(Request $req) {
         $data = $req->all();
 
@@ -249,18 +273,34 @@ class ShoppingController extends Controller {
     }
 
     public function getCountOrders() {
-        $count = 0;
-
         if (Auth::user() != null) {
-            $count = $this->getDataCountOrders();
+            $detail = $this->getDataCountOrders();
         }
 
-        return response()->json(["quantity" => $count]);
+        return response()->json(["quantity" => count($detail), "detail" => $detail]);
     }
 
     public function getDataCountOrders() {
-        $order = Orders::where("stakeholder_id", Auth::user()->id)->where("status_id", 1)->first();
-        return OrdersDetail::where("order_id", $order["id"])->sum("quantity");
+        $order = Orders::where("insert_id", Auth::user()->stakeholder_id)->where("status_id", 1)->first();
+        $detail = [];
+        if ($order != null) {
+            $sql = "
+            SELECT d.product_id,p.title as product,d.tax,d.price_sf,COALESCE(d.units_sf,1) as units_sf,p.thumbnail,sum(d.quantity) as quantity,sum(d.quantity * d.price_sf) as subtotal
+            FROM orders_detail d
+            JOIN vproducts p on p.id=d.product_id
+            WHERE d.order_id=" . $order["id"] . "
+            group by 1, 2, 3, 4, 5, 6";
+
+            $detail = DB::select($sql);
+        }
+        return $detail;
+
+//        foreach ($det as $value) {
+//            
+//        }
+//        return OrdersDetail::select("orders_detail.id", "orders_detail.quantity", "orders_detail.tax", "vproducts.title as product", "orders_detail.price_sf","vproducts.thumbnail")
+//                        ->join("vproducts", "vproducts.id", "orders_detail.product_id")
+//                        ->where("order_id", $order["id"])->get();
     }
 
     public function getComment($product_id) {

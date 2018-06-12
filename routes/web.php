@@ -13,9 +13,12 @@
 
 use App\Models;
 
+Route::get('/search/{busqueda}', 'PageController@search');
+
+
 Route::get('/', function () {
 
-    $category = Models\Administration\Categories::where("status_id", 1)->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->orderBy("order", "asc")->get();
+    $categories = Models\Administration\Categories::where("status_id", 1)->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->orderBy("order", "asc")->get();
 //    dd($category);
     $newproducts = DB::table("vproducts")->where("status_id", 1)
             ->where("category_id", "<>", -1)
@@ -64,27 +67,65 @@ Route::get('/', function () {
         array("url" => "http://www.superfuds.com/images_blog/referentes/terrafertil-4.jpg", "title" => "Terrafertil"),
         array("url" => "http://www.superfuds.com/images_blog/referentes/chocolov-6.jpg", "title" => "Chocolov"));
 
-    return view('page', compact("category", "subcategory", "newproducts", "love_clients", "clients"));
+    $dietas = array(
+        (object)array("id" => 1, "description" => "Paleo"),
+        (object)array("id" => 2, "description" => "Vegano"),
+        (object)array("id" => 3, "description" => "Sin gluten"),
+        (object)array("id" => 4, "description" => "Organico"),
+        (object)array("id" => 5, "description" => "Sin grasas Trans"),
+        (object)array("id" => 6, "description" => "Sin azucar"),
+    );
+
+
+    return view('page', compact("categories", "subcategory", "newproducts", "love_clients", "clients", "dietas"));
 });
 
 
+
+
+
 Route::get('/products/{slug_category}', function ($slug_category) {
+
     $row_category = Models\Administration\Categories::where("slug", $slug_category)->where("type_category_id", 1)->where("node_id", 0)->first();
-    $category = Models\Administration\Categories::where("status_id", 1)->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->orderBy("order", "asc")->get();
-
-
+    $categories = Models\Administration\Categories::where("status_id", 1)->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->orderBy("order", "asc")->get();
 
     $subcategory = Models\Administration\Categories::where("status_id", 1)->where("node_id", $row_category->id)->orderBy("order", "asc")->get();
 
     $products = DB::table("vproducts")->whereNotNull("image")->whereNotNull("warehouse")->orderBy("title", "desc")->paginate(16);
 
-    return view('listproducts', compact("category", "row_category", 'products', "slug_category", "subcategory"));
+//    dd($row_category);
+    
+    $dietas = array(
+            (object) array("id" => 1, "description" => "Paleo"),
+            (object) array("id" => 2, "description" => "Vegano"),
+            (object) array("id" => 3, "description" => "Sin gluten"),
+            (object) array("id" => 4, "description" => "Organico"),
+            (object) array("id" => 5, "description" => "Sin grasas Trans"),
+            (object) array("id" => 6, "description" => "Sin azucar"),
+        );
+    
+
+    return view('listproducts', compact("categories", "row_category", 'products', "slug_category", "subcategory","dietas"));
 });
 
-Route::get('/search', 'PageController@getProducts');
-Route::get('/productDetail/{id}', 'Ecommerce\ShoppingController@getProduct');
-Route::get('/getComment/{id}', 'Ecommerce\ShoppingController@getComment');
-Route::get('/getCounter', 'Ecommerce\ShoppingController@getCountOrders');
 Auth::routes();
+Route::get('/search', 'PageController@getProducts');
+Route::get('/search/{input}', 'PageController@getProducts');
+
+Route::get('/getComment/{id}', 'Ecommerce\ShoppingController@getComment');
+Route::get('/getCounter', 'Ecommerce\PaymentController@getOrdersCurrent');
+Route::get('/getCounter/{slug}', 'Ecommerce\PaymentController@getOrdersCurrent');
+Route::get('/productDetail/{id}', 'Ecommerce\ShoppingController@getProduct');
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/payment', 'Ecommerce\PaymentController@index');
+Route::get('/selectPay', 'Ecommerce\PaymentController@methodsPayment');
+Route::put('addProduct/{slug}', 'Ecommerce\PaymentController@addProduct');
+Route::put('deleteProduct/{slug}', 'Ecommerce\PaymentController@deleteProduct');
+Route::put('deleteAllProduct/{slug}', 'Ecommerce\PaymentController@deleteAllProduct');
+Route::post('payment/target', 'Ecommerce\PaymentController@payment');
+
+Route::get('/api/getDepartment', 'Administration\SeekController@getDepartment');
+
+Route::get('getCity/{department_id}', "Ecommerce\PaymentController@getCities");
+Route::get('congratulations', "Ecommerce\PaymentController@congratulations");

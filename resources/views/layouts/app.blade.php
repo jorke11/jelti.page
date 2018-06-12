@@ -12,7 +12,7 @@
 
         <!-- Styles -->
         <link href="/css/app.css" rel="stylesheet">
-
+        {!!Html::script('/vendor/plugins.js')!!}
         <!-- Scripts -->
         <script>
             window.Laravel = <?php

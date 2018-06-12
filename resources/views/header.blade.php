@@ -19,17 +19,28 @@
     }
 
     .main-menu{
-        padding-top: 100px;
+        padding-top: 95px;
         position: relative;
         transition: all 1s ease;
         background-repeat: no-repeat;
         background-position-y: -50px;
-        background-image: url("/images/page/fondosuperior.svg")
+
     }
+
+    .img-header{
+        /*background-image: url("/images/page/fondosuperior.svg")*/
+        background-image: url("/images/header.png") ;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        /*background-size: 100% 132%;*/
+    }
+
     .main-menu-out{
         padding-top: 0px;
         transition: all 1.5s ease;
-        background-color: #6dcbb2 !important
+        background-color: rgba(91,175,152,1) !important
     }
 
     .go-top {
@@ -50,9 +61,14 @@
         background-color: rgba(0, 0, 0, 0.6);
         color:white;
     }
+
 </style>
 
-<nav class="navbar navbar-expand-lg fixed-top navbar-light main-menu img-fluid" id="main-menu-id" style="background-color: #6dcbb;width: 100%;height: auto">
+@auth
+<input type="hidden" id="user_id" value="{{Auth::user()->id}}">
+@endauth
+
+<nav class="navbar navbar-expand-lg fixed-top navbar-light main-menu img-fluid img-header " id="main-menu-id" style="background-color: #6dcbb;height: auto;left:-2px">
     <!--<nav class="navbar navbar-expand-md fixed-top main-menu img-fluid" id="main-menu-id" style="background-image: url({{url("/images/page/fondosuperior.svg")}});width: 100%;height: auto">-->
     <!--<nav class="navbar navbar-expand-lg navbar-light" id="main-menu-id" style="background-color: #ccc">-->
     <a class="navbar-brand d-lg-none" href="#">
@@ -66,32 +82,32 @@
     <div class="navbar-collapse collapse" id="navbarsExampleDefault" style="">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown active">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
-                   aria-haspopup="true" aria-expanded="false" style="font-size: 19px;padding-left: 40px;padding-right:40px">Categorias</a>
+                <a class="nav-link dropdown-toggle" href="{{url("/")}}" id="dropdown01" data-toggle="dropdown" 
+                   aria-haspopup="true" aria-expanded="false" style="color:white;font-weight: 300" >Categorias</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    @foreach($categories as $val)
+                    <a style="color:black" class="dropdown-item" href="{{url("")}}/products/{{$val->slug}}">{{ucwords(strtolower($val->description))}}</a>
+                    @endforeach
                 </div>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
-                   aria-haspopup="true" aria-expanded="false" style="font-size: 19;padding-right:40px">Dieta</a>
+                   aria-haspopup="true" aria-expanded="false" style="color:white;font-size: 19;padding-right:40px">Dieta</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    @foreach($dietas as $val)
+                    <a class="dropdown-item" href="#">{{$val->description}}</a>
+                    @endforeach
                 </div>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
-                   aria-haspopup="true" aria-expanded="false" style="font-size: 19;padding-right:40px">Blog</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>
+            <!--            <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
+                               aria-haspopup="true" aria-expanded="false" style="font-size: 19;padding-right:40px">Blog</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdown01">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </li>-->
         </ul>
 
         <ul class="navbar-nav mr-auto">
@@ -100,9 +116,9 @@
             </li>
         </ul>
 
-        <form class="form-inline my-2 my-lg-1">
-            <input class="form-control mr-sm-2 form-control-sm" type="text" placeholder="Brownie, Paleo, Quinua" aria-label="Search" style="width: 300px">
-            <button class="btn btn-outline-dark my-2 my-sm-0 btn-sm" type="submit">Search</button>
+        <form class="form-inline my-2 my-lg-1"  id="frmSearch">
+            <input class="form-control mr-sm-2 form-control-sm" type="text" placeholder="Brownie, Paleo, Quinua" aria-label="Search" style="width: 300px" id="text-search">
+            <button class="btn btn-outline-dark my-2 my-sm-0 btn-sm" type="button" id="btnSearch">Buscar</button>
         </form>
 
         <ul class="navbar-nav">
@@ -111,6 +127,19 @@
                 <a class="nav-link" href="{{ route('login') }}"><button class="btn btn-outline-light my-2 my-sm-0 btn-sm" type="submit">Iniciar Sesión</button></a>
             </li>
             @else
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="popover" title="Resumen Compra" data-placement="bottom"  
+                   data-popover-content="#a1" >
+
+                    <svg id="i-cart" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" enable-background="new 0 0 512 512" 
+                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="color:white">
+                    <path d="M6 6 L30 6 27 19 9 19 M27 23 L10 23 5 2 2 2" />
+                    <circle cx="25" cy="27" r="2" />
+                    <circle cx="12" cy="27" r="2" />
+                    </svg>
+                    <span class="badge badge-light" id="badge-quantity">0</span>
+                </a>
+            </li>
             <li class="nav-item dropdown active">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
                    aria-haspopup="true" aria-expanded="false" style="color:white;font-size: 19px;padding-left: 40px;padding-right:40px">({{ Auth::user()->name }})</a>
@@ -136,3 +165,38 @@
 <a class="go-top" href="#">
     <img src='{{url("images/boton-subir.png")}}'>
 </a>
+
+
+<style>
+    .popover-body{
+        padding: 20px;
+    }
+</style>
+<div class="d-none" id="popover-content" >
+    <div class="hide">
+        <div class="container-fluid" id="popover-content" style="
+             max-height: 150px;
+             max-width: 310px;
+             overflow-y: scroll;">
+
+        </div>
+        <div class="container-fluid" >
+            <div class="row">
+                <div class="col-12">
+
+                </div>
+            </div>
+        </div>
+    </div>        
+</div>
+<script>
+    $(function () {
+        $("[data-toggle=popover]").popover({
+            html: true,
+            content: function () {
+                var id = $(this).attr('id')
+                return $('#popover-content').html();
+            }
+        });
+    })
+</script>

@@ -74,6 +74,7 @@
     }
 </style>
 
+<input id="slug_product" value="{{$product->slug}}" type="hidden">
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-lg-10 col-lg-offset-1">
@@ -102,8 +103,8 @@
                                         <div class="col">
                                             <div class="row">
                                                 <div class="row hover01">
-                                                    <div class="col">
-                                                        <img id="sub_{{$val->id}}" src="/{{$val->img}}" alt="" title="{{$val->description}}" class="img-fluid center-block" style="cursor:pointer" width="60%">
+                                                    <div class="col-3">
+                                                        <img id="sub_{{$val->id}}" src="/{{$val->img}}" alt="" title="{{$val->description}}" class="img-fluid center-block" style="cursor:pointer">
                                                     </div>
                                                 </div>
                                             </div>
@@ -198,11 +199,15 @@
                         <div class="col-3">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" onclick="obj.add()" style="background-color: #30c594;color:white;cursor: pointer">+</span>
+                                    <span class="input-group-text" 
+                                          onclick="obj.addProduct('{{$product->short_description}}',
+                                           '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->thumbnail)}}','{{$product->tax}}')"
+                                          style="background-color: #30c594;color:white;cursor: pointer">+</span>
                                 </div>
-                                <input type="text" class="form-control" id="quantity" name="quantity" value="1" type="number" min="1">
+                                <input type="text" class="form-control" id="quantity" name="quantity" value="0" type="number">
                                 <div class="input-group-append">
-                                    <span class="input-group-text" onclick="obj.delete()" style="background-color: #30c594;color:white;cursor: pointer">-</span>
+                                    <span class="input-group-text" onclick="obj.delete('{{$product->short_description}}',
+                                           '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->thumbnail)}}','{{$product->tax}}')" style="background-color: #30c594;color:white;cursor: pointer">-</span>
                                 </div>
                             </div>
                         </div>
@@ -210,25 +215,6 @@
                     </div>
 
                     <br>
-<!--                    @if(Auth::user()!=null)
-                    @if(Auth::user()->role_id == 2)
-                    <div class="row">
-                        <div class="col-lg-6 col-lg-offset-3">  
-
-                            <button class="btn btn-success form-control" id="AddProduct" style="background-color: #30c594">Comprar</button>
-
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-lg-8 col-lg-offset-4">
-                            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" style='cursor: pointer;font-size: 25px'></span>&nbsp;<span class="badge">42</span>&nbsp;&nbsp;
-                            <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true" style='cursor: pointer;font-size: 25px'></span>&nbsp;<span class="badge">0</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <span class="glyphicon glyphicon-comment" aria-hidden="true" style='cursor: pointer;font-size: 25px' onclick="obj.modalComment({{$product->id}})"></span>&nbsp;<span class="badge" >0</span>
-                        </div>
-                    </div>
-                    @endif
-                    @endif-->
                 </div>        
             </div>
 
@@ -254,7 +240,7 @@
                                                         <div class="card" onclick="obj.redirectProduct('{{$value->slug}}')">
                                                             <img class="card-img-top" src="/{{$value->thumbnail}}" alt="Card image cap" >
                                                             <div class="card-body text-center">
-                                                                <h5 class="card-title" style="min-height:60px"><?php echo $value->short_description; ?></h5>
+                                                                <h5 class="card-title" style="min-height:65px"><?php echo $value->short_description; ?></h5>
                                                                 <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                                                 <a href="/productDetail/{{$value->slug}}" class="btn btn-primary">Comprar</a>
                                                             </div>

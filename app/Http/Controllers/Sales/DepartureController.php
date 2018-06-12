@@ -1,0 +1,1778 @@
+<?php
+
+namespace App\Http\Controllers\Sales;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use DB;
+use App\Models\Inventory\Departures;
+use App\Models\Inventory\Orders;
+use App\Models\Inventory\DeparturesDetail;
+use App\Models\Inventory\OrdersDetail;
+use App\Models\Invoicing\PurchasesDetail;
+use App\Models\Invoicing\SaleDetail;
+use App\Models\Administration\Products;
+use App\Models\Administration\Stakeholder;
+use App\Models\Administration\Parameters;
+use App\Models\Administration\Branch;
+use App\Models\Administration\Email;
+use App\Models\Administration\EmailDetail;
+use App\Models\Administration\Warehouses;
+use App\Models\Administration\Cities;
+use App\Models\Security\Users;
+use App\Models\Invoicing\Sales;
+use Session;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Inventory\StockController;
+use Mail;
+use Datatables;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Administration\PricesSpecial;
+use App\Models\Sales\BriefCase;
+use App\Models\Inventory\Inventory;
+use App\Models\Inventory\InventoryHold;
+use App\Traits\NumberToString;
+use App\Traits\StringExtra;
+use App\Traits\Invoice;
+use App\Traits\ToolInventory;
+
+class DepartureController extends Controller {
+
+    use NumberToString;
+    use StringExtra;
+    use Invoice;
+    use ToolInventory;
+
+    protected $tool;
+    public $path;
+    public $name;
+    public $listProducts;
+    public $errors;
+    public $email;
+    public $mails;
+    public $in;
+    public $initdate;
+
+    public function __construct() {
+        $this->middleware("auth");
+        $this->exento = 0;
+        $this->exento_real = 0;
+        $this->tax19 = 0;
+        $this->tax19_real = 0;
+        $this->tax5 = 0;
+        $this->tax5_real = 0;
+        $this->total = 0;
+        $this->subtotal = 0;
+        $this->total_real = 0;
+        $this->path = '';
+        $this->name = '';
+        $this->listProducts = array();
+        $this->errors = array();
+        $this->email = array();
+        $this->in = array();
+        $this->mails = array();
+        $this->initdate = date('Y-m-d', strtotime('-1 month', strtotime(date('Y-m-d'))));
+    }
+
+    public function index($client_id = null, $init = null, $end = null, $product_id = null, $supplier_id = null) {
+        $category = \App\Models\Administration\Categories::all();
+        $status = Parameters::where("group", "entry")->get();
+        $commercial_id = null;
+        if (strpos($client_id, "_") == false) {
+            $commercial_id = str_replace("_", "", $client_id);
+            $client_id = null;
+        }
+
+        $initdate = $this->initdate;
+
+        return view("Sales.departure.init", compact("category", "status", "client_id", "init", "end", "product_id", "supplier_id", "commercial_id", "initdate"));
+    }
+
+    public function listTable(Request $req) {
+        $in = $req->all();
+        $cont = 0;
+
+        $query = DB::table('vdepartures');
+
+
+        if (isset($in["client_id"]) && $in["client_id"] != '' && $in["client_id"] != 0) {
+            $query->where("client_id", $in["client_id"])
+                    ->where("status_id", 2);
+        }
+
+        if (isset($in["init"]) && $in["init"] != '') {
+            $query->whereBetween("dispatched", array($in["init"] . " 00:00", $in["end"] . " 23:59"));
+        }
+
+
+        if (isset($in["id_filter"]) && $in["id_filter"] != '') {
+            $cont++;
+            $query->where("id", $in["id_filter"]);
+        }
+
+        if (isset($in["invoice_filter"]) && $in["invoice_filter"] != '') {
+            $cont++;
+            $query->where("invoice", $in["invoice_filter"]);
+        }
+
+        if (isset($in["responsible_filter"]) && $in["responsible_filter"] != '') {
+            $cont++;
+
+            foreach ($in["responsible_filter"] as $value) {
+                $query->Orwhere("responsible_id", $value);
+            }
+        }
+
+        if (isset($in["end_filter"]) && $in["end_filter"] != '') {
+            $cont++;
+            $query->where("created_at", "<=", $in["end_filter"] . " 00:00");
+        }
+        if (isset($in["status_id_filter"]) && $in["status_id_filter"] != '') {
+            $cont++;
+            $query->whereIn("status_id", $in["status_id_filter"]);
+        }
+
+        if ($in["client_filter"] != 0 && $in["client_filter"] != '') {
+            $query->whereIn("client_id", $in["client_filter"]);
+        }
+
+        if (isset($in["init_filter"]) && $in["init_filter"] != '' & isset($in["end_filter"]) && $in["end_filter"] != '') {
+            $query->where("dispatched", ">=", $in["init_filter"] . " 00:00");
+            $query->where("dispatched", "<=", $in["end_filter"] . " 00:00");
+        }
+        if (isset($in["init_filter_created"]) && $in["init_filter_created"] != '' & isset($in["end_filter_created"]) && $in["end_filter_created"] != '') {
+            $query->where("created_at", ">=", $in["init_filter_created"] . " 00:00");
+            $query->where("created_at", "<=", $in["end_filter_created"] . " 00:00");
+        }
+
+        if ($cont == 0) {
+            if (Auth::user()->role_id == 5) {
+                $query->whereIn("status_id", array(1, 5, 8));
+            }
+
+            if (isset($in["init_filter"]) && $in["init_filter"] != '') {
+                $query->where("created_at", ">=", $in["init_filter"] . " 00:00");
+            } else {
+                
+            }
+        }
+
+        if (Auth::user()->role_id != 1 && Auth::user()->role_id != 5) {
+            $query->where("responsible_id", Auth::user()->id);
+        }
+
+        if (Auth::user()->role_id == 5) {
+            $query->where("warehouse_id", Auth::user()->warehouse_id);
+        }
+
+        if (isset($in["commercial_id"]) && $in["commercial_id"] != '') {
+            $query->where("status_id", 2)->where("responsible_id", $in["commercial_id"]);
+        }
+
+        return Datatables::queryBuilder($query)->make(true);
+    }
+
+    public function showOrder($id) {
+        return view("departure.init", compact("id"));
+    }
+
+    public function getClient($id) {
+        $resp["client"] = Stakeholder::find($id);
+        $resp["branch"] = Branch::where("stakeholder_id", $resp["client"]->id)->get();
+
+        $query = DB::table("vbriefcase")
+                ->where("client_id", $id)
+                ->where("dias_vencidos", ">", 0);
+
+
+        $query->where(function($query) {
+            $query->whereNull("paid_out")
+                    ->orWhere("paid_out", "=", false);
+        });
+
+        $resp["briefcase"] = $query->get();
+
+        return response()->json(["success" => true, "data" => $resp]);
+    }
+
+    public function getBranch($id) {
+        $response = Branch::find($id);
+        return response()->json(["response" => $response]);
+    }
+
+    public function getOrderExt($id) {
+        $entry = Orders::findOrFail($id);
+        $detail = DB::select("SELECT id,product_id,generate as quantity,value FROM orders_detail where order_id=" . $id);
+
+        return response()->json(["header" => $entry, "detail" => $detail]);
+    }
+
+    public function getInvoice($id) {
+        $this->mails = array();
+
+        $sale = Sales::where("departure_id", $id)->first();
+        $detail = $this->formatDetailSales($sale["id"]);
+
+        $dep = Departures::find($id);
+
+
+        $cli = null;
+        if ($dep->branch_id != '') {
+            $cli = Branch::select("branch_office.id", "branch_office.business", "branch_office.business_name", "branch_office.document", "branch_office.address_invoice", "branch_office.term", "branch_office.phone")
+                    ->where("id", $dep->branch_id)
+                    ->first();
+        } else {
+            $cli = Stakeholder::select("stakeholder.id", "stakeholder.business", "stakeholder.business_name", "stakeholder.document", "stakeholder.address_invoice", "stakeholder.term", "stakeholder.phone")
+                    ->where("stakeholder.id", $sale["client_id"])
+                    ->first();
+        }
+
+
+
+        $city_send = Cities::find($dep->destination_id);
+        $city_inv = Cities::find($dep->city_id);
+
+        $cli->city_send = $city_send->description;
+        $cli->city_inv = $city_inv->description;
+
+        $user = Users::find($dep["responsible_id"]);
+
+        $ware = Warehouses::find($dep["warehouse_id"]);
+
+        $this->email[] = $user->email;
+
+        $term = 7;
+
+        if ($cli["term"] != null) {
+            $term = $cli["term"];
+        }
+
+        $expiration = date('Y-m-d', strtotime('+' . $term . ' days', strtotime($sale["dispatched"])));
+
+        $cli["address_send"] = $sale["address"];
+
+        $cli["emition"] = $this->formatDate($sale["dispatched"]);
+        $description = $sale["description"];
+
+        if ($dep["purchase_order"] != '') {
+            $description .= " Orden de compra" . $dep["purchase_order"];
+        }
+
+        if ($dep["purchase_order"] != '') {
+            $description .= " Fecha Cita: " . $dep["date_appointment"];
+        }
+
+        $cli["observations"] = $description;
+        $cli["expiration"] = $this->formatDate($expiration);
+
+        $cli["responsible"] = ucwords($user->name . " " . $user->last_name);
+        $cli["phone"] = $cli->phone;
+
+        $totalExemp = 0;
+        $totalTax5 = 0;
+        $totalTax19 = 0;
+        $tax = 0;
+        $totalSum = 0;
+
+
+        $rete = SaleDetail::where("description", "rete")->where("sale_id", $sale["id"])->first();
+
+//        $totalWithTax = $totalSum + $totalTax19 + $totalTax5 + $dep->shipping_cost - ($rete["value"]);
+        $shipping_cost_tax = 0;
+
+        if ($dep->shipping_cost_tax == 0.05) {
+            $shipping_cost_tax = $dep->shipping_cost * $dep->shipping_cost_tax;
+
+            $this->tax5 += $shipping_cost_tax;
+        }
+
+
+//        echo $dep->shipping_cost_tax;exit;
+        if ($dep->shipping_cost_tax == 0.19) {
+            $shipping_cost_tax = $dep->shipping_cost * $dep->shipping_cost_tax;
+            $this->tax19 += $shipping_cost_tax;
+        }
+
+        $this->subtotal += $dep->shipping_cost;
+
+        $totalWithTax = $this->subtotal + $this->tax19 + $this->tax5 + (- $dep->discount);
+
+        $cli["business_name"] = $this->cleanText($cli["business_name"]);
+        $cli["business"] = $this->cleanText($cli["business"]);
+        $cli["address_invoice"] = $dep->address_invoice;
+
+
+
+        $data = [
+            'rete' => 0,
+            'formatRete' => "$ " . number_format(($rete["value"]), 2, ',', '.'),
+            'client' => $cli,
+            'detail' => $detail,
+            'exept' => $this->exento,
+            'tax5' => $this->tax5,
+            'tax19' => $this->tax19,
+            'totalInvoice' => "$ " . number_format(($this->subtotal), 0, ',', '.'),
+            'totalWithTax' => "$ " . number_format(($totalWithTax), 0, ',', '.'),
+            'shipping_cost' => $dep->shipping_cost,
+            'invoice' => $dep->invoice,
+            'textTotal' => $this->to_word(round($totalWithTax)),
+            'discount' => $dep->discount
+        ];
+
+//        dd($data);
+        $pdf = \PDF::loadView('Sales.departure.pdf', [], $data, [
+                    'title' => 'Invoice',
+                    'margin_top' => -12, "margin_bottom" => 1]);
+
+//        $pdf->SetProtection(array(), '123', '123');
+//          $pdf->showWatermarkImage = true;
+//        $pdf->SetWatermarkImage(url("/").'/assets/images/logo.png');
+
+        header('Content-Type: application/pdf');
+//        return $pdf->download('factura_' . $dep["invoice"] . '_' . $cli["business_name"] . '.pdf');
+        return $pdf->stream('factura_' . $dep["invoice"] . '_' . $cli["business_name"] . '.pdf');
+    }
+
+    public function getRemission($id) {
+        $this->mails = array();
+        $dep = Departures::find($id);
+
+//        $detail = DB::table("departures_detail")
+//                ->select("departures_detail.quantity", DB::raw("departures_detail.tax * 100 as tax"), DB::raw("coalesce(departures_detail.description,'') as description"), "products.title as product", "products.id as product_id", "departures_detail.value", "departures_detail.units_sf", DB::raw("departures_detail.units_sf * departures_detail.real_quantity as quantityTotal"), DB::raw("departures_detail.value * departures_detail.real_quantity * departures_detail.units_sf as valueTotal"), "stakeholder.business as stakeholder", "departures_detail.real_quantity as quantity")
+//                ->join("products", "departures_detail.product_id", "products.id")
+//                ->join("stakeholder", "products.supplier_id", "stakeholder.id")
+//                ->where("departures_detail.departure_id", $id)
+//                ->where("departures_detail.real_quantity", "<>", 0)
+//
+//                ->get();
+
+
+        $sql = "
+                SELECT 
+                    sum(departures_detail.quantity) as quantity,departures_detail.tax * 100 as tax,coalesce(departures_detail.description,'') as description,
+                    products.title as product,products.id as product_id,departures_detail.value,departures_detail.units_sf,
+                    stakeholder.business as stakeholder,sum(departures_detail.real_quantity) as quantity,
+                    sum(departures_detail.units_sf * departures_detail.real_quantity) as quantityTotal,
+                    sum(departures_detail.value * departures_detail.real_quantity * departures_detail.units_sf) as valueTotal
+                    
+                FROM departures_detail
+                JOIN products ON departures_detail.product_id = products.id
+                JOIN stakeholder ON products.supplier_id = stakeholder.id
+                WHERE departures_detail.departure_id = $id and 
+                    departures_detail.real_quantity <> 0
+                    GROUP BY 2,3,4,5,6,7,8
+                    ORDER BY products.supplier_id
+                ";
+        $detail = DB::select($sql);
+
+
+
+        $cli = Branch::select("branch_office.id", "branch_office.business_name", "branch_office.document", "branch_office.address_invoice", "cities.description as city", "branch_office.term")
+                ->where("stakeholder_id", $dep["client_id"])
+                ->join("cities", "cities.id", "branch_office.city_id")
+                ->first();
+
+        if ($cli == null) {
+            $cli = Stakeholder::select("stakeholder.id", "stakeholder.business_name", "stakeholder.document", "stakeholder.address_invoice", "cities.description as city", "stakeholder.term")
+                    ->where("stakeholder.id", $dep["client_id"])
+                    ->join("cities", "cities.id", "stakeholder.city_id")
+                    ->first();
+        }
+
+        $user = Users::find($dep["responsible_id"]);
+        $ware = Warehouses::find($dep["warehouse_id"]);
+
+        $this->email[] = $user->email;
+
+        $term = 7;
+
+        if ($cli["term"] != null) {
+            $term = $cli["term"];
+        }
+
+
+        $cli["address_invoice"] = $dep["address"];
+        $cli["emition"] = $this->formatDate($dep["created_at"]);
+        $cli["observations"] = $dep["description"];
+
+
+        $cli["responsible"] = ucwords($user->name . " " . $user->last_name);
+
+        $totalExemp = 0;
+        $totalTax5 = 0;
+        $totalTax19 = 0;
+        $tax = 0;
+        $totalSum = 0;
+        foreach ($detail as $i => $value) {
+            $detail[$i]->valueFormated = "$" . number_format($value->value, 0, ',', '.');
+            $detail[$i]->totalFormated = "$" . number_format($value->value * $value->units_sf * $value->quantity, 0, ',', '.');
+
+            $totalSum += $value->valuetotal;
+            $tax = ($value->tax / 100);
+
+            if ($value->tax == 0) {
+                $totalExemp += $value->valuetotal;
+            }
+            if ($value->tax == '5') {
+                $totalTax5 += $value->valuetotal * $tax;
+            }
+            if ($value->tax == '19') {
+                $totalTax19 += $value->valuetotal * $tax;
+            }
+        }
+
+        $rete = SaleDetail::where("description", "rete")->where("sale_id", $dep["id"])->first();
+
+
+        $shipping_cost_tax = 0;
+
+        if ($dep->shipping_cost_tax == 0.05) {
+            $shipping_cost_tax = $dep->shipping_cost * $dep->shipping_cost_tax;
+            $totalTax5 += $shipping_cost_tax;
+        }
+
+        if ($dep->shipping_cost_tax == 0.19) {
+            $shipping_cost_tax = $dep->shipping_cost * $dep->shipping_cost_tax;
+            $totalTax19 += $shipping_cost_tax;
+        }
+
+        $totalSum += $dep->shipping_cost;
+
+        $totalWithTax = $totalSum + $totalTax19 + $totalTax5 + (- $dep->discount);
+
+
+        $cli["business_name"] = $this->cleanText($cli["business_name"]);
+        $data = [
+            'rete' => 0,
+//            'rete' => $rete["value"],
+            'formatRete' => "$ " . number_format(($rete["value"]), 2, ',', '.'),
+            'client' => $cli,
+            'detail' => $detail,
+            'exept' => "$ " . number_format(($totalExemp), 2, ',', '.'),
+            'tax5num' => $totalTax5,
+            'tax5' => "$ " . number_format((round($totalTax5)), 0, ',', '.'),
+            'tax19num' => $totalTax19,
+            'tax19' => "$ " . number_format((round($totalTax19)), 0, ',', '.'),
+            'totalInvoice' => "$ " . number_format(($totalSum), 0, ',', '.'),
+            'totalWithTax' => "$ " . number_format(($totalWithTax), 0, ',', '.'),
+            'shipping' => "$ " . number_format((round($dep->shipping_cost)), 0, ',', '.'),
+            'invoice' => $dep->remission,
+            'textTotal' => $this->to_word(round($totalWithTax))
+        ];
+
+
+        $pdf = \PDF::loadView('Sales.departure.remission', [], $data, [
+                    'title' => 'Invoice']);
+//  
+        header('Content-Type: application/pdf');
+//        return $pdf->download('factura_' . $dep["invoice"] . '_' . $cli["business_name"] . '.pdf');
+        return $pdf->stream('remission_' . $dep["remission"] . '_' . $cli["business_name"] . '.pdf');
+    }
+
+    public function reverse($id) {
+        try {
+            DB::beginTransaction();
+            $row = Departures::find($id);
+
+            $row_detail = DeparturesDetail::where("departure_id", $id)->where("real_quantity", ">", 0)->get();
+
+            if ($row->status_id == 2 || $row->status_id == 5) {
+
+                $ayer = date("Y-m-d", strtotime("-5 day", strtotime(date("Y-m-d"))));
+
+                if (strtotime($ayer) <= strtotime(date("Y-m-d", strtotime($row->dispatched))) || $row->status_id == 5 || Auth::user()->id == 2) {
+                    $sal = Sales::where("departure_id", $id)->first();
+
+
+                    if ($row->status_id == 2) {
+//                        $this->tool->addInventoryReverse($row, $row_detail);
+                        $this->reverseInventoyHold($row, $row_detail);
+                    } else {
+//                        $this->tool->substractHold($row, $quantity);
+                    }
+
+
+                    if ($sal != null) {
+                        $detail = SaleDetail::where("sale_id", $sal->id)->get();
+
+                        foreach ($detail as $value) {
+                            $det = SaleDetail::find($value->id);
+                            $det->delete();
+                        }
+                        $sal->delete();
+                    }
+
+                    $row->status_id = 1;
+                    $row->save();
+                    DB::commit();
+                    $dep = Departures::find($id);
+
+                    $this->sendNofication($dep, "reverse");
+
+                    return response()->json(["success" => true, "header" => $dep]);
+                } else {
+                    return response()->json(['success' => false, "msg" => "Fecha de emisión supera el tiempo permitido, 1 día"], 409);
+                }
+            } else {
+                return response()->json(['success' => false, "msg" => "No se puede reversar porque el pedido tiene estado Nuevo"], 409);
+            }
+        } catch (Exception $exp) {
+            DB::rollback();
+            return response()->json(["success" => false], 409);
+        }
+    }
+
+    public function repair($id, $warehouse_id) {
+        $detail = DeparturesDetail::where("departure_id", $id)->get();
+
+        foreach ($detail as $value) {
+
+            if ($value->quantity_lots != null) {
+
+                $row = json_decode($value->quantity_lots);
+                foreach ($row as $val) {
+                    $pro = Products::find($val->product_id);
+                    $new["product_id"] = $val->product_id;
+                    $new["lot"] = $val->lot;
+                    $new["price_sf"] = $pro->price_sf;
+                    $new["cost_sf"] = $pro->cost_sf;
+                    $new["warehouse_id"] = $warehouse_id;
+                    $new["insert_id"] = 2;
+                    $new["row_id"] = $value->id;
+                    $new["expiration_date"] = $val->expiration_date;
+                    $new["quantity"] = $val->quantity;
+                    $new["inventory_id"] = $val->inventory_id;
+
+                    InventoryHold::create($new);
+                }
+            }
+        }
+    }
+
+    public function getQuantity($id) {
+        $product = \App\Models\Invoicing\PurchaseDetail::where("product_id", $id)->first();
+        return response()->json(["response" => $product]);
+    }
+
+    public function store(Request $request) {
+        if ($request->ajax()) {
+            $input = $request->all();
+
+            $input["detail"] = json_decode($input["detail"], true);
+
+
+//            unset($input["id"]);
+//            $user = Auth::User();
+
+            $query = DB::table("vbriefcase")
+                    ->where("client_id", $input["header"]["client_id"])
+                    ->where("dias_vencidos", ">", 0);
+
+
+            $query->where(function($query) {
+                $query->whereNull("paid_out")
+                        ->orWhere("paid_out", "=", false);
+            });
+
+
+            $validateBriefcase = $query->get();
+
+            if (isset($input["detail"])) {
+
+                $status = (count($validateBriefcase) > 0) ? 8 : 1;
+                $input["header"]["status_id"] = $status;
+                $input["header"]["status_briefcase_id"] = 1;
+
+                if (!isset($input["header"]["shipping_cost"])) {
+                    $input["header"]["shipping_cost"] = 0;
+                }
+                $input["detail"] = array_values(array_filter($input["detail"]));
+                $input["header"]["type_request"] = "web";
+
+
+
+                return $this->processDeparture($input["header"], $input["detail"]);
+            } else {
+                return response()->json(['success' => false, "msg" => "detail Empty"], 409);
+            }
+        }
+    }
+
+    /**
+     * 
+
+     * 
+     * @param type $header
+     * @param type $detail
+     * @return type
+     */
+    public function processDeparture($header, $detail, $id = null) {
+        try {
+            DB::beginTransaction();
+            $header["insert_id"] = Auth::user()->id;
+
+//            dd($detail);
+
+            if (isset($header["branch_id"]) && $header["branch_id"] != 0) {
+
+                $bra = Branch::find($header["branch_id"]);
+                $header["responsible_id"] = $bra->responsible_id;
+            } else {
+                unset($header["branch_id"]);
+            }
+
+            if ($id == null) {
+                $commercial = Users::find($header["responsible_id"]);
+                $header["responsible"] = $commercial["name"] . " " . $commercial["last_name"];
+                $result = Departures::create($header)->id;
+            } else {
+                $entry = Departures::Find($id);
+                $result = $entry->fill($header)->save();
+                $result = $id;
+            }
+
+
+            if ($result) {
+                $emDetail = null;
+
+                $resp = Departures::Find($result);
+
+                $detail = array_values(array_filter($detail));
+
+
+                $price_sf = 0;
+                $tax19 = 0;
+                $tax5 = 0;
+                $total_quantity = 0;
+                $total_quantity_packaging = 0;
+                foreach ($detail as $i => $val) {
+                    $product_id = (is_array($val)) ? $val["product_id"] : $val->product_id;
+                    $quantity = (is_array($val)) ? $val["quantity"] : $val->quantity;
+
+                    $total_quantity += $quantity;
+
+                    $special = PricesSpecial::where("product_id", $product_id)
+                                    ->where("client_id", $header["client_id"])->first();
+
+                    if ($special == null) {
+                        $pro = Products::find($product_id);
+                    } else {
+                        $pro = DB::table("products")
+                                ->select("products.id", "prices_special.price_sf", "prices_special.units_sf", 'prices_special.tax', "prices_special.packaging", "products.cost_sf")
+                                ->join("prices_special", "prices_special.product_id", "products.id")
+                                ->where("prices_special.id", $special->id)
+                                ->first();
+                    }
+
+                    $price_sf = $pro->price_sf;
+                    if (Auth::user()->role_id == 1) {
+                        if (isset($val["price_sf"]) && !empty($val["price_sf"])) {
+                            $price_sf = $val["price_sf"];
+                        }
+                    }
+
+                    $new["product_id"] = $product_id;
+                    $new["departure_id"] = $result;
+                    $new["status_id"] = 1;
+                    $new["quantity"] = $quantity;
+                    $new["units_sf"] = $pro->units_sf;
+                    $new["packaging"] = ($pro->packaging == null) ? 1 : $pro->packaging;
+                    $new["tax"] = $pro->tax;
+                    $new["value"] = $price_sf;
+                    $new["cost_sf"] = $pro->cost_sf;
+                    $new["real_quantity"] = 0;
+                    $new["type_insert_id"] = 1;
+
+                    $total_quantity_packaging += $new["packaging"] * $quantity;
+
+
+                    if ($pro->tax == '0.05') {
+                        $tax5++;
+                    }
+                    if ($pro->tax == '0.19') {
+                        $tax19++;
+                    }
+
+                    $valpro = DeparturesDetail::where("product_id", $val["product_id"])->where("departure_id", $resp->id)->first();
+
+
+                    if ($valpro == null) {
+                        DeparturesDetail::create($new);
+                    }
+                }
+
+
+                if ($header["shipping_cost"] != 0) {
+                    if ($tax19 > 0) {
+                        $resp->shipping_cost_tax = 0.19;
+                    } else if ($tax19 == 0 && $tax5 > 0) {
+                        $resp->shipping_cost_tax = 0.05;
+                    } else {
+                        $resp->shipping_cost_tax = 0;
+                    }
+                    $resp->save();
+                }
+
+
+                $data["header"] = $resp;
+                $listdetail = $this->formatDetailJSON($data, $result);
+
+
+                $ware = Warehouses::find($header["warehouse_id"]);
+                $client = Stakeholder::find($header["client_id"]);
+
+                $email = Email::where("description", "departures")->first();
+
+                if ($email != null) {
+                    $emDetail = EmailDetail::where("email_id", $email->id)->get();
+                }
+
+                if (count($emDetail) > 0) {
+                    $this->mails = array();
+
+                    $userware = Users::find($ware->responsible_id);
+                    $this->mails[] = $userware->email;
+
+                    foreach ($emDetail as $value) {
+                        $this->mails[] = $value->description;
+                    }
+
+                    $cit = Cities::find($ware->city_id);
+
+                    $this->subject = "SuperFuds " . date("d/m") . " " . $client->business . " " . $cit->description . " " . $result;
+                    $header["city"] = $cit->description;
+
+                    $user = Users::find($header["responsible_id"]);
+
+                    $header["name"] = ucwords($user->name);
+                    $header["last_name"] = ucwords($user->last_name);
+                    $header["phone"] = $user->phone;
+                    $header["warehouse"] = $ware->description;
+                    $header["address"] = $ware->address;
+                    $header["detail"] = $listdetail["detail"];
+                    $header["id"] = $result;
+                    $header["environment"] = env("APP_ENV");
+                    $header["created_at"] = $resp->created_at;
+
+                    $this->subtotal += ($resp->shipping_cost);
+                    $shipping_cost_tax = 0;
+
+                    if ($resp->shipping_cost_tax == 0.05) {
+                        $this->tax5 += $resp->shipping_cost_tax * $resp->shipping_cost;
+                        $shipping_cost_tax = $this->tax5;
+                    } else if ($resp->shipping_cost_tax == 0.19) {
+                        $this->tax19 += $resp->shipping_cost_tax * $resp->shipping_cost;
+                        $shipping_cost_tax = $this->tax19;
+                    }
+
+                    $this->total = $this->subtotal + $this->tax5 + $this->tax19 - $resp->discount;
+
+                    $header["subtotal"] = "$" . number_format($this->subtotal, 0, ",", ".");
+                    $header["total"] = "$" . number_format($this->total, 0, ",", ".");
+                    $header["exento"] = $this->exento;
+                    $header["tax5"] = $this->tax5;
+                    $header["tax19"] = $this->tax19;
+                    $header["flete"] = $resp->shipping_cost;
+                    $header["discount"] = $resp->discount;
+                    $header["status_id"] = $resp->status_id;
+
+                    $this->mails[] = $user->email;
+
+                    if ($header["environment"] == 'local') {
+                        $this->mails = Auth::User()->email;
+                    }
+
+                    $resp->quantity_packaging = $total_quantity_packaging;
+                    $resp->quantity = $total_quantity;
+                    $resp->exento = $this->exento;
+
+                    $resp->tax5 = $this->tax5;
+                    $resp->tax19 = $this->tax19;
+                    $resp->subtotal = $this->subtotal;
+                    $resp->total = $this->total;
+
+                    $resp->save();
+
+                    Mail::send("Notifications.departure", $header, function($msj) {
+                        $msj->subject($this->subject);
+                        $msj->to($this->mails);
+                    });
+
+                    $this->logClient($client->id, "Genero Orden de venta " . $result);
+                }
+
+                DB::commit();
+
+                $total = "$ " . number_format($this->total, 0, ",", ".");
+                $data["success"] = true;
+                $data["header"] = $resp;
+                $response = $this->formatDetailJSON($data, $result);
+
+                return response()->json($response);
+            } else {
+                return response()->json(['success' => false]);
+            }
+        } catch (Exception $exc) {
+            DB::rollback();
+            return response()->json(['success' => false, "msg" => "Wrong"], 409);
+        }
+    }
+
+    public function getAllDetail($departue_id) {
+        $departure = Departures::find($departue_id);
+        $detail = $this->formatDetail($departue_id);
+
+        return response()->json(["detail" => $detail,
+                    "total" => "$ " . number_format($this->total - $departure->discount, 0, ",", "."),
+                    "total_real" => "$ " . number_format($this->total_real - $departure->discount, 0, ",", "."),
+                    "subtotal" => "$ " . number_format($this->subtotal, 0, ",", "."),
+                    "subtotal_real" => "$ " . number_format($this->subtotal_real, 0, ",", "."),
+                    "tax5" => "$ " . number_format($this->tax5, 0, ",", "."),
+                    "tax5_real" => "$ " . number_format($this->tax5_real, 0, ",", "."),
+                    "tax19" => "$ " . number_format($this->tax19, 0, ",", "."),
+                    "tax19_real" => "$ " . number_format($this->tax19_real, 0, ",", "."),
+                    "exento" => "$ " . number_format($this->exento, 0, ",", "."),
+                    "exento_real" => "$ " . number_format($this->exento_real, 0, ",", "."),
+                    "discount" => "$ " . number_format($departure->discount, 0, ",", "."),
+                    "shipping_cost" => "$ " . number_format($departure->shipping_cost, 0, ",", ".")
+        ]);
+    }
+
+    public function setSale(Request $request) {
+        if ($request->ajax()) {
+            $input = $request->all();
+            $res = $this->processSale($input["id"])->getData();
+            if ($res->success) {
+                return response()->json(["success" => true, "header" => $res->header, "detail" => $res->detail, "total" => $res->total]);
+            } else {
+                return response()->json(["success" => false, "msg" => $res->msg]);
+            }
+        }
+    }
+
+    public function processSale($departure_id) {
+        try {
+            DB::beginTransaction();
+            $input["id"] = $departure_id;
+            $departure = Departures::find($input["id"]);
+            $validateBriefcase = DB::table("vbriefcase")->where("client_id", $departure->client_id)->where("dias_vencidos", ">", 0)->get();
+
+//                if ($validateBriefcase == null) {
+
+            $val = DeparturesDetail::where("departure_id", $departure["id"])->count();
+            $dep = Sales::where("departure_id", $input["id"])->get();
+
+            if ($val > 0) {
+//                    $val = DeparturesDetail::where("departure_id", $departure["id"])->where("status_id", 1)->count();
+//                    if ($val == 0) {
+                if (count($dep) == 0) {
+
+                    $id = DB::table("sales")->insertGetId(
+                            ["departure_id" => $departure["id"], "warehouse_id" => $departure["warehouse_id"], "responsible_id" => $departure["responsible_id"],
+                                "client_id" => $departure["client_id"], "city_id" => $departure["city_id"], "destination_id" => $departure["destination_id"],
+                                "address" => $departure["address"], "phone" => $departure["phone"], "status_id" => 2,
+                                "created" => $departure["created"], "shipping_cost" => $departure["shipping_cost"],
+                                "created_at" => date("Y-m-d H:i"), "description" => $departure["description"], "shipping_cost_tax" => $departure["shipping_cost_tax"]
+                            ]
+                    );
+
+                    $detail = DeparturesDetail::where("departure_id", $input["id"])->where("real_quantity", ">", 0)->where("status_id", 3)->get();
+
+                    $cont = 0;
+                    $sale = Sales::find($id);
+                    $total_quantity = 0;
+                    $total_quantity_packaging = 0;
+                    foreach ($detail as $value) {
+
+                        $rowDep = DeparturesDetail::find($value->id);
+                        $pro = Products::find($rowDep->product_id);
+
+                        if ($pro->category_id != -1) {
+                            $this->substractForSale($value->id, $value);
+                        }
+
+                        $pro = Products::find($value->product_id);
+
+                        SaleDetail::insert([
+                            "sale_id" => $id, "product_id" => $value->product_id,
+                            "category_id" => $value->category_id, "quantity" => $value->real_quantity,
+                            "value" => $value->value, "tax" => $pro["tax"], "units_sf" => $value->units_sf,
+                            "account_id" => 1, "order" => $cont, "type_nature" => 1, "packaging" => $value->packaging
+                        ]);
+                        $total_quantity += $value->real_quantity;
+                        $total_quantity_packaging += $value->real_quantity * $value->packaging;
+
+                        $cont++;
+                    }
+
+                    $con = Departures::select(DB::raw("(invoice::int + 1) consecutive"))->whereNotNull("invoice")->orderBy("invoice", "desc")->first();
+
+                    if ($departure->invoice == '') {
+                        $departure->invoice = $con->consecutive;
+                    }
+
+
+
+                    $data["success"] = true;
+                    $data["header"] = $departure;
+                    $data["detail"] = $detail;
+                    $detail = $this->formatDetailJSON($data, $departure->id);
+
+                    $total = "$ " . number_format($this->total, 0, ",", ".");
+
+                    $sale->dispatched = date("Y-m-d H:i:s");
+                    $sale->invoice = $departure->invoice;
+
+
+                    $departure->status_briefcase_id = 2;
+                    $departure->quantity = $total_quantity;
+                    $departure->quantity_packaging = $total_quantity;
+                    $departure->exento = $this->exento;
+
+                    $sale->save();
+
+                    $departure->total_real = $this->subtotal_real + $this->tax5_real + $this->tax19_real - $departure->discount;
+
+                    $departure->status_id = 2;
+                    $departure->dispatched = $sale->dispatched;
+
+                    $departure->tax5_real = $this->tax5_real;
+                    $departure->tax19_real = $this->tax19_real;
+                    $departure->subtotal_real = $this->subtotal_real;
+
+                    $departure->save();
+
+//Log 
+                    $this->logClient($departure->client_id, "Genero Factura de venta # " . $departure->invoice);
+
+                    $cli = Stakeholder::find($departure->client_id);
+                    $cli->update_at = $sale->dispatched;
+
+                    $email = Email::where("description", "invoices")->first();
+
+                    if ($email != null) {
+                        $emDetail = EmailDetail::where("email_id", $email->id)->get();
+                    }
+
+                    if (count($emDetail) > 0 && $cont != 0) {
+
+                        $ware = Warehouses::find($departure->warehouse_id);
+                        $client = Stakeholder::find($departure->client_id);
+                        $sales = Sales::where("departure_id", $departure->id)->first();
+                        $this->mails = array();
+
+                        $userware = Users::find($ware->responsible_id);
+                        $this->mails[] = $userware->email;
+
+                        foreach ($emDetail as $value) {
+                            $this->mails[] = $value->description;
+                        }
+
+                        $listdetail = $this->formatDetailSales($id);
+
+                        $cit = Cities::find($ware->city_id);
+                        $commercial = Users::where("id", $departure->responsible_id)->first();
+                        $this->subject = "SuperFuds " . date("d/m") . " " . $client->business . " " . $cit->description . " " . $departure->id;
+                        $input["city"] = $cit->description;
+
+                        $user = Users::find($departure->responsible_id);
+                        $term = 7;
+
+                        if ($client->term != null) {
+                            $term = $client->term;
+                        }
+
+                        $input["client"] = ucwords($client->business);
+                        $input["address"] = ucwords($client->business);
+                        $input["document"] = $client->document;
+                        $input["address_send"] = $client->address_send;
+                        $input["address_invoice"] = $client->address_invoice;
+                        $input["dispatched"] = $sales->dispatched;
+                        $input["expiration"] = date('Y-m-d', strtotime('+' . $term . ' days', strtotime($sales->dispatched)));
+
+                        $input["responsible"] = $commercial->name . " " . $commercial->last_name;
+                        $input["observation"] = $departure->description;
+                        $input["city"] = $cit->description;
+                        $input["detail"] = $listdetail;
+                        $input["id"] = $departure->id;
+                        $input["invoice"] = $departure->invoice;
+                        $input["environment"] = env("APP_ENV");
+                        $input["created_at"] = $departure->created_at;
+                        $input["dispatched"] = $departure->dispatched;
+                        $input["textTotal"] = $this->to_word(round($this->total));
+
+                        $shipping_cost_tax = 0;
+
+                        if ($departure->shipping_cost_tax == 0.05) {
+                            $this->tax5_real += $departure->shipping_cost_tax * $departure->shipping_cost;
+                            $shipping_cost_tax = $this->tax5;
+                        } else if ($departure->shipping_cost_tax == 0.19) {
+                            $this->tax19_real += $departure->shipping_cost_tax * $departure->shipping_cost;
+                            $shipping_cost_tax = $this->tax19_real;
+                        }
+
+
+                        $this->total_real = $this->subtotal_real + $this->tax19_real + $this->tax5_real - $departure->discount;
+
+                        $input["subtotal"] = "$" . number_format($this->subtotal_real, 0, ",", ".");
+                        $input["total"] = "$" . number_format($this->total_real, 0, ",", ".");
+                        $input["exento"] = "$" . number_format($this->exento, 0, ",", ".");
+                        $input["tax5f"] = "$" . number_format($this->tax5_real, 0, ",", ".");
+                        $input["tax5"] = $this->tax5;
+                        $input["tax19f"] = "$" . number_format($this->tax19_real, 0, ",", ".");
+                        $input["tax19"] = $this->tax19_real;
+                        $input["flete"] = $departure->shipping_cost;
+                        $input["discount"] = $departure->discount;
+
+                        $this->mails[] = $user->email;
+
+                        if ($input["environment"] == 'local') {
+                            $this->mails = Auth::User()->email;
+                        }
+
+                        Mail::send("Notifications.invoice", $input, function($msj) {
+                            $msj->subject($this->subject);
+                            $msj->to($this->mails);
+                        });
+                    } else {
+                        DB::rollback();
+                        return response()->json(["success" => false, "msg" => 'No hay items para facturar']);
+                    }
+
+                    DB::commit();
+                    return response()->json($detail);
+                } else {
+                    DB::rollback();
+                    return response()->json(["success" => false, "msg" => 'Already sended']);
+                }
+//                    } else {
+//                        DB::rollback();
+//                        return response()->json(["success" => false, "msg" => 'All item detail must be checked'], 409);
+//                    }
+            } else {
+                DB::rollback();
+                return response()->json(["success" => false, "msg" => 'Detail empty'], 409);
+            }
+//                } else {
+//                    DB::rollback();
+//                    return response()->json(["success" => false, "msg" => 'Facturas Pendientes por pagar'], 401);
+//                }
+        } catch (Exception $exc) {
+            DB::rollback();
+            return response()->json(["success" => false, "msg" => 'Wrong'], 409);
+        }
+    }
+
+    public function testDepNotification($id) {
+        $name = "jorge";
+        $last_name = "Pinedo";
+        $id = 1;
+        $created_at = date("Y-m-d H:i");
+        $warehouse = "jorge";
+        $detail = $this->formatDetail(1133);
+        $subtotal = "$" . number_format($this->subtotal, 0, ",", ".");
+        $total = "$" . number_format($this->total, 0, ",", ".");
+        $exento = "$" . number_format($this->total, 0, ",", ".");
+        $tax5f = "$" . number_format($this->tax5, 0, ",", ".");
+        $tax5 = $this->tax5;
+        $tax19f = "$" . number_format($this->tax19, 0, ",", ".");
+        $tax19 = $this->tax19;
+        $flete = 10000;
+        $environment = "production";
+        $discount = 0;
+        $status_id = 1;
+        return view("Notifications.departure", compact("name", "last_name", "id", "created_at", "detail", "warehouse", "subtotal", "total", "exento", "tax5f", "tax5", "tax19f", "tax19", "environment", "flete", "discount", "status_id"));
+    }
+
+    public function testInvoiceNotification($id) {
+        $name = "jorge";
+        $last_name = "Pinedo";
+        $id = 1;
+        $created_at = date("Y-m-d H:i");
+        $warehouse = "jorge";
+        $detail = $this->formatDetailSales(726);
+        $subtotal = "$" . number_format($this->subtotal, 0, ",", ".");
+        $total = "$" . number_format($this->total, 0, ",", ".");
+        $exento = "$" . number_format($this->total, 0, ",", ".");
+        $tax5f = "$ " . number_format($this->tax5, 0, ",", ".");
+        $tax5 = $this->tax5;
+        $tax19f = "$" . number_format($this->tax19, 0, ",", ".");
+        $tax19 = $this->tax19;
+        $flete = "$" . number_format(100000, 0, ",", ".");
+        $environment = "production";
+        $invoice = "3022";
+        $flete = 0;
+        $discount = 0;
+        $dispatched = date("Y-m-d");
+
+        return view("Notifications.invoice", compact("name", "last_name", "id", "created_at", "detail", "warehouse", "subtotal", "total", "exento", "tax5f", "tax5", "tax19f", "tax19", "environment", "invoice", "flete", "discount", "dispatched"));
+    }
+
+    public function storeExtern(Request $request) {
+        if ($request->ajax()) {
+            $input = $request->all();
+            $order = Orders::findOrFail($input["id"]);
+
+
+            $id = DB::table("departures")->insertGetId(
+                    ["order_id" => $input["id"], "warehouse_id" => $order["warehouse_id"], "responsible_id" => $order["responsible_id"],
+                        "client_id" => $order["client_id"], "city_id" => $order["city_id"], "destination_id" => $order["destination_id"],
+                        "status_id" => $order["status_id"], "created" => $order["created"], "address" => $order["address"], "phone" => $order["phone"],
+                        "branch_id" => $order["branch_id"],
+                    ]
+            );
+
+            $detail = DB::select("
+                    SELECT id,product_id,pending-generate as quantity,generate,value,category_id 
+                    FROM orders_detail 
+                    WHERE status_id = 1 and order_id=" . $input["id"]);
+
+            foreach ($detail as $value) {
+                if ($value->quantity == 0) {
+                    OrdersDetail::where("id", $value->id)->update(["status_id" => 2]);
+                }
+
+
+                DeparturesDetail::insert([
+                    'departure_id' => $id, "value" => $value->value, "product_id" => $value->product_id, "category_id" => $value->category_id,
+                    "quantity" => $value->generate
+                ]);
+
+
+                OrdersDetail::where("id", $value->id)->update(["generate" => $value->generate, "pending" => $value->quantity]);
+            }
+        }
+        $resp = Departures::FindOrFail($id);
+        $detail = DeparturesDetail::where("departure_id", $id)->get();
+
+        return response()->json(["success" => true, "header" => $resp, "detail" => $detail]);
+    }
+
+    public function edit($id) {
+        $header = Departures::FindOrFail($id);
+
+        if ($header->branch_id != null) {
+            $data["branch"] = Branch::where("stakeholder_id", $header->client_id)->get();
+            $data["data_branch"] = Branch::find($header->branch_id);
+        }
+
+        $data["header"] = $header;
+
+
+        return response()->json($this->formatDetailJSON($data, $id));
+    }
+
+    public function getDetail($id) {
+        $detail = DeparturesDetail::Find($id);
+
+        $header = Departures::find($detail->departure_id);
+
+        $pro = DB::table("vproducts")->where("id", $detail->product_id)->first();
+
+        if ($pro != null) {
+
+            if ($pro->category_id != -1) {
+
+                $inventory = Inventory::where("product_id", $detail->product_id)->where("warehouse_id", $header->warehouse_id)
+//                            ->where("expiration_date", ">", date('Y-m-d', strtotime('+30 day', strtotime(date('Y-m-d')))))->get();
+                                ->where("expiration_date", ">", date('Y-m-d'))->orderBy("expiration_date", "asc")->get();
+            } else {
+
+                $inventory[] = array("lot" => "services", "quantity" => 1, "expiration_date" => date("Y-m-d H:i"), "product_id" => $detail->product_id,
+                    "price_sf" => $pro->price_sf, "cost_sf" => $pro->cost_sf);
+            }
+
+            $inventory_real = [];
+
+            if ($detail->quantity_lots != '') {
+
+
+                if (count($inventory) > 0) {
+
+                    foreach ($inventory as $val) {
+                        if ($detail->quantity_lots != "[]") {
+                            foreach (json_decode($detail->quantity_lots) as $value) {
+                                if ($val->id == $value->inventory_id) {
+                                    $inventory_real[] = array("lot" => $value->lot, "available" => $val->quantity, "quantity" => $value->quantity,
+                                        "expiration_date" => $value->expiration_date, "product_id" => $value->product_id,
+                                        "cost_sf" => $value->cost_sf, "inventory_id" => $val->id
+                                        , "price_sf" => $val->price_sf
+                                    );
+                                }
+                            }
+                        } else {
+
+                            $inventory_real[] = array("lot" => $val->lot, "available" => $val->quantity, "quantity" => 0,
+                                "expiration_date" => $val->expiration_date, "product_id" => $val->product_id,
+                                "cost_sf" => $val->cost_sf, "inventory_id" => $val->id
+                                , "price_sf" => $val->price_sf
+                            );
+                        }
+                    }
+                } else {
+
+                    foreach (json_decode($detail->quantity_lots) as $value) {
+                        $inventory_real[] = array("lot" => $value->lot, "available" => $val->quantity, "quantity" => $value->quantity,
+                            "expiration_date" => $value->expiration_date, "product_id" => $value->product_id,
+                            "cost_sf" => $value->cost_sf, "inventory_id" => $val->id
+                            , "price_sf" => $value->price_sf
+                        );
+                    }
+                }
+            } else {
+                foreach ($inventory as $value) {
+                    $inventory_real[] = array("lot" => $value->lot, "available" => $value->quantity, "quantity" => 0,
+                        "expiration_date" => $value->expiration_date, "product_id" => $value->product_id,
+                        "cost_sf" => $value->cost_sf, "inventory_id" => $value->id
+                        , "price_sf" => $value->price_sf
+                    );
+                }
+            }
+
+            $hold = InventoryHold::select("inventory_hold.id", "inventory_hold.quantity", "products.title as product", "inventory_hold.lot", "inventory_hold.created_at"
+                                    , "vdepartures.client", "vdepartures.warehouse")
+                            ->join("products", "products.id", "inventory_hold.product_id")
+                            ->join("departures_detail", "departures_detail.id", "inventory_hold.row_id")
+                            ->join("vdepartures", "vdepartures.id", "departures_detail.departure_id")
+                            ->where("inventory_hold.product_id", $detail->product_id)->where("inventory_hold.warehouse_id", $header->warehouse_id)->get();
+
+            return response()->json(["row" => $detail, "inventory" => $inventory_real, "hold" => $hold, "image" => $pro->image, "category" => $pro->category]);
+        } else {
+            $pro = Products::find($detail->product_id);
+
+            $hold = [];
+
+            $inventory_real[] = array("lot" => "Services", "available" => 1, "quantity" => 1,
+                "expiration_date" => date("Y-m-d"), "product_id" => $detail->product_id,
+                "cost_sf" => $pro->cost_sf, "inventory_id" => 0
+                , "price_sf" => $pro->price_sf
+            );
+
+
+            return response()->json(["row" => ["product_id" => $pro->id, "id" => $id], "inventory" => $inventory_real, "hold" => $hold, "category" => "services"]);
+        }
+    }
+
+    public function update(Request $request, $id) {
+        $entry = Departures::Find($id);
+        $input = $request->all();
+
+        unset($input["header"]["created_at"]);
+
+        $query = DB::table("vbriefcase")
+                ->where("client_id", $input["header"]["client_id"])
+                ->where("dias_vencidos", ">", 0);
+
+
+        $query->where(function($query) {
+            $query->whereNull("paid_out")
+                    ->orWhere("paid_out", "=", false);
+        });
+
+
+        $validateBriefcase = $query->get();
+
+        if (isset($input["detail"])) {
+
+            $status = (count($validateBriefcase) > 0) ? 8 : 1;
+            $input["header"]["status_id"] = $status;
+
+            if (!isset($input["header"]["shipping_cost"])) {
+                $input["header"]["shipping_cost"] = 0;
+            }
+
+            $input["detail"] = json_decode($input["detail"], true);
+
+
+            $input["header"]["type_request"] = "web";
+
+            return $this->processDeparture($input["header"], $input["detail"], $id);
+        } else {
+            return response()->json(['success' => false, "msg" => "detail Empty"], 409);
+        }
+    }
+
+    public function cancelInvoice(Request $request, $id) {
+
+        $in = $request->all();
+        $row = Departures::Find($id);
+        $ayer = date("Y-m-d", strtotime("-1 day", strtotime(date("Y-m-d"))));
+
+        if (strtotime($ayer) <= strtotime(date("Y-m-d", strtotime($row->dispatched))) || Auth::user()->role_id == 1) {
+
+            $detail = DeparturesDetail::where("departure_id", $id)->where("real_quantity", ">", 0)->get();
+
+            foreach ($detail as $value) {
+                $det_json = json_decode($value->quantity_lots);
+                if ($det_json != null) {
+                    foreach ($det_json as $val) {
+                        $pro = Products::find($value->product_id);
+                        $this->addInventory($row->warehouse_id, $pro->reference, $val->quantity, $val->lot, $val->expiration_date, $val->cost_sf, $pro->price_sf, "cancel_to_inv");
+                    }
+                }
+            }
+
+            $row->description = "Cancelado: " . $in["description"] . ", " . $row->description;
+            $row->status_id = 4;
+            $row->save();
+            $resp = Departures::FindOrFail($id);
+
+            $this->sendNofication($resp, "canceled");
+            return response()->json(['success' => true, "data" => $resp]);
+        } else {
+            return response()->json(['success' => false, "msg" => "Fecha de emisión supera el tiempo permitido, 1 día"], 409);
+        }
+    }
+
+    public function notificationCanceled($input) {
+        Mail::send("Notifications.canceled", $input, function($msj) {
+            $msj->subject($this->subject);
+            $msj->to($this->mails);
+        });
+    }
+
+    public function notificationReversed($input) {
+        Mail::send("Notifications.reverse", $input, function($msj) {
+            $msj->subject($this->subject);
+            $msj->to($this->mails);
+        });
+    }
+
+    public function notificationCreditNote($input) {
+        Mail::send("Notifications.creditnote", $input, function($msj) {
+            $msj->subject($this->subject);
+            $msj->to($this->mails);
+        });
+    }
+
+    public function sendNofication($departures, $type_event) {
+
+        $email = Email::where("description", $type_event)->first();
+
+        if ($email != null) {
+            $emDetail = EmailDetail::where("email_id", $email->id)->get();
+        }
+
+
+        if (count($emDetail) > 0) {
+
+            foreach ($emDetail as $value) {
+                $this->mails[] = $value->description;
+            }
+        }
+
+        if (count($this->mails) > 0) {
+            if ($type_event == "canceled") {
+                $this->subject = "SuperFuds " . date("d/m") . " " . $departures->business . " " . $departures->description . " factura " . $departures->invoice;
+                $user = Users::find($departures->responsible_id);
+                $input["invoice"] = $departures->invoice;
+                $input["environment"] = env("APP_ENV");
+                $this->notificationCanceled($input);
+            }
+
+            if ($type_event == "reverse") {
+                $this->subject = "SuperFuds " . date("d/m") . " " . $departures->business . " " . $departures->description . " factura Reversada #" . $departures->invoice;
+                $user = Users::find($departures->responsible_id);
+                $input["id"] = $departures->id;
+                $input["invoice"] = $departures->invoice;
+                $input["environment"] = env("APP_ENV");
+                $this->notificationReversed($input);
+            }
+
+            if ($type_event == "credit_note") {
+                $this->subject = "SuperFuds " . date("d/m") . " " . $departures->business . " " . $departures->description . " factura con Nota credito #" . $departures->credinote_id . " Invoice " . $departures->invoice;
+                $user = Users::find($departures->responsible_id);
+                $input["invoice"] = $departures->invoice;
+                $input["environment"] = env("APP_ENV");
+                $input["id"] = $departures->credinote_id;
+                $this->notificationCreditNote($input);
+            }
+
+
+            $this->mails[] = $user->email;
+        }
+    }
+
+    public function updateDetail(Request $request, $id) {
+        try {
+            DB::beginTransaction();
+            $input = $request->all();
+
+            $row = DeparturesDetail::Find($input["header"]["id"]);
+
+            $pro = Products::find($input["header"]["product_id"]);
+
+            $header = Departures::find($row->departure_id);
+
+            if (Auth::user()->role_id == 5 || Auth::user()->role_id == 1) {
+                $special = PricesSpecial::where("product_id", $input["header"]["product_id"])->where("client_id", $header->client_id)->first();
+                if ($special == null) {
+                    $pro = Products::find($input["header"]["product_id"]);
+                } else {
+                    $pro = DB::table("products")->select("products.id", "prices_special.price_sf", "products.units_sf", "products.cost_sf", 'products.tax')
+                                    ->join("prices_special", "prices_special.product_id", "=", "products.id")->where("products.id", $input["header"]["product_id"])
+                                    ->where("client_id", $header->client_id)->first();
+                }
+
+                $input["price_sf"] = $pro->price_sf;
+                $input["cost_sf"] = $pro->cost_sf;
+
+                $input["real_quantity"] = $input["header"]["total"];
+                $input["status_id"] = 3;
+                $errors = array();
+
+                $val_quantity = 0;
+                foreach ($input["detail"] as $value) {
+                    $pro = Products::find($value["product_id"]);
+                    if ($pro->category_id != -1) {
+//                        $validate = $this->tool->validateInventory($header->warehouse_id, $pro->reference, $value["quantity"], $value["lot"], $value["expiration_date"], $value["cost_sf"]);
+                        $validate = $this->validateInventory($header->warehouse_id, $pro->reference, $value["quantity"], $value["lot"], $value["expiration_date"], $value["cost_sf"]);
+
+
+                        if ($validate["status"]) {
+                            $val_quantity += $value["quantity"];
+                            $this->moveHold($input["header"]["id"], $value["inventory_id"], $value["quantity"]);
+//                            $this->tool->addInventoryHold($header->warehouse_id, $pro->reference, $value["quantity"], $value["lot"], $value["expiration_date"], $value["cost_sf"], $row->id);
+                        } else {
+                            $errors[] = $pro->reference . " No cuenta con inventario disponible " . $validate["quantity"];
+                        }
+                    }
+                }
+
+                $input["quantity"] = $input["header"]["quantity"];
+
+                $det = [];
+                foreach ($input["detail"] as $value) {
+                    if ($value["quantity"] > 0) {
+                        $det[] = $value;
+                    }
+                }
+
+                $input["quantity_lots"] = json_encode($det);
+
+                if ($val_quantity == 0 && $pro->category_id != -1) {
+                    $input["quantity_lots"] = null;
+                    $input["status_id"] = 1;
+                    $input["quantity_lots"] = null;
+                    $rowD = InventoryHold::where("row_id", $id)->first();
+                    InventoryHold::find($rowD->id)->delete();
+                }
+
+                $row->fill($input)->save();
+            }
+
+
+            if (count($errors) == 0) {
+                DB::commit();
+                $data["header"] = $row;
+                $data["success"] = true;
+                $resp = $this->formatDetailJSON($data, $header->id);
+                return response()->json($resp);
+            } else {
+                DB::rollback();
+                return response()->json(['success' => true, "msg" => "Problemas con la cantidad del item", "errors" => $errors]);
+            }
+        } catch (Exception $e) {
+            return response()->json(['success' => false, "msg" => "Problemas con el inventario"]);
+        }
+    }
+
+    public function caseFunat($id) {
+        $det = DeparturesDetail::where("departure_id", $id)->get();
+
+        foreach ($det as $value) {
+            $quant["expiration_date"] = date("Y-m-d");
+            $quant["product_id"] = $value->product_id;
+            $quant["cost_sf"] = $value->cost_sf;
+            $quant["price_sf"] = $value->value;
+            $quant["quantity"] = $value->quantity;
+            $quant["lot"] = "pedido funat";
+
+
+            $row = DeparturesDetail::find($value->id);
+            $row->quantity_lots = json_encode($quant);
+            $row->save();
+
+            $quant["row_id"] = $value->id;
+            $quant["warehouse_id"] = 3;
+            $quant["insert_id"] = 1;
+            InventoryHold::create($quant);
+        }
+
+        echo "Finalizo";
+    }
+
+    public function destroy($id) {
+        $row = Departures::Find($id);
+        if (Auth::user()->id == $row->insert_id || Auth::user()->id == 2) {
+            if ($row->invoice == null) {
+
+                $detail = DeparturesDetail::where("departure_id", $row->id)->get();
+                foreach ($detail as $value) {
+                    $det = DeparturesDetail::find($value->id);
+                    $det->delete();
+                }
+
+                $row->delete();
+
+                if ($id) {
+                    return response()->json(['success' => true]);
+                } else {
+                    return response()->json(['success' => false]);
+                }
+            } else {
+                return response()->json(['success' => false, "msg" => "No se puede borrar porque este pedido fue reversado y ya tiene consecutivo"], 409);
+            }
+        } else {
+            return response()->json(['success' => false, "msg" => "No se puede eliminar porque este pedido no te pertenece!"], 409);
+        }
+    }
+
+    public function destroyDetail($id) {
+        $entry = DeparturesDetail::Find($id);
+
+        if ($entry->status_id == 3 && $entry->real_quantity > 0) {
+            $this->substractForDelete($entry->id);
+        }
+
+        $result = $entry->delete();
+        if ($result) {
+            $header = Departures::find($entry["departure_id"]);
+            $resp = $this->formatDetail($entry["departure_id"]);
+            $total = "$ " . number_format($this->total, 0, ",", ".");
+            return response()->json(['success' => true, "header" => $header, "detail" => $resp, 'total' => $total]);
+        } else {
+            return response()->json(['success' => false]);
+        }
+    }
+
+    public function storeDetail(Request $request) {
+        if ($request->ajax()) {
+            $input = $request->all();
+            unset($input["id"]);
+//            $user = Auth::User();
+            $input["status_id"] = 1;
+
+
+            $input["real_quantity"] = (!isset($input["real_quantity"]) || $input["real_quantity"] == '') ? null : $input["real_quantity"];
+
+            $header = Departures::find($input["departure_id"]);
+
+            $special = PricesSpecial::where("product_id", $input["product_id"])->where("client_id", $header->client_id)->first();
+
+            if ($special == null) {
+
+                $product = Products::find($input["product_id"]);
+            } else {
+                $product = DB::table("products")->select("products.id", "prices_special.price_sf", "products.units_sf", 'products.tax')
+                        ->join("prices_special", "prices_special.product_id", "=", "products.id")->where("products.id", $input["product_id"])
+                        ->where("prices_special.client_id", $header->client_id)
+                        ->first();
+            }
+
+            $input["value"] = $product->price_sf;
+            $input["units_sf"] = $product->units_sf;
+            $input["tax"] = $product->tax;
+
+            $result = DeparturesDetail::create($input);
+            if ($result) {
+                $resp = $this->formatDetail($input["departure_id"]);
+                $total = "$ " . number_format($this->total, 0, ",", ".");
+                $header = Departures::find($input["departure_id"]);
+                return response()->json(['success' => true, "header" => $header, "detail" => $resp, "total" => $total]);
+            } else {
+                return response()->json(['success' => false]);
+            }
+        }
+    }
+
+    public function generateRemission($id) {
+        $row = Departures::find($id);
+        $con = Departures::select(DB::raw("count(*) +1 consecutive"))->whereNotNull("remission")->first();
+        $row->status_id = 5;
+        $row->remission = $con->consecutive;
+
+        $detail = DeparturesDetail::where("real_quantity", ">", 0)->where("departure_id", $id)->get();
+
+        $row->save();
+        return response()->json(['success' => true]);
+    }
+
+    public function generateInvoice($id) {
+        $sale = Sales::where("departure_id", $id)->first();
+
+        $dep = Departures::find($id)->toArray();
+
+
+        $detail = DB::table("sales_detail")->select("quantity", DB::raw("sales_detail.tax * 100 as tax"), DB::raw("coalesce(sales_detail.description,'') as description"), "products.title as product", "products.id as product_id", "sales_detail.value", "sales_detail.units_sf", DB::raw("sales_detail.units_sf * sales_detail.quantity as quantityTotal"), DB::raw("sales_detail.value * sales_detail.quantity * sales_detail.units_sf as valueTotal"), "stakeholder.business as stakeholder")->join("products", "sales_detail.product_id", "products.id")->join("stakeholder", "products.supplier_id", "stakeholder.id")->where("sale_id", $sale["id"])->orderBy("order", "asc")->get();
+
+        $cli = Stakeholder::select("stakeholder.id", "stakeholder.business_name", "stakeholder.document", "stakeholder.address_invoice", "cities.description as city", "stakeholder.term")->where("stakeholder.id", $sale["client_id"])->join("cities", "cities.id", "stakeholder.city_id")->first();
+
+        $user = Users::find($dep["responsible_id"]);
+        $totalExemp = 0;
+        $totalTax5 = 0;
+        $totalTax19 = 0;
+        $tax = 0;
+        $totalSum = 0;
+        foreach ($detail as $i => $value) {
+            $detail[$i]->valueFormated = "$" . number_format($value->value, 0, ',', '.');
+            $detail[$i]->totalFormated = "$" . number_format($value->value * $value->units_sf * $value->quantity, 0, ',', '.');
+
+            $totalSum += $value->valuetotal;
+            $tax = ($value->tax / 100);
+
+            if ($value->tax == 0) {
+                $totalExemp += $value->valuetotal;
+            }
+            if ($value->tax == '5') {
+                $totalTax5 += $value->valuetotal * $tax;
+            }
+            if ($value->tax == '19') {
+
+                $totalTax19 += $value->valuetotal * $tax;
+            }
+        }
+
+        $ware = Warehouses::find($dep["warehouse_id"]);
+
+        $email = Email::where("description", "invoices")->first();
+
+        if ($email != null) {
+            $emDetail = EmailDetail::where("email_id", $email->id)->get();
+        }
+
+
+        if (count($emDetail) > 0) {
+
+            foreach ($emDetail as $value) {
+                $this->mails[] = $value->description;
+            }
+        }
+
+        if (count($this->mails) > 0) {
+            $cit = Cities::find($ware->city_id);
+            $this->subject = "SuperFuds " . date("d/m") . " " . $cli->business . " " . $cit->description . " Despacho de Pedido, factura " . $dep["invoice"];
+            $input["city"] = $cit->description;
+            $input["consecutive"] = $dep["id"];
+            $input["invoice"] = $dep["invoice"];
+
+            $input["name"] = ucwords($user->name);
+            $input["last_name"] = ucwords($user->last_name);
+            $input["phone"] = $user->phone;
+            $input["warehouse"] = $ware->description;
+            $input["address"] = $ware->address;
+            $input["detail"] = $detail;
+            $input["environment"] = env("APP_ENV");
+            $input["created_at"] = date("Y-m-d");
+
+            $this->mails[] = $user->email;
+
+
+            Mail::send("Notifications.invoice", $input, function($msj) {
+                $msj->subject($this->subject);
+                $msj->to($this->mails);
+            });
+        }
+
+        return response()->json(["success" => true, "consecutive" => $dep->invoice]);
+    }
+
+    public function storeExcel(Request $request) {
+        if ($request->ajax()) {
+            $error = 0;
+            $this->in = $request->all();
+            $this->name = '';
+            $this->path = '';
+            $file = array_get($this->in, 'file_excel');
+            $this->name = $file->getClientOriginalName();
+            $this->name = str_replace(" ", "_", $this->name);
+            $this->path = "uploads/departures/" . date("Y-m-d") . "/" . $this->name;
+
+            $file->move("uploads/departures/" . date("Y-m-d") . "/", $this->name);
+
+            Excel::load($this->path, function($reader) {
+                $special = null;
+                foreach ($reader->get() as $i => $book) {
+
+                    if ($book->unidades_total != 0) {
+                        if (isset($book->item) && $book->item != '') {
+
+                            $special = PricesSpecial::where("item", (int) $book->item)->where("client_id", $this->in["client_id"])->first();
+//                            echo "<pre>";print_r($special);exit;
+                            if ($special == null) {
+                                $product_id = 0;
+                            } else {
+                                $product_id = $special->product_id;
+                            }
+
+                            $pro = Products::find($product_id);
+                            if ($pro == null) {
+                                $pro = Products::where("reference", (int) $book->sf_code)->first();
+                            }
+
+                            if ($pro == null) {
+                                $pro = Products::where("bar_code", $book->ean)->first();
+                            }
+                        } else if (isset($book->ean) && $book->ean != '') {
+                            if (isset($book->ean) && $book->ean != '') {
+                                $pro = Products::where("bar_code", $book->ean)->first();
+                            } else {
+                                $pro = Products::where("reference", (int) $book->sf_code)->first();
+                            }
+                            if ($pro != null) {
+                                $special = PricesSpecial::where("product_id", $pro->id)->where("client_id", $this->in["client_id"])->first();
+                            }
+                        } else {
+
+                            if (isset($book->sf_code) && $book->sf_code != '') {
+
+                                $pro = Products::where("reference", $book->sf_code)->first();
+
+
+                                if ($pro != null) {
+                                    $special = PricesSpecial::where("product_id", $pro->id)->where("client_id", $this->in["client_id"])->first();
+                                }
+                            }
+                        }
+
+                        if ($pro != null) {
+                            if ($special == null) {
+                                $price_sf = $pro->price_sf;
+                            } else {
+                                $price_sf = $special->price_sf;
+                            }
+
+                            if (Auth::user()->role_id == 1) {
+                                if (isset($book->precio_unitario) && !empty($book->precio_unitario)) {
+                                    $price_sf = $book->precio_unitario;
+                                }
+                            }
+
+                            $this->listProducts[] = array(
+                                "row" => $i,
+                                "product_id" => $pro->id,
+                                "product" => $pro->reference . " - " . $pro->title,
+                                "quantity" => $book->unidades_total,
+                                "units_sf" => $pro->units_sf,
+                                'price_sf' => $price_sf,
+                                "valueFormated" => "$ " . number_format(($price_sf), 2, ',', '.'),
+                                "totalFormated" => "$ " . number_format(($pro->units_sf * $price_sf * $book->unidades_total), 2, ',', '.'),
+                                "real_quantity" => "",
+                                "totalFormated_real" => "",
+                                "comment" => "",
+                                "status" => "new",
+                            );
+
+                            $this->total += ($price_sf * $book->unidades_total * $pro->units_sf);
+                        } else {
+                            $this->errors[] = $book;
+                        }
+                    }
+                }
+            })->get();
+
+            return response()->json(["success" => true, "data" => $this->listProducts, "error" => $this->errors, "total" => "$ " . number_format(($this->total), 0, ',', '.')]);
+        }
+    }
+
+}

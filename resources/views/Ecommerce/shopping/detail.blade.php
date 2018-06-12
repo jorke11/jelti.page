@@ -1,22 +1,5 @@
 @extends('layouts.client')
 @section('content')
-<!--<style>
-    .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{
-        background-color: #30c594;
-        border:1px solid #30c594;
-        color:black;
-    }
-
-    .pagination>li>a, .pagination>li>span>a{
-        color:black;
-    }
-
-
-    .form-control{
-        border-radius: 0;
-        background-color: #30c594;
-    }
-</style>-->
 <div class="row" style="padding-bottom: 3%;padding-top: 3%">
 
     @if($category->banner!='')

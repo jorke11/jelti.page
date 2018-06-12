@@ -15,7 +15,7 @@ class OrdersDetail extends Model {
         "quantity",
         "units_sf",
         "tax",
-        "value"
+        "price_sf"
     ];
 
 }

@@ -10,7 +10,7 @@ class Orders extends Model
     protected $primaryKey = "id";
     protected $fillable = [
         "id",
-        "stakeholder_id", 
+        "insert_id", 
         "response_payu",
         "status_id"];
 }

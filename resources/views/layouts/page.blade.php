@@ -29,6 +29,15 @@
         <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick-theme.css"/>
         <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
         <!--{!!Html::style('/css/page.css')!!}-->
+        <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
+        
+        {!!Html::style('/vendor/select2/css/select2.min.css')!!}
+        {!!Html::script('/vendor/select2/js/select2.js')!!}
+        {!!Html::script('/vendor/plugins.js')!!}
+
+        <!--{!!Html::style('/css/edited.css')!!}-->
+        
 
     </head>
     <body >
@@ -41,6 +50,6 @@
         </div>
 
         <!-- Scripts -->
-        <script src="/js/app.js"></script>
+        <!--<script src="/js/app.js"></script>-->
     </body>
 </html>
