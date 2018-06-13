@@ -31,21 +31,20 @@
         <!--{!!Html::style('/css/page.css')!!}-->
         <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
         <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
-        
+
         {!!Html::style('/vendor/select2/css/select2.min.css')!!}
         {!!Html::script('/vendor/select2/js/select2.js')!!}
         {!!Html::script('/vendor/plugins.js')!!}
 
         <!--{!!Html::style('/css/edited.css')!!}-->
-        
+
 
     </head>
     <body >
 
         <div class="container-fluid" style="padding-left: 0; padding-right: 0">
-            <div class="">
-                @include("header")
-            </div>
+            @include("header")
+
             @yield('content')
         </div>
 

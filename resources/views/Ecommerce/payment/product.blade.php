@@ -236,6 +236,33 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-12">
+            <div class="row" style="padding-bottom: 1%">
+                <div class="col-12">
+                    <h2 class="text-center">Nuestros Valores</h2>
+                </div>
+            </div>
+            <div class="row " style="padding-bottom: 3%">
+                <div class="col-12 text-center">
+                    <img src="{{url("images/page/iconos-valores.png")}}">
+                </div>
+            </div>
+
+            <div class="row" style="padding-bottom: 1%">
+                <div class="col-12">
+                    <h2 class="text-center">Nuestros Certificados</h2>
+                </div>
+            </div>
+            <div class="row " style="padding-bottom: 5%">
+                <div class="col-12 text-center">
+                    <img src="{{url("images/page/certificados.png")}}">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
         <!--<section style="background-color: rgba(255,252,245,.7);width: 100%">-->
     <section style="background-color: #7bc0ad;width: 100%;" >
         <div class="row justify-content-center">
@@ -295,7 +322,7 @@
                                                         </p>
                                                         @endguest
 
-                                                                                                                                             <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                                                                                                                                     <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                                         <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm" style="
                                                            display:scroll;
                                                            position:fixed;
@@ -402,6 +429,7 @@
         </div>
     </div>
 </div>
+@include("footer")
 
 {!!Html::script('js/Ecommerce/detailProduct.js')!!}
 @endsection

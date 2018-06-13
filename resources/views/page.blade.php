@@ -395,14 +395,14 @@ clearstatcache();
                                                 <?php
                                                 $cont = 0;
 
-                                                foreach ($newproducts as $i => $value) {
+                                                foreach ($most_sales as $i => $value) {
                                                     ?>
                                                     <div class="col-3">
                                                         <div class="card" >
                                                             <img class="card-img-top" src="/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                             <div class="card-body text-center">
                                                                 <h5 class="card-title" style="min-height:60px" onclick="obj.redirectProduct('{{$value->slug}}')">
-                                                                    <?php echo substr($value->short_description, 0, 30); ?>
+                                                                    <?php echo substr($value->short_description, 0, 25); ?>
                                                                 </h5>
                                                                 <p>
                                                                     <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">

@@ -18,12 +18,33 @@ Route::get('/search/{busqueda}', 'PageController@search');
 
 Route::get('/', function () {
 
+    $init = date('Y-m-d', strtotime('-3 month', strtotime(date('Y-m-d'))));
+    $end = date("Y-m-d");
+
+    $sql = "
+            SELECT p.id,p.title as product,sup.business_name, 
+            sum(CASE WHEN d.real_quantity IS NULL THEN 0 ELSE d.real_quantity end * CASE WHEN d.packaging=0 THEN 1 WHEN d.packaging IS NULL THEN 1 ELSE d.packaging END) quantity, 
+            sum(d.value * CASE WHEN d.real_quantity IS NULL THEN 0 ELSE d.real_quantity end * d.units_sf) as subtotal,p.thumbnail,p.slug,p.short_description
+            FROM departures_detail d 
+            JOIN departures s ON s.id=d.departure_id and s.status_id IN(2,7) 
+            JOIN stakeholder ON stakeholder.id=s.client_id and stakeholder.type_stakeholder=1 
+            JOIN vproducts p ON p.id=d.product_id JOIN stakeholder sup ON sup.id=p.supplier_id
+            WHERE s.dispatched BETWEEN '" . $init . " 00:00' AND '" . $end . " 23:59' AND s.client_id NOT IN(258,264,24) AND p.category_id<>-1
+            GROUP by 1,2,3,p.thumbnail,p.slug,p.short_description ORDER BY 4 DESC limit 50
+            ";
+
+    $most_sales = DB::select($sql);
+
+
+
+
     $categories = Models\Administration\Categories::where("status_id", 1)->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->orderBy("order", "asc")->get();
 //    dd($category);
     $newproducts = DB::table("vproducts")->where("status_id", 1)
             ->where("category_id", "<>", -1)
             ->where("category_id", "<>", 19)
             ->whereNotNull("image")
+            ->where("is_new", true)
             ->orderBy("supplier", "asc")
             ->orderBy("category_id")
             ->orderBy("reference")
@@ -68,16 +89,16 @@ Route::get('/', function () {
         array("url" => "http://www.superfuds.com/images_blog/referentes/chocolov-6.jpg", "title" => "Chocolov"));
 
     $dietas = array(
-        (object)array("id" => 1, "description" => "Paleo"),
-        (object)array("id" => 2, "description" => "Vegano"),
-        (object)array("id" => 3, "description" => "Sin gluten"),
-        (object)array("id" => 4, "description" => "Organico"),
-        (object)array("id" => 5, "description" => "Sin grasas Trans"),
-        (object)array("id" => 6, "description" => "Sin azucar"),
+        (object) array("id" => 1, "description" => "Paleo"),
+        (object) array("id" => 2, "description" => "Vegano"),
+        (object) array("id" => 3, "description" => "Sin gluten"),
+        (object) array("id" => 4, "description" => "Organico"),
+        (object) array("id" => 5, "description" => "Sin grasas Trans"),
+        (object) array("id" => 6, "description" => "Sin azucar"),
     );
 
 
-    return view('page', compact("categories", "subcategory", "newproducts", "love_clients", "clients", "dietas"));
+    return view('page', compact("categories", "subcategory", "newproducts", "love_clients", "clients", "dietas", "most_sales"));
 });
 
 
@@ -91,21 +112,27 @@ Route::get('/products/{slug_category}', function ($slug_category) {
 
     $subcategory = Models\Administration\Categories::where("status_id", 1)->where("node_id", $row_category->id)->orderBy("order", "asc")->get();
 
+
+
+
+    return DB::select($sql);
+
+
     $products = DB::table("vproducts")->whereNotNull("image")->whereNotNull("warehouse")->orderBy("title", "desc")->paginate(16);
 
 //    dd($row_category);
-    
-    $dietas = array(
-            (object) array("id" => 1, "description" => "Paleo"),
-            (object) array("id" => 2, "description" => "Vegano"),
-            (object) array("id" => 3, "description" => "Sin gluten"),
-            (object) array("id" => 4, "description" => "Organico"),
-            (object) array("id" => 5, "description" => "Sin grasas Trans"),
-            (object) array("id" => 6, "description" => "Sin azucar"),
-        );
-    
 
-    return view('listproducts', compact("categories", "row_category", 'products', "slug_category", "subcategory","dietas"));
+    $dietas = array(
+        (object) array("id" => 1, "description" => "Paleo"),
+        (object) array("id" => 2, "description" => "Vegano"),
+        (object) array("id" => 3, "description" => "Sin gluten"),
+        (object) array("id" => 4, "description" => "Organico"),
+        (object) array("id" => 5, "description" => "Sin grasas Trans"),
+        (object) array("id" => 6, "description" => "Sin azucar"),
+    );
+
+
+    return view('listproducts', compact("categories", "row_category", 'products', "slug_category", "subcategory", "dietas"));
 });
 
 Auth::routes();
