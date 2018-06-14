@@ -316,6 +316,7 @@ clearstatcache();
                                                                 </p>
 
                                                                 @else
+                                                                
                                                                 <p>
                                                                     $ {{number_format($value->price_sf,0,",",'.')}}
                                                                 </p>
@@ -431,7 +432,7 @@ clearstatcache();
 
                                                                 @else
                                                                 <p>
-                                                                    $ {{number_format($value->price_sf,0,",",'.')}}
+                                                                    
                                                                 </p>
                                                                 @endguest
 
