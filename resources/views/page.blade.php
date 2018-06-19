@@ -341,7 +341,7 @@ clearstatcache();
                                                                    display:scroll;
                                                                    position:fixed;
                                                                    bottom:200px;
-                                                                   margin-left: 7%;
+                                                                   margin-left: 5%;
                                                                    margin-bottom: 1%;
                                                                    border-radius: 10px;
                                                                    background-color: #5baf98;
@@ -391,7 +391,7 @@ clearstatcache();
 
 
 
-        <section style="padding-top: 3%;padding-bottom: 2%">   
+        <section style="padding-top: 3%;padding-bottom: 2%" >   
             <div class="container-fluid test">
 
                 <div class="row row-center text-center d-none d-md-block d-lg-none" >
@@ -463,7 +463,7 @@ clearstatcache();
                                                                    display:scroll;
                                                                    position:fixed;
                                                                    bottom:200px;
-                                                                   margin-left: 7%;
+                                                                   margin-left: 5%;
                                                                    margin-bottom: 1%;
                                                                    border-radius: 10px;
                                                                    background-color: #5baf98;
