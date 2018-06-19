@@ -137,6 +137,11 @@ clearstatcache();
             .slider-main{
                 position:fixed;
             }
+            
+            .link-green{
+                color:rgba(91,175,152,1);
+                font-weight: 600
+            }
 
         </style>
 
@@ -186,7 +191,7 @@ clearstatcache();
                             <img class="card-img-top" src="{{url("images/page/dietas/paleo.png")}}" alt="Card image cap">
                             <div class="card-body">
                                 <h4 class="card-title text-center">Paleo</h4>
-                                <p class="text-center justify-content-center"><a href="{{url("search/s=paleo")}}"  style="color:rgba(91,175,152,1)">Ver todos</a></p>
+                                <p class="text-center justify-content-center"><a href="{{url("search/s=paleo")}}" class="link-green">Ver todos</a></p>
                             </div>
                         </div>
                     </div>
@@ -195,7 +200,7 @@ clearstatcache();
                             <img class="card-img-top" src="{{url("images/page/dietas/vegana.png")}}" alt="Card image cap">
                             <div class="card-body">
                                 <h4 class="card-title text-center">Vegana</h4>
-                                <p class="text-center justify-content-center"><a href="{{url("search/s=vegano")}}" style="color:rgba(91,175,152,1)">Ver todos</a></p>
+                                <p class="text-center justify-content-center"><a href="{{url("search/s=vegano")}}" class="link-green">Ver todos</a></p>
                             </div>
                         </div>
                     </div>
@@ -204,7 +209,7 @@ clearstatcache();
                             <img class="card-img-top" src="{{url("images/page/dietas/sin_gluten.png")}}" alt="Card image cap">
                             <div class="card-body">
                                 <h4 class="card-title text-center">Sin gluten</h4>
-                                <p class="text-center justify-content-center"><a href="{{url("search/s=sin_gluten")}}" style="color:rgba(91,175,152,1)">Ver todos</a></p>
+                                <p class="text-center justify-content-center"><a href="{{url("search/s=sin_gluten")}}" class="link-green">Ver todos</a></p>
                             </div>
                         </div>
                     </div>
@@ -215,7 +220,7 @@ clearstatcache();
                             <img class="card-img-top" src="{{url("images/page/dietas/organico.png")}}" alt="Card image cap">
                             <div class="card-body">
                                 <h4 class="card-title text-center">Organico</h4>
-                                <p class="text-center justify-content-center"><a href="{{url("search/organico")}}" style="color:rgba(91,175,152,1)">Ver todos</a></p>
+                                <p class="text-center justify-content-center"><a href="{{url("search/organico")}}" class="link-green">Ver todos</a></p>
                             </div>
                         </div>
                     </div>
@@ -224,7 +229,7 @@ clearstatcache();
                             <img class="card-img-top" src="{{url("images/page/dietas/singrasastrans.png")}}" alt="Card image cap">
                             <div class="card-body">
                                 <h4 class="card-title text-center">Sin grasas trans</h4>
-                                <p class="text-center justify-content-center"><a href="{{url("search/sin_grasas_trans")}}" style="color:rgba(91,175,152,1)" >Ver todos</a></p>
+                                <p class="text-center justify-content-center"><a href="{{url("search/sin_grasas_trans")}}" class="link-green" >Ver todos</a></p>
                             </div>
                         </div>
                     </div>
@@ -233,7 +238,7 @@ clearstatcache();
                             <img class="card-img-top" src="{{url("images/page/dietas/sinazucar.png")}}" alt="Card image cap">
                             <div class="card-body">
                                 <h4 class="card-title text-center">Sin Azucar</h4>
-                                <p class="text-center justify-content-center"><a href="{{url("search/sin_azucar")}}" style="color:rgba(91,175,152,1)" >Ver todos</a></p>
+                                <p class="text-center justify-content-center"><a href="{{url("search/sin_azucar")}}" class="link-green" >Ver todos</a></p>
                             </div>
                         </div>
                     </div>
@@ -267,7 +272,7 @@ clearstatcache();
                 <div class="row row-center test" >
                     <div class="col-3" style="background-color: #f8f7f5">
                         <h1 class="text-center"style="padding-top: 30%">Lo Más Nuevo <br>en SuperFuds</h1>
-                        <p class="text-center"><a href="#">Ver todos</a></p>
+                        <p class="text-center"><a href="#" class="link-green">Ver todos</a></p>
 
                     </div>
                     <div class="col-8" style="background-color: #f8f7f5;margin-left: 10px;padding-top: 1%;padding-bottom: 1%">
@@ -383,7 +388,7 @@ clearstatcache();
                 <div class="row row-center test" >
                     <div class="col-3" style="background-color: #f8f7f5">
                         <h1 class="text-center"style="padding-top: 30%">Lo Más <br>Vendidos</h1>
-                        <p class="text-center"><a href="#">Ver todos</a></p>
+                        <p class="text-center"><a href="#" class="link-green">Ver todos</a></p>
                     </div>
                     <div class="col-8 " style="background-color: #f8f7f5;margin-left: 10px;padding-top: 1%;padding-bottom: 1%">
 
