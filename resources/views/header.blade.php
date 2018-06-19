@@ -117,8 +117,25 @@
         </ul>
 
         <form class="form-inline my-2 my-lg-1"  id="frmSearch">
-            <input class="form-control mr-sm-2 form-control-sm" type="text" placeholder="Brownie, Paleo, Quinua" aria-label="Search" style="width: 300px" id="text-search">
-            <button class="btn btn-outline-dark my-2 my-sm-0 btn-sm" type="button" id="btnSearch">Buscar</button>
+
+            <div class="col-auto">
+                <label class="sr-only" for="inlineFormInputGroup">Username</label>
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control form-control-sm" id="text-search" placeholder="Brownie, Paleo, Quinua" style="width: 330px;height: 40px">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text" style="background-color: rgba(0,0,0,0);height: 40px">
+                            <svg id="i-search" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                            <circle cx="14" cy="14" r="12" />
+                            <path d="M23 23 L30 30"  />
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--<input class="form-control mr-sm-2 form-control-sm" type="text" placeholder="Brownie, Paleo, Quinua" aria-label="Search" style="width: 300px" id="text-search">-->
+            <!--<button class="btn btn-outline-dark my-2 my-sm-0 btn-sm" type="button" id="btnSearch">Buscar</button>-->
         </form>
 
         <ul class="navbar-nav">
