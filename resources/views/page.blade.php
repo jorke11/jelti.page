@@ -31,7 +31,7 @@ clearstatcache();
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
         <!-- Fonts -->
-        
+
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
         <meta name="keywords" content="organico,saludable">
         <meta name="description" content="Your website does not contain an XML sitemap and that can weaken your SEO.">
@@ -137,7 +137,7 @@ clearstatcache();
             .slider-main{
                 position:fixed;
             }
-            
+
             .link-green{
                 color:rgba(91,175,152,1);
                 font-weight: 600
@@ -256,29 +256,36 @@ clearstatcache();
                 margin-left: 4%
             }
 
-/*            #carouselExampleIndicators3.carousel-item{
-                padding-bottom:5x;
-                padding-left: 5px
-            }
-
-            .height-img{
-                heigth:10px !important;
-            }*/
+            /*            #carouselExampleIndicators3.carousel-item{
+                            padding-bottom:5x;
+                            padding-left: 5px
+                        }
+            
+                        .height-img{
+                            heigth:10px !important;
+                        }*/
         </style>
 
         <!--Web-->
         <section style="padding-top: 3%;padding-bottom: 2%" class="d-none d-lg-block d-md-none">   
             <div class="container-fluid test">
+                <div class="row row-center text-center d-none d-md-block" >
+                    <div class="col-10 offset-1" style="background-color: #f8f7f5">
+                        <h1 class="text-center">Lo Más Nuevo <br>en SuperFuds</h1>
+                        <p class="text-center"><a href="#" class="link-green">Ver todos</a></p>
+                    </div>
+                </div>
+
                 <div class="row row-center test" >
-                    <div class="col-3" style="background-color: #f8f7f5">
+                    <div class="col-3 d-md-none" style="background-color: #f8f7f5">
                         <h1 class="text-center"style="padding-top: 30%">Lo Más Nuevo <br>en SuperFuds</h1>
                         <p class="text-center"><a href="#" class="link-green">Ver todos</a></p>
 
                     </div>
-                    <div class="col-8" style="background-color: #f8f7f5;margin-left: 10px;padding-top: 1%;padding-bottom: 1%">
+                    <div class="col-8 col-md-12 offset-md-0" style="background-color: #f8f7f5;margin-left: 10px;padding-top: 1%;padding-bottom: 1%">
 
                         <div class="row">
-                            <div class="col-10 offset-1">
+                            <div class="col-10 offset-1 ">
                                 <div id="carouselExampleIndicators3" class="carousel slide" data-ride="carousel">
 
                                     <div class="carousel-inner">
@@ -317,18 +324,18 @@ clearstatcache();
                                                                 @guest
                                                                 <p>
                                                                     <button class="btn btn-info" type="button" onclick="obj.registerClient()">
-                                                                        Registrate como cliente
+                                                                        Registrate
                                                                     </button>
                                                                 </p>
 
                                                                 @else
-                                                                
+
                                                                 <p>
                                                                     $ {{number_format($value->price_sf,0,",",'.')}}
                                                                 </p>
                                                                 @endguest
 
-                                                                                                             <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                                                                                             <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                                                 <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm" style="
                                                                    display:scroll;
                                                                    position:fixed;
@@ -381,16 +388,24 @@ clearstatcache();
             </div>
         </section>
 
-        
 
-             <section style="padding-top: 3%;padding-bottom: 2%" class="d-none d-lg-block d-md-none">   
+
+        <section style="padding-top: 3%;padding-bottom: 2%" class="d-none d-lg-block d-md-none">   
             <div class="container-fluid test">
+
+                <div class="row row-center text-center d-none d-md-block" >
+                    <div class="col-8 offset-2" style="background-color: #f8f7f5">
+                        <h1 class="text-center">Lo Más <br>Vendidos</h1>
+                        <p class="text-center"><a href="#" class="link-green">Ver todos</a></p>
+                    </div>
+                </div>
+
                 <div class="row row-center test" >
-                    <div class="col-3" style="background-color: #f8f7f5">
+                    <div class="col-3 d-md-none" style="background-color: #f8f7f5">
                         <h1 class="text-center"style="padding-top: 30%">Lo Más <br>Vendidos</h1>
                         <p class="text-center"><a href="#" class="link-green">Ver todos</a></p>
                     </div>
-                    <div class="col-8 " style="background-color: #f8f7f5;margin-left: 10px;padding-top: 1%;padding-bottom: 1%">
+                    <div class="col-8 col-md-12 offset-md-0" style="background-color: #f8f7f5;margin-left: 10px;padding-top: 1%;padding-bottom: 1%">
 
                         <div class="row">
                             <div class="col-10 offset-1">
@@ -432,17 +447,17 @@ clearstatcache();
                                                                 @guest
                                                                 <p>
                                                                     <button class="btn btn-info" type="button" onclick="obj.registerClient()">
-                                                                        Registrate como cliente
+                                                                        Registrate
                                                                     </button>
                                                                 </p>
 
                                                                 @else
                                                                 <p>
-                                                                    
+
                                                                 </p>
                                                                 @endguest
 
-                                                                                                             <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                                                                                             <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                                                 <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm" style="
                                                                    display:scroll;
                                                                    position:fixed;
@@ -494,8 +509,8 @@ clearstatcache();
                 </div>
             </div>
         </section>
-        
-        
+
+
         <section style="padding-top: 3%;padding-bottom: 2%" >
             <div class="container-fluid">
                 <div class="row row-center row-space">
@@ -668,5 +683,5 @@ clearstatcache();
         });
     </script>
 <?php endif; ?>
-        
+
 <link href="{{ asset('/css/fonts.css') }}" rel="stylesheet" type="text/css">

@@ -29,11 +29,12 @@
 
     .img-header{
         /*background-image: url("/images/page/fondosuperior.svg")*/
-        background-image: url("/images/header.png") ;
+        /*background-image: url("/images/header.png") ;*/
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
+        background-color: rgba(91,175,152,1);
         /*background-size: 100% 132%;*/
     }
 
