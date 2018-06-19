@@ -267,7 +267,7 @@ clearstatcache();
         </style>
 
         <!--Web-->
-        <section style="padding-top: 3%;padding-bottom: 2%" class="d-none d-lg-block d-md-none">   
+        <section style="padding-top: 3%;padding-bottom: 2%">   
             <div class="container-fluid test">
                 <div class="row row-center text-center d-none d-md-block d-lg-none" >
                     <div class="col-10 offset-1" style="background-color: #f8f7f5">
@@ -277,7 +277,8 @@ clearstatcache();
                 </div>
 
                 <div class="row row-center test" >
-                    <div class="col-3 d-md-none d-lg-block" style="background-color: #f8f7f5">
+                    <!--<div class="col-3 d-none d-md-none d-lg-block" style="background-color: #f8f7f5">-->
+                    <div class="col-3 d-lg-block d-md-none " style="background-color: #f8f7f5">
                         <h1 class="text-center"style="padding-top: 30%">Lo Más Nuevo <br>en SuperFuds</h1>
                         <p class="text-center"><a href="#" class="link-green">Ver todos</a></p>
 
@@ -390,7 +391,7 @@ clearstatcache();
 
 
 
-        <section style="padding-top: 3%;padding-bottom: 2%" class="d-none d-lg-block d-md-none">   
+        <section style="padding-top: 3%;padding-bottom: 2%">   
             <div class="container-fluid test">
 
                 <div class="row row-center text-center d-none d-md-block d-lg-none" >
