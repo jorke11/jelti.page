@@ -57,18 +57,33 @@ function Page() {
 
         $("#frmSearch").submit(function () {
             var search_data = $("#text-search").val();
-            location.href = PATH + "/search/" + search_data
+            if (search_data != '') {
+                location.href = PATH + "/search/" + search_data
+                return false;
+            }
             return false;
+
         })
         $("#btnSearch").click(function () {
             var search_data = $("#text-search").val();
-            location.href = PATH + "/search/" + search_data
+
+            if (search_data != '') {
+                location.href = PATH + "/search/" + search_data
+                return false;
+            }
+
+            return false;
         })
 
         $(document).keydown(function (e) {
             if (e.which == 13) {
                 var search_data = $("#text-search").val();
-                location.href = PATH + "/search/" + search_data
+
+                if (search_data != '') {
+                    location.href = PATH + "/search/" + search_data
+                    return false;
+                }
+                return false;
             }
         });
 

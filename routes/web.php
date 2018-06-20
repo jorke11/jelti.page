@@ -28,15 +28,11 @@ Route::get('/', function () {
             FROM departures_detail d 
             JOIN departures s ON s.id=d.departure_id and s.status_id IN(2,7) 
             JOIN stakeholder ON stakeholder.id=s.client_id and stakeholder.type_stakeholder=1 
-            JOIN vproducts p ON p.id=d.product_id JOIN stakeholder sup ON sup.id=p.supplier_id
+            JOIN vproducts p ON p.id=d.product_id JOIN stakeholder sup ON sup.id=p.supplier_id and p.thumbnail is not null
             WHERE s.dispatched BETWEEN '" . $init . " 00:00' AND '" . $end . " 23:59' AND s.client_id NOT IN(258,264,24) AND p.category_id<>-1
             GROUP by 1,2,3,p.thumbnail,p.slug,p.short_description ORDER BY 4 DESC limit 50
             ";
-
     $most_sales = DB::select($sql);
-
-
-
 
     $categories = Models\Administration\Categories::where("status_id", 1)->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->orderBy("order", "asc")->get();
 //    dd($category);
@@ -44,6 +40,7 @@ Route::get('/', function () {
             ->where("category_id", "<>", -1)
             ->where("category_id", "<>", 19)
             ->whereNotNull("image")
+            ->whereNotNull("thumbnail")
             ->where("is_new", true)
             ->orderBy("supplier", "asc")
             ->orderBy("category_id")
@@ -52,6 +49,7 @@ Route::get('/', function () {
 
     $subcategory = \App\Models\Administration\Characteristic::where("status_id", 1)->where("type_subcategory_id", 1)->whereNotNull("img")->orderBy("order", "asc")->get();
 //    dd($subcategory);
+//    dd($newproducts);
 
     foreach ($newproducts as $i => $value) {
         $cod = str_replace("]", "", str_replace("[", "", $newproducts[$i]->characteristic));
@@ -118,7 +116,7 @@ Route::get('/products/{slug_category}', function ($slug_category) {
     return DB::select($sql);
 
 
-    $products = DB::table("vproducts")->whereNotNull("image")->whereNotNull("warehouse")->orderBy("title", "desc")->paginate(16);
+    $products = DB::table("vproducts")->whereNotNull("image")->whereNotNull("thumbnail")->whereNotNull("warehouse")->orderBy("title", "desc")->paginate(16);
 
 //    dd($row_category);
 

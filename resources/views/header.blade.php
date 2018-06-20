@@ -122,7 +122,7 @@
             <div class="col-auto">
                 <label class="sr-only" for="inlineFormInputGroup">Username</label>
                 <div class="input-group mb-2">
-                    <input type="text" class="form-control form-control-sm" id="text-search" placeholder="Brownie, Paleo, Quinua" style="width: 330px;height: 40px">
+                    <input type="text" class="form-control form-control-sm" id="text-search" placeholder="Brownie, Paleo, Quinua" style="width: 330px;height: 40px" required="">
                     <div class="input-group-prepend" style="cursor:pointer" id="btnSearch">
                         <div class="input-group-text" style="background-color: rgba(0,0,0,0);height: 40px" >
                             <svg id="i-search" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">

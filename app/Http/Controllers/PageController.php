@@ -21,7 +21,6 @@ class PageController extends Controller {
             (object) array("id" => 5, "description" => "Sin grasas Trans"),
             (object) array("id" => 6, "description" => "Sin azucar"),
         );
-        
     }
 
     public function index() {
@@ -91,11 +90,11 @@ class PageController extends Controller {
     public function getProducts(Request $req, $param = null) {
         $in = $req->all();
         $category = Categories::where("node_id", 0)->get();
+
         $row_category = array();
-
+        $cat_ids = [];
         if ($param == null) {
-
-            $products = DB::table("vproducts")->whereNotNull("image")->whereNotNull("warehouse");
+            $products = DB::table("vproducts")->whereNotNull("image")->whereNotNull("thumbnail")->whereNotNull("warehouse");
 
 
             if (isset($in["categories"])) {
@@ -103,51 +102,37 @@ class PageController extends Controller {
 
                 $in["categories"] = array_filter($in["categories"]);
                 $ids = array();
+
                 foreach ($in["categories"] as $val) {
                     if ($val != '') {
                         $cate = Categories::where("slug", $val)->first();
-
+                        $cat_ids[] = $cate->id;
                         $real_cat = Categories::where("node_id", $cate->id)->get();
 
 
                         foreach ($real_cat as $value) {
                             $ids[] = $value->id;
                         }
-
-
-
-
-//                    }
-//                    $categories = Categories::where("node_id", $cate->id)->get();
-//                    foreach ($categories as $val) {
-//                        $products->Orwhere("category_id", $val->id);
-//                        
-//                    }
                     }
                 }
 
                 $products->whereIn("category_id", $ids);
             }
 
-            $cat = [];
-            foreach ($category as $value) {
-                $cat[] = $value->id;
+//            $subcategory = Categories::where("status_id", 1)->WhereIn("node_id", $cat)->orderBy("order", "asc")->get();
+
+
+            if (count($cat_ids) > 0) {
+                $subcategory = Categories::WhereIn("node_id", $cat_ids)->orderBy("description", "asc")->get();
+            } else {
+                $subcategory = Categories::Where("node_id", "<>", 0)->orderBy("description", "asc")->get();
             }
 
-            $subcat_id = array();
-            if (isset($in["subcategories"])) {
-                foreach ($in["subcategories"] as $value) {
-                    $subcat = Categories::where("description", "ilike", "%" . $value . "%")->first();
-//                    $products->Orwhere("category_id", $subcat->id);
-                }
-            }
-
-
-            $subcategory = Categories::where("status_id", 1)->WhereIn("node_id", $cat)->orderBy("order", "asc")->get();
-
-
-            $products = $products->orderBy("supplier", "desc")->orderBy("title", "desc")->get();
+            $products = $products->orderBy("supplier", "desc")->orderBy("title", "asc")->get();
         } else {
+
+            echo "else";
+            exit;
 
             $products = DB::table("vproducts")->Where(DB::raw("lower(title)"), "like", "%" . strtolower(trim($param)) . "%")
                             ->orWhere(DB::raw("lower(description)"), "like", "%" . strtolower(trim($param)) . "%")->orderBy("title", "desc")->get();
@@ -183,7 +168,7 @@ class PageController extends Controller {
             $row_category->banner = url("/images/banner_sf.jpg");
         }
 
-        return response()->json(["products" => $products, "categories" => $subcategory, "count_cat" => $count_cat, "row_category" => $row_category]);
+        return response()->json(["products" => $products, "subcategories" => $subcategory, "count_cat" => $count_cat, "row_category" => $row_category]);
     }
 
 }
