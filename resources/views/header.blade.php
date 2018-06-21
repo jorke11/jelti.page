@@ -162,7 +162,7 @@
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
                    aria-haspopup="true" aria-expanded="false" style="color:white;font-size: 19px;padding-left: 40px;padding-right:40px">({{ Auth::user()->name }})</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="#">Historial Pedidos</a>
+                    <a class="dropdown-item" href="/myOrders">Historial Pedidos</a>
                     <a class="dropdown-item" href="{{ route('logout') }}"
                        onclick="event.preventDefault();
                                document.getElementById('logout-form').submit();">

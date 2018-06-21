@@ -100,7 +100,7 @@ Route::get('/', function () {
 });
 
 
-
+Route::get('myOrders', "Ecommerce\ShoppingController@getMyOrders");
 
 
 Route::get('/products/{slug_category}', function ($slug_category) {

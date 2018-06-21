@@ -47,7 +47,8 @@ class ShoppingController extends Controller {
     }
 
     public function index() {
-        return view("Ecommerce.shopping.init");
+        $categories=[];
+        return view("Ecommerce.shopping.init",compact("categories"));
     }
 
     public function getDetailProduct($id) {
@@ -330,7 +331,9 @@ class ShoppingController extends Controller {
     }
 
     public function getMyOrders() {
-        return view("Ecommerce.shopping.orders", compact("product"));
+        $categories=[];
+        $dietas=[];
+        return view("Ecommerce.shopping.orders", compact("product","categories","dietas"));
     }
 
 }
