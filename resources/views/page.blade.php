@@ -1,9 +1,5 @@
-  
 @extends('layouts.page')
-
 @section('content')
-
-
 
 <section id="slider-main" class="main-slider" style="position:relative;top: -66px">
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -486,6 +482,6 @@
         </div>
     </div>
 </section>
+{!!Html::script('js/Page/page.js')!!}
 @endsection
 
-{!!Html::script('js/Page/page.js')!!}

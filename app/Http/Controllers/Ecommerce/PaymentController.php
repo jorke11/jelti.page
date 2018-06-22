@@ -105,9 +105,9 @@ class PaymentController extends Controller {
 
         $deviceSessionId = md5(session_id() . microtime());
         $deviceSessionId_concat = $deviceSessionId . "80200";
-        $dietas=$this->dietas;
+        $dietas = $this->dietas;
 //        return view("Ecommerce.payment.init", compact());
-        return view("Ecommerce.payment.init", compact("id", "categories", "client", "month", "years", "total", "countries", "subtotal", "deviceSessionId", "deviceSessionId_concat", "term","dietas"));
+        return view("Ecommerce.payment.init", compact("id", "categories", "client", "month", "years", "total", "countries", "subtotal", "deviceSessionId", "deviceSessionId_concat", "term", "dietas"));
     }
 
     public function getProduct($id) {
@@ -349,18 +349,12 @@ class PaymentController extends Controller {
         } else {
             return false;
         }
-//        
-//        return OrdersDetail::select("orders_detail.id", "orders_detail.quantity", "orders_detail.tax", "vproducts.title as product", "orders_detail.price_sf", "vproducts.thumbnail")
-//                        ->join("vproducts", "vproducts.id", "orders_detail.product_id")
-//                        ->where("order_id", $order["id"])->get();
     }
 
     public function getDetail() {
-        $detail = $this->getDetailData();
+        $detail = $this->formatedDetailOrder();
 
         if ($detail != null) {
-
-            $detail = $this->formatedDetail($detail);
 
             $total = "$" . number_format($this->total, 0, ",", ".");
             $subtotal = "$" . number_format($this->subtotal, 0, ",", ".");
@@ -401,7 +395,7 @@ class PaymentController extends Controller {
 
         $client = Stakeholder::find($user->stakeholder_id);
 
-        $detail = $this->getDetailOrder($order->id);
+        $detail = $this->formatDetailOrder($order);
 
         $data["countries"][] = array("code" => "CO", "description" => "Colombia");
 
@@ -445,31 +439,31 @@ class PaymentController extends Controller {
         return $month;
     }
 
-    public function getDetailData() {
-        $detail = null;
-        if (Auth::user() != null) {
-            $this->order = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
-            if ($this->order != null) {
-                $this->order_id = $this->order->id;
-                $sql = "
-                SELECT p.title product,s.business as supplier,d.product_id,d.order_id,sum(d.quantity) quantity,d.price_sf as value,sum(d.quantity * d.price_sf) total,
-                p.image,p.thumbnail,
-                d.units_sf,d.tax
-                FROM orders_detail d
-                    LEFT JOIN vproducts p ON p.id=d.product_id
-                    LEFT JOIN stakeholder s ON s.id=p.supplier_id
-                WHERE order_id=" . $this->order->id . "
-                GROUP BY 1,2,3,4,d.units_sf,product_id,p.image,d.tax,p.thumbnail,d.price_sf
-                ORDER BY 1";
-                $detail = DB::select($sql);
-
-                $detail = json_decode(json_encode($detail), true);
-                return $detail;
-            } else {
-                return null;
-            }
-        }
-    }
+//    public function getDetailData() {
+//        $detail = null;
+//        if (Auth::user() != null) {
+//            $this->order = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
+//            if ($this->order != null) {
+//                $this->order_id = $this->order->id;
+//                $sql = "
+//                SELECT p.title product,s.business as supplier,d.product_id,d.order_id,sum(d.quantity) quantity,d.price_sf as value,sum(d.quantity * d.price_sf) total,
+//                p.image,p.thumbnail,
+//                d.units_sf,d.tax
+//                FROM orders_detail d
+//                    LEFT JOIN vproducts p ON p.id=d.product_id
+//                    LEFT JOIN stakeholder s ON s.id=p.supplier_id
+//                WHERE order_id=" . $this->order->id . "
+//                GROUP BY 1,2,3,4,d.units_sf,product_id,p.image,d.tax,p.thumbnail,d.price_sf
+//                ORDER BY 1";
+//                $detail = DB::select($sql);
+//
+//                $detail = json_decode(json_encode($detail), true);
+//                return $detail;
+//            } else {
+//                return null;
+//            }
+//        }
+//    }
 
     public function setQuantity(Request $req, $order_id) {
         $in = $req->all();
@@ -497,28 +491,28 @@ class PaymentController extends Controller {
 
     public function createOrder() {
         $row = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
-
         $user = Users::find(Auth::user()->id);
 
         $client = Stakeholder::find($user->stakeholder_id);
 
-        $new["warehouse_id"] = 3;
-        $new["responsible_id"] = 1;
-        $new["city_id"] = $client->city_id;
-        $new["created"] = date("Y-m-d H:i");
-        $new["status_id"] = 1;
-        $new["client_id"] = $user->stakeholder_id;
-        $new["destination_id"] = $client->city_id;
-        $new["address"] = $client->address_send;
-        $new["phone"] = $client->phone;
-        $new["shipping_cost"] = 0;
-        $new["insert_id"] = Auth::user()->id;
+        $param["header"]["warehouse_id"] = 3;
+        $param["header"]["responsible_id"] = 1;
+        $param["header"]["city_id"] = $client->city_id;
+        $param["header"]["created"] = date("Y-m-d H:i");
+        $param["header"]["status_id"] = 1;
+        $param["header"]["client_id"] = $user->stakeholder_id;
+        $param["header"]["destination_id"] = $client->city_id;
+        $param["header"]["address"] = $client->address_send;
+        $param["header"]["phone"] = $client->phone;
+        $param["header"]["shipping_cost"] = 0;
+        $param["header"]["insert_id"] = Auth::user()->id;
 //        $new["type_insert_id"] = 2;
-        $new["order_id"] = $row->id;
-        $detail = $this->getDetailData();
-
-        $res = $this->depObj->processDeparture($new, $detail)->getData();
-        return $res;
+        $param["header"]["order_id"] = $row->id;
+        $param["detail"] = $this->formatDetailOrder($row);
+        $param["header"]["total"] = $this->total;
+        $param["header"]["tax19"] = $this->tax19;
+//        
+        return $param;
     }
 
     public function payment(Request $req) {
@@ -527,25 +521,21 @@ class PaymentController extends Controller {
             DB::beginTransaction();
             $in = $req->all();
 
+
             $country = $in["country_id"];
             $in["expirate"] = $in["year"] . "/" . $in["month"];
 
             $data_order = $this->createOrder();
-            $data_order->header->total = 10000;
-//            echo "asd";
-//            exit;
-//        dd($data_order);
-            $detail = $this->getDetailData();
+
 
             $client = Stakeholder::where("email", Auth::user()->email)->first();
 
             $city = \App\Models\Administration\Cities::find($client->city_id);
             $department = \App\Models\Administration\Department::find($city->department_id);
-//
+
             $type_card = $this->identifyCard($in["number"], $in["crc"], $in["expirate"]);
 
             $error = '';
-
 
             if ($type_card["status"] == false) {
                 $error = $type_card["msg"];
@@ -554,7 +544,6 @@ class PaymentController extends Controller {
             if ($error == '') {
 
                 $deviceSessionId = $in["devicesessionid"];
-//                $deviceSessionId = md5(session_id() . microtime());
 
                 $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
                 $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
@@ -564,8 +553,8 @@ class PaymentController extends Controller {
                 $merchantId = "508029";
                 $accountId = "512321";
                 $referenceCode = 'invoice_' . microtime();
-
-                $TX_VALUE = round($data_order->header->total);
+                
+                $TX_VALUE = round($data_order["header"]["tax19"]);
                 $TX_TAX = 0;
                 $TX_TAX_RETURN_BASE = 0;
 
@@ -696,7 +685,10 @@ class PaymentController extends Controller {
                     "userAgent" => $_SERVER["HTTP_USER_AGENT"]
                 );
 
-//        Log::info(print_r($postData, true));
+
+
+
+                Log::debug("REQUEST TO PAY: " . print_r($postData, true));
                 $data_string = json_encode($postData);
 
                 $ch = curl_init($url);
@@ -715,23 +707,27 @@ class PaymentController extends Controller {
 
                 $arr = json_decode($result, TRUE);
 
+                Log::debug("RESPONSE TO PAY: " . print_r($arr, true));
+
                 $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
 
                 if ($arr["transactionResponse"]["responseCode"] == 'APPROVED') {
+                    $dep = $this->depObj->processDeparture($data_order["header"], $data_order["detail"])->getData();
 
-                    $row = Departures::find($data_order->header->id);
+                    $row = Departures::find($dep->id);
                     $row->paid_out = true;
                     $row->type_request = "ecommerce";
                     $row->save();
 
-//                    $row_order = Orders::find($order->id);
                     $order->response_payu = json_encode($result);
                     $order->status_id = 2;
                     $order->save();
+
                     DB::commit();
                     return redirect('congratulations')->with("success", 'Compra Realizada! Orden #' . $arr["transactionResponse"]["orderId"]);
                 } else if ($arr["transactionResponse"]["state"] == 'PENDING') {
-                    $row = Departures::find($data_order->header->id);
+                    $dep = $this->depObj->processDeparture($data_order["header"], $data_order["detail"])->getData();
+                    $row = Departures::find($dep->id);
                     $row->paid_out = false;
                     $row->type_request = "ecommerce";
                     $row->save();
@@ -750,12 +746,12 @@ class PaymentController extends Controller {
                             $error = "Por favor verifique la informacion de la Tarjeta de credito, vuelve a intentarlo. Orden Id #" . $arr["transactionResponse"]["orderId"] . "";
                         } else {
                             $error = $arr["transactionResponse"]["responseMessage"];
-                        }
+                            
+                        }   
                         DB::rollback();
                     } else {
-                        $error = "Tarjeta no aceptada en nuestro Sistema";
+                        $error = $arr["error"];
                     }
-
                     return back()->with("error", $error);
                 }
             } else {

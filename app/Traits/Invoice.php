@@ -130,7 +130,7 @@ trait Invoice {
         return $detail;
     }
 
-    function getDetailOrder($id) {
+    function formatedDetailOrder($id) {
 
         $detail = DB::table("orders_detail")->
                         select("orders_detail.id", "orders_detail.quantity", "orders_detail.price_sf", DB::raw("products.reference ||' - ' ||products.title || ' - ' || stakeholder.business  as product"), "stakeholder.business as stakeholder", "products.bar_code", "orders_detail.units_sf", "orders_detail.tax")
@@ -196,6 +196,58 @@ trait Invoice {
         $data["tax19_real"] = "$ " . number_format($this->tax19_real, 0, ",", ".");
 
         return $data;
+    }
+
+    public function formatDetailOrder($order) {
+        $detail = null;
+        if (Auth::user() != null) {
+
+            if ($order != null) {
+
+                $sql = "
+                SELECT p.title product,s.business as supplier,d.product_id,d.order_id,sum(d.quantity) quantity,d.price_sf as value,
+                sum(d.quantity * d.price_sf) total,
+                p.image,p.thumbnail,
+                d.units_sf,d.tax, d.price_sf
+                FROM orders_detail d
+                    LEFT JOIN vproducts p ON p.id=d.product_id
+                    LEFT JOIN stakeholder s ON s.id=p.supplier_id
+                WHERE order_id=" . $order->id . "
+                GROUP BY 1,2,3,4,d.units_sf,product_id,p.image,d.tax,p.thumbnail,d.price_sf
+                ORDER BY 1";
+                $detail = DB::select($sql);
+
+
+                $this->total = 0;
+                $this->subtotal = 0;
+
+                foreach ($detail as $i => $value) {
+                    $detail[$i]->units_sf = ($detail[$i]->units_sf == null) ? 1 : $detail[$i]->units_sf;
+
+                    $detail[$i]->valueFormated = "$" . number_format($value->price_sf, 0, ",", ".");
+                    $detail[$i]->totalFormated = "$" . number_format($detail[$i]->total, 0, ",", ".");
+
+                    $this->subtotal += $detail[$i]->total;
+                    $this->total += $detail[$i]->total + ($detail[$i]->total * $value->tax);
+
+                    if ($value->tax == 0) {
+                        $this->exento += $detail[$i]->total;
+                    }
+                    if ($value->tax == 0.05) {
+                        $this->tax5 += $detail[$i]->total * $value->tax;
+                    }
+                    if ($value->tax == 0.19) {
+                        $this->tax19 += $detail[$i]->total * $value->tax;
+                    }
+                }
+
+
+//                $detail = json_decode(json_encode($detail), true);
+                return $detail;
+            } else {
+                return null;
+            }
+        }
     }
 
     public function logClient($client_id, $comment) {

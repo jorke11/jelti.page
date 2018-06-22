@@ -2,17 +2,6 @@ function Payment() {
     var user_id;
     this.init = function () {
 
-        $('.input-number').on('input', function () {
-            this.value = this.value.replace(/[^0-9]/g, '');
-        });
-
-        $('.input-alpha').on('input', function () {
-            this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
-        });
-
-        $('.input-date').on('input', function () {
-            this.value = this.value.replace(/[^0-9]/g, '');
-        });
 
         $("#number").blur(this.validateTarjet);
 
@@ -138,12 +127,6 @@ function Payment() {
     }
 
 
-    this.formatCurrency = function (n, currency) {
-        return currency + " " + n.toFixed(2).replace(/./g, function (c, i, a) {
-            return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
-        });
-    }
-
     this.getData = function () {
 
         if (user_id) {
@@ -165,25 +148,12 @@ function Payment() {
 
     this.setListDetail = function (data, all = false) {
 
-        var html = '', html2 = '';
+        var html = '';
         data.detail.forEach((row, index) => {
 
             if (index < 3) {
-
+                console.log(row)
                 html += `
-                            <div class="row mb-3">
-                                <div class="col-4">
-                                        <img class="img-fluid"  src="${PATH + "/" + row.thumbnail}" alt="Card image cap">
-                                </div>
-                                <div class="col-8">
-                                    <p>${row.product} <br>
-                                       Precio <b>${obj.formatCurrency(parseInt(row.price_sf), "$")}</b><br>
-                                    Cantidad <b>${row.quantity}</b></p>
-                                </div>
-                            </div>
-                            `;
-
-                html2 += `
                             <div class="card mb-2" id='card_${index}' style="border-radius:15px">
                                 <div class="card-body" style="padding-bottom:1%;padding-right:8%">
                                     <div class="row">
@@ -204,7 +174,7 @@ function Payment() {
                                             </div>
                                             <div class="row" style="padding-top:10%">
                                                 <div class="col" >
-                                                    <p>${obj.formatCurrency(parseInt(row.price_sf), "$")}</p>
+                                                    <p>${$.formatNumber(row.price_sf, "$")}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -213,8 +183,9 @@ function Payment() {
                                                 <div class="input-group mb-3 ">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text" 
-                                                                onclick="obj.addProduct('{{$product->short_description}}',
-                                                                '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->thumbnail)}}','{{$product->tax}}')"
+                                                                onclick="objCounter.addProduct('${row.product}',
+                                                                '${row.slug}','${row.product_id}',
+                                                                '${row.price_sf}}','${row.thumbnail}','${row.tax}')"
                                                             style="background-color: #30c594;color:white;cursor: pointer">+</span>
                                                     </div>
                                                     <input type="text" class="form-control" id="quantity" name="quantity" value="${row.quantity}" type="number">
@@ -243,117 +214,16 @@ function Payment() {
             $("#message-mount").addClass("d-none");
         }
 
-        $("#tax5").html(obj.formatCurrency(parseInt(data.tax5), "$"))
-        $("#tax19").html(obj.formatCurrency(parseInt(data.tax19), "$"))
-        $("#totalOrder").html(obj.formatCurrency(parseInt(data.total), "$"))
-        $("#subtotalOrder").html(obj.formatCurrency(parseInt(data.subtotal), "$"))
+        $("#tax5").html($.formatNumber(parseInt(data.tax5), "$"))
+        $("#tax19").html($.formatNumber(parseInt(data.tax19), "$"))
+        $("#totalOrder").html($.formatNumber(parseInt(data.total), "$"))
+        $("#subtotalOrder").html($.formatNumber(parseInt(data.subtotal), "$"))
         $("#badge-quantity").html(data.quantity)
-        $("#content-detail").html(html2);
-        $("#popover-content").html(html);
-
+        $("#content-detail").html(html);
 
         if ((data.detail).length > 3) {
             $("#btnShowAll").removeClass("d-none")
     }
-
-    }
-
-    this.getDataFirebase = function () {
-        db.collection(user_id)
-//                .where("state", "==", "CA")
-                .onSnapshot(function (querySnapshot) {
-
-                    $("#popover-content").empty();
-
-                    var data = [], html = '', html2 = '', quantity = 0, total = 0, subtotal = 0, tax5 = 0, tax19 = 0;
-                    querySnapshot.forEach(function (doc) {
-                        html += `
-                            <div class="row mb-3">
-                                <div class="col-4">
-                                        <img class="img-fluid"  src="${doc.data().img}" alt="Card image cap" >
-                                </div>
-                                <div class="col-8">
-                                    <p>${doc.data().title} <br>
-                                       Precio <b>${obj.formatCurrency(parseInt(doc.data().price), "$")}</b><br>
-                                    Cantidad <b>${doc.data().quantity}</b></p>
-                                </div>
-                            </div>
-                            `;
-
-
-                        html2 += `
-                        
-                            <div class="card mb-2">
-                                <div class="card-header">
-                                  <button type="button" class="close"  aria-label="Close" style="padding-right:1%" onclick=obj.deleteItem(${doc.data().product_id},'${doc.id}')><span aria-hidden="true">&times;</span></button>
-                                </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <img src="${doc.data().img}" />
-                                    </div>
-                                    <div class="col-8">
-                                        <div class="row">
-                                            <div class="col">
-                                                <h3>${doc.data().title}</h3>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <p>${obj.formatCurrency(parseInt(doc.data().price), "$")}</p>
-                                                <p>Cantidad (${doc.data().quantity})</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                          </div>
-                        `;
-
-
-                        if (doc.data().tax == '0.19') {
-                            tax19 += (doc.data().quantity * doc.data().price * doc.data().tax);
-                        }
-
-                        if (doc.data().tax == '0.05') {
-                            tax5 += (doc.data().quantity * doc.data().price * doc.data().tax);
-                        }
-
-                        subtotal += (doc.data().quantity * doc.data().price)
-                        quantity += doc.data().quantity;
-
-                        total += subtotal + tax5 + tax19;
-                        data.push({title: doc.data().title, img: doc.data().img});
-                    });
-
-
-
-                    html += ` <div class="row">
-                                <div class="col-12">
-                                    <form action="/payment" method="GET">
-                                        <button class="btn btn-outline-success my-2 my-sm-0 btn-sm form-control" type="submit">Checkout</button>
-                                    </form>
-                                <div>   
-                            </div>`
-
-                    if (total < 10000) {
-                        $("#btnPay").attr("disabled", true)
-                        $("#btnPayU").attr("disabled", true)
-                        $("#message-mount").removeClass("d-none");
-                    } else {
-                        $("#btnPay").attr("disabled", false)
-                        $("#btnPayU").attr("disabled", false)
-                        $("#message-mount").addClass("d-none");
-                    }
-
-                    $("#tax5").html(obj.formatCurrency(parseInt(tax5), "$"))
-                    $("#tax19").html(obj.formatCurrency(parseInt(tax19), "$"))
-                    $("#totalOrder").html(obj.formatCurrency(parseInt(total), "$"))
-                    $("#subtotalOrder").html(obj.formatCurrency(parseInt(subtotal), "$"))
-                    $("#badge-quantity").html(quantity)
-                    $("#content-detail").html(html2);
-                    $("#popover-content").html(html);
-                });
 
     }
 

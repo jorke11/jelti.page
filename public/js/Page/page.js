@@ -4,13 +4,6 @@ function Page() {
     var db;
     var user_id;
     this.init = function () {
-        $("[data-toggle=popover]").popover({
-            html: true,
-            content: function () {
-                var id = $(this).attr('id')
-                return $('#popover-content').html();
-            }
-        });
         user_id = $("#user_id").val();
 
         // Initialize Firebase
@@ -32,105 +25,9 @@ function Page() {
 //        this.getDataFirebase();
 //        this.getDataFireStore();
         this.getData();
-        $(window).scroll(function () {
-//            console.log("asd");
-            if ($(this).scrollTop() > 0) {
-                $("#main-menu-id").removeClass("main-menu").addClass("main-menu-out");
-//                $("#slider-main").removeClass("main-slider");
-//                $("#popover220259").css({"transform": "translate3d(1493px,  337px, 0px)"})
-                $('.go-top').slideDown(300);
-            } else {
-                $(".popover").css("transform", "translate3d(1493px, 110px, 0px)")
-                $("#main-menu-id").addClass("main-menu").removeClass("main-menu-out");
-//                $("#slider-main").addClass("main-slider");
-                $('.go-top').slideUp(300);
+       
 
-            }
-
-        });
-        $('.go-top').click(function () {
-            $('body, html').animate({
-                scrollTop: '0px'
-            }, 300);
-        });
-
-
-        $("#frmSearch").submit(function () {
-            var search_data = $("#text-search").val();
-            if (search_data != '') {
-                location.href = PATH + "/search/" + search_data
-                return false;
-            }
-            return false;
-
-        })
-        $("#btnSearch").click(function () {
-            var search_data = $("#text-search").val();
-
-            if (search_data != '') {
-                location.href = PATH + "/search/" + search_data
-                return false;
-            }
-
-            return false;
-        })
-
-        $(document).keydown(function (e) {
-            if (e.which == 13) {
-                var search_data = $("#text-search").val();
-
-                if (search_data != '') {
-                    location.href = PATH + "/search/" + search_data
-                    return false;
-                }
-                return false;
-            }
-        });
-
-        $('.input-number').on('input', function () {
-            this.value = this.value.replace(/[^0-9]/g, '');
-        });
-
-        $(".box-client").addClass("back-green");
-        $("#type_stakeholder").val(id);
-        $("#register").click(function () {
-            var elem = $(this);
-            elem.attr("disabled", true);
-            toastr.remove();
-            if (!$("#agree").is(":checked")) {
-                toastr.error("Necesita estar de acuerdo con los terminos Legales");
-                elem.attr("disabled", false);
-                return false;
-            }
-
-            if (isNaN($("#phone").val()) != false) {
-                toastr.error("Numero de telefono");
-                elem.attr("disabled", false);
-                return false;
-            }
-
-            var form = $("#frm");
-
-
-            $.ajax({
-                url: 'newVisitan',
-                method: 'POST',
-                data: form.serialize(),
-                success: function (data) {
-                    if (data.status == true) {
-                        toastr.success("Pronto te estaremos contactando");
-                        $(".in-page").cleanFields();
-                        $("#myModal").modal("hide");
-                    }
-                }, error: function (xhr, ajaxOptions, thrownError) {
-                    toastr.error(xhr.responseJSON.msg);
-                    elem.attr("disabled", false);
-                }
-
-            })
-
-            elem.attr("disabled", false);
-        });
+        
 
         $('#get-checked-data').on('click', function (event) {
             event.preventDefault();

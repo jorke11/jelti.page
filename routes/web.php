@@ -135,7 +135,7 @@ Route::get('/products/{slug_category}', function ($slug_category) {
 
 Auth::routes();
 Route::get('/search', 'PageController@getProducts');
-Route::get('/search/{input}', 'PageController@getProducts');
+//Route::get('/search/{input}', 'PageController@getProducts');
 
 Route::get('/getComment/{id}', 'Ecommerce\ShoppingController@getComment');
 Route::get('/getCounter', 'Ecommerce\PaymentController@getOrdersCurrent');

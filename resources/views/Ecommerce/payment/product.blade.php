@@ -180,7 +180,7 @@
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" 
-                                  onclick="obj.addProduct('{{$product->short_description}}',
+                                  onclick="objCounter.addProduct('{{$product->short_description}}',
                                   '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->thumbnail)}}','{{$product->tax}}')"
                                   style="background-color: #30c594;color:white;cursor: pointer">+</span>
                         </div>

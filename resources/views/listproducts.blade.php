@@ -110,7 +110,7 @@
                                            border: 1px solid #5baf98;
                                            cursor: pointer;
                                            margin-right: 5%;"
-                                           onclick="obj.addProduct('{{$value->short_description}}',
+                                           onclick="objCounter.addProduct('{{$value->short_description}}',
                                            '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}'); return false;"
                                            >
                                             <svg id="i-plus" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">

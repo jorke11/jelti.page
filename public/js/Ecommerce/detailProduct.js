@@ -22,20 +22,6 @@ function detailProduct() {
 //        db = firebase.firebase();
 
 //        this.getDataFirebase()
-        this.getData()
-        $(window).scroll(function () {
-
-            if ($(this).scrollTop() > 0) {
-                $("#main-menu-id").removeClass("main-menu").addClass("main-menu-out");
-//                $("#slider-main").removeClass("main-slider");
-                $('.go-top').slideDown(300);
-            } else {
-                $("#main-menu-id").addClass("main-menu").removeClass("main-menu-out");
-//                $("#slider-main").addClass("main-slider");
-                $('.go-top').slideUp(300);
-
-            }
-        });
 
         $("#addComment").click(this.addComment);
         $("#AddProduct").click(this.addProduct);
@@ -48,71 +34,6 @@ function detailProduct() {
     this.registerClient = function () {
         $("#myModal").modal("show");
     }
-
-    this.setData = function (data) {
-        $("#badge-quantity").html(data.quantity)
-
-        var html = '';
-
-        data.detail.forEach((row, index) => {
-
-            if (index < 4) {
-
-                html += `
-                            <div class="row mb-3">
-                                <div class="col-4">
-                                        <img class="img-fluid"  src="${PATH + "/" + row.thumbnail}" alt="Card image cap">
-                                </div>
-                                <div class="col-8">
-                                    <p>${row.product} <br>
-                                    Precio <b>${$.formatNumber(parseInt(row.price_sf), "$")}</b><br>
-                                    Cantidad <b>${row.quantity}</b></p>
-                                </div>
-                            </div>
-                            `;
-            }
-        })
-
-        html += ` 
-                <div class="row">
-                    <div class="col-12 text-center">
-                         Item total:${data.detail.length}
-                    <div>   
-                <div>   
-                
-                <div class="row">
-                    <div class="col-12">
-                         <form action="/payment" method="GET">
-                            <button class="btn btn-outline-success my-2 my-sm-0 btn-sm form-control" type="submit">Checkout</button>
-                        </form>
-                    <div>   
-                </div>`
-
-        $("#popover-content").html(html);
-    }
-
-    this.getData = function () {
-        var param = {};
-        if (user_id) {
-
-            $.ajax({
-                url: PATH + '/getCounter/' + $("#slug_product").val(),
-                data: param,
-                method: 'GET',
-                success: function (data) {
-                    obj.setData(data);
-
-                    $("#quantity").val(data.row.quantity)
-                }, error: function (xhr, ajaxOptions, thrownError) {
-//                toastr.error(xhr.responseJSON.msg);
-//                elem.attr("disabled", false);
-                }
-
-            })
-        }
-    }
-
-
 
     this.getDataFirebase = function () {
         db.collection(user_id)
@@ -183,7 +104,6 @@ function detailProduct() {
                 headers: {'X-CSRF-TOKEN': token},
                 data: row,
                 success: function (data) {
-                    obj.setData(data);
                     $("#quantity").val(data.row.quantity)
                 }, error: function (xhr, ajaxOptions, thrownError) {
 
@@ -239,50 +159,6 @@ function detailProduct() {
                 .catch(function (error) {
                     console.log("Error getting documents: ", error);
                 });
-    }
-
-
-    this.addProduct = function (title, slug, product_id, price_sf, img, tax) {
-        var token = $("input[name=_token]").val();
-        var row = {
-            quantity: 1,
-            title: title,
-            product_id: product_id,
-            price_sf: price_sf,
-            img: img,
-            tax: tax
-        }
-        if (user_id) {
-            $.ajax({
-                url: PATH + '/addProduct/' + slug,
-                method: 'PUT',
-                headers: {'X-CSRF-TOKEN': token},
-                data: row,
-                success: function (data) {
-                    obj.setData(data);
-                    $("#quantity").val(data.row.quantity)
-                }, error: function (xhr, ajaxOptions, thrownError) {
-
-                }
-
-            })
-        } else {
-            $("#myModal").modal("show");
-        }
-    }
-
-
-
-    this.getQuantity = function () {
-        var html = "";
-        $.ajax({
-            url: PATH + '/getCounter',
-            method: 'GET',
-            dataType: 'JSON',
-            success: function (data) {
-                $("#quantityOrders").html(data.quantity);
-            }
-        })
     }
 
     this.getComment = function () {

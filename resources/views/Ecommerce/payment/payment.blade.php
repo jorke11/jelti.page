@@ -9,6 +9,9 @@
             <div class="alert alert-danger">{{Session::get('error')}}</div>
         </div>
     </div>
+    <scrip>
+        objCounter.getData();
+    </scrip>
     @endif
 
     <p style="background:url(https://maf.pagosonline.net/ws/fp?id={{$deviceSessionId_concat}})"></p>

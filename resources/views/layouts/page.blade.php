@@ -245,8 +245,8 @@ clearstatcache();
 
         });</script>
 
-</html>
 
+</html>
 <?php if ($exibirModal === true) : // Si nuestra variable de control "$exibirModal" es igual a TRUE activa nuestro modal y será visible a nuestro usuario.            ?>
     <script>
         $(function () {
@@ -255,5 +255,5 @@ clearstatcache();
     </script>
 <?php endif; ?>
 
-
+    {!!Html::script('js/Page/counter.js')!!}
 <link href="{{ asset('/css/fonts.css') }}" rel="stylesheet" type="text/css">
