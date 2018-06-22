@@ -522,7 +522,12 @@ class PaymentController extends Controller {
             DB::beginTransaction();
             $in = $req->all();
 
-
+            
+            
+            if (date("m") > $in["month"]) {
+                return back()->with("error", "Fecha vencimiento de tarjeta no es valida");
+            }
+            
             $country = $in["country_id"];
             $in["expirate"] = $in["year"] . "/" . $in["month"];
 
@@ -553,7 +558,7 @@ class PaymentController extends Controller {
                 $merchantId = "508029";
                 $accountId = "512321";
                 $referenceCode = 'invoice_' . microtime();
-                
+
                 $TX_VALUE = round($data_order["header"]["total"]);
                 $TX_TAX = 0;
                 $TX_TAX_RETURN_BASE = 0;
@@ -746,8 +751,7 @@ class PaymentController extends Controller {
                             $error = "Por favor verifique la informacion de la Tarjeta de credito, vuelve a intentarlo. Orden Id #" . $arr["transactionResponse"]["orderId"] . "";
                         } else {
                             $error = $arr["transactionResponse"]["responseMessage"];
-                            
-                        }   
+                        }
                         DB::rollback();
                     } else {
                         $error = $arr["error"];
