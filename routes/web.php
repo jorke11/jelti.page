@@ -113,7 +113,7 @@ Route::get('/products/{slug_category}', function ($slug_category) {
 
 
 
-    return DB::select($sql);
+//    return DB::select($sql);
 
 
     $products = DB::table("vproducts")->whereNotNull("image")->whereNotNull("thumbnail")->whereNotNull("warehouse")->orderBy("title", "desc")->paginate(16);
