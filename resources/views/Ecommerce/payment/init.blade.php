@@ -118,7 +118,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label for="tgarjeta">Nombre como aparece en la tarjeta</label>
-                                                <input type="text" class="form-control form-control-sm input input-payment input-alpha" id="name" name="name" placeholder="Nombre como aparece en la tarjeta" required autocomplete="off" maxlength="15">
+                                                <input type="text" class="form-control form-control-sm input input-payment input-alpha" id="name" name="name" placeholder="Nombre como aparece en la tarjeta" required autocomplete="off" maxlength="150">
                                             </div>
                                         </div>
                                     </div>
