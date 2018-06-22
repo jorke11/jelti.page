@@ -528,7 +528,6 @@ class PaymentController extends Controller {
 
             $data_order = $this->createOrder();
 
-            dd($data_order);
             $client = Stakeholder::where("email", Auth::user()->email)->first();
 
             $city = \App\Models\Administration\Cities::find($client->city_id);
