@@ -511,6 +511,7 @@ class PaymentController extends Controller {
         $param["detail"] = $this->formatDetailOrder($row);
         $param["header"]["total"] = $this->total;
         $param["header"]["tax19"] = $this->tax19;
+        $param["header"]["tax5"] = $this->tax5;
 //        
         return $param;
     }
@@ -527,7 +528,7 @@ class PaymentController extends Controller {
 
             $data_order = $this->createOrder();
 
-
+            dd($data_order);
             $client = Stakeholder::where("email", Auth::user()->email)->first();
 
             $city = \App\Models\Administration\Cities::find($client->city_id);
@@ -554,7 +555,7 @@ class PaymentController extends Controller {
                 $accountId = "512321";
                 $referenceCode = 'invoice_' . microtime();
                 
-                $TX_VALUE = round($data_order["header"]["tax19"]);
+                $TX_VALUE = round($data_order["header"]["total"]);
                 $TX_TAX = 0;
                 $TX_TAX_RETURN_BASE = 0;
 
