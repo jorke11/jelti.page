@@ -1,5 +1,5 @@
 function Payment() {
-    var user_id;
+    var user_id, detail = [], lengthArr = 3;
     this.init = function () {
 
 
@@ -38,6 +38,8 @@ function Payment() {
             }
         })
 
+        $("#btnShowAll").click(this.printDetailAll)
+
 
         $("#btnPayU").click(this.payu);
 //        this.getDetail();
@@ -60,7 +62,95 @@ function Payment() {
 
 //        this.getDataFirebase()
         this.getData()
+    }
 
+    this.printDetailAll = function () {
+
+        var btn = '';
+
+        if (lengthArr > 3) {
+            lengthArr = 3;
+            btn = `
+            <svg id="i-chevron-bottom" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <path d="M30 12 L16 24 2 12" />
+                        </svg>
+                `
+            $("#btnShowAll").html("Ver todo " + btn);
+            $('body, html').animate({
+                scrollTop: '0px'
+            }, 300);
+        } else {
+            btn = `
+                <svg id="i-chevron-top" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                    <path d="M30 20 L16 8 2 20" />
+                </svg>`
+            $("#btnShowAll").html("Ocultar items " + btn);
+            lengthArr = detail.length;
+
+        }
+
+        obj.printDetail()
+    }
+
+
+
+    this.printDetail = function () {
+        var html = '';
+
+        for (var i = 0; i < lengthArr; i++) {
+            html += `
+                            <div class="card mb-2" id='card_${i}' style="border-radius:15px">
+                                <div class="card-body" style="padding-bottom:1%;padding-right:8%">
+                                    <div class="row">
+                                        <div class="col-12 text-right"><button type="button" class="close"  aria-label="Close" style="padding-right:1%" 
+                                        onclick=obj.deleteItem('${detail[i].slug}','${i}')><span aria-hidden="true">&times;</span></button></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <img src="${PATH + "/" + detail[i].thumbnail}" style="width:95%" class="img-fluid"/>
+                                        </div>
+                                        <div class="col-7">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div>
+                                                        <span style="color:#827b7b">${detail[i].supplier}</span><br>
+                                                        <span style="font-size:20px">${detail[i].product}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="detail[i]" style="padding-top:10%">
+                                                <div class="col" >
+                                                    <p>${$.formatNumber(detail[i].price_sf, "$")}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 align-middle" style="padding-top:2%">
+                                            <div class="row">
+                                                <div class="input-group mb-3 ">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" 
+                                                                onclick="objCounter.addProduct('${detail[i].product}',
+                                                                '${detail[i].slug}','${detail[i].product_id}',
+                                                                '${detail[i].price_sf}}','${detail[i].thumbnail}','${detail[i].tax}')"
+                                                            style="background-color: #30c594;color:white;cursor: pointer">+</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="quantity" name="quantity" value="${detail[i].quantity}" type="number">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text" onclick="obj.delete('{{$product->short_description}}',
+                                                            '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->thumbnail)}}','{{$product->tax}}')" style="background-color: #30c594;color:white;cursor: pointer">-</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          
+                        `;
+
+        }
+
+        $("#content-detail").html(html);
     }
 
     this.setSelectCity = function (department_id) {
@@ -149,60 +239,63 @@ function Payment() {
     this.setListDetail = function (data, all = false) {
 
         var html = '';
-        data.detail.forEach((row, index) => {
+        detail = data.detail
 
-            if (index < 3) {
-                console.log(row)
-                html += `
-                            <div class="card mb-2" id='card_${index}' style="border-radius:15px">
-                                <div class="card-body" style="padding-bottom:1%;padding-right:8%">
-                                    <div class="row">
-                                        <div class="col-12 text-right"><button type="button" class="close"  aria-label="Close" style="padding-right:1%" onclick=obj.deleteItem('${row.slug}','${index}')><span aria-hidden="true">&times;</span></button></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-2">
-                                            <img src="${PATH + "/" + row.thumbnail}" style="width:95%" class="img-fluid"/>
-                                        </div>
-                                        <div class="col-7">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <div>
-                                                        <span style="color:#827b7b">${row.supplier}</span><br>
-                                                        <span style="font-size:20px">${row.product}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row" style="padding-top:10%">
-                                                <div class="col" >
-                                                    <p>${$.formatNumber(row.price_sf, "$")}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-3 align-middle" style="padding-top:2%">
-                                            <div class="row ">
-                                                <div class="input-group mb-3 ">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" 
-                                                                onclick="objCounter.addProduct('${row.product}',
-                                                                '${row.slug}','${row.product_id}',
-                                                                '${row.price_sf}}','${row.thumbnail}','${row.tax}')"
-                                                            style="background-color: #30c594;color:white;cursor: pointer">+</span>
-                                                    </div>
-                                                    <input type="text" class="form-control" id="quantity" name="quantity" value="${row.quantity}" type="number">
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text" onclick="obj.delete('{{$product->short_description}}',
-                                                            '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->thumbnail)}}','{{$product->tax}}')" style="background-color: #30c594;color:white;cursor: pointer">-</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                          
-                        `;
-            }
-        })
+        this.printDetail(3)
+
+//        data.detail.forEach((row, index) => {
+//
+//            if (index < 3) {
+//                html += `
+//                            <div class="card mb-2" id='card_${index}' style="border-radius:15px">
+//                                <div class="card-body" style="padding-bottom:1%;padding-right:8%">
+//                                    <div class="row">
+//                                        <div class="col-12 text-right"><button type="button" class="close"  aria-label="Close" style="padding-right:1%" onclick=obj.deleteItem('${row.slug}','${index}')><span aria-hidden="true">&times;</span></button></div>
+//                                    </div>
+//                                    <div class="row">
+//                                        <div class="col-2">
+//                                            <img src="${PATH + "/" + row.thumbnail}" style="width:95%" class="img-fluid"/>
+//                                        </div>
+//                                        <div class="col-7">
+//                                            <div class="row">
+//                                                <div class="col">
+//                                                    <div>
+//                                                        <span style="color:#827b7b">${row.supplier}</span><br>
+//                                                        <span style="font-size:20px">${row.product}</span>
+//                                                    </div>
+//                                                </div>
+//                                            </div>
+//                                            <div class="row" style="padding-top:10%">
+//                                                <div class="col" >
+//                                                    <p>${$.formatNumber(row.price_sf, "$")}</p>
+//                                                </div>
+//                                            </div>
+//                                        </div>
+//                                        <div class="col-3 align-middle" style="padding-top:2%">
+//                                            <div class="row ">
+//                                                <div class="input-group mb-3 ">
+//                                                    <div class="input-group-prepend">
+//                                                        <span class="input-group-text" 
+//                                                                onclick="objCounter.addProduct('${row.product}',
+//                                                                '${row.slug}','${row.product_id}',
+//                                                                '${row.price_sf}}','${row.thumbnail}','${row.tax}')"
+//                                                            style="background-color: #30c594;color:white;cursor: pointer">+</span>
+//                                                    </div>
+//                                                    <input type="text" class="form-control" id="quantity" name="quantity" value="${row.quantity}" type="number">
+//                                                    <div class="input-group-append">
+//                                                        <span class="input-group-text" onclick="obj.delete('{{$product->short_description}}',
+//                                                            '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->thumbnail)}}','{{$product->tax}}')" style="background-color: #30c594;color:white;cursor: pointer">-</span>
+//                                                    </div>
+//                                                </div>
+//                                            </div>
+//                                        </div>
+//                                    </div>
+//                                </div>
+//                            </div>
+//                          
+//                        `;
+//            }
+//        })
 
         if (data.total < 10000) {
             $("#btnPay").attr("disabled", true)
@@ -219,7 +312,7 @@ function Payment() {
         $("#totalOrder").html($.formatNumber(parseInt(data.total), "$"))
         $("#subtotalOrder").html($.formatNumber(parseInt(data.subtotal), "$"))
         $("#badge-quantity").html(data.quantity)
-        $("#content-detail").html(html);
+
 
         if ((data.detail).length > 3) {
             $("#btnShowAll").removeClass("d-none")
