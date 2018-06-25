@@ -371,6 +371,8 @@ class PaymentController extends Controller {
         $years = $this->getYears();
 
         $data = $this->getDataPayment();
+        $client = $data["client"];
+        
 
         $countries = $data["countries"];
         $categories = $data["categories"];
@@ -380,8 +382,9 @@ class PaymentController extends Controller {
 
         $deviceSessionId = $data["deviceSessionId"];
         $deviceSessionId_concat = $data["deviceSessionId_concat"];
+        $dietas=$this->dietas;
 
-        return view("Ecommerce.payment.payment", compact("id", "categories", "client", "month", "years", "total", "countries", "subtotal", "deviceSessionId", "deviceSessionId_concat"));
+        return view("Ecommerce.payment.payment", compact("id", "categories", "client", "month", "years", "total", "countries", "subtotal", "deviceSessionId", "deviceSessionId_concat","dietas"));
     }
 
     public function getDataPayment() {
@@ -391,7 +394,7 @@ class PaymentController extends Controller {
 
         $user = Users::find($order->insert_id);
 
-        $client = Stakeholder::find($user->stakeholder_id);
+        $data["client"] = Stakeholder::find($user->stakeholder_id);
 
         $detail = $this->formatDetailOrder($order);
 
@@ -406,7 +409,7 @@ class PaymentController extends Controller {
             $data["categories"] = $this->categories;
 
             $data["id"] = $order->id;
-            $data["term"] = $client->term;
+            $data["term"] = $data["client"]->term;
             $data["total"] = "$" . number_format($this->total, 0, ",", ".");
             $data["subtotal"] = "$" . number_format($this->subtotal, 0, ",", ".");
         }

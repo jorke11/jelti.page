@@ -41,7 +41,7 @@ function Payment() {
         $("#btnShowAll").click(this.printDetailAll)
 
 
-        $("#btnPayU").click(this.payu);
+//        $("#btnPayU").click(this.payu);
 //        this.getDetail();
 //        this.getQuantity();
 
@@ -269,9 +269,9 @@ function Payment() {
     }
 
 
-    this.payu = function () {
-        window.location.href = PATH + "/selectPay"
-    }
+//    this.payu = function () {
+//        window.location.href = PATH + "/selectPay"
+//    }
 
     this.redirectProduct = function (url) {
         window.location = PATH + "/productDetail/" + url;
