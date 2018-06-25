@@ -35,8 +35,7 @@ function Detail() {
 
 //        this.getDataFireStore();
 
-
-
+        $("#main-menu-id").css("background-color", "rgba(0,0,0,0)")
         $('#get-checked-data').on('click', function (event) {
             event.preventDefault();
             var checkedItems = {}, counter = 0;
@@ -248,7 +247,7 @@ function Detail() {
         $("#myModal").modal("show");
     }
 
-   
+
 
 
     this.redirectProduct = function (url) {

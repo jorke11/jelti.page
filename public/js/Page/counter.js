@@ -28,12 +28,23 @@ function Counter() {
         user_id = $("#user_id").val();
         this.getData();
 
+        $(".list-category").each(function () {
+            var elem = $(this);
+
+            if (elem.is(":checked")) {
+                console.log(elem.val());
+            }
+            
+        })
+
 
         $(window).scroll(function () {
 
             //Efect when down scroll
             if ($(this).scrollTop() > 0) {
+
                 $("#main-menu-id").removeClass("main-menu").addClass("main-menu-out");
+//                $("#main-menu-id").removeClass("main-menu");
 //                $("#slider-main").removeClass("main-slider");
 //                $("#popover220259").css({"transform": "translate3d(1493px,  337px, 0px)"})
                 $('.go-top').slideDown(300);
@@ -41,6 +52,7 @@ function Counter() {
 
                 $("#content-menu").height(500)
             } else {
+
                 $(".popover").css("transform", "translate3d(1493px, 110px, 0px)")
                 $("#main-menu-id").addClass("main-menu").removeClass("main-menu-out");
 //                $("#slider-main").addClass("main-slider");
@@ -212,7 +224,7 @@ function Counter() {
                                     <div class="card-body" style="padding:5%">
                                         <div class="row">
                                             <div class="col-4">
-                                                    <img class="img-fluid"  src="${PATH + "/"+row.thumbnail}" alt="Card image cap" style="max-width: 160%;">
+                                                    <img class="img-fluid"  src="${PATH + "/" + row.thumbnail}" alt="Card image cap" style="max-width: 160%;">
                                             </div>
                                             <div class="col-8">
                                                 <p>${row.product} <br>

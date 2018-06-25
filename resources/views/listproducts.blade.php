@@ -3,9 +3,9 @@
 
 @section('content')
 {!!Html::style('/css/page.css')!!}
-    
+
 <section id="content-menu">
-    <div class="container-fluid" style="padding-left: 0; padding-right: 0;position:relative;top: -150px">
+    <div class="container-fluid" style="padding-left: 0; padding-right: 0;position:relative;top: -160px">
         <section id="slider-main" class="main-slider">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
@@ -21,7 +21,7 @@
 </section>
 
 <section>
-    <div class="container-fluid" style="padding-left: 0; padding-right: 0">
+    <div class="container-fluid" style="padding-left: 0; padding-right: 0;position:relative;top:-100px">
         <div class="row center-block" style="margin-right: 0;padding-top:1%">
             <div class="col-2 offset-1">
                 <div class="row center-block" id="categories-filter">
@@ -47,7 +47,7 @@
                                                 {{ucwords(strtolower($val->description))}}
                                             </div>
                                             <div class="col-2">
-                                                <input type="checkbox" class="form-control" name="categories[]" <?php echo $check ?> value="{{$val->slug}}" onclick="obj.reloadCategories('{{$val->slug}}')">
+                                                <input type="checkbox" class="form-control list-category" name="categories[]" <?php echo $check ?> value="{{$val->slug}}" onclick="obj.reloadCategories('{{$val->slug}}')">
                                             </div>
                                         </div>
 
@@ -139,7 +139,7 @@
                                                 </svg>
                                             </p>
 
-                                                                                                                                                                                                        <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                                                                                                                                                                                <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                             @guest
                                             <button class="btn btn-info" type="button" onclick="obj.registerClient()">
                                                 Registrate como cliente

@@ -206,19 +206,17 @@ class PaymentController extends Controller {
         if ($order == null) {
             $new["insert_id"] = Auth::user()->id;
             $new["status_id"] = 1;
-            $order_id = Orders::create($new)->id;
-        } else {
-            $order_id = $order->id;
+            $order = Orders::create($new);
         }
 
-        if ($order_id != null) {
+        if ($order != null) {
 
             $pro = Products::find($in["product_id"]);
 
             $detPro = OrdersDetail::where("product_id", $pro->id)->where("order_id", $order->id)->first();
 
             $det["product_id"] = $pro->id;
-            $det["order_id"] = $order_id;
+            $det["order_id"] = $order->id;
             $det["tax"] = $in["tax"];
             $det["units_sf"] = $pro->units_sf;
             $det["packaging"] = $pro->packaging;

@@ -23,7 +23,7 @@
         position: relative;
         transition: all 1s ease;
         background-repeat: no-repeat;
-        background-position-y: -50px;
+        background-position-y: -55px;
 
     }
 

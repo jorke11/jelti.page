@@ -97,8 +97,9 @@ function Payment() {
     this.printDetail = function () {
         var html = '';
 
-        for (var i = 0; i < lengthArr; i++) {
-            html += `
+        for (var i = 0; i < lengthArr - 1; i++) {
+            if (detail[i] != undefined) {
+                html += `
                             <div class="card mb-2" id='card_${i}' style="border-radius:15px">
                                 <div class="card-body" style="padding-bottom:1%;padding-right:8%">
                                     <div class="row">
@@ -147,6 +148,7 @@ function Payment() {
                             </div>
                           
                         `;
+            }
 
         }
 

@@ -33,7 +33,7 @@ clearstatcache();
 
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
         <meta name="keywords" content="organico,saludable">
-        <meta name="description" content="Your website does not contain an XML sitemap and that can weaken your SEO.">
+        <meta name="description" content="Superfuds.">
         <!-- Styles -->
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -49,6 +49,10 @@ clearstatcache();
         <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
         <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
         <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
+        
+        
+        {!!Html::script('/vendor/toastr/toastr.min.js')!!}
+        {!!Html::style('/vendor/toastr/toastr.min.css')!!}
 
         {!!Html::style('/css/page.css')!!}
         {!!Html::script('/vendor/plugins.js')!!}
