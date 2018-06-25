@@ -150,7 +150,8 @@ class PaymentController extends Controller {
 
     public function congratulations() {
         $categories = $this->categories;
-        return view("congratulations", compact("categories"));
+        $dietas = $this->dietas;
+        return view("congratulations", compact("categories", "dietas"));
     }
 
     public function getMethodsPayments() {
@@ -522,12 +523,12 @@ class PaymentController extends Controller {
             DB::beginTransaction();
             $in = $req->all();
 
-            
-            
+
+
             if (date("m") > $in["month"]) {
                 return back()->with("error", "Fecha vencimiento de tarjeta no es valida");
             }
-            
+
             $country = $in["country_id"];
             $in["expirate"] = $in["year"] . "/" . $in["month"];
 
@@ -719,7 +720,7 @@ class PaymentController extends Controller {
                 if ($arr["transactionResponse"]["responseCode"] == 'APPROVED') {
                     $dep = $this->depObj->processDeparture($data_order["header"], $data_order["detail"])->getData();
 
-                    $row = Departures::find($dep->id);
+                    $row = Departures::find($dep->header->id);
                     $row->paid_out = true;
                     $row->type_request = "ecommerce";
                     $row->save();
@@ -732,7 +733,7 @@ class PaymentController extends Controller {
                     return redirect('congratulations')->with("success", 'Compra Realizada! Orden #' . $arr["transactionResponse"]["orderId"]);
                 } else if ($arr["transactionResponse"]["state"] == 'PENDING') {
                     $dep = $this->depObj->processDeparture($data_order["header"], $data_order["detail"])->getData();
-                    $row = Departures::find($dep->id);
+                    $row = Departures::find($dep->header->id);
                     $row->paid_out = false;
                     $row->type_request = "ecommerce";
                     $row->save();

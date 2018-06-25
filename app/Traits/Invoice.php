@@ -242,8 +242,8 @@ trait Invoice {
                 }
 
 
-//                $detail = json_decode(json_encode($detail), true);
-                return $detail;
+                return json_decode(json_encode($detail), true);
+//                return $detail;
             } else {
                 return null;
             }
