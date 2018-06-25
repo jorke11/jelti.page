@@ -127,7 +127,6 @@
             </div>
 
             @if(Session::has('success'))
-            
             <div class="row center-block justify-content-center">
                 <div class="col-6">
                     <div class="card">
@@ -141,11 +140,15 @@
                                         <!--<div class="alert alert-success"><strong> {{Session::get('success')}}</strong></div>-->
                 </div>
             </div>
+            @else
+            <?php
+            header('Location: http://www.superfuds.com/');
+            ?>
             @endif
 
             <div class="row center-block justify-content-center" style="margin-top: 1%;margin-bottom: 5%">
                 <div class="col-3">
-                    <button class="btn btn-success text-center form-control" type="button" id="keepbuying">Seguir Comprando</button>
+                    <a href="{{url("/")}}" class="btn btn-success text-center form-control">Seguir Comprando</a>
                 </div>
             </div>
 

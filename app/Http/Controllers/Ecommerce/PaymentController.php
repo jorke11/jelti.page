@@ -203,7 +203,6 @@ class PaymentController extends Controller {
         $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
 
 
-
         if ($order == null) {
             $new["insert_id"] = Auth::user()->id;
             $new["status_id"] = 1;
