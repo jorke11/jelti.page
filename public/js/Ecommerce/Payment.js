@@ -96,8 +96,8 @@ function Payment() {
 
     this.printDetail = function () {
         var html = '';
-
-        for (var i = 0; i < lengthArr - 1; i++) {
+        
+        for (var i = 0; i < lengthArr; i++) {
             if (detail[i] != undefined) {
                 html += `
                             <div class="card mb-2" id='card_${i}' style="border-radius:15px">
@@ -244,60 +244,6 @@ function Payment() {
         detail = data.detail
 
         this.printDetail(3)
-
-//        data.detail.forEach((row, index) => {
-//
-//            if (index < 3) {
-//                html += `
-//                            <div class="card mb-2" id='card_${index}' style="border-radius:15px">
-//                                <div class="card-body" style="padding-bottom:1%;padding-right:8%">
-//                                    <div class="row">
-//                                        <div class="col-12 text-right"><button type="button" class="close"  aria-label="Close" style="padding-right:1%" onclick=obj.deleteItem('${row.slug}','${index}')><span aria-hidden="true">&times;</span></button></div>
-//                                    </div>
-//                                    <div class="row">
-//                                        <div class="col-2">
-//                                            <img src="${PATH + "/" + row.thumbnail}" style="width:95%" class="img-fluid"/>
-//                                        </div>
-//                                        <div class="col-7">
-//                                            <div class="row">
-//                                                <div class="col">
-//                                                    <div>
-//                                                        <span style="color:#827b7b">${row.supplier}</span><br>
-//                                                        <span style="font-size:20px">${row.product}</span>
-//                                                    </div>
-//                                                </div>
-//                                            </div>
-//                                            <div class="row" style="padding-top:10%">
-//                                                <div class="col" >
-//                                                    <p>${$.formatNumber(row.price_sf, "$")}</p>
-//                                                </div>
-//                                            </div>
-//                                        </div>
-//                                        <div class="col-3 align-middle" style="padding-top:2%">
-//                                            <div class="row ">
-//                                                <div class="input-group mb-3 ">
-//                                                    <div class="input-group-prepend">
-//                                                        <span class="input-group-text" 
-//                                                                onclick="objCounter.addProduct('${row.product}',
-//                                                                '${row.slug}','${row.product_id}',
-//                                                                '${row.price_sf}}','${row.thumbnail}','${row.tax}')"
-//                                                            style="background-color: #30c594;color:white;cursor: pointer">+</span>
-//                                                    </div>
-//                                                    <input type="text" class="form-control" id="quantity" name="quantity" value="${row.quantity}" type="number">
-//                                                    <div class="input-group-append">
-//                                                        <span class="input-group-text" onclick="obj.delete('{{$product->short_description}}',
-//                                                            '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->thumbnail)}}','{{$product->tax}}')" style="background-color: #30c594;color:white;cursor: pointer">-</span>
-//                                                    </div>
-//                                                </div>
-//                                            </div>
-//                                        </div>
-//                                    </div>
-//                                </div>
-//                            </div>
-//                          
-//                        `;
-//            }
-//        })
 
         if (data.total < 10000) {
             $("#btnPay").attr("disabled", true)

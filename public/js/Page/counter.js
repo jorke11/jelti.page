@@ -216,7 +216,7 @@ function Counter() {
         if (data.detail != false) {
             data.detail.forEach((row, index) => {
 
-                if (index < 4) {
+                if (index < 3) {
 
                     html += `
                             <div class="row mb-3">
