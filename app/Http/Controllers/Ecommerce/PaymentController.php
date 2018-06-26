@@ -22,6 +22,7 @@ use App\Models\Administration\Products;
 use App\Traits\ValidateCreditCard;
 use App\Models\Administration\Categories;
 use App\Models\Administration\ProductsImage;
+use Cookie;
 //Firebase
 //use Kreait\Firebase\Factory;
 //use Kreait\Firebase\ServiceAccount;
@@ -84,6 +85,15 @@ class PaymentController extends Controller {
     }
 
     public function index() {
+
+//        $cookie = cookie('name', 'value', 100);
+//        dd($cookie);
+//
+//        dd(response('Hello World')->cookie($cookie));
+
+//        Cookie::make('name', "ada", 360);
+//        dd(Cookie::get('name'));
+//        dd($_COOKIE["jelti_session"]);
 
         $month = $this->getMonts();
         $years = $this->getYears();
@@ -372,7 +382,7 @@ class PaymentController extends Controller {
 
         $data = $this->getDataPayment();
         $client = $data["client"];
-        
+
 
         $countries = $data["countries"];
         $categories = $data["categories"];
@@ -382,9 +392,9 @@ class PaymentController extends Controller {
 
         $deviceSessionId = $data["deviceSessionId"];
         $deviceSessionId_concat = $data["deviceSessionId_concat"];
-        $dietas=$this->dietas;
+        $dietas = $this->dietas;
 
-        return view("Ecommerce.payment.payment", compact("id", "categories", "client", "month", "years", "total", "countries", "subtotal", "deviceSessionId", "deviceSessionId_concat","dietas"));
+        return view("Ecommerce.payment.payment", compact("id", "categories", "client", "month", "years", "total", "countries", "subtotal", "deviceSessionId", "deviceSessionId_concat", "dietas"));
     }
 
     public function getDataPayment() {
@@ -439,32 +449,6 @@ class PaymentController extends Controller {
 
         return $month;
     }
-
-//    public function getDetailData() {
-//        $detail = null;
-//        if (Auth::user() != null) {
-//            $this->order = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
-//            if ($this->order != null) {
-//                $this->order_id = $this->order->id;
-//                $sql = "
-//                SELECT p.title product,s.business as supplier,d.product_id,d.order_id,sum(d.quantity) quantity,d.price_sf as value,sum(d.quantity * d.price_sf) total,
-//                p.image,p.thumbnail,
-//                d.units_sf,d.tax
-//                FROM orders_detail d
-//                    LEFT JOIN vproducts p ON p.id=d.product_id
-//                    LEFT JOIN stakeholder s ON s.id=p.supplier_id
-//                WHERE order_id=" . $this->order->id . "
-//                GROUP BY 1,2,3,4,d.units_sf,product_id,p.image,d.tax,p.thumbnail,d.price_sf
-//                ORDER BY 1";
-//                $detail = DB::select($sql);
-//
-//                $detail = json_decode(json_encode($detail), true);
-//                return $detail;
-//            } else {
-//                return null;
-//            }
-//        }
-//    }
 
     public function setQuantity(Request $req, $order_id) {
         $in = $req->all();
@@ -522,8 +506,10 @@ class PaymentController extends Controller {
         try {
             DB::beginTransaction();
             $in = $req->all();
+//            setcookie('month', 'some value', time() + 60 * 60 * 24 * 365);
 
-
+//            dd($_COOKIE['month']);
+//            echo Request::cookie('devicesessionid');exit;
 
             if (date("m") > $in["month"]) {
                 return back()->with("error", "Fecha vencimiento de tarjeta no es valida");
@@ -686,7 +672,7 @@ class PaymentController extends Controller {
 //            "deviceSessionId" => "vghs6tvkcle931686k1900o6e1",
                     "deviceSessionId" => $deviceSessionId,
                     "ipAddress" => $_SERVER["REMOTE_ADDR"],
-                    "cookie" => "",
+                    "cookie" => "pt1t38347bs6jc9ruv2ecpv7o2",
 //                "userAgent" => "Mozilla/5.0 (Windows NT 5.1; rv:18.0) Gecko/20100101 Firefox/18.0"
                     "userAgent" => $_SERVER["HTTP_USER_AGENT"]
                 );

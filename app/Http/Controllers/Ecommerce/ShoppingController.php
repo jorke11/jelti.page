@@ -25,9 +25,10 @@ class ShoppingController extends Controller {
     public $tax5;
     public $tax19;
     public $dietas;
+    public $user;
 
     public function __construct() {
-//        $this->middleware("auth");
+        $this->middleware("auth");
         $this->stock = new StockController();
 
         $this->dietas = array(
@@ -44,11 +45,17 @@ class ShoppingController extends Controller {
         $this->subtotal = 0;
         $this->tax5 = 0;
         $this->tax19 = 0;
+        
+//        dd(Auth::user());
+
+//        $this->user = \App\User::find(Auth::user()->id);
+//        dd($this->user);
+//        $this->client = DB::table("vclient")->where("id", $this->user->stakeholder_id)->first();
     }
 
     public function index() {
-        $categories=[];
-        return view("Ecommerce.shopping.init",compact("categories"));
+        $categories = [];
+        return view("Ecommerce.shopping.init", compact("categories"));
     }
 
     public function getDetailProduct($id) {
@@ -313,8 +320,7 @@ class ShoppingController extends Controller {
     }
 
     public function getMyProfile() {
-        $user = \App\User::find(Auth::user()->id);
-        $client = DB::table("vclient")->where("id", $user->stakeholder_id)->first();
+
 
 
         $sql = "select count(*) quantity, sum(subtotalnumeric) total from vdepartures where client_id=$user->stakeholder_id and status_id IN(2,7)";
@@ -331,9 +337,18 @@ class ShoppingController extends Controller {
     }
 
     public function getMyOrders() {
-        $categories=[];
-        $dietas=[];
-        return view("Ecommerce.shopping.orders", compact("product","categories","dietas"));
+        $categories = [];
+        $dietas = [];
+
+        $sql = "
+             SELECT *
+             FROM vdepartures where client_id=" . $client->id;
+
+        $list = DB::select($sql);
+
+        dd($list);
+        
+        return view("Ecommerce.shopping.orders", compact("product", "categories", "dietas", "list"));
     }
 
 }

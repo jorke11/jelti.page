@@ -1,4 +1,4 @@
-@extends('layouts.client')
+@extends('layouts.page')
 @section('content')
 <div class="row" style="padding-bottom: 3%;padding-top: 5%">
     <div class="col-lg-12">
