@@ -14,14 +14,19 @@
     </scrip>
     @endif
 
-    <p style="background:url(https://maf.pagosonline.net/ws/fp?id={{$deviceSessionId_concat}})"></p>
+<!--    <p style="background:url(https://maf.pagosonline.net/ws/fp?id={{$deviceSessionId_concat}})"></p>
 
     <img src="https://maf.pagosonline.net/ws/fp/clear.png?id={{$deviceSessionId_concat}}">
     <script src="https://maf.pagosonline.net/ws/fp/check.js?id={{$deviceSessionId_concat}}"></script>
     <object type="application/x-shockwave-flash" data="https://maf.pagosonline.net/ws/fp/fp.swf?id={{$deviceSessionId_concat}}" width="1" height="1" id="thm_fp">
         <param name="movie" value="https://maf.pagosonline.net/ws/fp/fp.swf?id={{$deviceSessionId_concat}}" />
-    </object>
+    </object>-->
 
+    <script type="text/javascript" src="https://maf.pagosonline.net/ws/fp/tags.js?id={{$deviceSessionId}}80200"></script>
+	<noscript>
+		<iframe style="width: 100px; height: 100px; border: 0; position: absolute; top: -5000px;" src="https://maf.pagosonline.net/ws/fp/tags.js?id={{$deviceSessionId}}80200"></iframe>
+	</noscript>
+    
     <div class="row justify-content-center align-items-center" style="padding-bottom: 5%">
         <div class="col-6">
             <div class="panel panel-default">
