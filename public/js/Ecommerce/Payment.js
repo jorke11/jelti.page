@@ -1,8 +1,8 @@
 function Payment() {
-    var user_id, detail = [], lengthArr = 3;
+    var user_id, detail = [], lengthArr = 3, token = '';
     this.init = function () {
 
-
+        token = $("input[name=_token]").val();
         $("#number").blur(this.validateTarjet);
 
         $('.container-fluid').click(function () {
@@ -96,7 +96,7 @@ function Payment() {
 
     this.printDetail = function () {
         var html = '';
-        
+
         for (var i = 0; i < lengthArr; i++) {
             if (detail[i] != undefined) {
                 html += `
@@ -130,15 +130,14 @@ function Payment() {
                                                 <div class="input-group mb-3 ">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text" 
-                                                                onclick="objCounter.addProduct('${detail[i].product}',
+                                                                onclick="obj.addProduct('${detail[i].product}',
                                                                 '${detail[i].slug}','${detail[i].product_id}',
                                                                 '${detail[i].price_sf}}','${detail[i].thumbnail}','${detail[i].tax}')"
                                                             style="background-color: #30c594;color:white;cursor: pointer">+</span>
                                                     </div>
-                                                    <input type="text" class="form-control" id="quantity" name="quantity" value="${detail[i].quantity}" type="number">
+                                                    <input type="text" class="form-control" id="quantity_${detail[i].product_id}" name="quantity" value="${detail[i].quantity}" type="number">
                                                     <div class="input-group-append">
-                                                        <span class="input-group-text" onclick="obj.delete('{{$product->short_description}}',
-                                                            '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->thumbnail)}}','{{$product->tax}}')" style="background-color: #30c594;color:white;cursor: pointer">-</span>
+                                                        <span class="input-group-text" onclick="obj.deleteUnit('${detail[i].product_id}','${detail[i].slug}',${i})" style="background-color: #30c594;color:white;cursor: pointer">-</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -154,6 +153,87 @@ function Payment() {
 
         $("#content-detail").html(html);
     }
+
+    this.deleteUnit = function (product_id, slug, index) {
+        $("#quantity_" + product_id).val(parseInt($("#quantity_" + product_id).val()) - 1)
+        var row = {
+            quantity: $("#quantity_" + product_id).val(),
+            product_id: product_id
+        }
+
+        $.ajax({
+            url: PATH + '/deleteProductUnit/' + slug,
+            method: 'PUT',
+            headers: {'X-CSRF-TOKEN': token},
+            data: row,
+            success: function (data) {
+//                $("#content-detail").empty();
+                $("#frm #total").val($.formatNumber(data.total, "$"))
+
+                if (data.success == false) {
+                    $("#card_" + index).remove()
+                } else {
+                    objCounter.setData(data);
+                }
+
+                if (parseInt(data.total) > 10000) {
+                    $("#message-mount").addClass("d-none")
+                    $("#btnPayU").attr("disabled", false)
+                } else {
+                    $("#message-mount").removeClass("d-none")
+                    $("#btnPayU").attr("disabled", true)
+                }
+
+
+            }, error: function (xhr, ajaxOptions, thrownError) {
+//                console.log(xhr)
+//                console.log(ajaxOptions)
+//                console.log(thrownError)
+            }
+
+        })
+
+
+    }
+
+    this.addProduct = function (title, slug, product_id, price_sf, img, tax) {
+        $("#quantity_" + product_id).val(parseInt($("#quantity_" + product_id).val()) + 1)
+        var row = {
+            quantity: 1,
+            title: title,
+            product_id: product_id,
+            price_sf: price_sf,
+            img: img,
+            tax: tax
+        }
+        if (user_id) {
+            $.ajax({
+                url: PATH + '/addProduct/' + slug,
+                method: 'PUT',
+                headers: {'X-CSRF-TOKEN': token},
+                data: row,
+                success: function (data) {
+                    objCounter.setData(data);
+                    $("#frm #total").val($.formatNumber(data.total, "$"))
+
+                    if (parseInt(data.total) > 10000) {
+                        $("#message-mount").addClass("d-none")
+                        $("#btnPayU").attr("disabled", false)
+                    } else {
+                        $("#message-mount").removeClass("d-none")
+                        $("#btnPayU").attr("disabled", true)
+                    }
+                }, error: function (xhr, ajaxOptions, thrownError) {
+
+                }
+
+            })
+        } else {
+            $("#myModal").modal("show");
+        }
+    }
+
+
 
     this.setSelectCity = function (department_id) {
         var html = '';
@@ -323,8 +403,17 @@ function Payment() {
             success: function (data) {
 
                 $("#card_" + index).remove()
+                $("#frm #total").val($.formatNumber(data.total, "$"))
                 toastr.success("Item Eliminado");
                 obj.setListDetail(data);
+
+                if (parseInt(data.total) > 10000) {
+                    $("#message-mount").addClass("d-none")
+                    $("#btnPayU").attr("disabled", false)
+                } else {
+                    $("#message-mount").removeClass("d-none")
+                    $("#btnPayU").attr("disabled", true)
+                }
             }
         })
 

@@ -31,6 +31,8 @@ function detailProduct() {
 //        this.getQuantity();
     }
     
+   
+    
     this.registerClient = function () {
         $("#myModal").modal("show");
     }

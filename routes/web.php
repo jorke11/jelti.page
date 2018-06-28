@@ -147,6 +147,7 @@ Route::get('/payment', 'Ecommerce\PaymentController@index');
 Route::get('/selectPay', 'Ecommerce\PaymentController@methodsPayment');
 Route::put('addProduct/{slug}', 'Ecommerce\PaymentController@addProduct');
 Route::put('deleteProduct/{slug}', 'Ecommerce\PaymentController@deleteProduct');
+Route::put('deleteProductUnit/{slug}', 'Ecommerce\PaymentController@deleteProductUnit');
 Route::put('deleteAllProduct/{slug}', 'Ecommerce\PaymentController@deleteAllProduct');
 Route::post('payment/target', 'Ecommerce\PaymentController@payment');
 

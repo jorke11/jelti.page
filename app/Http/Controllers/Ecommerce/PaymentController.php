@@ -90,7 +90,6 @@ class PaymentController extends Controller {
 //        dd($cookie);
 //
 //        dd(response('Hello World')->cookie($cookie));
-
 //        Cookie::make('name', "ada", 360);
 //        dd(Cookie::get('name'));
 //        dd($_COOKIE["jelti_session"]);
@@ -244,7 +243,7 @@ class PaymentController extends Controller {
 
         $res = $this->getOrdersCurrent($slug);
 
-        return response()->json(["success" => true, "quantity" => $res["quantity"], "detail" => $res["detail"], "row" => $res["row"]]);
+        return response()->json(["success" => true, "quantity" => $res["quantity"], "detail" => $res["detail"], "row" => $res["row"], "total" => $res["total"]]);
     }
 
     public function deleteProduct(Request $req, $slug) {
@@ -266,7 +265,38 @@ class PaymentController extends Controller {
 
         $res = $this->getOrdersCurrent($slug);
 
-        return response()->json(["success" => true, "quantity" => $res["quantity"], "detail" => $res["detail"], "row" => $res["row"]]);
+        return response()->json(["success" => true, "quantity" => $res["quantity"], "detail" => $res["detail"], "row" => $res["row"], "total" => $res["total"]]);
+    }
+
+    public function deleteProductUnit(Request $req, $slug) {
+        $in = $req->all();
+
+
+        $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
+
+        if ($order != null) {
+            $pro = Products::where("slug", $slug)->first();
+
+            $detPro = OrdersDetail::where("product_id", $pro->id)->where("order_id", $order->id)->first();
+
+            if ($detPro != null) {
+                $quantiy = $detPro->quantity - 1;
+
+                if ($quantiy == 0 && $in["quantity"] == 0) {
+                    $detPro->delete();
+                    return response()->json(["success" => false]);
+                } else {
+                    $detPro->quantity = $detPro->quantity - 1;
+                    $detPro->save();
+                    $res = $this->getOrdersCurrent($slug);
+                    return response()->json(["success" => true, "quantity" => $res["quantity"], "detail" => $res["detail"], "row" => $res["row"], "total" => $res["total"]]);
+                }
+            } else {
+                return response()->json(["success" => false], 409);
+            }
+        } else {
+            return response()->json(["success" => false]);
+        }
     }
 
     public function deleteAllProduct(Request $req, $slug) {
@@ -285,7 +315,7 @@ class PaymentController extends Controller {
 
         $res = $this->getOrdersCurrent($slug);
 
-        return response()->json(["success" => true, "quantity" => $res["quantity"], "detail" => $res["detail"], "row" => $res["row"]]);
+        return response()->json(["success" => true, "quantity" => $res["quantity"], "detail" => $res["detail"], "row" => $res["row"], "total" => $res["total"]]);
     }
 
     public function getCities($department_id) {
@@ -327,7 +357,7 @@ class PaymentController extends Controller {
             
         }
 
-        return ["quantity" => $quantity, "total" => $total, "subtotal" => $subtotal, "tax5" => $tax5, "tax19" => $tax19, "detail" => $detail, "row" => $row];
+        return ["quantity" => $quantity, "total" => round($total), "subtotal" => $subtotal, "tax5" => $tax5, "tax19" => $tax19, "detail" => $detail, "row" => $row];
     }
 
     public function getDataCountOrders($slug = null) {
@@ -410,13 +440,20 @@ class PaymentController extends Controller {
 
         $data["countries"][] = array("code" => "CO", "description" => "Colombia");
 
-        if ($detail) {
-            $deviceSessionId = md5(session_id() . microtime());
-            $deviceSessionId_concat = $deviceSessionId . "80200";
-            $data["deviceSessionId"] = $deviceSessionId;
-            $data["deviceSessionId_concat"] = $deviceSessionId_concat;
+        $deviceSessionId = md5(session_id() . microtime());
 
-            $data["categories"] = $this->categories;
+        $data["categories"] = $this->categories;
+
+        $data["id"] = 0;
+        $data["term"] = $data["client"]->term;
+        $data["total"] = "$ 0";
+        $data["subtotal"] = "$ 0";
+
+        $deviceSessionId_concat = $deviceSessionId . "80200";
+        $data["deviceSessionId"] = $deviceSessionId;
+        $data["deviceSessionId_concat"] = $deviceSessionId_concat;
+
+        if ($detail) {
 
             $data["id"] = $order->id;
             $data["term"] = $data["client"]->term;
@@ -507,7 +544,6 @@ class PaymentController extends Controller {
             DB::beginTransaction();
             $in = $req->all();
 //            setcookie('month', 'some value', time() + 60 * 60 * 24 * 365);
-
 //            dd($_COOKIE['month']);
 //            echo Request::cookie('devicesessionid');exit;
 
