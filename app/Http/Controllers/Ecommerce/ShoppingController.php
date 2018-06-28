@@ -336,19 +336,5 @@ class ShoppingController extends Controller {
         return view("Ecommerce.shopping.profile", compact("client", "orders", "new"));
     }
 
-    public function getMyOrders() {
-        $categories = [];
-        $dietas = [];
-
-        $sql = "
-             SELECT *
-             FROM vdepartures where client_id=" . $client->id;
-
-        $list = DB::select($sql);
-
-        dd($list);
-        
-        return view("Ecommerce.shopping.orders", compact("product", "categories", "dietas", "list"));
-    }
-
+    
 }

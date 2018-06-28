@@ -318,6 +318,20 @@ class PaymentController extends Controller {
         return response()->json(["success" => true, "quantity" => $res["quantity"], "detail" => $res["detail"], "row" => $res["row"], "total" => $res["total"]]);
     }
 
+    public function getMyOrders() {
+        $categories = [];
+        $dietas = [];
+
+        $client = Stakeholder::find(Auth::user()->stakeholder_id);
+
+        $sql = "
+             SELECT *
+             FROM vdepartures where client_id=" . $client->id . " and status_id IN(2,7)";
+
+        $list = DB::select($sql);
+        return view("Ecommerce.shopping.orders", compact("product", "categories", "dietas", "list"));
+    }
+
     public function getCities($department_id) {
         $data = \App\Models\Administration\Cities::where("department_id", $department_id)->get();
         return response()->json($data);
