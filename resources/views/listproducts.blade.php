@@ -25,7 +25,7 @@
         <div class="row center-block" style="margin-right: 0;padding-top:1%">
             <div class="col-2 offset-1">
                 <div class="row center-block" id="categories-filter">
-                    <div class="col-12" style="border:1px #ccc solid;border-radius: 10px; margin-bottom: 20px">
+                    <div class="col-12" style="border:8px rgba(0,0,0,.1) solid;border-radius: 10px; margin-bottom: 20px">
                         <ul class="list-group">
                             <li class="list-group-item" style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px"><b>CATEGORIAS</b></li>
                             <div id="content-categories">
@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="row" >
-                    <div class="col-12" style="border:1px #ccc solid;border-radius: 10px">
+                    <div class="col-12" style="border:8px rgba(0,0,0,.1) solid;border-radius: 10px">
                         <ul class="list-group">
                             <li class="list-group-item"  style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px"><b>SUBCATEGORIAS</b></li>
                             <div id="content-subcategories">
@@ -106,8 +106,8 @@
                                         <a href="#" class="btn btn-primary btn-sm" style="
                                            margin-left: 80%;
                                            border-radius: 10px;
-                                           background-color: #5baf98;
-                                           border: 1px solid #5baf98;
+                                           background-color: white;
+                                           border: 1px solid #ccc;
                                            cursor: pointer;
                                            margin-right: 5%;"
                                            onclick="objCounter.addProduct('{{$value->short_description}}',

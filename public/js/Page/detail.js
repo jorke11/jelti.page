@@ -316,8 +316,8 @@ function Detail() {
                                                 <a href="#" class="btn btn-primary btn-sm" style="
                                                    margin-left: 80%;
                                                    border-radius: 10px;
-                                                   background-color: #5baf98;
-                                                   border: 1px solid #5baf98;
+                                                   background-color: white;
+                                                   border: 1px solid #ccc;
                                                    cursor: pointer;
                                                    margin-right: 5%;"
                                                    onclick="objCounter.addProduct('${value.short_description}',
