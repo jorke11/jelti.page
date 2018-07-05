@@ -332,6 +332,12 @@ class PaymentController extends Controller {
         return view("Ecommerce.shopping.orders", compact("product", "categories", "dietas", "list"));
     }
 
+    public function getInvoice($invoice) {
+        $header = Departures::where("invoice", $invoice)->first();
+        $detail = $this->formatDetail($header->id);
+        return response()->json($detail);
+    }
+
     public function getCities($department_id) {
         $data = \App\Models\Administration\Cities::where("department_id", $department_id)->get();
         return response()->json($data);
@@ -592,8 +598,12 @@ class PaymentController extends Controller {
 //$apiKey = "maGw8KQ5JlOEv64D79ma1N0l9G";
                 $apiLogin = "pRRXKOl8ikMmt9u";
 //$apiLogin = "rHpg9EL98w905Nv";
-                $merchantId = "508029";
-                $accountId = "512321";
+//                $merchantId = "508029";
+//                $accountId = "512321";
+                $merchantId = "559634";
+                $accountId = "562109";
+                $postData["test"] = "true";
+                
                 $referenceCode = 'invoice_' . microtime();
 
                 $TX_VALUE = round($data_order["header"]["total"]);
@@ -602,7 +612,7 @@ class PaymentController extends Controller {
 
                 $session_id = md5(session_id() . microtime());
                 $currency = "COP";
-                $postData["test"] = "true";
+
                 $postData["language"] = "en";
                 $postData["command"] = "SUBMIT_TRANSACTION";
 

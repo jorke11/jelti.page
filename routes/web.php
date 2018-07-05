@@ -101,6 +101,7 @@ Route::get('/', function () {
 
 
 Route::get('myOrders', "Ecommerce\PaymentController@getMyOrders");
+Route::get('getDetailOrder/{invoice}', "Ecommerce\PaymentController@getInvoice");
 
 
 Route::get('/products/{slug_category}', function ($slug_category) {

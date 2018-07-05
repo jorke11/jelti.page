@@ -17,6 +17,7 @@ trait Invoice {
     private $tax19_real;
     private $tax5;
     private $tax5_real;
+    private $exento_real;
     private $detail;
 
     public function __construct() {
@@ -63,8 +64,17 @@ trait Invoice {
 
     function formatDetail($id) {
         $detail = DB::table("departures_detail")->
-                        select("departures_detail.id", "departures_detail.status_id", "departures_detail.product_id", DB::raw("coalesce(departures_detail.description,'') as comment"), "departures_detail.real_quantity", "departures_detail.quantity", "departures_detail.value", DB::raw("products.reference ||' - ' ||products.title || ' - ' || stakeholder.business  as product"), "departures_detail.description", "parameters.description as status", "stakeholder.business as stakeholder", "products.bar_code", "products.units_sf", "departures_detail.tax")->join("products", "departures_detail.product_id", "products.id")
-                        ->join("stakeholder", "stakeholder.id", "products.supplier_id")->join("parameters", "departures_detail.status_id", DB::raw("parameters.id and parameters.group='entry'"))->where("departure_id", $id)->orderBy("id", "asc")->get();
+                        select("departures_detail.id", "departures_detail.status_id", "departures_detail.product_id", 
+                                DB::raw("coalesce(departures_detail.description,'') as comment"), "departures_detail.real_quantity", 
+                                "departures_detail.quantity", "departures_detail.value", 
+                                DB::raw("vproducts.reference ||' - ' ||vproducts.title || ' - ' || stakeholder.business  as product"), "departures_detail.description", 
+                                "parameters.description as status", "stakeholder.business as stakeholder", "vproducts.bar_code", "vproducts.units_sf", 
+                                "departures_detail.tax","vproducts.thumbnail")
+                ->join(DB::raw("vproducts"), "departures_detail.product_id", "vproducts.id")
+                        ->join("stakeholder", "stakeholder.id", "vproducts.supplier_id")
+                ->join("parameters", "departures_detail.status_id", DB::raw("parameters.id and parameters.group='entry'"))
+                ->where("departure_id", $id)
+                ->orderBy("id", "asc")->get();
 
         $this->total = 0;
         $this->subtotal = 0;
