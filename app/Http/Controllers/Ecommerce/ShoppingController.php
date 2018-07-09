@@ -28,7 +28,7 @@ class ShoppingController extends Controller {
     public $user;
 
     public function __construct() {
-        $this->middleware("auth");
+//        $this->middleware("auth");
         $this->stock = new StockController();
 
         $this->dietas = array(
@@ -46,8 +46,6 @@ class ShoppingController extends Controller {
         $this->tax5 = 0;
         $this->tax19 = 0;
         
-//        dd(Auth::user());
-
 //        $this->user = \App\User::find(Auth::user()->id);
 //        dd($this->user);
 //        $this->client = DB::table("vclient")->where("id", $this->user->stakeholder_id)->first();
@@ -59,8 +57,6 @@ class ShoppingController extends Controller {
     }
 
     public function getDetailProduct($id) {
-
-
         $dietas = $this->dietas;
         $subcategory = Characteristic::where("status_id", 1)->whereNotNull("img")->where("type_subcategory_id", 1)->orderBy("order", "asc")->get();
 
@@ -73,9 +69,7 @@ class ShoppingController extends Controller {
             if (strpos($id, "_") !== false) {
 
                 $id = str_replace("_", "", $id);
-
                 $category = Categories::find($id);
-
                 $products = DB::table("vproducts")->where(DB::raw("characteristic->>0"), $id)->whereNotNull("image")->whereNotNull("warehouse")->orderBy("title", "desc")->paginate(12);
 
                 return view("Ecommerce.shopping.specific", compact("category", "products", "subcategory", "dietas"));
@@ -106,11 +100,8 @@ class ShoppingController extends Controller {
 
 
                         if (count($cod) > 0) {
-
                             foreach ($cod as $value) {
-
                                 if (!in_array($value, $sub)) {
-
                                     $sub[] = $value;
                                 }
                             }

@@ -19,7 +19,7 @@
     }
 
     .main-menu{
-        padding-top: 95px;
+        padding-top: 70px;
         position: relative;
         transition: all 1s ease;
         background-repeat: no-repeat;
@@ -111,21 +111,22 @@
                         </li>-->
         </ul>
 
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav mr-auto text-center" style="padding-left: 18%;padding-top: 15px">
             <li class="nav-item">
-                <!--<img alt="Brand" src="{{asset('assets/images/SF50X.png') }}" />-->
+                <a href="{{url("/")}}"><img alt="Brand" src="{{asset('images/page/logosuperf.svg') }}" width="50%" /></a>
             </li>
         </ul>
 
         <form class="form-inline my-2 my-lg-1"  id="frmSearch">
 
-            <div class="col-auto">
+            <div class="col-auto" >
                 <label class="sr-only" for="inlineFormInputGroup">Username</label>
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control form-control-sm" id="text-search" placeholder="Brownie, Paleo, Quinua" style="width: 330px;height: 40px" required="">
+                <div class="input-group mb-2" style="padding-top:10px">
+                    <input type="text" class="form-control form-control-sm" id="text-search" placeholder="Brownie, Paleo, Quinua" style="width: 330px;height: 26px" required="">
                     <div class="input-group-prepend" style="cursor:pointer" id="btnSearch">
-                        <div class="input-group-text" style="background-color: rgba(0,0,0,0);height: 40px" >
-                            <svg id="i-search" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <div class="input-group-text" style="background-color: rgba(0,0,0,0);height: 26px" >
+                            <svg id="i-search" viewBox="0 0 32 32" width="32" height="23" fill="none" stroke="white" stroke-linecap="round" 
+                                 stroke-linejoin="round" stroke-width="2">
                             <circle cx="14" cy="14" r="12" />
                             <path d="M23 23 L30 30"  />
                             </svg>
@@ -142,25 +143,15 @@
         <ul class="navbar-nav">
             @guest
             <li class="nav-item dropdown active">
-                <a class="nav-link" href="{{ route('login') }}"><button class="btn btn-outline-light my-2 my-sm-0 btn-sm" type="submit">Iniciar Sesión</button></a>
-            </li>
-            @else
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="popover" title="Resumen Compra" data-placement="bottom"  
-                   data-popover-content="#a1" >
-
-                    <svg id="i-cart" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" enable-background="new 0 0 512 512" 
-                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="color:white">
-                    <path d="M6 6 L30 6 27 19 9 19 M27 23 L10 23 5 2 2 2" />
-                    <circle cx="25" cy="27" r="2" />
-                    <circle cx="12" cy="27" r="2" />
-                    </svg>
-                    <span class="badge badge-light" id="badge-quantity">0</span>
+                <a class="nav-link" href="{{ route('login') }}">
+                    <button class="btn btn-outline-light my-2 my-sm-0 btn-sm" style="padding: .10rem .5rem" type="submit">Iniciar Sesión</button>
                 </a>
             </li>
+            @else
+
             <li class="nav-item dropdown active">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
-                   aria-haspopup="true" aria-expanded="false" style="color:white;font-size: 19px;padding-left: 40px;padding-right:40px">({{ Auth::user()->name }})</a>
+                   aria-haspopup="true" aria-expanded="false" style="color:white;font-size: 19px;padding-left: 15px;padding-right:15px;padding-top: 15px">Mi Cuenta</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <a class="dropdown-item" href="/myOrders">Historial Pedidos</a>
                     <a class="dropdown-item" href="{{ route('logout') }}"
@@ -173,6 +164,19 @@
                     </form>
 
                 </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="popover" title="Resumen Compra" data-placement="bottom"  
+                   data-popover-content="#a1" >
+                    <img alt="Brand" src="{{asset('images/page/carrito.png') }}" width="45%" />
+<!--                    <svg id="i-cart" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" enable-background="new 0 0 512 512" 
+                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="color:white">
+                    <path d="M6 6 L30 6 27 19 9 19 M27 23 L10 23 5 2 2 2" />
+                    <circle cx="25" cy="27" r="2" />
+                    <circle cx="12" cy="27" r="2" />
+                    </svg>-->
+                    <span class="badge badge-light" id="badge-quantity">0</span>
+                </a>
             </li>
             @endguest
         </ul>
