@@ -593,7 +593,8 @@ class PaymentController extends Controller {
 
                 $deviceSessionId = $in["devicesessionid"];
 
-                $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
+//                $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
+                $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
                 $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
 //$apiKey = "maGw8KQ5JlOEv64D79ma1N0l9G";
                 $apiLogin = "pRRXKOl8ikMmt9u";
