@@ -329,9 +329,9 @@ function Detail() {
                                                 </a>
                                                 <div class="card-body" style="padding-bottom: 1.25em;padding-top:0">
 
-                                                    <p class="card-title" onclick="obj.redirectProduct('${value.slug}')" 
+                                                    <p class="card-title text-left" onclick="obj.redirectProduct('${value.slug}')" 
                                                        style="cursor: pointer;min-height: 60px;margin-bottom: 0;padding-top: 5%" >${value.short_description}</p>
-                                                    <p>
+                                                    <p class="text-left">
                                                         <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                         <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                         </svg>
@@ -352,10 +352,7 @@ function Detail() {
                                                                                                                                                                                         <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                                     `
                         if (user_id == undefined) {
-                            html += `<button class="btn btn-info" type="button" onclick="obj.registerClient()">
-                                                        Registrate 
-                                                    </button>
-                                                    `
+                            html += `<p></p>`
                         } else {
                             html += `<p>
                                                         $ ${value.price_sf}

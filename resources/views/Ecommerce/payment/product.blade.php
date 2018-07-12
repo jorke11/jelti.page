@@ -109,96 +109,80 @@
                 </a>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-3">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="row" style="padding-bottom: 5%">
+                    <div class="row">
                         <div class="col-lg-12" style="color:#979797;font-size: 20px;font-weight: 600">
                             {{ucwords($supplier["business"])}}
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-12" style="font-size: 18px;font-weight: 600">
+                        <div class="col-lg-12" style="font-size: 33px;">
                             {{ucwords($product->title)}}
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-12">
-                            <h4 class="text-muted">Unidades {{$product->units_sf}} &nbsp;
-                                <span class="glyphicon glyphicon-star" style="color:#f0e012"></span>
-                                <span class="glyphicon glyphicon-star" style="color:#f0e012"></span>
-                                <span class="glyphicon glyphicon-star" style="color:#f0e012"></span>
-                                <span class="glyphicon glyphicon-star" style="color:#f0e012"></span>
-                                <span class="glyphicon glyphicon-star-empty"></span>
-                            </h4>
+                        <div class="col-lg-12" style="color:#979797">
+                            {{ucwords($product->description)}}
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-lg-12" style="color:#979797">
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            ${{$product->price_sf}}
+                        </div>
+                        <div class="col-lg-5 text-right">
+                            Gramos pendiente
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-
-                    <h4>Description</h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <input type="hidden" id="product_id" name="product_id" value="{{$product->id}}">
-                    {{$product->short_description}}
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12">
-                    @guest
-                    <a href="#" onclick="obj.registerClient()">Registrate como cliente</a>
-                    @else
-                    <p>
-                    <h4 style="color:#434141">Precio $ {{number_format($product->price_sf,0,",",".")}}</h4>
-                    </p>
-                    @endguest
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p class="text-muted">Codigo: {{$product->reference}}</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <hr>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <h4>Cantidad X{{$product->packaging}} (<b>Disponible</b>): <span class="badge badge-pill badge-success">{{$available}}</span></h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-3">
+            <div class="row justify-content-center">
+                <div class="col-4">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" 
                                   onclick="objCounter.addProduct('{{$product->short_description}}',
                                   '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->thumbnail)}}','{{$product->tax}}')"
-                                  style="background-color: #30c594;color:white;cursor: pointer">+</span>
+                                  style="background-color: rgba(91,175,152,1);color:white;cursor: pointer">+</span>
                         </div>
                         <input type="text" class="form-control" id="quantity" name="quantity" value="0" type="number">
                         <div class="input-group-append">
                             <span class="input-group-text" onclick="obj.delete('{{$product->short_description}}',
-                                  '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->thumbnail)}}','{{$product->tax}}')" style="background-color: #30c594;color:white;cursor: pointer">-</span>
+                                  '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->thumbnail)}}','{{$product->tax}}')" 
+                                  style="background-color: rgba(91,175,152,1);color:white;cursor: pointer">-</span>
                         </div>
                     </div>
                 </div>
 
             </div>
-
-            <br>
+            <div class="row justify-content-center">
+                <div class="col-7">
+                    <button class="btn" 
+                            style="background-color: rgba(91,175,152,1);color:white;padding-left: 30%;padding-right: 30%;
+                            padding-top:0;padding-bottom: 0;border-radius: 10px">Agregar al carrito</button>
+                </div>
+            </div>
+            <div class="row justify-content-center" style="margin-top: 3%">
+                <div class="col-7">
+                    <button class="btn" style="background-color: white;border-color: #ccc;padding-left: 30%;padding-right: 20%;padding-top:0;padding-bottom: 0;border-radius: 10px">
+                        Añadir a favoritos 
+                        <svg id="i-heart" viewBox="0 0 32 32" width="15" height="15" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <path d="M4 16 C1 12 2 6 7 4 12 2 15 6 16 8 17 6 21 2 26 4 31 6 31 12 28 16 25 20 16 28 16 28 16 28 7 20 4 16 Z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>        
     </div>
-    <div class="row" style="padding-bottom: 5%;">
-        <div class="col-4 offset-2" style="background-color: #f8f7f5;border-radius: 10px;padding-top: 1%">
+    <div class="row" style="padding-bottom: 5%;padding-top: 3%">
+        <div class="col-4 offset-3" style="background-color: #f8f7f5;border-radius: 10px;padding-top: 1%">
             <div class="row">
                 <div class="col-12">
                     <h4>PORQUE LO AMARAS?</h4>
@@ -231,7 +215,243 @@
             </div>
 
         </div>
-        <div class="col-5">
+        <div class="col-2" style="background-color: rgba(91,175,152,1);border-radius: 10px;color:white">
+            <div class="row">
+                <div class="col-12" style="padding-top: 10px;">
+                    <h2 class="text-center">INFORMACIÓN NUTRICIONAL</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-10">
+                    <span>Tamaño de la porcion</span>
+                </div>
+                <div class="col-2">
+                    20g
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-10">
+                    <span>Porciones por empaque</span>
+                </div>
+                <div class="col-2">
+                    10
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0;padding-top: 0">
+                <div class="col-12">
+                    <hr style="background-color: white;height: 10px;margin: 0">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-10">
+                    <span style="font-weight: 600">Cantidad por porción</span>
+                </div>
+                <div class="col-2">
+                    20g
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-10">
+                    <span style="font-weight: 600">Calorias</span>
+                </div>
+                <div class="col-2">
+                    20g
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0;padding-top: 0">
+                <div class="col-12">
+                    <hr style="background-color: white;height: 5px;margin: 0">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-5 right">
+                    <span style="font-weight: 600">% valor Diario*</span>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0;padding-top: 0">
+                <div class="col-12">
+                    <hr style="background-color: white;height: 1px;margin: 0">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-10">
+                    <span style="font-weight: 600">Grasa Total</span>
+                </div>
+                <div class="col-2">
+                    20%
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0;padding-top: 0">
+                <div class="col-12">
+                    <hr style="background-color: white;height: 1px;margin: 0">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8 offset-1">
+                    <span>Grasa Saturada</span>
+                </div>
+                <div class="col-2">
+                    10%
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0;padding-top: 0">
+                <div class="col-12">
+                    <hr style="background-color: white;height: 1px;margin: 0">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8 offset-1">
+                    <span>Grasas Trans</span>
+                </div>
+                <div class="col-2">
+                    10%
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0;padding-top: 0">
+                <div class="col-12">
+                    <hr style="background-color: white;height: 1px;margin: 0">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-10">
+                    <span style="font-weight: 600">Colesterol</span>
+                </div>
+                <div class="col-2">
+                    20%
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0;padding-top: 0">
+                <div class="col-12">
+                    <hr style="background-color: white;height: 1px;margin: 0">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-10">
+                    <span style="font-weight: 600">Sodio</span>
+                </div>
+                <div class="col-2">
+                    20%
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0;padding-top: 0">
+                <div class="col-12">
+                    <hr style="background-color: white;height: 1px;margin: 0">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-10">
+                    <span style="font-weight: 600">Carbohidratos Totales</span>
+                </div>
+                <div class="col-2">
+                    20%
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0;padding-top: 0">
+                <div class="col-12">
+                    <hr style="background-color: white;height: 1px;margin: 0">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-8 offset-1">
+                    <span>Fibra dietetica</span>
+                </div>
+                <div class="col-2">
+                    10%
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0;padding-top: 0">
+                <div class="col-12">
+                    <hr style="background-color: white;height: 1px;margin: 0">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8 offset-1">
+                    <span>Azucares</span>
+                </div>
+                <div class="col-2">
+                    10%
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0;padding-top: 0">
+                <div class="col-12">
+                    <hr style="background-color: white;height: 1px;margin: 0">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-10">
+                    <span style="font-weight: 600">Proteina</span>
+                </div>
+                <div class="col-2">
+                    20%
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0;padding-top: 0">
+                <div class="col-12">
+                    <hr style="background-color: white;height: 5px;margin: 0">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-10">
+                    <span>Vitamina A</span>
+                </div>
+                <div class="col-2">
+                    10%
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0;padding-top: 0">
+                <div class="col-12">
+                    <hr style="background-color: white;height: 1px;margin: 0">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-10">
+                    <span>Vitamina C</span>
+                </div>
+                <div class="col-2">
+                    10%
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0;padding-top: 0">
+                <div class="col-12">
+                    <hr style="background-color: white;height: 1px;margin: 0">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-10">
+                    <span>Calcio</span>
+                </div>
+                <div class="col-2">
+                    10%
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0;padding-top: 0">
+                <div class="col-12">
+                    <hr style="background-color: white;height: 1px;margin: 0">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-10">
+                    <span>Hierro</span>
+                </div>
+                <div class="col-2">
+                    10%
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 0;padding-top: 0">
+                <div class="col-12">
+                    <hr style="background-color: white;height: 1px;margin: 0">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 text-justify" style="line-height:1;padding-bottom: 3%">
+                    *Los porcentajes de valores diarios estan basados en una dieta de 2000 calorias (8500KJ).
+                    Sus valores diarios pueden ser mayores o menores dependiendo de sus necesidades caloricas.
+                </div>
+            </div>
+
 
         </div>
     </div>
@@ -264,117 +484,109 @@
     </div>
 
         <!--<section style="background-color: rgba(255,252,245,.7);width: 100%">-->
-    <section style="background-color: #7bc0ad;width: 100%;" >
-        <div class="row justify-content-center">
-            <div class="col-9">
-                <div class="row">
-                    <div class="col-10 offset-1" style="padding-top: 1%;padding-bottom: 1%">
-                        <h2 style="color:white">Productos que te puedan interesar</h2>
-                    </div>
+
+    <div class="row justify-content-center" style="background-color: #7bc0ad;">
+        <div class="col-9">
+            <div class="row">
+                <div class="col-10 offset-1" style="padding-top: 1%;padding-bottom: 1%">
+                    <h2 style="color:white">Productos que te puedan interesar</h2>
                 </div>
-                <div class="row row-space" style="padding-bottom: 1%">
-                    <div class="col-10 offset-1">
-                        <div id="carouselExampleIndicators3" class="carousel slide" data-ride="carousel">
+            </div>
+            <div class="row row-space" style="padding-bottom: 1%">
+                <div class="col-10 offset-1">
+                    <div id="carouselExampleIndicators3" class="carousel slide" data-ride="carousel">
 
-                            <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <div class="row text-center">
-                                        <?php
-                                        $cont = 0;
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="row text-center">
+                                    <?php
+                                    $cont = 0;
 
-                                        foreach ($relations as $i => $value) {
-                                            ?>
-                                            <div class="col-3">
-                                                <div class="card" >
-                                                    <img class="card-img-top" src="/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
-                                                    <div class="card-body text-center">
-                                                        <h5 class="card-title" style="min-height:60px" onclick="obj.redirectProduct('{{$value->slug}}')">
-                                                            <?php echo substr($value->short_description, 0, 30); ?>
-                                                        </h5>
-                                                        <p>
-                                                            <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                            <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
-                                                            </svg>
-                                                            <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                            <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
-                                                            </svg>
-                                                            <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                            <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
-                                                            </svg>
-                                                            <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                            <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
-                                                            </svg>
-                                                            <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                            <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
-                                                            </svg>
-                                                        </p>
+                                    foreach ($relations as $i => $value) {
+                                        ?>
+                                        <div class="col-3">
+                                            <div class="card" >
+                                                <img class="card-img-top" src="/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
+                                                <div class="card-body text-center">
+                                                    <h5 class="card-title text-left" style="min-height:60px" onclick="obj.redirectProduct('{{$value->slug}}')">
+                                                        <?php echo substr($value->short_description, 0, 30); ?>
+                                                    </h5>
+                                                    <p class="text-left">
+                                                        <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
+                                                        </svg>
+                                                        <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
+                                                        </svg>
+                                                        <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
+                                                        </svg>
+                                                        <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
+                                                        </svg>
+                                                        <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
+                                                        </svg>
+                                                    </p>
 
-                                                        @guest
-                                                        <p>
-                                                            <button class="btn btn-info" type="button" onclick="obj.registerClient()">
-                                                                Registrate como cliente
-                                                            </button>
-                                                        </p>
+                                                    @guest
+                                                    <p>
+                                                    </p>
 
-                                                        @else
-                                                        <p>
-                                                            $ {{number_format($value->price_sf,0,",",'.')}}
-                                                        </p>
-                                                        @endguest
+                                                    @else
+                                                    <p>
+                                                        $ {{number_format($value->price_sf,0,",",'.')}}
+                                                    </p>
+                                                    @endguest
 
-                                                                                                                                                                     <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-                                                        <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm" style="
-                                                           display:scroll;
-                                                           position:fixed;
-                                                           bottom:200px;
-                                                           margin-left: 7%;
-                                                           margin-bottom: 1%;
-                                                           border-radius: 10px;
-                                                           background-color: #5baf98;
-                                                           border: 1px solid #5baf98
-                                                           ">
-                                                            <svg id="i-plus" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                            <path d="M16 2 L16 30 M2 16 L30 16" />
-                                                            </svg>
-                                                        </a>
-                                                    </div>
+                                                                                                                                                                                                                                                                             <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                    <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm" style="
+                                                       display:scroll;
+                                                       position:fixed;
+                                                       bottom:140px;
+                                                       margin-left: 6%;
+                                                       margin-bottom: 1%;
+                                                       border-radius: 10px;
+                                                       background-color: rgba(255,255,255,0);
+                                                       border: 1px solid #5baf98
+                                                       ">
+                                                        <svg id="i-plus" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M16 2 L16 30 M2 16 L30 16" />
+                                                        </svg>
+                                                    </a>
                                                 </div>
                                             </div>
-                                            <?php
-                                            $cont++;
-                                            if ($cont == 4) {
-                                                $cont = 0;
-                                                ?>
-                                            </div>
                                         </div>
-                                        <div class="carousel-item ">
-                                            <div class="row">
-                                                <?php
-                                            }
-                                        }
-                                        ?>
+                                        <?php
+                                        $cont++;
+                                        if ($cont == 4) {
+                                            $cont = 0;
+                                            ?>
+                                        </div>
                                     </div>
+                                    <div class="carousel-item ">
+                                        <div class="row">
+                                            <?php
+                                        }
+                                    }
+                                    ?>
                                 </div>
                             </div>
-
-                            <a class="carousel-control-prev" href="#carouselExampleIndicators3" role="button" data-slide="prev" style="left:-15%;">
-                                <span class="carousel-control-prev-icon" aria-hidden="true" style="color:red"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#carouselExampleIndicators3" role="button" data-slide="next" style="right: -15%;">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
                         </div>
+
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators3" role="button" data-slide="prev" style="left:-15%;">
+                            <span class="carousel-control-prev-icon" aria-hidden="true" style="color:red"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators3" role="button" data-slide="next" style="right: -15%;">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-
-
-
-    </section>
-
+    </div>
 
     <div class="row" style="padding-top: 2%">
         <div class="col-lg-12">
@@ -429,7 +641,6 @@
         </div>
     </div>
 </div>
-@include("footer")
 
 {!!Html::script('js/Ecommerce/detailProduct.js')!!}
 @endsection
