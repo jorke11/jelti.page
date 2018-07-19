@@ -89,8 +89,8 @@
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner" role="listbox">
                     <div class="item active text-center">
-                        @if($product->image!=null)
-                        <img src="{{url($product->image)}}" alt="" class="img-fluid" width="30%">
+                        @if($product->images[0]->path!=null)
+                        <img src="{{url($product->images[0]->path)}}" alt="" class="img-fluid" width="30%">
                         @else
                         <img src="" alt="No disponible" width="80%" style="padding-left: 20%">
                         @endif
@@ -109,6 +109,7 @@
                 </a>
             </div>
         </div>
+        <input type="hidden" id="slug" value="{{$product->slug}}">
         <div class="col-3">
             <div class="row">
                 <div class="col-lg-12">
@@ -134,7 +135,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            ${{$product->price_sf}}
+                            ${{number_format($product->price_sf,0,",",".")}}
                         </div>
                         <div class="col-lg-5 text-right">
                             Gramos pendiente
@@ -142,20 +143,19 @@
                     </div>
                 </div>
             </div>
-
             <div class="row justify-content-center">
                 <div class="col-4">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" 
                                   onclick="objCounter.addProduct('{{$product->short_description}}',
-                                  '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->thumbnail)}}','{{$product->tax}}')"
+                                  '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->images[0]->path)}}','{{$product->tax}}')"
                                   style="background-color: rgba(91,175,152,1);color:white;cursor: pointer">+</span>
                         </div>
                         <input type="text" class="form-control" id="quantity" name="quantity" value="0" type="number">
                         <div class="input-group-append">
                             <span class="input-group-text" onclick="obj.delete('{{$product->short_description}}',
-                                  '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->thumbnail)}}','{{$product->tax}}')" 
+                                  '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->images[0]->path)}}','{{$product->tax}}')" 
                                   style="background-color: rgba(91,175,152,1);color:white;cursor: pointer">-</span>
                         </div>
                     </div>
@@ -166,12 +166,13 @@
                 <div class="col-7">
                     <button class="btn" 
                             style="background-color: rgba(91,175,152,1);color:white;padding-left: 30%;padding-right: 30%;
-                            padding-top:0;padding-bottom: 0;border-radius: 10px">Agregar al carrito</button>
+                            padding-top:0;padding-bottom: 0;border-radius: 10px" id="btnAddCart">Agregar al carrito</button>
                 </div>
             </div>
             <div class="row justify-content-center" style="margin-top: 3%">
                 <div class="col-7">
-                    <button class="btn" style="background-color: white;border-color: #ccc;padding-left: 30%;padding-right: 20%;padding-top:0;padding-bottom: 0;border-radius: 10px">
+                    <button class="btn" style="background-color: white;border-color: #ccc;padding-left: 30%;padding-right: 20%;padding-top:0;
+                            padding-bottom: 0;border-radius: 10px" id="btnFavourite">
                         Añadir a favoritos 
                         <svg id="i-heart" viewBox="0 0 32 32" width="15" height="15" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                         <path d="M4 16 C1 12 2 6 7 4 12 2 15 6 16 8 17 6 21 2 26 4 31 6 31 12 28 16 25 20 16 28 16 28 16 28 7 20 4 16 Z" />
@@ -181,7 +182,7 @@
             </div>
         </div>        
     </div>
-    <div class="row" style="padding-bottom: 5%;padding-top: 3%">
+    <div class="row" style="padding-bottom: 5%;padding-top: 4%">
         <div class="col-4 offset-3" style="background-color: #f8f7f5;border-radius: 10px;padding-top: 1%">
             <div class="row">
                 <div class="col-12">
@@ -215,7 +216,7 @@
             </div>
 
         </div>
-        <div class="col-2" style="background-color: rgba(91,175,152,1);border-radius: 10px;color:white">
+        <div class="col-2" style="background-color: rgba(91,175,152,1);border-radius: 10px;color:white;left: -40px;margin-top: 3%;margin-bottom: 3%">
             <div class="row">
                 <div class="col-12" style="padding-top: 10px;">
                     <h2 class="text-center">INFORMACIÓN NUTRICIONAL</h2>
@@ -539,7 +540,7 @@
                                                     </p>
                                                     @endguest
 
-                                                                                                                                                                                                                                                                             <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                                                                                                                                                                                                                                                     <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                                     <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm" style="
                                                        display:scroll;
                                                        position:fixed;

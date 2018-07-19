@@ -166,7 +166,7 @@
                                                         <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm" style="
                                                            display:scroll;
                                                            position:fixed;
-                                                           bottom:140px;
+                                                           bottom:170px;
                                                            margin-left: 6%;
                                                            margin-bottom: 1%;
                                                            border-radius: 10px;

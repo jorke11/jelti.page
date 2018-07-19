@@ -4,7 +4,7 @@ function detailProduct() {
         $('body').click(function (e) {
             $('#popover-content').popover('hide');
         });
-        
+
         user_id = $("#user_id").val();
 
         // Initialize Firebase
@@ -29,10 +29,40 @@ function detailProduct() {
         $("#contentComment").empty();
         this.getComment();
 //        this.getQuantity();
+
+
+        $("#btnFavourite").click(this.addFavourite)
+        $("#btnAddCart").click(this.addFavourite)
+
     }
-    
-   
-    
+
+    this.addFavourite = function () {
+        if (user_id == undefined) {
+            obj.registerClient();
+            return false;
+        }
+
+        var slug = $("#slug").val();
+
+
+        var token = $("input[name=_token]").val();
+
+        $.ajax({
+            url: PATH + '/addFavourite/' + slug,
+            method: 'POST',
+            headers: {'X-CSRF-TOKEN': token},
+            success: function (data) {
+                $("#quantity").val(data.row.quantity)
+            }, error: function (xhr, ajaxOptions, thrownError) {
+
+            }
+
+        })
+
+
+    }
+
+
     this.registerClient = function () {
         $("#myModal").modal("show");
     }
@@ -59,7 +89,6 @@ function detailProduct() {
                             </div>
                             `;
                         quantity += doc.data().quantity;
-//                        console.log(doc.data())
                         data.push({title: doc.data().title, img: doc.data().img});
                     });
 
@@ -166,7 +195,7 @@ function detailProduct() {
     this.getComment = function () {
         var html = "";
         $.ajax({
-            url: '../getComment/' + $("#product_id").val(),
+            url: PATH + '/getComment/' + $("#slug").val(),
             method: 'GET',
             dataType: 'JSON',
             success: function (data) {

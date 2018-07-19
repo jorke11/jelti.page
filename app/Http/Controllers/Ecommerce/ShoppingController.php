@@ -45,7 +45,7 @@ class ShoppingController extends Controller {
         $this->subtotal = 0;
         $this->tax5 = 0;
         $this->tax19 = 0;
-        
+
 //        $this->user = \App\User::find(Auth::user()->id);
 //        dd($this->user);
 //        $this->client = DB::table("vclient")->where("id", $this->user->stakeholder_id)->first();
@@ -130,28 +130,27 @@ class ShoppingController extends Controller {
     }
 
     public function getProduct($id) {
-        $product = DB::table("vproducts")->where("slug", $id)->first();
+//        $product = DB::table("vproducts")->where("slug", $id)->first();
+//        $product = Products::where("slug", $id)->first();
+        $product = Products::where("slug", $id)->first();
         $dietas = $this->dietas;
 
         if ($product != null) {
 
-            $detail = ProductsImage::where("product_id", $product->id)->get();
+            $detail = $product->images;
 
             $relations = DB::table("vproducts")->where("category_id", $product->category_id)->whereNotNull("image")->get();
-
-
-            $supplier = Stakeholder::find($product->supplier_id);
+//            $supplier = Stakeholder::find($product->supplier_id);
+            $supplier = $product->supplier;
 
             if ($product->characteristic != null) {
-                $cod = json_decode($product->characteristic, true);
+
                 $id = array();
 
-                foreach ($cod as $value) {
-                    $id[] = (int) $value;
-                }
+                $id = array_map('intval', explode(',', implode(",", $product->characteristic)));
 
                 if (count($id) > 0) {
-                    $cha = Characteristic::whereIn("id", $cod)->get();
+                    $cha = Characteristic::whereIn("id", $id)->get();
                     $product->characteristic = $cha;
                 }
             }
@@ -159,7 +158,6 @@ class ShoppingController extends Controller {
             $available = $this->stock->getInventory($product->id);
 
             $categories = Categories::where("node_id", 0)->get();
-
 
             return view("Ecommerce.payment.product", compact("product", "detail", "relations", "supplier", "available", "categories", "dietas"));
         } else {
@@ -302,10 +300,13 @@ class ShoppingController extends Controller {
 //                        ->where("order_id", $order["id"])->get();
     }
 
-    public function getComment($product_id) {
+    public function getComment($slug) {
+
+        $pro = Products::findBySlug($slug);
+
         $feed = Feedback::select("feedback.id", "feedback.title", "users.name", "users.last_name", "feedback.content", "feedback.created_at")
                         ->join("users", "users.id", "feedback.user_id")
-                        ->where("row_id", $product_id)->get();
+                        ->where("row_id", $pro->id)->get();
 
         return response()->json($feed);
     }
@@ -327,5 +328,4 @@ class ShoppingController extends Controller {
         return view("Ecommerce.shopping.profile", compact("client", "orders", "new"));
     }
 
-    
 }

@@ -47,12 +47,13 @@ class Products extends Model {
         "content_product",
         "expire_month"
     ];
-    
+    protected $casts = [
+        'characteristic' => 'array',
+    ];
     public $timestamp = false;
-    
+
     use Sluggable,
         SluggableScopeHelpers;
-    
 
     public function sluggable() {
         return [
@@ -60,6 +61,19 @@ class Products extends Model {
                 'source' => 'title'
             ]
         ];
+    }
+
+    public function images() {
+        return $this->hasMany(ProductsImage::class, "product_id");
+//         return $this->hasMany(ProductsImage::class, "id","product_id");
+    }
+
+    public function is_like() {
+        return $this->hasMany(ProductsLike::class, "product_id");
+    }
+    
+    public function supplier() {
+        return $this->belongsTo(Stakeholder::class, "supplier_id");
     }
 
 }
