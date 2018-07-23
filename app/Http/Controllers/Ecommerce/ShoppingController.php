@@ -56,6 +56,8 @@ class ShoppingController extends Controller {
         return view("Ecommerce.shopping.init", compact("categories"));
     }
 
+ 
+
     public function getDetailProduct($id) {
         $dietas = $this->dietas;
         $subcategory = Characteristic::where("status_id", 1)->whereNotNull("img")->where("type_subcategory_id", 1)->orderBy("order", "asc")->get();

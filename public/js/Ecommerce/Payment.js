@@ -212,9 +212,13 @@ function Payment() {
                 method: 'PUT',
                 headers: {'X-CSRF-TOKEN': token},
                 data: row,
+                beforeSend: function () {
+                    $("#badge-quantity").attr("font-size", '90%').css("background-color", "#ebf91c");
+                },
                 success: function (data) {
                     objCounter.setData(data);
                     $("#frm #total").val($.formatNumber(data.total, "$"))
+                    $("#badge-quantity").attr("font-size", '70%').css("background-color", "#f8f9fa");
 
                     if (parseInt(data.total) > 10000) {
                         $("#message-mount").addClass("d-none")
