@@ -157,4 +157,4 @@ Route::get('/api/getDepartment', 'Administration\SeekController@getDepartment');
 Route::get('getCity/{department_id}', "Ecommerce\PaymentController@getCities");
 Route::get('congratulations', "Ecommerce\PaymentController@congratulations");
 
-Route::post('payment/target', 'Ecommerce\EcommerceController@addFavourite');
+Route::post('addFavourite/{slug}', 'Ecommerce\ShoppingController@addFavourite');

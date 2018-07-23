@@ -130,23 +130,17 @@ class ShoppingController extends Controller {
     }
 
     public function getProduct($id) {
-//        $product = DB::table("vproducts")->where("slug", $id)->first();
-//        $product = Products::where("slug", $id)->first();
-        $product = Products::where("slug", $id)->first();
+        $product = Products::findBySlug($id);
         $dietas = $this->dietas;
 
         if ($product != null) {
 
             $detail = $product->images;
-
             $relations = DB::table("vproducts")->where("category_id", $product->category_id)->whereNotNull("image")->get();
-//            $supplier = Stakeholder::find($product->supplier_id);
             $supplier = $product->supplier;
 
             if ($product->characteristic != null) {
-
                 $id = array();
-
                 $id = array_map('intval', explode(',', implode(",", $product->characteristic)));
 
                 if (count($id) > 0) {
@@ -156,10 +150,20 @@ class ShoppingController extends Controller {
             }
 
             $available = $this->stock->getInventory($product->id);
-
             $categories = Categories::where("node_id", 0)->get();
+            $like_product = $product->is_like()->first();
+            $text = '';
+            if (count($like_product) > 0) {
+                $like = $line = 'red';
+            } else {
+                $like = 'none';
+                $line = "black";
+                $text = "Añadir a favoritos";
+            }
 
-            return view("Ecommerce.payment.product", compact("product", "detail", "relations", "supplier", "available", "categories", "dietas"));
+            $like = (count($like_product) > 0) ? 'red' : 'none';
+
+            return view("Ecommerce.payment.product", compact("product", "detail", "relations", "supplier", "available", "categories", "dietas", "like", "line", "text"));
         } else {
             return response(view('errors.503'), 404);
         }
@@ -326,6 +330,22 @@ class ShoppingController extends Controller {
         $new = $new[0];
 
         return view("Ecommerce.shopping.profile", compact("client", "orders", "new"));
+    }
+
+    public function addFavourite($slug) {
+        $pro = Products::findBySlug($slug);
+
+        if ($pro->is_like()->first() == null) {
+            $new["user_id"] = Auth::user()->id;
+            $new["product_id"] = $pro->id;
+            $pro->is_like()->create($new);
+            $like = true;
+        } else {
+            $pro->is_like()->delete();
+            $like = false;
+        }
+
+        return response()->json(["like" => $like]);
     }
 
 }

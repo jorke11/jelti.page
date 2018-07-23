@@ -211,7 +211,6 @@ class PaymentController extends Controller {
 
         $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
 
-
         if ($order == null) {
             $new["insert_id"] = Auth::user()->id;
             $new["status_id"] = 1;
@@ -232,10 +231,10 @@ class PaymentController extends Controller {
             $det["price_sf"] = $pro->price_sf;
 
             if ($detPro != null) {
-                $detPro->quantity = $detPro->quantity + 1;
+                $detPro->quantity = $detPro->quantity + $in["quantity"];
                 $detPro->save();
             } else {
-                $det["quantity"] = 1;
+                $det["quantity"] = $in["quantity"];
                 OrdersDetail::create($det);
             }
         }
@@ -567,7 +566,7 @@ class PaymentController extends Controller {
 //            dd($_COOKIE['month']);
 //            echo Request::cookie('devicesessionid');exit;
 
-            if (date("m") > $in["month"]) {
+            if (date("m") > $in["month"] && date("Y") > $in["year"]) {
                 return back()->with("error", "Fecha vencimiento de tarjeta no es valida");
             }
 
@@ -604,7 +603,7 @@ class PaymentController extends Controller {
                 $merchantId = "559634";
                 $accountId = "562109";
                 $postData["test"] = "true";
-                
+
                 $referenceCode = 'invoice_' . microtime();
 
                 $TX_VALUE = round($data_order["header"]["total"]);
@@ -759,6 +758,8 @@ class PaymentController extends Controller {
                 $result = curl_exec($ch);
 
                 $arr = json_decode($result, TRUE);
+
+                dd($arr);
 
                 Log::debug("RESPONSE TO PAY: " . print_r($arr, true));
 

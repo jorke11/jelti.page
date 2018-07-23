@@ -111,7 +111,7 @@
                         </li>-->
         </ul>
 
-        <ul class="navbar-nav mr-auto text-center" style="padding-left: 18%;padding-top: 15px">
+        <ul class="navbar-nav mr-auto text-center" style="padding-left: 25%;padding-top: 15px">
             <li class="nav-item">
                 <a href="{{url("/")}}"><img alt="Brand" src="{{asset('images/page/logosuperf.svg') }}" width="50%" /></a>
             </li>
@@ -154,6 +154,7 @@
                    aria-haspopup="true" aria-expanded="false" style="color:white;font-size: 19px;padding-left: 15px;padding-right:15px;padding-top: 15px">Mi Cuenta</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <a class="dropdown-item" href="/myOrders">Historial Pedidos</a>
+                    <a class="dropdown-item" href="/myFavourite">Mis favoritos</a>
                     <a class="dropdown-item" href="{{ route('logout') }}"
                        onclick="event.preventDefault();
                                document.getElementById('logout-form').submit();">

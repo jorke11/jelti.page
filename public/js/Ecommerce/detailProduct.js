@@ -32,8 +32,45 @@ function detailProduct() {
 
 
         $("#btnFavourite").click(this.addFavourite)
-        $("#btnAddCart").click(this.addFavourite)
 
+        $("#quantity").change(function () {
+            if ($(this).val() > 0) {
+                $("#btnAddCart").attr("disabled", false);
+            } else {
+                $("#btnAddCart").attr("disabled", true);
+            }
+        });
+
+    }
+
+    this.addCard = function (title, slug, product_id, price_sf, img, tax) {
+        if ($("#quantity").val() > 0) {
+            var token = $("input[name=_token]").val();
+            var row = {
+                quantity: $("#quantity").val(),
+                title: title,
+                product_id: product_id,
+                price_sf: price_sf,
+                img: img,
+                tax: tax
+            }
+            if (user_id) {
+                $.ajax({
+                    url: PATH + '/addProduct/' + slug,
+                    method: 'PUT',
+                    headers: {'X-CSRF-TOKEN': token},
+                    data: row,
+                    success: function (data) {
+                        objCounter.setData(data);
+                    }, error: function (xhr, ajaxOptions, thrownError) {
+
+                    }
+
+                })
+            } else {
+                $("#myModal").modal("show");
+            }
+        }
     }
 
     this.addFavourite = function () {
@@ -43,8 +80,6 @@ function detailProduct() {
         }
 
         var slug = $("#slug").val();
-
-
         var token = $("input[name=_token]").val();
 
         $.ajax({
@@ -52,14 +87,17 @@ function detailProduct() {
             method: 'POST',
             headers: {'X-CSRF-TOKEN': token},
             success: function (data) {
-                $("#quantity").val(data.row.quantity)
+                if (data.like == true) {
+                    $("#i-heart").attr("fill", "red").attr("stroke", "red");
+                    $("#btnFavourite span").text("");
+                } else {
+                    $("#i-heart").attr("fill", "none").attr("stroke", "black");
+                    $("#btnFavourite span").text("Añadir a favoritos");
+                }
             }, error: function (xhr, ajaxOptions, thrownError) {
 
             }
-
         })
-
-
     }
 
 

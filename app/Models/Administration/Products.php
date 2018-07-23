@@ -69,9 +69,9 @@ class Products extends Model {
     }
 
     public function is_like() {
-        return $this->hasMany(ProductsLike::class, "product_id");
+        return $this->hasOne(ProductsLike::class, "product_id", "id");
     }
-    
+
     public function supplier() {
         return $this->belongsTo(Stakeholder::class, "supplier_id");
     }

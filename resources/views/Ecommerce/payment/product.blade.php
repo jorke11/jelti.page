@@ -164,17 +164,22 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-7">
-                    <button class="btn" 
+                    <button class="btn form-control" 
                             style="background-color: rgba(91,175,152,1);color:white;padding-left: 30%;padding-right: 30%;
-                            padding-top:0;padding-bottom: 0;border-radius: 10px" id="btnAddCart">Agregar al carrito</button>
+                            padding-top:0;padding-bottom: 0;border-radius: 10px" 
+
+                            onclick="obj.addCard('{{$product->short_description}}',
+                            '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->images[0]->path)}}','{{$product->tax}}')"
+                            id="btnAddCart"
+                            disabled>Agregar al carrito</button>
                 </div>
             </div>
             <div class="row justify-content-center" style="margin-top: 3%">
                 <div class="col-7">
-                    <button class="btn" style="background-color: white;border-color: #ccc;padding-left: 30%;padding-right: 20%;padding-top:0;
-                            padding-bottom: 0;border-radius: 10px" id="btnFavourite">
-                        Añadir a favoritos 
-                        <svg id="i-heart" viewBox="0 0 32 32" width="15" height="15" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                    <button class="btn form-control" style="background-color: white;border-color: #ccc;
+                            padding-top:0;padding-bottom: 0;border-radius: 10px" id="btnFavourite">
+                        <span>{{$text}}</span>
+                        <svg id="i-heart" viewBox="0 0 32 32" width="15" height="15" fill="{{$like}}" stroke="{{$line}}" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                         <path d="M4 16 C1 12 2 6 7 4 12 2 15 6 16 8 17 6 21 2 26 4 31 6 31 12 28 16 25 20 16 28 16 28 16 28 7 20 4 16 Z" />
                         </svg>
                     </button>
@@ -539,14 +544,13 @@
                                                         $ {{number_format($value->price_sf,0,",",'.')}}
                                                     </p>
                                                     @endguest
-
-                                                                                                                                                                                                                                                                                     <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                                                                                                                                                                                                                                                                     <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                                     <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm" style="
                                                        display:scroll;
                                                        position:fixed;
                                                        bottom:140px;
                                                        margin-left: 6%;
-                                                       margin-bottom: 1%;
+                                                       margin-bottom: 4%;
                                                        border-radius: 10px;
                                                        background-color: rgba(255,255,255,0);
                                                        border: 1px solid #5baf98
