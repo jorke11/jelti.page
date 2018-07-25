@@ -34,7 +34,7 @@ function Counter() {
             if (elem.is(":checked")) {
                 console.log(elem.val());
             }
-            
+
         })
 
 
@@ -224,7 +224,8 @@ function Counter() {
                                     <div class="card-body" style="padding:5%">
                                         <div class="row">
                                             <div class="col-4">
-                                                    <img class="img-fluid"  src="${PATH + "/" + row.thumbnail}" alt="Card image cap" style="max-width: 160%;">
+                                                <img class="img-fluid"  src="${PATH + "/" + row.thumbnail}" alt="Card image cap" style="max-width: 160%;cursor:pointer" 
+                                                 onclick="obj.redirectProduct('${row.slug}')">
                                             </div>
                                             <div class="col-8">
                                                 <p>${row.product} <br>

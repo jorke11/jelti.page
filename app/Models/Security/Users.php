@@ -10,6 +10,10 @@ class Users extends Model {
     protected $primaryKey = "id";
     protected $fillable = ["id", "name", "last_name", "email", "city_id",
         "stakeholder_id", "role_id", "status_id",
-        "password", "remember_token","document","warehouse_id","alias"];
+        "password", "remember_token", "document", "warehouse_id", "alias"];
+
+    public function comment() {
+        return $this->belongsTo(\App\Models\Administration\ProductsComment::class,"user_id");
+    }
 
 }

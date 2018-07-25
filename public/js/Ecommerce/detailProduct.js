@@ -23,10 +23,9 @@ function detailProduct() {
 
 //        this.getDataFirebase()
 
-        $("#addComment").click(this.addComment);
+
         $("#AddProduct").click(this.addProduct);
         $("#btnOpenModal").click(this.modalComment);
-        $("#contentComment").empty();
         this.getComment();
 //        this.getQuantity();
 
@@ -41,6 +40,13 @@ function detailProduct() {
             }
         });
 
+        $("#btnSendComment").click(this.addComment)
+
+    }
+
+    this.answer = function (comment_id) {
+        $("#frmComment #answer_id").val(comment_id);
+        $("#modalComment").modal("show");
     }
 
     this.addCard = function (title, slug, product_id, price_sf, img, tax) {
@@ -230,6 +236,32 @@ function detailProduct() {
                 });
     }
 
+    this.addComment = function () {
+
+        var token = $("input[name=_token]").val();
+
+        var html = "";
+        var param = {};
+        param.slug = $("#slug").val();
+        param.subject = $("#txtTitle").val();
+        param.comment = $("#txtComment").val();
+        param.answer_id = $("#answer_id").val();
+
+        $.ajax({
+            url: PATH + '/addComment',
+            method: 'POST',
+            headers: {'X-CSRF-TOKEN': token},
+            data: param,
+            dataType: 'JSON',
+            success: function (data) {
+                obj.loadTable(data)
+                $("#modalComment").modal("hide");
+            }
+        })
+
+    }
+
+
     this.getComment = function () {
         var html = "";
         $.ajax({
@@ -246,67 +278,26 @@ function detailProduct() {
         var html = '';
         $.each(data, function (i, val) {
             html += `
-                        <div class="row">
-            <div class="col-lg-12">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h4>${val.title}</h4>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <p class="text-muted">${val.name} ${val.last_name}</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <p class="text-muted">${val.created_at}</p>
-                            </div>
-                        </div>
-                        <div class="row row-space">
-                            <div class="col-lg-12">
-                                <p class="text-justify">
-                                   ${val.content}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" style='cursor: pointer;font-size: 25px;'></span>&nbsp;<span class="badge">42</span>&nbsp;&nbsp;
-                                <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true" style='cursor: pointer;font-size: 25px'></span>&nbsp;<span class="badge">0</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <span class="glyphicon glyphicon-comment" aria-hidden="true" style='cursor: pointer;font-size: 25px' onclick="obj.modalComment({{$product->id}})"></span>&nbsp;<span class="badge" >0</span>
-                            </div>
-                        </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Asunto</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Usuario</h6>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+
                     </div>
-                </div>
-            </div>
-        </div>`
+                    <div class="card-body text-right">
+                        <a href="#" class="card-link text-right">Me gusta</a>
+                        <a href="#" class="card-link text-muted">No me gusta</a>
+                        <a href="#" class="card-link text-right" onclick="obj.answer(${val.id}); return false;">Responder</a>
+                    </div>
+                </div>`
                     ;
         })
 
         $("#contentComment").html(html);
     }
 
-    this.addComment = function () {
-        var html = "";
-        var param = {};
-        param.product_id = $("#product_id").val();
-        param.content = $("#txtComment").val();
-        param.title = $("#txtTitle").val();
-        $.ajax({
-            url: PATH + '/addComment',
-            method: 'POST',
-            data: param,
-            dataType: 'JSON',
-            success: function (data) {
-                obj.loadTable(data)
-                $("#modalComment").modal("hide");
-            }
-        })
 
-    }
 }
 
 var obj = new detailProduct();

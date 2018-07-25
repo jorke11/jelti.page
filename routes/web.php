@@ -50,6 +50,7 @@ Route::get('/search', 'PageController@getProducts');
 //Route::get('/search/{input}', 'PageController@getProducts');
 
 Route::get('/getComment/{id}', 'Ecommerce\ShoppingController@getComment');
+Route::post('addComment', 'Ecommerce\ShoppingController@storeComment');
 Route::get('/getCounter', 'Ecommerce\PaymentController@getOrdersCurrent');
 Route::get('/getCounter/{slug}', 'Ecommerce\PaymentController@getOrdersCurrent');
 Route::get('/productDetail/{id}', 'Ecommerce\ShoppingController@getProduct');

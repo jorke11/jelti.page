@@ -115,7 +115,7 @@ class PaymentController extends Controller {
         $deviceSessionId = md5(session_id() . microtime());
         $deviceSessionId_concat = $deviceSessionId . "80200";
         $dietas = $this->dietas;
-//        return view("Ecommerce.payment.init", compact());
+
         return view("Ecommerce.payment.init", compact("id", "categories", "client", "month", "years", "total", "countries", "subtotal", "deviceSessionId", "deviceSessionId_concat", "term", "dietas"));
     }
 
@@ -566,7 +566,7 @@ class PaymentController extends Controller {
 //            dd($_COOKIE['month']);
 //            echo Request::cookie('devicesessionid');exit;
 
-            if (date("m") > $in["month"] && date("Y") > $in["year"]) {
+            if ((int)date("m") > (int) $in["month"] || (int)date("Y") > (int)$in["year"]) {
                 return back()->with("error", "Fecha vencimiento de tarjeta no es valida");
             }
 
@@ -758,8 +758,6 @@ class PaymentController extends Controller {
                 $result = curl_exec($ch);
 
                 $arr = json_decode($result, TRUE);
-
-                dd($arr);
 
                 Log::debug("RESPONSE TO PAY: " . print_r($arr, true));
 

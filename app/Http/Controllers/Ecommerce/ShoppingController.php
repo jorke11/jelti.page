@@ -16,6 +16,7 @@ use App\Models\Blog\Feedback;
 use Auth;
 use DB;
 use App\Http\Controllers\Inventory\StockController;
+use App\Models\Administration\ProductsComment;
 
 class ShoppingController extends Controller {
 
@@ -55,8 +56,6 @@ class ShoppingController extends Controller {
         $categories = [];
         return view("Ecommerce.shopping.init", compact("categories"));
     }
-
- 
 
     public function getDetailProduct($id) {
         $dietas = $this->dietas;
@@ -131,8 +130,8 @@ class ShoppingController extends Controller {
         }
     }
 
-    public function getProduct($id) {
-        $product = Products::findBySlug($id);
+    public function getProduct($slug) {
+        $product = Products::findBySlug($slug);
         $dietas = $this->dietas;
 
         if ($product != null) {
@@ -169,6 +168,20 @@ class ShoppingController extends Controller {
         } else {
             return response(view('errors.503'), 404);
         }
+    }
+
+    public function storeComment(Request $req) {
+        $in = $req->all();
+        $pro = Products::findBySlug($in["slug"]);
+
+        $new["product_id"] = $pro->id;
+        $new["user_id"] = Auth::user()->id;
+        $new["subject"] = $in["subject"];
+        $new["comment"] = $in["comment"];
+        $new["answer_id"] = $in["answer_id"];
+        $pro->comment()->create($new);
+
+        return $this->getComment($in["slug"]);
     }
 
     public function getCities($department_id) {
@@ -235,17 +248,6 @@ class ShoppingController extends Controller {
         return Categories::all();
     }
 
-    public function addComment(Request $req) {
-        $data = $req->all();
-
-//        dd($data);
-        $data["user_id"] = Auth::user()->id;
-        $data["type_id"] = 1;
-        $data["row_id"] = $data["product_id"];
-        Feedback::create($data);
-        return $this->getComment($data["product_id"]);
-    }
-
     public function managementOrder(Request $req) {
         $data = $req->all();
 
@@ -307,19 +309,34 @@ class ShoppingController extends Controller {
     }
 
     public function getComment($slug) {
-
         $pro = Products::findBySlug($slug);
+        $comm = $pro->comment()->whereNull("answer_id")->get();
 
-        $feed = Feedback::select("feedback.id", "feedback.title", "users.name", "users.last_name", "feedback.content", "feedback.created_at")
-                        ->join("users", "users.id", "feedback.user_id")
-                        ->where("row_id", $pro->id)->get();
+        $comment = [];
 
-        return response()->json($feed);
+        foreach ($comm as $i => $value) {
+            $con = ProductsComment::where("answer_id", $value->id)->get();
+            $comment[$i][] = $value;
+            if (count($con) > 0) {
+                
+                $comment[$i]["child"] = $this->getChild($con);
+            }
+        }
+
+        return response()->json($comm);
+    }
+
+    public function getChild($data) {
+
+        dd($data);
+
+        foreach ($data as $val) {
+            $row[] = ProductsComment::find($val->id);
+        }
+        return $row;
     }
 
     public function getMyProfile() {
-
-
 
         $sql = "select count(*) quantity, sum(subtotalnumeric) total from vdepartures where client_id=$user->stakeholder_id and status_id IN(2,7)";
 

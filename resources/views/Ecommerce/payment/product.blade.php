@@ -544,7 +544,7 @@
                                                         $ {{number_format($value->price_sf,0,",",'.')}}
                                                     </p>
                                                     @endguest
-                                                                                                                                                                                                                                                                                                     <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                                                                                                                                                                            <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                                     <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm" style="
                                                        display:scroll;
                                                        position:fixed;
@@ -609,10 +609,10 @@
         </div>
     </div>
     <div class="row" style="padding-top: 2%">
-        <div class="col-lg-6" id="contentComment">
+        <div class="col-lg-6 offset-3" id="contentComment">
+          
         </div>
-        <div class="col-lg-6">
-        </div>
+
     </div>
 </div>
 
@@ -627,6 +627,7 @@
             </div>
             <div class="modal-body">
                 <form id="frmComment">
+                    <input type="hidden" class="input-comment" name="answer_id" id="answer_id">
                     <div class="row row-space">
                         <div class="col-lg-12">
                             <input type="text" class="form-control input-comment" name="title" id="txtTitle" placeholder="Asunto">
@@ -641,7 +642,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Enviar</button>
+                <button type="button" class="btn btn-primary" id="btnSendComment">Enviar</button>
             </div>
         </div>
     </div>

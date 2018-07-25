@@ -68,6 +68,11 @@ class Products extends Model {
 //         return $this->hasMany(ProductsImage::class, "id","product_id");
     }
 
+    public function comment() {
+        return $this->hasMany(ProductsComment::class, "product_id");
+//         return $this->hasMany(ProductsImage::class, "id","product_id");
+    }
+
     public function is_like() {
         return $this->hasOne(ProductsLike::class, "product_id", "id");
     }
