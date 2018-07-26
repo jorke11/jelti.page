@@ -594,12 +594,17 @@ class PaymentController extends Controller {
 
 //                $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
                 $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
-                $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
+//                $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
+                
 //$apiKey = "maGw8KQ5JlOEv64D79ma1N0l9G";
-                $apiLogin = "pRRXKOl8ikMmt9u";
+//                $apiLogin = "pRRXKOl8ikMmt9u";
 //$apiLogin = "rHpg9EL98w905Nv";
 //                $merchantId = "508029";
 //                $accountId = "512321";
+//                
+                //data Produccion
+                $apiKey = "wiTUQz3eq42TbHU2P5QmwqUoU";
+                $apiLogin = "HpavSZGis8Q8YE";
                 $merchantId = "559634";
                 $accountId = "562109";
                 $postData["test"] = "true";

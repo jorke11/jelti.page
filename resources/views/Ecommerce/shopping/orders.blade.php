@@ -8,8 +8,18 @@
     </div>
 
     <div class="row" style="padding-bottom: 2%;">
-        <div class="col-6 offset-1">
+        <div class="col-6 ">
             <table class="table table-bordered  table-condensed" id="orderClient">
+                <thead>
+                    <tr>
+                        <th>Orden</th>
+                        <th>Factura</th>
+                        <th>Fecha</th>
+                        <th>Subtotal</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
                 <tbody>
                     @foreach($list as $val)
                     <tr>
@@ -30,8 +40,8 @@
                 <tfoot></tfoot>
             </table>
         </div>
-        <div class="col-5">
-            <div class="list_order">
+        <div class="col-6">
+            <div id="list_order">
 
             </div>
         </div>
