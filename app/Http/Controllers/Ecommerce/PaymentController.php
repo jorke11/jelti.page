@@ -603,8 +603,8 @@ class PaymentController extends Controller {
 //                $accountId = "512321";
 //                
                 //data Produccion
-                $apiKey = "wiTUQz3eq42TbHU2P5QmwqUoU";
-                $apiLogin = "HpavSZGis8Q8YE";
+                $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
+                $apiLogin = "tGovZHuhL97hNh7";
                 $merchantId = "559634";
                 $accountId = "562109";
                 $postData["test"] = "true";
