@@ -318,7 +318,7 @@ class PaymentController extends Controller {
     }
 
     public function getMyOrders() {
-        $categories = [];
+        $categories = $this->categories;
         $dietas = [];
 
         $client = Stakeholder::find(Auth::user()->stakeholder_id);
@@ -566,8 +566,8 @@ class PaymentController extends Controller {
 //            dd($_COOKIE['month']);
 //            echo Request::cookie('devicesessionid');exit;
 
-            if ((int)date("m") > (int) $in["month"] || (int)date("Y") > (int)$in["year"]) {
-                return back()->with("error", "Fecha vencimiento de tarjeta no es valida");
+            if ((int) date("m") > (int) $in["month"] || (int) date("Y") > (int) $in["year"]) {
+                return back()->with("error", "Fecha vencimiento de tarjeta no es valida")->with("number", $in["number"])->with("name", $in["name"]);
             }
 
             $country = $in["country_id"];
@@ -595,7 +595,6 @@ class PaymentController extends Controller {
 //                $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
                 $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
 //                $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
-                
 //$apiKey = "maGw8KQ5JlOEv64D79ma1N0l9G";
 //                $apiLogin = "pRRXKOl8ikMmt9u";
 //$apiLogin = "rHpg9EL98w905Nv";

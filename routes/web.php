@@ -33,7 +33,7 @@ Route::get('/products/{slug_category}', function ($slug_category) {
     $products = DB::table("vproducts")->whereNotNull("image")->whereNotNull("thumbnail")->whereNotNull("warehouse")->orderBy("title", "desc")->paginate(16);
 
     $dietas = array(
-        (object) array("id" => 1, "description" => "Paleo"),
+        (object) array("id" => 1, "descriptionmyOrders" => "Paleo"),
         (object) array("id" => 2, "description" => "Vegano"),
         (object) array("id" => 3, "description" => "Sin gluten"),
         (object) array("id" => 4, "description" => "Organico"),

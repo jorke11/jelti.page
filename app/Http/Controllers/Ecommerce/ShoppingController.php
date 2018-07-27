@@ -328,7 +328,7 @@ class ShoppingController extends Controller {
 
     public function getChild($data) {
 
-        dd($data);
+//        dd($data);
 
         foreach ($data as $val) {
             $row[] = ProductsComment::find($val->id);

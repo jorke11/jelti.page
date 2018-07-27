@@ -112,13 +112,15 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label for="tgarjeta">Tarjeta de Credito</label>
-                                                <input type="text" class="form-control form-control-sm input input-payment input-number" id="number" name="number" placeholder="Numero de tarjeta" maxlength="16" required autocomplete="off">
+                                                <input type="text" class="form-control form-control-sm input input-payment input-number" id="number" name="number" 
+                                                       placeholder="Numero de tarjeta" maxlength="16" required autocomplete="off" value="{{Session::get('number')}}">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label for="tgarjeta">Nombre como aparece en la tarjeta</label>
-                                                <input type="text" class="form-control form-control-sm input input-payment input-alpha" id="name" name="name" placeholder="Nombre como aparece en la tarjeta" required autocomplete="off" maxlength="150">
+                                                <input type="text" class="form-control form-control-sm input input-payment input-alpha" id="name" name="name" placeholder="Nombre como aparece en la tarjeta" required autocomplete="off" maxlength="150"
+                                                       value="{{Session::get('name')}}">
                                             </div>
                                         </div>
                                     </div>

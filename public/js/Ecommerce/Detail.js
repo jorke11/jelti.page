@@ -11,7 +11,8 @@ function Detail() {
             method: 'GET',
             success: function (data) {
                 data.forEach(function (row, i) {
-                    html += `
+                    row.thumbnail = (row.thumbnail == null)?'images/product/default_product.jpeg':row.thumbnail;
+                            html += `
                             <div class="row">
                                 <div class="col-11">
                                     <div class="card">

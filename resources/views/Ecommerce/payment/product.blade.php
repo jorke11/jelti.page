@@ -196,7 +196,7 @@
             </div>
             <div class="row" style="padding-bottom: 4%">
                 <div class="col-12">
-                    <p  class="text-justify">{{$product->why}}</p>
+                    <p  class="text-justify" style="padding-right: 6%">{{$product->why}}</p>
                 </div>
             </div>
             <div class="row">
