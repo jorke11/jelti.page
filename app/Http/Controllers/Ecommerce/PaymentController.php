@@ -753,7 +753,7 @@ class PaymentController extends Controller {
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                     'Content-Type: application/json',
-                    'Host: sandbox.api.payulatam.com',
+                    'Host: api.payulatam.com',
                     'Accept:application/json',
                     'Content-Length: ' . strlen($data_string))
                 );
@@ -807,10 +807,10 @@ class PaymentController extends Controller {
                     } else {
                         $error = $arr["error"];
                     }
-                    return back()->with("error", $error);
+                    return back()->with("error", $error)->with("number", $in["number"])->with("name", $in["name"]);
                 }
             } else {
-                return back()->with("error", $error);
+                return back()->with("error", $error)->with("number", $in["number"])->with("name", $in["name"]);
             }
         } catch (Exception $e) {
             DB::rollback();
@@ -820,7 +820,6 @@ class PaymentController extends Controller {
 
     public function paymentCredit(Request $req) {
         $in = $req->all();
-
         $this->processPayment($in["order_id"]);
     }
 
