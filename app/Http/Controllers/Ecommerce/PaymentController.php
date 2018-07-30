@@ -570,15 +570,16 @@ class PaymentController extends Controller {
                 return back()->with("error", "Fecha vencimiento de tarjeta no es valida")->with("number", $in["number"])->with("name", $in["name"]);
             }
 
+
             $country = $in["country_id"];
             $in["expirate"] = $in["year"] . "/" . $in["month"];
 
             $data_order = $this->createOrder();
 
             $client = Stakeholder::where("email", Auth::user()->email)->first();
-
-            $city = \App\Models\Administration\Cities::find($client->city_id);
-            $department = \App\Models\Administration\Department::find($city->department_id);
+            $city = $client->city;
+            
+            $department = $city->department;
 
             $type_card = $this->identifyCard($in["number"], $in["crc"], $in["expirate"]);
 
@@ -632,7 +633,7 @@ class PaymentController extends Controller {
                 $buyer_document = $client->document;
                 $buyer_address = $client->address_invoice;
                 $buyer_phone = $client->phone;
-                $buyer_city = $client->description;
+                $buyer_city = $client->city->description;
                 $buyer_department = $department->description;
 
 
@@ -742,7 +743,7 @@ class PaymentController extends Controller {
                 );
 
 
-
+//                dd($postData);
 
                 Log::debug("REQUEST TO PAY: " . print_r($postData, true));
                 $data_string = json_encode($postData);
@@ -757,7 +758,7 @@ class PaymentController extends Controller {
                     'Accept:application/json',
                     'Content-Length: ' . strlen($data_string))
                 );
-//            dd(json_decode($data_string, TRUE));
+            dd(json_decode($data_string, TRUE));
 
                 $result = curl_exec($ch);
 

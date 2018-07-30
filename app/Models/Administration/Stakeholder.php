@@ -48,7 +48,11 @@ class Stakeholder extends Model {
     ];
 
     public function product() {
-        $this->belongsTo(Products::class);
+        return $this->belongsTo(Products::class);
+    }
+
+    public function city() {
+        return $this->hasOne(Cities::class, "id", "city_id");
     }
 
 }
