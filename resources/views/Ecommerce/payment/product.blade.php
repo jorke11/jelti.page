@@ -512,7 +512,7 @@
                                         ?>
                                         <div class="col-3">
                                             <div class="card" >
-                                                <img class="card-img-top" src="/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
+                                                <img class="card-img-top" src="https://superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                 <div class="card-body text-center">
                                                     <h5 class="card-title text-left" style="min-height:60px" onclick="obj.redirectProduct('{{$value->slug}}')">
                                                         <?php echo substr($value->short_description, 0, 30); ?>
