@@ -21,7 +21,7 @@
         width: 100%;
     }
 </style>
-<div class="container-fluid footer-template">
+<div class="container-fluid footer-template" style="padding-top: 150px">
     <!--<div class="row" style="background-color: rgba(0,0,0,.8);">-->
     <div class="row" >
         <div class="col-5" style="padding-top: 2%;padding-bottom: 2%"  id="categories-footer">

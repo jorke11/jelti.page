@@ -5,7 +5,7 @@
 {!!Html::style('/css/page.css')!!}
 
 <section id="content-menu">
-    <div class="container-fluid" style="padding-left: 0; padding-right: 0;position:relative;top: -160px">
+    <div  class="container-fluid" style="padding-left: 0; padding-right: 0;position:relative;top: -160px">
         <section id="slider-main" class="main-slider">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
@@ -21,7 +21,7 @@
 </section>
 
 <section>
-    <div class="container-fluid" style="padding-left: 0; padding-right: 0;position:relative;top:-100px">
+    <div class="container-fluid"  id="content-image" style="padding-left: 0; padding-right: 0;position:relative;top:-100px">
         <div class="row center-block" style="margin-right: 0;padding-top:1%">
             <div class="col-2 offset-1">
                 <div class="row center-block" id="categories-filter">
@@ -47,7 +47,7 @@
                                                 {{ucwords(strtolower($val->description))}}
                                             </div>
                                             <div class="col-2">
-                                                <input type="checkbox" class="form-control list-category" name="categories[]" <?php echo $check ?> value="{{$val->slug}}" onclick="obj.reloadCategories('{{$val->slug}}')">
+                                                <input type="checkbox" class="form-control list-category" name="categories[]" <?php echo $check ?> value="{{$val->slug}}" onclick="obj.reloadCategories('{{$val->slug}}');">
                                             </div>
                                         </div>
 
@@ -101,7 +101,7 @@
                                 ?>
                                 <div class="col-3">
                                     <div class="card text-center">
-                                        <img class="card-img-right img-fluid" src="/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" 
+                                        <img class="card-img-right img-fluid" src="http://www.superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" 
                                              style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                         <a href="#" class="btn btn-primary btn-sm" style="
                                            margin-left: 80%;

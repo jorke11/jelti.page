@@ -81,6 +81,7 @@ function Detail() {
                             <div class="row mb-3">
                                 <div class="col-4">
                                         <img class="img-fluid"  src="${PATH + "/" + row.thumbnail}" alt="Card image cap" >
+                                        <img class="img-fluid"  src="${PATH + "/" + row.thumbnail}" alt="Card image cap" >
                                 </div>
                                 <div class="col-8">
                                     <p>${row.product} <br>
@@ -287,8 +288,6 @@ function Detail() {
             categories.push($(this).val());
         })
 
-
-
         $("input[name='subcategories[]']:checked").each(function () {
             subcategories.push($(this).val());
         })
@@ -310,7 +309,7 @@ function Detail() {
                         html += `
                             <div class="col-3">
                                             <div class="card text-center">
-                                                <img class="card-img-right img-fluid" src="/${value.thumbnail}" alt="Card image cap" 
+                                                <img class="card-img-right img-fluid" src="http://superfuds.com/${value.thumbnail}" alt="Card image cap" 
                                                 onclick="obj.redirectProduct('${value.slug}')" 
                                                      style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                 <a href="#" class="btn btn-primary btn-sm" style="
@@ -399,11 +398,15 @@ function Detail() {
 
 
                 $("#content-subcategories").html(html);
+
                 if (data.count_cat > 1) {
-                    $("#main-image-category").attr("src", PATH + "/images/banner_sf.jpg");
+                    $("#main-image-category").attr("src", "http://localhost:8001/images/banner_sf.jpg");
+                    $("#content-image").css("top", -100);
+                    $("#main-menu-id").addClass("main-menu-out");
                 } else {
-                    console.log(data.row_category)
-                    $("#main-image-category").attr("src", PATH + "/" + data.row_category.banner);
+                    $("#main-menu-id").removeClass("main-menu-out");
+                    $("#main-image-category").attr("src", "http://localhost:8000" + data.row_category.banner);
+                    $("#content-image").css("top", 100);
                 }
 
 
