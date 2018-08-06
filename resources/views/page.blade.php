@@ -95,6 +95,24 @@
     </div>
 </section>
 
+<style>
+    .buttonplus{
+        display:scroll;
+        position:fixed;
+        bottom:170px;
+        margin-left: 6%;
+        margin-bottom: 1%;
+        border-radius: 10px;
+        background-color: rgba(255,255,255,0);
+        border: 1px solid #5baf98
+    }
+    @media (min-width: 1100px){
+        .title-new {
+            display: none !important;
+        }
+    }
+</style>
+
 <!--Web-->
 <section style="padding-top: 3%;padding-bottom: 2%">   
     <div class="container-fluid test">
@@ -107,7 +125,7 @@
 
         <div class="row row-center test" >
             <!--<div class="col-3 d-none d-md-none d-lg-block" style="background-color: #f8f7f5">-->
-            <div class="col-3 d-lg-block d-md-none " style="background-color: #f8f7f5">
+            <div class="col-3 d-lg-block d-md-none title-new" style="background-color: #f8f7f5">
                 <h1 class="text-center"style="padding-top: 30%">Lo Más Nuevo <br>en SuperFuds</h1>
                 <p class="text-center"><a href="#" class="link-green">Ver todos</a></p>
 
@@ -162,17 +180,7 @@
                                                         </p>
                                                         @endguest
 
-                                                                                                                                             <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-                                                        <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm" style="
-                                                           display:scroll;
-                                                           position:fixed;
-                                                           bottom:170px;
-                                                           margin-left: 6%;
-                                                           margin-bottom: 1%;
-                                                           border-radius: 10px;
-                                                           background-color: rgba(255,255,255,0);
-                                                           border: 1px solid #5baf98
-                                                           ">
+                                                        <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm buttonplus">
                                                             <svg id="i-plus" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="#5baf98" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                             <path d="M16 2 L16 30 M2 16 L30 16" />
                                                             </svg>
@@ -212,8 +220,6 @@
         </div>
     </div>
 </section>
-
-
 
 <section style="padding-top: 3%;padding-bottom: 2%" >   
     <div class="container-fluid test">
@@ -272,7 +278,7 @@
 
                                                         @guest
                                                         <p>
-                                                            
+
                                                         </p>
                                                         @else
                                                         <p>
@@ -280,17 +286,8 @@
                                                         </p>
                                                         @endguest
 
-                                                                                                                                             <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-                                                        <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm" style="
-                                                           display:scroll;
-                                                           position:fixed;
-                                                           bottom:150px;
-                                                           margin-left: 6%;
-                                                           margin-bottom: 1%;
-                                                           border-radius: 10px;
-                                                           background-color: rgba(255,255,255,0);
-                                                           border: 1px solid #5baf98
-                                                           ">
+                                                                                                                                                                     <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                        <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm buttonplus" >
                                                             <svg id="i-plus" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="#5baf98" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                             <path d="M16 2 L16 30 M2 16 L30 16" />
                                                             </svg>
