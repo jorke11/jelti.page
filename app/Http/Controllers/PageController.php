@@ -154,8 +154,6 @@ class PageController extends Controller {
                 $categories->where("id", $value->category_id);
             }
 
-
-
             $categories = $categories->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->orderBy("order", "asc")->get();
         }
 
