@@ -400,7 +400,7 @@ function Detail() {
                 $("#content-subcategories").html(html);
 
                 if (data.count_cat > 1) {
-                    $("#main-image-category").attr("src", "https://www.superfuds.com/images/banner_sf.jpg");
+                    $("#main-image-category").attr("src", "https://jelti.superfuds.com/images/banner_sf.jpg");
                     $("#content-image").css("top", -100);
                     $("#main-menu-id").addClass("main-menu-out");
                 } else {
