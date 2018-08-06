@@ -404,8 +404,9 @@ function Detail() {
                     $("#content-image").css("top", -100);
                     $("#main-menu-id").addClass("main-menu-out");
                 } else {
+                    console.log(data.row_category.banner);
                     $("#main-menu-id").removeClass("main-menu-out");
-                    $("#main-image-category").attr("src", data.row_category.banner);
+                    $("#main-image-category").attr("src", "https://superfuds.com/" + data.row_category.banner);
                     $("#content-image").css("top", 100);
                 }
 
