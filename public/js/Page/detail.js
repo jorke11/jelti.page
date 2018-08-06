@@ -405,7 +405,7 @@ function Detail() {
                     $("#main-menu-id").addClass("main-menu-out");
                 } else {
                     $("#main-menu-id").removeClass("main-menu-out");
-                    $("#main-image-category").attr("src", "https://www.superfuds.com" + data.row_category.banner);
+                    $("#main-image-category").attr("src", data.row_category.banner);
                     $("#content-image").css("top", 100);
                 }
 
