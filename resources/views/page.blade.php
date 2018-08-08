@@ -39,7 +39,7 @@
                 <div class="card">
                     <img class="card-img-top" src="{{url("images/page/dietas/paleo.png")}}" alt="Card image cap">
                     <div class="card-body">
-                        <h4 class="card-title text-center">Paleo</h4>
+                        <h2 class="card-title text-center">Paleo</h2>
                         <p class="text-center justify-content-center"><a href="{{url("search/s=paleo")}}" class="link-green">Ver todos</a></p>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                 <div class="card">
                     <img class="card-img-top" src="{{url("images/page/dietas/vegana.png")}}" alt="Card image cap">
                     <div class="card-body">
-                        <h4 class="card-title text-center">Vegana</h4>
+                        <h2 class="card-title text-center">Vegana</h2>
                         <p class="text-center justify-content-center"><a href="{{url("search/s=vegano")}}" class="link-green">Ver todos</a></p>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                 <div class="card">
                     <img class="card-img-top" src="{{url("images/page/dietas/sin_gluten.png")}}" alt="Card image cap">
                     <div class="card-body">
-                        <h4 class="card-title text-center">Sin gluten</h4>
+                        <h2 class="card-title text-center">Sin Gluten</h2>
                         <p class="text-center justify-content-center"><a href="{{url("search/s=sin_gluten")}}" class="link-green">Ver todos</a></p>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                 <div class="card">
                     <img class="card-img-top" src="{{url("images/page/dietas/organico.png")}}" alt="Card image cap">
                     <div class="card-body">
-                        <h4 class="card-title text-center">Organico</h4>
+                        <h2 class="card-title text-center">Orgánico</h2>
                         <p class="text-center justify-content-center"><a href="{{url("search/organico")}}" class="link-green">Ver todos</a></p>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                 <div class="card">
                     <img class="card-img-top" src="{{url("images/page/dietas/singrasastrans.png")}}" alt="Card image cap">
                     <div class="card-body">
-                        <h4 class="card-title text-center">Sin grasas trans</h4>
+                        <h2 class="card-title text-center">Sin Grasas Trans</h2>
                         <p class="text-center justify-content-center"><a href="{{url("search/sin_grasas_trans")}}" class="link-green" >Ver todos</a></p>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                 <div class="card">
                     <img class="card-img-top" src="{{url("images/page/dietas/sinazucar.png")}}" alt="Card image cap">
                     <div class="card-body">
-                        <h4 class="card-title text-center">Sin Azucar</h4>
+                        <h2 class="card-title text-center">Sin Azúcar</h2>
                         <p class="text-center justify-content-center"><a href="{{url("search/sin_azucar")}}" class="link-green" >Ver todos</a></p>
                     </div>
                 </div>
@@ -125,7 +125,7 @@
 
         <div class="row row-center test" >
             <!--<div class="col-3 d-none d-md-none d-lg-block" style="background-color: #f8f7f5">-->
-            <div class="col-3 d-lg-block d-md-none title-new" style="background-color: #f8f7f5">
+            <div class="col-3 d-lg-block d-md-none " style="background-color: #f8f7f5">
                 <h1 class="text-center"style="padding-top: 30%">Lo Más Nuevo <br>en SuperFuds</h1>
                 <p class="text-center"><a href="#" class="link-green">Ver todos</a></p>
 

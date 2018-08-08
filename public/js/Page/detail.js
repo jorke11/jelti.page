@@ -309,7 +309,7 @@ function Detail() {
                         html += `
                             <div class="col-3">
                                             <div class="card text-center">
-                                                <img class="card-img-right img-fluid" src="http://superfuds.com/${value.thumbnail}" alt="Card image cap" 
+                                                <img class="card-img-right img-fluid" src="https://superfuds.com/${value.thumbnail}" alt="Card image cap" 
                                                 onclick="obj.redirectProduct('${value.slug}')" 
                                                      style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                 <a href="#" class="btn btn-primary btn-sm" style="
