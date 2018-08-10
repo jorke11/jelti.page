@@ -244,12 +244,6 @@ function Detail() {
                 });
     }
 
-    this.registerClient = function () {
-        $("#myModal").modal("show");
-    }
-
-
-
 
     this.redirectProduct = function (url) {
         window.location = PATH + "/productDetail/" + url;

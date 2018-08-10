@@ -109,49 +109,55 @@ function Counter() {
             }
         });
 
-        $('.input-number').on('input', function () {
-            this.value = this.value.replace(/[^0-9]/g, '');
-        });
+
 
         $(".box-client").addClass("back-green");
         $("#type_stakeholder").val(id);
+
         $("#register").click(function () {
             var elem = $(this);
             elem.attr("disabled", true);
             toastr.remove();
+
+            var valida = $(".in-page").validate();
+
             if (!$("#agree").is(":checked")) {
                 toastr.error("Necesita estar de acuerdo con los terminos Legales");
                 elem.attr("disabled", false);
                 return false;
             }
-
-            if (isNaN($("#phone").val()) != false) {
-                toastr.error("Numero de telefono");
+            if ($("#type_stakeholder").val() == 2 && $("#what_make").val() == '') {
+                toastr.warning("Cuentanos un poco a que te dedicas");
                 elem.attr("disabled", false);
                 return false;
             }
 
+
             var form = $("#frm");
 
-
-            $.ajax({
-                url: 'newVisitan',
-                method: 'POST',
-                data: form.serialize(),
-                success: function (data) {
-                    if (data.status == true) {
-                        toastr.success("Pronto te estaremos contactando");
-                        $(".in-page").cleanFields();
-                        $("#myModal").modal("hide");
+            if (valida.length == 0) {
+                $.ajax({
+                    url: 'newVisitan',
+                    method: 'POST',
+                    data: form.serialize(),
+                    success: function (data) {
+                        if (data.status == true) {
+                            toastr.success("Pronto te estaremos contactando");
+                            $(".in-page").cleanFields();
+                            $("#myModal").modal("hide");
+                        }
+                    }, error: function (xhr, ajaxOptions, thrownError) {
+                        toastr.error(xhr.responseJSON.msg);
+                        elem.attr("disabled", false);
                     }
-                }, error: function (xhr, ajaxOptions, thrownError) {
-                    toastr.error(xhr.responseJSON.msg);
-                    elem.attr("disabled", false);
-                }
 
-            })
+                })
 
-            elem.attr("disabled", false);
+                elem.attr("disabled", false);
+            } else {
+                elem.attr("disabled", false);
+                toastr.error("Es necesario ingresar los datos");
+            }
         });
 
         $("#keepbuying").click(function () {

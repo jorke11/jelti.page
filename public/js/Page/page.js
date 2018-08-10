@@ -25,9 +25,9 @@ function Page() {
 //        this.getDataFirebase();
 //        this.getDataFireStore();
         this.getData();
-       
 
-        
+
+
 
         $('#get-checked-data').on('click', function (event) {
             event.preventDefault();
@@ -315,7 +315,11 @@ function Page() {
         if (elem_id == 1) {
             $(elem).addClass("title-green")
             $("#title-supplier").removeClass("title-green");
+            $("#field_make").addClass("d-none")
+            $("#what_make").removeAttr("required")
         } else {
+            $("#field_make").removeClass("d-none")
+            $("#what_make").attr("required", "required")
             $(elem).addClass("title-green")
             $("#title-business").removeClass("title-green");
         }

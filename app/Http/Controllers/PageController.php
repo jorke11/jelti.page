@@ -8,6 +8,9 @@ use App\Models\Administration\Characteristic;
 use DB;
 use App\Models\Administration\Products;
 use stdClass;
+use App\Models\Administration\Email;
+use App\Models\Administration\EmailDetail;
+use Mail;
 
 class PageController extends Controller {
 
@@ -244,6 +247,54 @@ class PageController extends Controller {
         }
 
         return response()->json(["products" => $products, "subcategories" => $subcategory, "count_cat" => $count_cat, "row_category" => $row_category]);
+    }
+
+    public function newVisitan(Request $req) {
+        $in = $req->all();
+        
+        $in["email"] = trim($in["email"]);
+        unset($in["_token"]);
+        $email = \App\Models\Administration\Stakeholder::where("email", trim($in["email"]))->get();
+
+        if (count($email) > 0) {
+            return response()->json(["msg" => "Email ya esta registrado en nuestro sistema!", "status" => false], 500);
+        }
+
+        if ($in["type_stakeholder"] == 1) {
+            $new = \App\Models\Seller\Prospect::create($in);
+        }
+
+//        unset($in["type_stakeholder"]);
+
+        $this->mails[] = "jpinedom@hotmail.com";
+
+        if ($in["type_stakeholder"] == 3) {
+            $in["type"] = "Proveedor";
+            $email = Email::where("description", "page_supplier")->first();
+        } else {
+            $in["type"] = "Cliente";
+            $email = Email::where("description", "page")->first();
+        }
+
+        if ($email != null) {
+            $emDetail = EmailDetail::where("email_id", $email->id)->get();
+
+            if ($emDetail != null) {
+                foreach ($emDetail as $value) {
+                    $this->mails[] = $value->description;
+                }
+            }
+        }
+
+        $in["environment"] = env("APP_ENV");
+
+        $this->subject = "Nuevo Registro";
+        Mail::send("Notifications.prospect", $in, function($msj) {
+            $msj->subject($this->subject);
+            $msj->to($this->mails);
+        });
+
+        return response()->json(["msg" => "Creados!", "status" => true]);
     }
 
 }

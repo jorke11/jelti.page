@@ -22,6 +22,7 @@ Route::get('/', 'PageController@index');
 Route::get('myOrders', "Ecommerce\PaymentController@getMyOrders");
 Route::get('getDetailOrder/{invoice}', "Ecommerce\PaymentController@getInvoice");
 
+Route::post('newVisitan', "PageController@newVisitan");
 
 Route::get('/products/{slug_category}', function ($slug_category) {
 

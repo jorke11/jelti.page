@@ -368,25 +368,44 @@ jQuery.fn.validate = function (param) {
                     arrData.push({id: elem.attr("id"), value: elem.val(), element: elem.get(0).tagName});
                 } else {
 
+
+
                     if (elem.data("type") != undefined) {
 
                         $("#error_" + elem.attr("id")).remove();
+
                         if (elem.data("type") == 'number' && isNaN(elem.val())) {
                             elem.after('<small class="help-block" id="error_' + elem.attr("id") + '" data-fv-validator="notEmpty" data-fv-for="firstName" data-fv-result="INVALID" style="">' + elem.attr("id") + ' is not Numeric</small>')
                             elem.parent().parent().addClass("has-error")
                             arrData.push({id: elem.attr("id"), value: elem.val(), element: elem.get(0).tagName});
+                        } else if (elem.data("type") == 'email') {
+                            elem.parent().parent().removeClass("has-error")
                         } else {
                             elem.parent().parent().removeClass("has-error")
                         }
                     } else {
                         $("#error_" + elem.attr("id")).remove();
-                        if (elem.val() != null && elem.val() != 0) {
-                            elem.parent().parent().removeClass("has-error")
-                        } else {
-                            elem.after('<small class="help-block" id="error_' + elem.attr("id") + '" data-fv-validator="notEmpty" data-fv-for="firstName" data-fv-result="INVALID" style="">' + elem.attr("id") + ' is Required</small>')
-                            elem.parent().parent().addClass("has-error")
-                            arrData.push({id: elem.attr("id"), value: elem.val(), element: elem.get(0).tagName});
 
+                        if (elem.attr("type") == 'email') {
+
+                            var emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+                            //Se muestra un texto a modo de ejemplo, luego va a ser un icono
+                            if (!emailRegex.test(elem.val())) {
+                                elem.after('<small class="help-block" id="error_' + elem.attr("id") + '" data-fv-validator="notEmpty" data-fv-for="firstName" data-fv-result="INVALID" style="">' + elem.attr("id") + ' is not valid!</small>')
+                                elem.parent().parent().addClass("has-error")
+                                arrData.push({id: elem.attr("id"), value: elem.val(), element: elem.get(0).tagName});
+                            } else {
+                                elem.parent().parent().removeClass("has-error")
+                            }
+                        } else {
+
+                            if (elem.val() != null && elem.val() != 0) {
+                                elem.parent().parent().removeClass("has-error")
+                            } else {
+                                elem.after('<small class="help-block" id="error_' + elem.attr("id") + '" data-fv-validator="notEmpty" data-fv-for="firstName" data-fv-result="INVALID" style="">' + elem.attr("id") + ' is Required</small>')
+                                elem.parent().parent().addClass("has-error")
+                                arrData.push({id: elem.attr("id"), value: elem.val(), element: elem.get(0).tagName});
+                            }
                         }
                     }
                 }

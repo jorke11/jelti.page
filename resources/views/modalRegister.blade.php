@@ -39,27 +39,32 @@
                             </div>
                             <div class="row row-space">
                                 <div class="col-lg-12">
-                                    <input class="form-control in-page" placeholder="Nombre" type="text" name="name" id="name">
+                                    <input class="form-control in-page" placeholder="Nombre" type="text" name="name" id="name" required>
                                 </div>
                             </div>
                             <div class="row row-space">
                                 <div class="col-lg-12">
-                                    <input class="form-control in-page" placeholder="Apellido" type="text" name="last_name" id="last_name">
+                                    <input class="form-control in-page" placeholder="Apellido" type="text" name="last_name" id="last_name" required> 
                                 </div>
                             </div>
                             <div class="row row-space">
                                 <div class="col-lg-12">
-                                    <input class="form-control in-page" placeholder="Email" type="email" name="email" id="email">
+                                    <input class="form-control in-page" placeholder="Email" type="email" name="email" id="email" required>
                                 </div>
                             </div>
                             <div class="row row-space">
                                 <div class="col-lg-12">
-                                    <input class="form-control in-page input-number" placeholder="Telefono" type="text" name="phone" id="phone">
+                                    <input class="form-control in-page input-number" placeholder="Telefono" type="text" name="phone" id="phone" required>
+                                </div>
+                            </div>
+                            <div class="row row-space d-none" id="field_make">
+                                <div class="col-lg-12">
+                                    <textarea class="form-control in-page" placeholder="Cuentanos que a que te dedicas?" name="what_make" id="what_make"></textarea>
                                 </div>
                             </div>
                             <div class="row row-space">
                                 <div class="col-lg-12">
-                                    <input type="checkbox" name="agree" id="agree" class="in-page"><span style="color:#5c5c5b"> Acepto términos de servicio | Leer mas</span>
+                                    <input type="checkbox" name="agree" id="agree" class="in-page" required><span style="color:#5c5c5b"> Acepto términos de servicio | Leer mas</span>
                                 </div>
                             </div>
                             <div class="row">
