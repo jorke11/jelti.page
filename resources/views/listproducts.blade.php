@@ -5,7 +5,7 @@
 {!!Html::style('/css/page.css')!!}
 
 <section id="content-menu">
-    <div  class="container-fluid" style="padding-left: 0; padding-right: 0;position:relative;top: -160px">
+    <div  class="container-fluid" style="padding-left: 0; padding-right: 0;position:relative;top: -90px">
         <section id="slider-main" class="main-slider">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
@@ -21,7 +21,7 @@
 </section>
 
 <section>
-    <div class="container-fluid"  id="content-image" style="padding-left: 0; padding-right: 0;position:relative;top:-100px">
+    <div class="container-fluid"  id="content-image" style="padding-left: 0; padding-right: 0;padding-bottom: 5%;position:relative;top:-100px">
         <div class="row center-block" style="margin-right: 0;padding-top:1%">
             <div class="col-2 offset-1">
                 <div class="row center-block" id="categories-filter">
@@ -185,7 +185,7 @@
         </div>
     </div>
 </section>
-{!!Html::script('js/Page/detail.js')!!}
+{!!Html::script('js/Page/listProduct.js')!!}
 @endsection
 
 

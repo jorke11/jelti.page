@@ -10,7 +10,7 @@
         /*        padding-top: 100px;
                 position: relative;
                 transition: all 1s ease;*/
-        /*background-repeat: no-repeat;*/
+        background-repeat: no-repeat;
         /*background-position-y: -20px;*/
         background-image: url("/images/fondofooter.png");
         /*            -webkit-background-size: cover;
@@ -21,7 +21,7 @@
         width: 100%;
     }
 </style>
-<div class="container-fluid footer-template" style="padding-top: 150px">
+<div class="container-fluid footer-template">
     <!--<div class="row" style="background-color: rgba(0,0,0,.8);">-->
     <div class="row" >
         <div class="col-5" style="padding-top: 2%;padding-bottom: 2%"  id="categories-footer">

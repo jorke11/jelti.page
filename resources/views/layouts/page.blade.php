@@ -4,7 +4,7 @@ $exibirModal = false;
 //unset($_COOKIE["mostrarModal"]);
 # Verificando si existe o no la cookie
 if (!isset($_COOKIE["mostrarModal"])) {
-    
+
     # Caso no exista la cookie entra aquí
     # Creamos la cookie con la duración que queramos
     //$expirar = 3600; // muestra cada 1 hora
@@ -51,8 +51,8 @@ clearstatcache();
         <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
         <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
         <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
-        
-        
+
+
         {!!Html::script('/vendor/toastr/toastr.min.js')!!}
         {!!Html::style('/vendor/toastr/toastr.min.css')!!}
 
@@ -60,7 +60,7 @@ clearstatcache();
         {!!Html::script('/vendor/plugins.js')!!}
         {!!Html::style('/vendor/select2/css/select2.min.css')!!}
         {!!Html::script('/vendor/select2/js/select2.js')!!}
-           {!!Html::style('/css/edited.css')!!}
+        {!!Html::style('/css/edited.css')!!}
     </head>
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
@@ -221,11 +221,23 @@ clearstatcache();
             color:#ffffff
         }
 
+        #loading-super{
+            display: scroll;
+            position: fixed;
+            z-index: 10000;
+            left: 50%;
+            top: 40%
+        }
+
     </style>
 
     <body >
         @include("modalRegister")
+
         <div class="container-fluid" style="padding-left: 0; padding-right: 0">
+            <div id="loading-super" class="d-none" >
+                <img src="{!!asset('images/Gif_final.gif')!!}" width='60%' >
+            </div>
             @include("header")
 
             @yield('content')
@@ -261,5 +273,5 @@ clearstatcache();
     </script>
 <?php endif; ?>
 
-    {!!Html::script('js/Page/counter.js')!!}
+{!!Html::script('js/Page/counter.js')!!}
 <link href="{{ asset('/css/fonts.css') }}" rel="stylesheet" type="text/css">

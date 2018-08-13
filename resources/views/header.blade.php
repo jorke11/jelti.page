@@ -63,6 +63,30 @@
         color:white;
     }
 
+    #text-search{
+        width: 320px;
+        height: 26px
+    }
+
+    #slider-main{
+        position:relative;
+        top: -66px   
+    }
+
+    @media screen and (max-width: 1400px) {
+        #text-search{
+            width: 180px;
+            height: 26px
+        }
+
+    }
+
+    @media screen and (max-width: 1000px) {
+        #slider-main{
+            position:relative;top: -125px;
+        }
+    }
+
 </style>
 
 @auth
@@ -117,12 +141,12 @@
             </li>
         </ul>
 
-        <form class="form-inline my-2 my-lg-1"  id="frmSearch">
+        <form class="form-inline  my-2 my-lg-1"  id="frmSearch">
 
             <div class="col-auto" >
                 <label class="sr-only" for="inlineFormInputGroup">Username</label>
                 <div class="input-group mb-2" style="padding-top:10px">
-                    <input type="text" class="form-control form-control-sm" id="text-search" placeholder="Brownie, Paleo, Quinua" style="width: 330px;height: 26px" required="">
+                    <input type="text" class="form-control form-control-sm" id="text-search" placeholder="Brownie, Paleo, Quinua" required="">
                     <div class="input-group-prepend" style="cursor:pointer" id="btnSearch">
                         <div class="input-group-text" style="background-color: rgba(0,0,0,0);height: 26px" >
                             <svg id="i-search" viewBox="0 0 32 32" width="32" height="23" fill="none" stroke="white" stroke-linecap="round" 
@@ -135,9 +159,6 @@
 
                 </div>
             </div>
-
-            <!--<input class="form-control mr-sm-2 form-control-sm" type="text" placeholder="Brownie, Paleo, Quinua" aria-label="Search" style="width: 300px" id="text-search">-->
-            <!--<button class="btn btn-outline-dark my-2 my-sm-0 btn-sm" type="button" id="btnSearch">Buscar</button>-->
         </form>
 
         <ul class="navbar-nav">

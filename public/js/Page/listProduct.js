@@ -293,6 +293,9 @@ function Detail() {
             url: PATH + '/search',
             method: 'get',
             data: data,
+            beforeSend: function () {
+                $("#loading-super").removeClass("d-none");
+            },
             success: function (data) {
 
                 $("#divproducts").empty();
@@ -394,7 +397,7 @@ function Detail() {
                 $("#content-subcategories").html(html);
 
                 if (data.count_cat > 1) {
-                    $("#main-image-category").attr("src", "https://jelti.superfuds.com/images/banner_sf.jpg");
+                    $("#main-image-category").attr("src", "https://superfuds.com/images/banner_sf.jpg");
                     $("#content-image").css("top", -100);
                     $("#main-menu-id").addClass("main-menu-out");
                 } else {
@@ -403,6 +406,8 @@ function Detail() {
                     $("#main-image-category").attr("src", "https://superfuds.com/" + data.row_category.banner);
                     $("#content-image").css("top", 100);
                 }
+
+                $("#loading-super").addClass("d-none");
 
 
             }, error: function (xhr, ajaxOptions, thrownError) {

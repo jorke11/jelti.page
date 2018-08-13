@@ -1,7 +1,7 @@
 @extends('layouts.page')
 @section('content')
 
-<section id="slider-main" class="main-slider" style="position:relative;top: -66px">
+<section id="slider-main" class="main-slider" style="">
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -106,11 +106,55 @@
         background-color: rgba(255,255,255,0);
         border: 1px solid #5baf98
     }
+    .title-products{
+        padding: 0;min-height: 60px;
+    }
+    .star{
+        width: 22px;height: 22px
+    }
+
+    .buttonplus-svg{
+        width: 20px;
+        fill:"none"
+    }
+
+
+
     @media (min-width: 1100px){
         .title-new {
             display: none !important;
         }
+        .title-products{
+            font-size: 12px;
+            padding: 0;min-height: 60px;
+        }
+        .buttonplus{
+            display:scroll;
+            position:fixed;
+            bottom:150px;
+            margin-left: 3.5%;
+            margin-bottom: 2%;
+            border-radius: 10px;
+            background-color: rgba(255,255,255,0);
+            border: 1px solid #5baf98;
+
+        }
+
+        .buttonplus-svg{
+            width: 18px;
+            fill:"none"
+        }
+
+
+        .star{
+            width: 15px;
+            height: 15px;
+            color:#ffa608;
+            fill:#ffa608
+        }
     }
+
+
 </style>
 
 <!--Web-->
@@ -149,23 +193,21 @@
                                                     <img class="card-img-top" src="https://superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                     <div class="card-body text-center">
                                                         <p class="text-left text-muted" style="margin:0;">{{$value->supplier}}</p>
-                                                        <h5 class="card-title text-left" style="padding: 0;min-height: 60px" onclick="obj.redirectProduct('{{$value->slug}}')">
-                                                            <?php echo substr($value->short_description, 0, 30); ?>
-                                                        </h5>
+                                                        <h5 class="card-title text-left title-products" style="" onclick="obj.redirectProduct('{{$value->slug}}')"><?php echo trim(substr($value->short_description, 0, 30)); ?></h5>
                                                         <p class="text-left">
-                                                            <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                            <svg id="i-star" viewBox="0 0 32 32"  class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                             <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                             </svg>
-                                                            <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                            <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                             <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                             </svg>
-                                                            <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                            <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                             <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                             </svg>
-                                                            <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                            <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                             <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                             </svg>
-                                                            <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                            <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                             <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                             </svg>
                                                         </p>
@@ -181,7 +223,7 @@
                                                         @endguest
 
                                                         <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm buttonplus">
-                                                            <svg id="i-plus" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="#5baf98" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                            <svg id="i-plus" viewBox="0 0 32 32" class="buttonplus-svg"  stroke="#5baf98" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                             <path d="M16 2 L16 30 M2 16 L30 16" />
                                                             </svg>
                                                         </a>
@@ -255,23 +297,23 @@
                                                     <img class="card-img-top" src="https://superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                     <div class="card-body text-center">
                                                         <p class="text-left text-muted" style="margin:0">{{$value->supplier}}</p>
-                                                        <h5 class="card-title text-left" style="margin:0;min-height: 60px" onclick="obj.redirectProduct('{{$value->slug}}')">
+                                                        <h5 class="card-title text-left title-products" style="margin:0;min-height: 60px" onclick="obj.redirectProduct('{{$value->slug}}')">
                                                             <?php echo substr($value->short_description, 0, 25); ?>
                                                         </h5>
                                                         <p class="text-left">
-                                                            <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                            <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                             <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                             </svg>
-                                                            <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                            <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                             <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                             </svg>
-                                                            <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                            <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                             <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                             </svg>
-                                                            <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                            <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                             <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                             </svg>
-                                                            <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                            <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                             <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                             </svg>
                                                         </p>
@@ -286,9 +328,9 @@
                                                         </p>
                                                         @endguest
 
-                                                                                                                                                                     <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                                                                                                                                                                             <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                                         <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm buttonplus" >
-                                                            <svg id="i-plus" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="#5baf98" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                            <svg id="i-plus" viewBox="0 0 32 32" class="buttonplus-svg" stroke="#5baf98" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                             <path d="M16 2 L16 30 M2 16 L30 16" />
                                                             </svg>
                                                         </a>
