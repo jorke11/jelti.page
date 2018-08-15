@@ -94,8 +94,6 @@
 @endauth
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-light main-menu img-fluid img-header " id="main-menu-id" style="background-color: #6dcbb;height: auto;left:-2px">
-    <!--<nav class="navbar navbar-expand-md fixed-top main-menu img-fluid" id="main-menu-id" style="background-image: url({{url("/images/page/fondosuperior.svg")}});width: 100%;height: auto">-->
-    <!--<nav class="navbar navbar-expand-lg navbar-light" id="main-menu-id" style="background-color: #ccc">-->
     <a class="navbar-brand d-lg-none" href="#">
         <img alt="Brand" src="/images/page/logosuperf.svg" class="img-fluid" width="30%">
     </a>
@@ -108,7 +106,7 @@
         <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown active">
                 <a class="nav-link dropdown-toggle" href="{{url("/")}}" id="dropdown01" data-toggle="dropdown" 
-                   aria-haspopup="true" aria-expanded="false" style="color:white;font-weight: 300" >Categorias</a>
+                   aria-haspopup="true" aria-expanded="false" style="color:white;font-size: 25px" >Categorias</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     @foreach($categories as $val)
                     <a style="color:black" class="dropdown-item" href="{{url("")}}/products/{{$val->slug}}">{{ucwords(strtolower($val->description))}}</a>
@@ -117,7 +115,7 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
-                   aria-haspopup="true" aria-expanded="false" style="color:white;font-size: 19;padding-right:40px">Dieta</a>
+                   aria-haspopup="true" aria-expanded="false" style="color:white;padding-right:40px;font-size: 25px">Dieta</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     @foreach($dietas as $val)
                     <a class="dropdown-item" href="#">{{$val->description}}</a>
@@ -137,7 +135,7 @@
 
         <ul class="navbar-nav mr-auto text-center" style="padding-left: 18%;padding-top: 15px">
             <li class="nav-item">
-                <a href="{{url("/")}}"><img alt="Brand" src="{{asset('images/page/logosuperf.svg') }}" width="50%" /></a>
+                <a href="{{url("/")}}"><img alt="Brand" src="{{asset('images/page/logosuperf.svg') }}" width="75%" /></a>
             </li>
         </ul>
 

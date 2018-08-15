@@ -379,7 +379,9 @@ function listProduct() {
                 $("#divproducts").html(html);
                 $("#content-subcategories").empty();
                 html = "";
+                var checked = false;
                 $.each(data.subcategories, function (i, val) {
+                    checked = (val.checked != undefined) ? 'checked' : '';
                     html += `
                         <li class="list-group-item">
                             <div class="row">
@@ -387,7 +389,7 @@ function listProduct() {
                                     ${val.short_description}
                                 </div>
                                 <div class="col-2">
-                                    <input type="checkbox" name="subcategories[]" class="form-control" value="${val.slug}" onclick=obj.reloadCategories('${val.slug}')>
+                                    <input type="checkbox" ${checked} name="subcategories[]" class="form-control" value="${val.slug}" onclick=obj.reloadCategories('${val.slug}')>
                                 </div>
                             </div>
                         </li>`;

@@ -112,7 +112,7 @@ class PageController extends Controller {
         $slug_category = '';
         $row_category = Categories::where("type_category_id", 1)->where("node_id", 0)->orderBy("id", "desc")->first();
 
-        $subcategory = Categories::where("status_id", 1)->where("node_id", $row_category->id)->orderBy("order", "asc")->get();
+        $subcategory = Categories::where("status_id", 1)->where("node_id", $row_category->id)->orderBy("description", "asc")->get();
 
 
         if (stripos($param, "s=") !== false) {
@@ -168,6 +168,7 @@ class PageController extends Controller {
     public function getProducts(Request $req, $param = null) {
         $in = $req->all();
         $category = Categories::where("node_id", 0)->get();
+        $sub_ids = array();
 
         $row_category = array();
         $cat_ids = [];
@@ -197,13 +198,39 @@ class PageController extends Controller {
                 $products->whereIn("category_id", $ids);
             }
 
+
+
+            if (isset($in["subcategories"])) {
+                $in["subcategories"] = array_filter($in["subcategories"]);
+
+
+                foreach ($in["subcategories"] as $val) {
+                    if ($val != '') {
+
+                        $cate = Categories::where("slug", $val)->first();
+                        $sub_ids[] = $cate->id;
+                        $products->where("category_id", $cate->id);
+                    }
+                }
+            }
+
 //            $subcategory = Categories::where("status_id", 1)->WhereIn("node_id", $cat)->orderBy("order", "asc")->get();
 
 
             if (count($cat_ids) > 0) {
                 $subcategory = Categories::WhereIn("node_id", $cat_ids)->orderBy("description", "asc")->get();
+                foreach ($subcategory as $i => $value) {
+                    if (in_array($value->id, $sub_ids)) {
+                        $subcategory[$i]->checked = true;
+                    }
+                }
             } else {
                 $subcategory = Categories::Where("node_id", "<>", 0)->orderBy("description", "asc")->get();
+                foreach ($subcategory as $i => $value) {
+                    if (in_array($value->id, $sub_ids)) {
+                        $subcategory[$i]->checked = true;
+                    }
+                }
             }
 
             $products = $products->orderBy("supplier", "desc")->orderBy("title", "asc")->get();
@@ -251,7 +278,7 @@ class PageController extends Controller {
 
     public function newVisitan(Request $req) {
         $in = $req->all();
-        
+
         $in["email"] = trim($in["email"]);
         unset($in["_token"]);
         $email = \App\Models\Administration\Stakeholder::where("email", trim($in["email"]))->get();
