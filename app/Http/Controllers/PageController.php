@@ -110,9 +110,9 @@ class PageController extends Controller {
     public function search($param) {
 
         $slug_category = '';
-        $row_category = Categories::where("type_category_id", 1)->where("node_id", 0)->orderBy("id", "desc")->first();
+        $row_category = Categories::where("type_category_id", 1)->where("node_id", 0)->where("status_id", 1)->orderBy("id", "desc")->first();
 
-        $subcategory = Categories::where("status_id", 1)->where("node_id", $row_category->id)->orderBy("description", "asc")->get();
+        $subcategory = Categories::where("status_id", 1)->where("node_id", $row_category->id)->where("status_id", 1)->orderBy("description", "asc")->get();
 
 
         if (stripos($param, "s=") !== false) {
@@ -138,8 +138,10 @@ class PageController extends Controller {
 
 
 
-            $categories = $categories->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->orderBy("order", "asc")->get();
-        } else {
+            $categories = $categories->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->where("status_id", 1)->orderBy("order", "asc")->get();
+            dd($categories);
+            
+            } else {
 
             $products = DB::table("vproducts")
                             ->whereNotNull("image")
@@ -157,7 +159,7 @@ class PageController extends Controller {
                 $categories->where("id", $value->category_id);
             }
 
-            $categories = $categories->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->orderBy("order", "asc")->get();
+            $categories = $categories->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->where("status_id", 1)->orderBy("order", "asc")->get();
         }
 
         $dietas = $this->dietas;
