@@ -139,7 +139,7 @@ class PageController extends Controller {
 
 
             $categories = $categories->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->where("status_id", 1)->orderBy("order", "asc")->get();
-            dd($categories);
+            
             
             } else {
 
