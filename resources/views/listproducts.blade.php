@@ -166,7 +166,7 @@
                                     <div class="card text-center">
                                         <img class="card-img-right img-fluid" src="http://www.superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" 
                                              style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
-                                        <a href="#" class="btn btn-primary btn-sm" style="
+                                        <a href="#" id="btn-plus-product_{{$value->id}}" class="btn btn-primary btn-sm" style="
                                            margin-left: 80%;
                                            border-radius: 10px;
                                            background-color: white;

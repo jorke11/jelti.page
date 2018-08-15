@@ -187,11 +187,13 @@ function Counter() {
                 data: row,
                 beforeSend: function () {
                     $("#loading-super").removeClass("d-none");
+                    $("#btn-plus-product_" + product_id).attr("disabled", true);
                 },
                 success: function (data) {
                     objCounter.setData(data);
                     $("#quantity_selected_" + product_id).html("Cantidad Seleccionada (" + data.current.quantity + ")")
                     $("#loading-super").addClass("d-none");
+                    $("#btn-plus-product_" + product_id).attr("disabled", true);
 
                 }, error: function (xhr, ajaxOptions, thrownError) {
 
