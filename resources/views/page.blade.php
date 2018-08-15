@@ -100,7 +100,7 @@
         display:scroll;
         position:fixed;
         bottom:170px;
-        margin-left: 6%;
+        margin-left: 7%;
         margin-bottom: 1%;
         border-radius: 10px;
         background-color: rgba(255,255,255,0);
