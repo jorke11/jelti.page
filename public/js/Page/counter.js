@@ -178,6 +178,7 @@ function Counter() {
             img: img,
             tax: tax
         }
+
         if (user_id) {
             $.ajax({
                 url: PATH + '/addProduct/' + slug,
@@ -186,6 +187,7 @@ function Counter() {
                 data: row,
                 success: function (data) {
                     objCounter.setData(data);
+                    $("#quantity_selected_" + product_id).html("Cantidad Seleccionada (" + data.current.quantity + ")")
                 }, error: function (xhr, ajaxOptions, thrownError) {
 
                 }
@@ -262,6 +264,7 @@ function Counter() {
                 </div>`
 
         $("#popover-content").html(html);
+
 
     }
 }

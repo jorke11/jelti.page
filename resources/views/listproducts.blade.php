@@ -188,9 +188,9 @@
                                             </h5>
                                             <span class="card-title text-left title-products" style="font-weight: 900;color:rgba(91,175,152,1);font-size: 15px;margin:0;min-height: 60px" onclick="obj.redirectProduct('{{$value->slug}}')">
                                                 @if($value->quantity)
-                                                Cantidad Seleccionada ({{$value->quantity}})
+                                                <span id="quantity_selected_{{$value->id}}">Cantidad Seleccionada ({{$value->quantity}})</span>
                                                 @else
-                                                <br>
+                                                <span id="quantity_selected_{{$value->id}}"></span>
                                                 @endif
                                             </span>
                                             <p class="text-left">

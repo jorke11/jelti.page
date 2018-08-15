@@ -221,7 +221,9 @@ class PaymentController extends Controller {
 
             $pro = Products::find($in["product_id"]);
 
-            $detPro = OrdersDetail::where("product_id", $pro->id)->where("order_id", $order->id)->first();
+//            $detPro = OrdersDetail::where("product_id", $pro->id)->where("order_id", $order->id)->first();
+            $detPro = $order->detail->where("product_id", $pro->id)->first();
+
 
             $det["product_id"] = $pro->id;
             $det["order_id"] = $order->id;
@@ -235,14 +237,14 @@ class PaymentController extends Controller {
                 $detPro->save();
             } else {
                 $det["quantity"] = $in["quantity"];
-                OrdersDetail::create($det);
+                $detPro = OrdersDetail::create($det);
             }
         }
 
 
         $res = $this->getOrdersCurrent($slug);
 
-        return response()->json(["success" => true, "quantity" => $res["quantity"], "detail" => $res["detail"], "row" => $res["row"], "total" => $res["total"]]);
+        return response()->json(["success" => true, "quantity" => $res["quantity"], "detail" => $res["detail"], "current" => $detPro, "row" => $res["row"], "total" => $res["total"]]);
     }
 
     public function deleteProduct(Request $req, $slug) {
@@ -578,7 +580,7 @@ class PaymentController extends Controller {
 
             $client = Stakeholder::where("email", Auth::user()->email)->first();
             $city = $client->city;
-            
+
             $department = $city->department;
 
             $type_card = $this->identifyCard($in["number"], $in["crc"], $in["expirate"]);
