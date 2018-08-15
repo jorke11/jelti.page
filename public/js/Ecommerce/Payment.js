@@ -108,7 +108,7 @@ function Payment() {
                                     </div>
                                     <div class="row">
                                         <div class="col-2">
-                                            <img src="${PATH + "/" + detail[i].thumbnail}" style="width:95%" class="img-fluid"/>
+                                            <img src="https://superfuds.com/${detail[i].thumbnail}" style="width:95%" class="img-fluid"/>
                                         </div>
                                         <div class="col-7">
                                             <div class="row">

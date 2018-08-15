@@ -132,7 +132,7 @@
             display:scroll;
             position:fixed;
             bottom:150px;
-            margin-left: 3.5%;
+            margin-left: 6%;
             margin-bottom: 2%;
             border-radius: 10px;
             background-color: rgba(255,255,255,0);
@@ -153,6 +153,43 @@
             fill:#ffa608
         }
     }
+
+    @media (min-width: 1250px){
+        .title-new {
+            display: none !important;
+        }
+        .title-products{
+            font-size: 12px;
+            padding: 0;min-height: 60px;
+        }
+        .buttonplus{
+            display:scroll;
+            position:fixed;
+            bottom:150px;
+            margin-left: 4%;
+            margin-bottom: 2%;
+            border-radius: 10px;
+            background-color: rgba(255,255,255,0);
+            border: 1px solid #5baf98;
+
+        }
+        .title-new{
+            /*font-size: 60px;*/
+        }
+
+        .buttonplus-svg{
+            width: 14px;
+            fill:"none"
+        }
+
+        .star{
+            width: 15px;
+            height: 15px;
+            color:#ffa608;
+            fill:#ffa608
+        }
+    }
+
 
 
 </style>
@@ -328,7 +365,7 @@
                                                         </p>
                                                         @endguest
 
-                                                                                                                                                                                                             <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                                                                                                                                                                                 <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                                         <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm buttonplus" >
                                                             <svg id="i-plus" viewBox="0 0 32 32" class="buttonplus-svg" stroke="#5baf98" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                             <path d="M16 2 L16 30 M2 16 L30 16" />

@@ -1,4 +1,4 @@
-function Detail() {
+function listProduct() {
     var id = 1;
     var param = [];
     var db;
@@ -421,5 +421,5 @@ function Detail() {
 
 }
 
-obj = new Detail();
+obj = new listProduct();
 obj.init();

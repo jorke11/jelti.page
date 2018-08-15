@@ -191,12 +191,6 @@
                 <a class="nav-link" href="#" data-toggle="popover" title="Resumen Compra" data-placement="bottom"  
                    data-popover-content="#a1" >
                     <img alt="Brand" src="{{asset('images/page/carrito.png') }}" width="45%" />
-<!--                    <svg id="i-cart" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" enable-background="new 0 0 512 512" 
-                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="color:white">
-                    <path d="M6 6 L30 6 27 19 9 19 M27 23 L10 23 5 2 2 2" />
-                    <circle cx="25" cy="27" r="2" />
-                    <circle cx="12" cy="27" r="2" />
-                    </svg>-->
                     <span class="badge badge-light" id="badge-quantity">0</span>
                 </a>
             </li>

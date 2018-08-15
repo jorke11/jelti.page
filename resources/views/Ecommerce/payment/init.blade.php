@@ -37,7 +37,6 @@
 </div>
 @endif
 
-
 <input id="order_id" name="order_id" type="hidden">
 <div class="container-fluid">
     <div class="row d-none" id="message-mount" >

@@ -4,6 +4,69 @@
 @section('content')
 {!!Html::style('/css/page.css')!!}
 
+<style>
+    .buttonplus{
+        display:scroll;
+        position:fixed;
+        bottom:170px;
+        margin-left: 6%;
+        margin-bottom: 1%;
+        border-radius: 10px;
+        background-color: rgba(255,255,255,0);
+        border: 1px solid #5baf98
+    }
+    .title-products{
+        padding: 0;min-height: 60px;
+    }
+    .star{
+        width: 22px;height: 22px
+    }
+
+    .buttonplus-svg{
+        width: 20px;
+        fill:"none"
+    }
+
+
+
+    @media (min-width: 1100px){
+        .title-new {
+            display: none !important;
+        }
+        .title-products{
+            font-size: 12px;
+            padding: 0;min-height: 60px;
+        }
+        .buttonplus{
+            display:scroll;
+            position:fixed;
+            bottom:150px;
+            margin-left: 3.5%;
+            margin-bottom: 2%;
+            border-radius: 10px;
+            background-color: rgba(255,255,255,0);
+            border: 1px solid #5baf98;
+
+        }
+
+        .buttonplus-svg{
+            width: 18px;
+            fill:"none"
+        }
+
+
+        .star{
+            width: 15px;
+            height: 15px;
+            color:#ffa608;
+            fill:#ffa608
+        }
+    }
+
+</style>
+
+
+
 <section id="content-menu">
     <div  class="container-fluid" style="padding-left: 0; padding-right: 0;position:relative;top: -90px">
         <section id="slider-main" class="main-slider">
@@ -119,26 +182,27 @@
                                         </a>
                                         <div class="card-body" style="padding-bottom: 1.25em;padding-top:0">
 
-                                            <p class="card-title text-left" onclick="obj.redirectProduct('{{$value->slug}}')" 
-                                               style="cursor: pointer;min-height: 60px;margin-bottom: 0;padding-top: 5%" ><?php echo substr($value->short_description, 0, 40); ?></p>
+                                            <p class="text-left text-muted" style="margin:0">{{$value->supplier}}</p>
+                                            <h5 class="card-title text-left title-products" style="margin:0;min-height: 60px" onclick="obj.redirectProduct('{{$value->slug}}')">
+                                                <?php echo substr($value->short_description, 0, 25); ?>
+                                            </h5>
                                             <p class="text-left">
-                                                <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                 <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                 </svg>
-                                                <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                 <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                 </svg>
-                                                <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                 <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                 </svg>
-                                                <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                 <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                 </svg>
-                                                <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                 <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                 </svg>
                                             </p>
-
                                                                                                                                                                                                                 <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                             @guest
                                             <p></p>

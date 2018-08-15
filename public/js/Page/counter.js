@@ -221,16 +221,14 @@ function Counter() {
         var html = '';
         if (data.detail != false) {
             data.detail.forEach((row, index) => {
-
                 if (index < 3) {
-
                     html += `
                             <div class="row mb-3">
                                 <div class="card">
                                     <div class="card-body" style="padding:5%">
                                         <div class="row">
                                             <div class="col-4">
-                                                <img class="img-fluid"  src="${PATH + "/" + row.thumbnail}" alt="Card image cap" style="max-width: 160%;cursor:pointer" 
+                                                <img class="img-fluid"  src="https://superfuds.com/${row.thumbnail}" alt="Card image cap" style="max-width: 160%;cursor:pointer" 
                                                  onclick="obj.redirectProduct('${row.slug}')">
                                             </div>
                                             <div class="col-8">
