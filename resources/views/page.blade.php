@@ -166,7 +166,7 @@
             display:scroll;
             position:fixed;
             bottom:150px;
-            margin-left: 4%;
+            margin-left: 7%;
             margin-bottom: 2%;
             border-radius: 10px;
             background-color: rgba(255,255,255,0);
