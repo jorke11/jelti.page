@@ -36,4 +36,8 @@ class DeparturesDetail extends Model {
         "quantity_lots"
     ];
 
+    public function detail() {
+        return $this->hasMany(OrdersDetail::class, "order_id");
+    }
+
 }

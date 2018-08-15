@@ -395,11 +395,11 @@ function listProduct() {
                         </li>`;
                 })
 
-
                 $("#content-subcategories").html(html);
 
                 if (data.count_cat > 1) {
-                    $("#main-image-category").attr("src", "https://superfuds.com/images/banner_sf.jpg");
+                    console.log("ingreso aca")
+                    $("#main-image-category").attr("src", "/images/banner_sf.jpg");
                     $("#content-image").css("top", -100);
                     $("#main-menu-id").addClass("main-menu-out");
                 } else {

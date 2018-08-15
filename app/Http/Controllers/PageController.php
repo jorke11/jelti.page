@@ -11,6 +11,8 @@ use stdClass;
 use App\Models\Administration\Email;
 use App\Models\Administration\EmailDetail;
 use Mail;
+use App\Models\Inventory\Orders;
+use Auth;
 
 class PageController extends Controller {
 
@@ -109,16 +111,28 @@ class PageController extends Controller {
 
     public function search($param) {
 
+        $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
+
         $slug_category = '';
         $row_category = Categories::where("type_category_id", 1)->where("node_id", 0)->where("status_id", 1)->orderBy("id", "desc")->first();
 
         $subcategory = Categories::where("status_id", 1)->where("node_id", $row_category->id)->where("status_id", 1)->orderBy("description", "asc")->get();
 
-
         if (stripos($param, "s=") !== false) {
             $param = str_replace("s=", "", $param);
             $char = \App\Models\Administration\Characteristic::where("description", "ilike", "%" . strtolower($param) . "%")->get();
-            $products = DB::table("vproducts")
+            $products = DB::table("vproducts")->select("vproducts.id","vproducts.title",
+                    "vproducts.short_description",
+                    "vproducts.price_sf",
+                    "vproducts.image",
+                    "vproducts.thumbnail",
+                    "vproducts.category_id",
+                    "vproducts.slug",
+                    "vproducts.tax",
+                    "vproducts.supplier",
+                    "orders_detail.quantity"
+                    )
+                    ->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id=".$orders->id))
                     ->whereNotNull("image")
                     ->whereNotNull("warehouse");
             foreach ($char as $value) {
@@ -129,19 +143,14 @@ class PageController extends Controller {
 
             $products = $products->orderBy("title", "desc")->get();
 
-
             $categories = Categories::where("status_id", 1);
 
             foreach ($products as $value) {
                 $categories->where("id", $value->category_id);
             }
 
-
-
             $categories = $categories->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->where("status_id", 1)->orderBy("order", "asc")->get();
-            
-            
-            } else {
+        } else {
 
             $products = DB::table("vproducts")
                             ->whereNotNull("image")
@@ -162,8 +171,8 @@ class PageController extends Controller {
             $categories = $categories->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->where("status_id", 1)->orderBy("order", "asc")->get();
         }
 
+//        dd($products);
         $dietas = $this->dietas;
-
         return view('listproducts', compact("categories", "row_category", 'products', "slug_category", "subcategory", "param", "dietas"));
     }
 
@@ -177,9 +186,7 @@ class PageController extends Controller {
         if ($param == null) {
             $products = DB::table("vproducts")->whereNotNull("image")->whereNotNull("thumbnail")->whereNotNull("warehouse");
 
-
             if (isset($in["categories"])) {
-//                dd($in["categories"]);
 
                 $in["categories"] = array_filter($in["categories"]);
                 $ids = array();
@@ -200,24 +207,17 @@ class PageController extends Controller {
                 $products->whereIn("category_id", $ids);
             }
 
-
-
             if (isset($in["subcategories"])) {
                 $in["subcategories"] = array_filter($in["subcategories"]);
 
-
                 foreach ($in["subcategories"] as $val) {
                     if ($val != '') {
-
                         $cate = Categories::where("slug", $val)->first();
                         $sub_ids[] = $cate->id;
                         $products->where("category_id", $cate->id);
                     }
                 }
             }
-
-//            $subcategory = Categories::where("status_id", 1)->WhereIn("node_id", $cat)->orderBy("order", "asc")->get();
-
 
             if (count($cat_ids) > 0) {
                 $subcategory = Categories::WhereIn("node_id", $cat_ids)->orderBy("description", "asc")->get();
@@ -274,6 +274,9 @@ class PageController extends Controller {
             $row_category = new stdClass();
             $row_category->banner = url("/images/banner_sf.jpg");
         }
+
+
+
 
         return response()->json(["products" => $products, "subcategories" => $subcategory, "count_cat" => $count_cat, "row_category" => $row_category]);
     }

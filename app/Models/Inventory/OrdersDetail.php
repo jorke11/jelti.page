@@ -18,4 +18,12 @@ class OrdersDetail extends Model {
         "price_sf"
     ];
 
+    public function order() {
+        return $this->belongsTo(Orders::class);
+    }
+
+    public function product() {
+        return $this->hasOne(\App\Models\Administration\Products::class, "product_id");
+    }
+
 }

@@ -80,5 +80,8 @@ class Products extends Model {
     public function supplier() {
         return $this->belongsTo(Stakeholder::class, "supplier_id");
     }
+    public function orderDetail() {
+        return $this->belongsTo(\App\Models\Inventory\OrdersDetail::class, "product_id");
+    }
 
 }
