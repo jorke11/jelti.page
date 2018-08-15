@@ -185,9 +185,14 @@ function Counter() {
                 method: 'PUT',
                 headers: {'X-CSRF-TOKEN': token},
                 data: row,
+                beforeSend: function () {
+                    $("#loading-super").removeClass("d-none");
+                },
                 success: function (data) {
                     objCounter.setData(data);
                     $("#quantity_selected_" + product_id).html("Cantidad Seleccionada (" + data.current.quantity + ")")
+                    $("#loading-super").addClass("d-none");
+
                 }, error: function (xhr, ajaxOptions, thrownError) {
 
                 }
