@@ -90,7 +90,7 @@
 <section>
     <div class="container-fluid"  id="content-image" style="padding-left: 0; padding-right: 0;padding-bottom: 5%;position:relative;top:-100px">
         <div class="row center-block" style="margin-right: 0;padding-top:1%">
-            <div class="col-2 offset-1">
+            <div class="col-2 offset-1 col-md-3 col-md-offset-0">
                 <div class="row center-block" id="categories-filter">
                     <div class="col-12" style="border:8px rgba(0,0,0,.1) solid;border-radius: 10px; margin-bottom: 20px">
                         <ul class="list-group">
@@ -172,7 +172,7 @@
                                              style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                         <a href="#" id="btn-plus-product_{{$value->id}}" class="btn btn-primary btn-sm" 
                                            style="
-                                           margin-left: 80%;
+                                           margin-left: 75%;
                                            border-radius: 10px;
                                            background-color: white;
                                            border: 1px solid #ccc;

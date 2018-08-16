@@ -310,7 +310,7 @@ function listProduct() {
                                                 onclick="obj.redirectProduct('${value.slug}')" 
                                                      style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                 <a href="#" class="btn btn-primary btn-sm" style="
-                                                   margin-left: 80%;
+                                                   margin-left: 75%;
                                                    border-radius: 10px;
                                                    background-color: white;
                                                    border: 1px solid #ccc;
