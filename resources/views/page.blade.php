@@ -128,26 +128,36 @@
             font-size: 12px;
             padding: 0;min-height: 60px;
         }
+
         .buttonplus{
             display:scroll;
             position:fixed;
-            bottom:150px;
-            margin-left: 6%;
+            bottom:140px;
+            margin-left: 4.5%;
             margin-bottom: 2%;
             border-radius: 10px;
             background-color: rgba(255,255,255,0);
             border: 1px solid #5baf98;
-
+        }
+        .buttonplus-new{
+            display:scroll;
+            position:fixed;
+            bottom:165px;
+            margin-left: 4.5%;
+            margin-bottom: 2%;
+            border-radius: 10px;
+            background-color: rgba(255,255,255,0);
+            border: 1px solid #5baf98;
         }
 
         .buttonplus-svg{
-            width: 18px;
+            width: 16px;
             fill:"none"
         }
 
 
         .star{
-            width: 15px;
+            width: 13px;
             height: 15px;
             color:#ffa608;
             fill:#ffa608
@@ -259,7 +269,7 @@
                                                         </p>
                                                         @endguest
 
-                                                        <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm buttonplus">
+                                                        <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm buttonplus-new">
                                                             <svg id="i-plus" viewBox="0 0 32 32" class="buttonplus-svg"  stroke="#5baf98" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                             <path d="M16 2 L16 30 M2 16 L30 16" />
                                                             </svg>
@@ -365,7 +375,7 @@
                                                         </p>
                                                         @endguest
 
-                                                                                                                                                                                                                 <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                                                                                                                                                                                     <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                                         <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm buttonplus" >
                                                             <svg id="i-plus" viewBox="0 0 32 32" class="buttonplus-svg" stroke="#5baf98" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                             <path d="M16 2 L16 30 M2 16 L30 16" />

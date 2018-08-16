@@ -26,7 +26,8 @@ class HomeController extends Controller {
         if (Auth::user()->role_id == 2) {
             return redirect('/');
         } else {
-            return Redirect::to('https://jelti.superfuds.com/home');
+            return redirect('/');
+//            return Redirect::to('https://jelti.superfuds.com/home');
         }
     }
 

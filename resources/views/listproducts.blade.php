@@ -54,6 +54,10 @@
             fill:"none"
         }
 
+        .plus-card{
+            width: 15px;
+            height: 15px
+        }
 
         .star{
             width: 15px;
@@ -166,7 +170,8 @@
                                     <div class="card text-center">
                                         <img class="card-img-right img-fluid" src="http://www.superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" 
                                              style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
-                                        <a href="#" id="btn-plus-product_{{$value->id}}" class="btn btn-primary btn-sm" style="
+                                        <a href="#" id="btn-plus-product_{{$value->id}}" class="btn btn-primary btn-sm" 
+                                           style="
                                            margin-left: 80%;
                                            border-radius: 10px;
                                            background-color: white;
@@ -176,7 +181,7 @@
                                            onclick="objCounter.addProduct('{{$value->short_description}}',
                                            '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}'); return false;"
                                            >
-                                            <svg id="i-plus" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                            <svg id="i-plus" viewBox="0 0 32 32" class="plus-card" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                             <path d="M16 2 L16 30 M2 16 L30 16" />
                                             </svg>
                                         </a>

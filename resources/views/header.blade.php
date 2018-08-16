@@ -106,7 +106,7 @@
         <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown active">
                 <a class="nav-link dropdown-toggle" href="{{url("/")}}" id="dropdown01" data-toggle="dropdown" 
-                   aria-haspopup="true" aria-expanded="false" style="color:white;font-size: 25px" >Categorias</a>
+                   aria-haspopup="true" aria-expanded="false" style="color:white;font-size: 22px" >Categorias</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     @foreach($categories as $val)
                     <a style="color:black" class="dropdown-item" href="{{url("")}}/products/{{$val->slug}}">{{ucwords(strtolower($val->description))}}</a>
@@ -115,7 +115,7 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
-                   aria-haspopup="true" aria-expanded="false" style="color:white;padding-right:40px;font-size: 25px">Dieta</a>
+                   aria-haspopup="true" aria-expanded="false" style="color:white;padding-right:40px;font-size: 22px">Dieta</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     @foreach($dietas as $val)
                     <a class="dropdown-item" href="#">{{$val->description}}</a>
