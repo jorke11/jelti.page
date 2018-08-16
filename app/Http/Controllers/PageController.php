@@ -110,8 +110,9 @@ class PageController extends Controller {
     }
 
     public function search($param) {
+        $orders = null;
 
-        $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
+
 
         $slug_category = '';
         $row_category = Categories::where("type_category_id", 1)->where("node_id", 0)->where("status_id", 1)->orderBy("id", "desc")->first();
@@ -121,20 +122,19 @@ class PageController extends Controller {
         if (stripos($param, "s=") !== false) {
             $param = str_replace("s=", "", $param);
             $char = \App\Models\Administration\Characteristic::where("description", "ilike", "%" . strtolower($param) . "%")->get();
-            $products = DB::table("vproducts")->select("vproducts.id","vproducts.title",
-                    "vproducts.short_description",
-                    "vproducts.price_sf",
-                    "vproducts.image",
-                    "vproducts.thumbnail",
-                    "vproducts.category_id",
-                    "vproducts.slug",
-                    "vproducts.tax",
-                    "vproducts.supplier",
-                    "orders_detail.quantity"
+            $products = DB::table("vproducts")->select("vproducts.id", "vproducts.title", "vproducts.short_description", "vproducts.price_sf",
+                    "vproducts.image", "vproducts.thumbnail", "vproducts.category_id", "vproducts.slug", "vproducts.tax", "vproducts.supplier"
                     )
-                    ->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id=".$orders->id))
                     ->whereNotNull("image")
                     ->whereNotNull("warehouse");
+
+
+            if (Auth::user()) {
+                $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
+                $products->select("orders_detail.quantity")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id=" . $orders->id));
+            }
+
+
             foreach ($char as $value) {
                 $products->where(function($q) use($value) {
                     $q->where(DB::raw("characteristic::text"), "like", '%' . $value->id . '%');

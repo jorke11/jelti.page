@@ -192,11 +192,11 @@
                                                 <?php echo substr($value->short_description, 0, 25); ?>
                                             </h5>
                                             <span class="card-title text-left title-products" style="font-weight: 900;color:rgba(91,175,152,1);font-size: 15px;margin:0;min-height: 60px" onclick="obj.redirectProduct('{{$value->slug}}')">
-                                                @if($value->quantity)
-                                                <span id="quantity_selected_{{$value->id}}">Cantidad Seleccionada ({{$value->quantity}})</span>
-                                                @else
-                                                <span id="quantity_selected_{{$value->id}}"></span>
-                                                @endif
+                                                <span id="quantity_selected_{{$value->id}}">
+                                                    @if(isset($value->quantity) && $value->quantity!=null)
+                                                    Cantidad Seleccionada ({{$value->quantity}})
+                                                    @endif
+                                                </span>
                                             </span>
                                             <p class="text-left">
                                                 <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
