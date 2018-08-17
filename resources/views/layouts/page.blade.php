@@ -233,6 +233,7 @@ clearstatcache();
 
     <body >
         @include("modalRegister")
+        @include("modalOptions")
 
         <div class="container-fluid" style="padding-left: 0; padding-right: 0">
             <div id="loading-super" class="d-none" >

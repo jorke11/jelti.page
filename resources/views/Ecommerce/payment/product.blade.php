@@ -203,7 +203,7 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-5">
+                <div class="col-5 col-md-6">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" 
@@ -222,7 +222,7 @@
 
             </div>
             <div class="row justify-content-center">
-                <div class="col-7">
+                <div class="col-7 col-md-10">
                     <button class="btn form-control" 
                             style="background-color: rgba(91,175,152,1);color:white;padding-left: 30%;padding-right: 30%;
                             padding-top:0;padding-bottom: 0;border-radius: 10px" 
@@ -234,7 +234,7 @@
                 </div>
             </div>
             <div class="row justify-content-center" style="margin-top: 3%">
-                <div class="col-7">
+                <div class="col-7 col-md-10">
                     <button class="btn form-control" style="background-color: white;border-color: #ccc;
                             padding-top:0;padding-bottom: 0;border-radius: 10px" id="btnFavourite">
                         <span>{{$text}}</span>
@@ -247,14 +247,14 @@
         </div>        
     </div>
     <div class="row" style="padding-bottom: 5%;padding-top: 4%">
-        <div class="col-4 offset-3" style="background-color: #f8f7f5;border-radius: 10px;padding-top: 1%">
+        <div class="col-4 offset-2 col-md-5" style="background-color: #f8f7f5;border-radius: 10px;padding-top: 1%">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 col-md-12">
                     <h4>PORQUE LO AMARAS?</h4>
                 </div>
             </div>
             <div class="row" style="padding-bottom: 4%">
-                <div class="col-12">
+                <div class="col-12 col-md-12">
                     <p  class="text-justify" style="padding-right: 6%">{{$product->why}}</p>
                 </div>
             </div>
@@ -280,7 +280,7 @@
             </div>
 
         </div>
-        <div class="col-2" style="background-color: rgba(91,175,152,1);border-radius: 10px;color:white;left: -40px;margin-top: 3%;margin-bottom: 3%">
+        <div class="col-2 col-md-3" style="background-color: rgba(91,175,152,1);border-radius: 10px;color:white;left: -40px;margin-top: 3%;margin-bottom: 3%">
             <div class="row">
                 <div class="col-12" style="padding-top: 10px;">
                     <h2 class="text-center">INFORMACIÓN NUTRICIONAL</h2>

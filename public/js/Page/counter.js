@@ -167,6 +167,15 @@ function Counter() {
 
     }
 
+    this.optionsModal = function (opt) {
+        if (opt == 1) {
+            location.href = "/login"
+        } else {
+            $("#modalOptions").modal("hide");
+            $("#myModal").modal("show");
+        }
+    }
+
 
     this.addProduct = function (title, slug, product_id, price_sf, img, tax) {
         var token = $("input[name=_token]").val();
@@ -201,7 +210,7 @@ function Counter() {
 
             })
         } else {
-            $("#myModal").modal("show");
+            $("#modalOptions").modal("show");
         }
     }
 

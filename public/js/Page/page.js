@@ -45,7 +45,6 @@ function Page() {
         $("#myModal").modal("show");
     }
 
-
     this.getData = function () {
 
         if (user_id != undefined) {
