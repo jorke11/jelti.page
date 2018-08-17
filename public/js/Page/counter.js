@@ -50,14 +50,14 @@ function Counter() {
                 $('.go-top').slideDown(300);
 //                $("#content-menu").css("height", "height:100px")
 
-                $("#content-menu").height(500)
+                $("#content-menu").height(300)
             } else {
 
                 $(".popover").css("transform", "translate3d(1493px, 110px, 0px)")
                 $("#main-menu-id").addClass("main-menu").removeClass("main-menu-out");
 //                $("#slider-main").addClass("main-slider");
                 $('.go-top').slideUp(300);
-                $("#content-menu").height(720)
+//                $("#content-menu").height(720)
 //                $("#content-menu").css("height", "height:720px")
 
             }
@@ -200,7 +200,7 @@ function Counter() {
                 },
                 success: function (data) {
                     objCounter.setData(data);
-                    $("#quantity_selected_" + product_id).html("Cantidad Seleccionada (" + data.current.quantity + ")")
+                    $("#quantity_selected_" + product_id).html("Cantidad (" + data.current.quantity + ")")
                     $("#loading-super").addClass("d-none");
                     $("#btn-plus-product_" + product_id).attr("disabled", true);
 

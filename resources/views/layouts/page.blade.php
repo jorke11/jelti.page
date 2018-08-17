@@ -266,7 +266,13 @@ clearstatcache();
 
 
 </html>
-<?php if ($exibirModal === true) : // Si nuestra variable de control "$exibirModal" es igual a TRUE activa nuestro modal y será visible a nuestro usuario.            ?>
+<?php
+if (Auth::user() != null) {
+    $exibirModal = false;
+}
+
+if ($exibirModal === true) : // Si nuestra variable de control "$exibirModal" es igual a TRUE activa nuestro modal y será visible a nuestro usuario.            
+    ?>
     <script>
         $(function () {
             $("#myModal").modal("show");

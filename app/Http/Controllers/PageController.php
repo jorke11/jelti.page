@@ -122,18 +122,17 @@ class PageController extends Controller {
         if (stripos($param, "s=") !== false) {
             $param = str_replace("s=", "", $param);
             $char = \App\Models\Administration\Characteristic::where("description", "ilike", "%" . strtolower($param) . "%")->get();
-            $products = DB::table("vproducts")->select("vproducts.id", "vproducts.title", "vproducts.short_description", "vproducts.price_sf",
-                    "vproducts.image", "vproducts.thumbnail", "vproducts.category_id", "vproducts.slug", "vproducts.tax", "vproducts.supplier"
+            $products = DB::table("vproducts")->select("vproducts.id", "vproducts.title", "vproducts.short_description", "vproducts.price_sf", "vproducts.image", "vproducts.thumbnail", "vproducts.category_id", "vproducts.slug", "vproducts.tax", "vproducts.supplier"
                     )
                     ->whereNotNull("image")
                     ->whereNotNull("warehouse");
 
-
             if (Auth::user()) {
                 $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
-                $products->select("orders_detail.quantity")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id=" . $orders->id));
-            }
 
+                if ($orders != null)
+                    $products->select("orders_detail.quantity", "vproducts.category_id","vproducts.thumbnail","vproducts.slug","vproducts.id","vproducts.short_description","vproducts.price_sf","vproducts.tax","vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id=" . $orders->id));
+            }
 
             foreach ($char as $value) {
                 $products->where(function($q) use($value) {
@@ -146,6 +145,7 @@ class PageController extends Controller {
             $categories = Categories::where("status_id", 1);
 
             foreach ($products as $value) {
+//                dd($value);
                 $categories->where("id", $value->category_id);
             }
 
