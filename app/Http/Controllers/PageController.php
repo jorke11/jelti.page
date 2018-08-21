@@ -214,9 +214,11 @@ class PageController extends Controller {
                     if ($val != '') {
                         $cate = Categories::where("slug", $val)->first();
                         $sub_ids[] = $cate->id;
-                        $products->where("category_id", $cate->id);
+                        
                     }
                 }
+                
+                $products->whereIn("category_id", $sub_ids);
             }
 
             if (count($cat_ids) > 0) {
@@ -272,7 +274,7 @@ class PageController extends Controller {
                 $row_category = Categories::whereIn("slug", $in["categories"])->first();
         } else {
             $row_category = new stdClass();
-            $row_category->banner = url("/images/banner_sf.jpg");
+            $row_category->banner = url("/images/banner_sf.png");
         }
 
 

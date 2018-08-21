@@ -94,7 +94,7 @@
 @endauth
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-light main-menu img-fluid img-header " id="main-menu-id" style="background-color: #6dcbb;height: auto;left:-2px">
-    <a class="navbar-brand d-lg-none" href="#">
+    <a class="navbar-brand d-lg-none" href="/">
         <img alt="Brand" src="/images/page/logosuperf.svg" class="img-fluid" width="30%">
     </a>
 
@@ -133,7 +133,7 @@
                         </li>-->
         </ul>
 
-        <ul class="navbar-nav mr-auto text-center" style="padding-left: 18%;padding-top: 15px">
+        <ul class="navbar-nav mr-auto text-center" style="padding-left: 15%;padding-top: 15px">
             <li class="nav-item">
                 <a href="{{url("/")}}"><img alt="Brand" src="{{asset('images/page/logosuperf.svg') }}" width="75%" /></a>
             </li>

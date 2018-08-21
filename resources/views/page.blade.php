@@ -27,7 +27,7 @@
 </section>
 
 
-<section id="divProduct" style="padding-top:2%" class="d-none d-lg-block">
+<section id="divProduct" style="padding-top:2%" class=" d-lg-block">
     <div class="container-fluid">
         <div class="row" style="padding-bottom: 20px">
             <div class="col-lg-12">
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class='col-3'>
+            <div class='col-lg-3 col-xs-6 col-md-6'>
                 <div class="card">
                     <img class="card-img-top" src="{{url("images/page/dietas/paleo.png")}}" alt="Card image cap">
                     <div class="card-body">
@@ -44,7 +44,7 @@
                     </div>
                 </div>
             </div>
-            <div class='col-3'>
+            <div class='col-lg-3 col-xs-6 col-md-6'>
                 <div class="card">
                     <img class="card-img-top" src="{{url("images/page/dietas/vegana.png")}}" alt="Card image cap">
                     <div class="card-body">
@@ -53,7 +53,7 @@
                     </div>
                 </div>
             </div>
-            <div class='col-3'>
+            <div class='col-lg-3 col-xs-6 col-md-6'>
                 <div class="card">
                     <img class="card-img-top" src="{{url("images/page/dietas/sin_gluten.png")}}" alt="Card image cap">
                     <div class="card-body">
@@ -64,7 +64,7 @@
             </div>
         </div>
         <div class="row justify-content-center" style="padding-top: 50px">
-            <div class='col-3'>
+            <div class='col-lg-3 col-xs-6 col-md-6'>
                 <div class="card">
                     <img class="card-img-top" src="{{url("images/page/dietas/organico.png")}}" alt="Card image cap">
                     <div class="card-body">
@@ -73,7 +73,7 @@
                     </div>
                 </div>
             </div>
-            <div class='col-3'>
+            <div class='col-lg-3 col-xs-6 col-md-6'>
                 <div class="card">
                     <img class="card-img-top" src="{{url("images/page/dietas/singrasastrans.png")}}" alt="Card image cap">
                     <div class="card-body">
@@ -82,7 +82,7 @@
                     </div>
                 </div>
             </div>
-            <div class='col-3'>
+            <div class='col-lg-3 col-xs-6 col-md-6'>
                 <div class="card">
                     <img class="card-img-top" src="{{url("images/page/dietas/sinazucar.png")}}" alt="Card image cap">
                     <div class="card-body">
@@ -216,10 +216,9 @@
 
         <div class="row row-center test" >
             <!--<div class="col-3 d-none d-md-none d-lg-block" style="background-color: #f8f7f5">-->
-            <div class="col-3 d-lg-block d-md-none " style="background-color: #f8f7f5">
+            <div class="col-lg-3 col-xs-10 d-lg-block d-md-none " style="background-color: #f8f7f5">
                 <h1 class="text-center"style="padding-top: 30%">Lo Más Nuevo <br>en SuperFuds</h1>
                 <p class="text-center"><a href="#" class="link-green">Ver todos</a></p>
-
             </div>
             <div class="col-lg-8 col-md-12 offset-md-0" style="background-color: #f8f7f5;margin-left: 10px;padding-top: 1%;padding-bottom: 1%">
 
@@ -235,7 +234,7 @@
 
                                         foreach ($newproducts as $i => $value) {
                                             ?>
-                                            <div class="col-3">
+                                            <div class="col-lg-3 col-xs-4 col-md-3">
                                                 <div class="card" >
                                                     <img class="card-img-top" src="https://superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                     <div class="card-body text-center">
@@ -269,7 +268,7 @@
                                                         </p>
                                                         @endguest
 
-                                                        <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm buttonplus-new">
+                                                        <a href="/productDetail/{{$value->slug}}" class="btn btn-primary btn-sm buttonplus">
                                                             <svg id="i-plus" viewBox="0 0 32 32" class="buttonplus-svg"  stroke="#5baf98" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                             <path d="M16 2 L16 30 M2 16 L30 16" />
                                                             </svg>
@@ -321,7 +320,7 @@
         </div>
 
         <div class="row row-center test" >
-            <div class="col-3 d-md-none d-lg-block" style="background-color: #f8f7f5">
+            <div class="col-lg-3  col-xs-10 d-md-none d-lg-block" style="background-color: #f8f7f5">
                 <h1 class="text-center"style="padding-top: 30%">Lo Más <br>Vendidos</h1>
                 <p class="text-center"><a href="#" class="link-green">Ver todos</a></p>
             </div>
@@ -339,7 +338,7 @@
 
                                         foreach ($most_sales as $i => $value) {
                                             ?>
-                                            <div class="col-3">
+                                            <div class="col-lg-3 col-xs-4 col-md-3">
                                                 <div class="card" >
                                                     <img class="card-img-top" src="https://superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                     <div class="card-body text-center">

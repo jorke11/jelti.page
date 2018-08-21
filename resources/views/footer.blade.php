@@ -58,24 +58,24 @@
         </div>
         <div class="col-5" style="padding-top: 2%;">
             <div class="row row-space">
-                <div class="col-12 text-center">
+                <div class="col-12 col-lg-12 text-center">
                     <h2 class="white-label">Siguenos</h2>
                 </div>
             </div>
             <div class="row row-space justify-content-center">
-                <div class="col-2">
+                <div class="col-lg-2 col-4">
                     <a href="https://www.facebook.com/superfuds/" target="_blank"><p class="text-center"><img src="/images/page/facebook.svg" class="img-fluid" style="width: 90%"></p></a>
                 </div>
-                <div class="col-2">
+                <div class="col-lg-2 col-4">
                     <a href="https://www.instagram.com/superfuds/?hl=es-la" target="_blank"><img src="/images/page/instagram.svg" class="img-fluid" style="width: 90%"></a>
                 </div>
-                <div class="col-2">
+                <div class="col-lg-2 col-4">
                     <a href="https://www.instagram.com/superfuds/?hl=es-la" target="_blank"><img src="/images/page/youtube.svg" class="img-fluid" style="width: 90%"></a>
                 </div>
-                <div class="col-2">
+                <div class="col-lg-2 col-4">
                     <a href="https://www.instagram.com/superfuds/?hl=es-la" target="_blank"><img src="/images/page/pinterest.svg" class="img-fluid" style="width: 90%"></a>
                 </div>
-                <div class="col-2">
+                <div class="col-lg-2  col-4">
                     <a href="https://www.instagram.com/superfuds/?hl=es-la" target="_blank"><img src="/images/page/google.svg" class="img-fluid" style="width: 90%"></a>
                 </div>
             </div>
@@ -86,11 +86,13 @@
                 </div>
             </div>
             <div class="row row-space">
-                <div class="col-2 offset-1">
-                    <a href="https://www.facebook.com/superfuds/" target="_blank"><p class="text-center"><img src="/images/page/logoamex.svg" class="img-fluid"></p></a>
+                <div class="col-2 offset-1 col-lg-2">
+                    <img src="/images/page/logoamex.svg" class="img-fluid"></p>
                 </div>
-                <div class="col-2">
-                    <a href="https://www.instagram.com/superfuds/?hl=es-la" target="_blank"><img src="/images/page/logomastercard.svg" class="img-fluid"></a>
+                <div class="col-2 col-lg-2">
+                    <a href="https://www.instagram.com/superfuds/?hl=es-la" target="_blank">
+                        <img src="/images/page/logomastercard.svg" class="img-fluid">
+                    </a>
                 </div>
                 <div class="col-2">
                     <a href="https://www.instagram.com/superfuds/?hl=es-la" target="_blank"><img src="/images/page/logovisa.svg" class="img-fluid"></a>

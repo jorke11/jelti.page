@@ -42,23 +42,20 @@ function Counter() {
 
             //Efect when down scroll
             if ($(this).scrollTop() > 0) {
-
+                
                 $("#main-menu-id").removeClass("main-menu").addClass("main-menu-out");
 //                $("#main-menu-id").removeClass("main-menu");
 //                $("#slider-main").removeClass("main-slider");
 //                $("#popover220259").css({"transform": "translate3d(1493px,  337px, 0px)"})
                 $('.go-top').slideDown(300);
-//                $("#content-menu").css("height", "height:100px")
-
                 $("#content-menu").height(300)
+                $("#content-image").css("top", 100);
             } else {
-
+                $("#content-image").css("top", -300);
                 $(".popover").css("transform", "translate3d(1493px, 110px, 0px)")
                 $("#main-menu-id").addClass("main-menu").removeClass("main-menu-out");
-//                $("#slider-main").addClass("main-slider");
                 $('.go-top').slideUp(300);
-//                $("#content-menu").height(720)
-//                $("#content-menu").css("height", "height:720px")
+                $("#content-menu").height(720)
 
             }
         });
