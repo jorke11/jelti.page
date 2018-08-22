@@ -42,7 +42,7 @@ function Counter() {
 
             //Efect when down scroll
             if ($(this).scrollTop() > 0) {
-                
+
                 $("#main-menu-id").removeClass("main-menu").addClass("main-menu-out");
 //                $("#main-menu-id").removeClass("main-menu");
 //                $("#slider-main").removeClass("main-slider");
@@ -200,7 +200,7 @@ function Counter() {
                     $("#quantity_selected_" + product_id).html("Cantidad (" + data.current.quantity + ")")
                     $("#loading-super").addClass("d-none");
                     $("#btn-plus-product_" + product_id).attr("disabled", true);
-
+                    $("#quantity").val(data.current.quantity)
                 }, error: function (xhr, ajaxOptions, thrownError) {
 
                 }

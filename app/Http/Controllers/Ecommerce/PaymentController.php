@@ -59,12 +59,12 @@ class PaymentController extends Controller {
         $this->middleware("auth");
 
         $this->dietas = array(
-            (object) array("id" => 1, "description" => "Paleo"),
-            (object) array("id" => 2, "description" => "Vegano"),
-            (object) array("id" => 3, "description" => "Sin gluten"),
-            (object) array("id" => 4, "description" => "Organico"),
-            (object) array("id" => 5, "description" => "Sin grasas Trans"),
-            (object) array("id" => 6, "description" => "Sin azucar"),
+            (object) array("id" => 1, "description" => "Paleo", "slug" => "paleo"),
+            (object) array("id" => 2, "description" => "Vegano", "slug" => "vegano"),
+            (object) array("id" => 3, "description" => "Sin gluten", "slug" => "sin_gluten"),
+            (object) array("id" => 4, "description" => "Organico", "slug" => "organico"),
+            (object) array("id" => 5, "description" => "Sin grasas Trans", "slug" => "sin_grasas_trans"),
+            (object) array("id" => 6, "description" => "Sin azucar", "slug" => "sin_azucar"),
         );
 
         $this->stock = new StockController();
