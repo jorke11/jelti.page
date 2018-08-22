@@ -13,6 +13,6 @@ and open the template in the editor.
 }
 
 *{
-    font-family: "dosis"
+    font-family: "dosis" !important;
 }
 

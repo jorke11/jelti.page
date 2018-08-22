@@ -1,5 +1,15 @@
+
+@font-face{
+    font-family: "dosis";
+    src:url(../fonts/dosis/Dosis-Medium.ttf)
+}
+
+*{
+    font-family: "dosis" !important;
+}
+
 body{
-    font-family: "helvetica" !important;
+    font-family: "dosis" !important;
 }
 
 /*            .navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
