@@ -135,7 +135,7 @@
 
         <ul class="navbar-nav mr-auto text-center" style="padding-left: 15%;padding-top: 15px">
             <li class="nav-item">
-                <a href="{{url("/")}}"><img alt="Brand" src="{{asset('images/page/logosuperf.svg') }}" width="70%" /></a>
+                <a href="{{url("/")}}"><img alt="Brand" src="{{asset('images/page/logosuperf.svg') }}" width="60%" /></a>
             </li>
         </ul>
 
