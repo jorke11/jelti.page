@@ -20,12 +20,12 @@ class PageController extends Controller {
 
     public function __construct() {
         $this->dietas = array(
-            (object) array("id" => 1, "description" => "Paleo"),
-            (object) array("id" => 2, "description" => "Vegano"),
-            (object) array("id" => 3, "description" => "Sin gluten"),
-            (object) array("id" => 4, "description" => "Organico"),
-            (object) array("id" => 5, "description" => "Sin grasas Trans"),
-            (object) array("id" => 6, "description" => "Sin azucar"),
+            (object) array("id" => 1, "description" => "Paleo", "slug" => "paleo"),
+            (object) array("id" => 2, "description" => "Vegano", "slug" => "vegano"),
+            (object) array("id" => 3, "description" => "Sin gluten", "slug" => "sin_gluten"),
+            (object) array("id" => 4, "description" => "Organico", "slug" => "organico"),
+            (object) array("id" => 5, "description" => "Sin grasas Trans", "slug" => "sin_grasas_trans"),
+            (object) array("id" => 6, "description" => "Sin azucar", "slug" => "sin_azucar"),
         );
     }
 
@@ -46,8 +46,13 @@ class PageController extends Controller {
             ";
         $most_sales = DB::select($sql);
 
-        $categories = Categories::where("status_id", 1)->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->orderBy("order", "asc")->get();
-//    dd($category);
+        $categories = Categories::where("status_id", 1)
+                        ->where("type_category_id", 1)
+                        ->where(function($query) {
+                            $query->whereNull("node_id")
+                            ->OrWhere("node_id", 0)->orderBy("order", "asc");
+                        })->get();
+
         $newproducts = DB::table("vproducts")->where("status_id", 1)
                 ->where("category_id", "<>", -1)
                 ->where("category_id", "<>", 19)
@@ -96,17 +101,46 @@ class PageController extends Controller {
             array("url" => "https://superfuds.com/images_blog/referentes/terrafertil-4.jpg", "title" => "Terrafertil"),
             array("url" => "https://superfuds.com/images_blog/referentes/chocolov-6.jpg", "title" => "Chocolov"));
 
-        $dietas = array(
-            (object) array("id" => 1, "description" => "Paleo"),
-            (object) array("id" => 2, "description" => "Vegano"),
-            (object) array("id" => 3, "description" => "Sin gluten"),
-            (object) array("id" => 4, "description" => "Organico"),
-            (object) array("id" => 5, "description" => "Sin grasas Trans"),
-            (object) array("id" => 6, "description" => "Sin azucar"),
-        );
+
+        $dietas = $this->dietas;
+
 
 
         return view('page', compact("categories", "subcategory", "newproducts", "love_clients", "clients", "dietas", "most_sales"));
+    }
+
+    public function productSearch($slug_category) {
+        $row_category = Categories::where("slug", $slug_category)->where("type_category_id", 1)->where("node_id", 0)->first();
+
+
+        $categories = Categories::where("status_id", 1)->where("type_category_id", 1)
+                        ->where(function($query) {
+                            $query->whereNull("node_id")
+                            ->OrWhere("node_id", 0)->orderBy("order", "asc");
+                        })->get();
+
+
+
+        $subcategory = Categories::where("status_id", 1)->where("node_id", $row_category->id)->orderBy("order", "asc")->get();
+
+        $ids = [];
+        foreach ($subcategory as $val) {
+            $ids[] = $val->id;
+        }
+        
+        $products = DB::table("vproducts")->whereNotNull("image")->whereNotNull("thumbnail")->whereIn("category_id",$ids)
+                        ->whereNotNull("warehouse")->orderBy("title", "desc")->paginate(16);
+        $dietas = array(
+            (object) array("id" => 1, "description" => "Paleo", "slug" => "paleo"),
+            (object) array("id" => 2, "description" => "Vegano", "slug" => "vegano"),
+            (object) array("id" => 3, "description" => "Sin gluten", "slug" => "sin_gluten"),
+            (object) array("id" => 4, "description" => "Organico", "slug" => "organico"),
+            (object) array("id" => 5, "description" => "Sin grasas Trans", "slug" => "sin_grasas_trans"),
+            (object) array("id" => 6, "description" => "Sin azucar", "slug" => "sin_azucar"),
+        );
+        
+
+        return view('listproducts', compact("categories", "row_category", 'products', "slug_category", "subcategory", "dietas"));
     }
 
     public function search($param) {
@@ -131,7 +165,7 @@ class PageController extends Controller {
                 $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
 
                 if ($orders != null)
-                    $products->select("orders_detail.quantity", "vproducts.category_id","vproducts.thumbnail","vproducts.slug","vproducts.id","vproducts.short_description","vproducts.price_sf","vproducts.tax","vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id=" . $orders->id));
+                    $products->select("orders_detail.quantity", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id=" . $orders->id));
             }
 
             foreach ($char as $value) {
@@ -214,10 +248,9 @@ class PageController extends Controller {
                     if ($val != '') {
                         $cate = Categories::where("slug", $val)->first();
                         $sub_ids[] = $cate->id;
-                        
                     }
                 }
-                
+
                 $products->whereIn("category_id", $sub_ids);
             }
 

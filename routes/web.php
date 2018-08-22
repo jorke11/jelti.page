@@ -24,27 +24,7 @@ Route::get('getDetailOrder/{invoice}', "Ecommerce\PaymentController@getInvoice")
 
 Route::post('newVisitan', "PageController@newVisitan");
 
-Route::get('/products/{slug_category}', function ($slug_category) {
-
-    $row_category = Models\Administration\Categories::where("slug", $slug_category)->where("type_category_id", 1)->where("node_id", 0)->first();
-    $categories = Models\Administration\Categories::where("status_id", 1)->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->orderBy("order", "asc")->get();
-
-    $subcategory = Models\Administration\Categories::where("status_id", 1)->where("node_id", $row_category->id)->orderBy("order", "asc")->get();
-
-    $products = DB::table("vproducts")->whereNotNull("image")->whereNotNull("thumbnail")->whereNotNull("warehouse")->orderBy("title", "desc")->paginate(16);
-
-    $dietas = array(
-        (object) array("id" => 1, "description" => "Paleo"),
-        (object) array("id" => 2, "description" => "Vegano"),
-        (object) array("id" => 3, "description" => "Sin gluten"),
-        (object) array("id" => 4, "description" => "Organico"),
-        (object) array("id" => 5, "description" => "Sin grasas Trans"),
-        (object) array("id" => 6, "description" => "Sin azucar"),
-    );
-
-
-    return view('listproducts', compact("categories", "row_category", 'products', "slug_category", "subcategory", "dietas"));
-});
+Route::get('/products/{slug_category}', "PageController@productSearch");
 
 Auth::routes();
 Route::get('/search', 'PageController@getProducts');

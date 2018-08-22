@@ -75,7 +75,10 @@
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
+                        
                         @if(isset($row_category->banner))
+                        <img class="d-block w-100" src="{{url($row_category->banner)}}" alt="Second slide" id="main-image-category">
+                        @else
                         <img class="d-block w-100" src="{{url("images/banner_sf.png")}}" alt="Second slide" id="main-image-category">
                         @endif
                     </div>

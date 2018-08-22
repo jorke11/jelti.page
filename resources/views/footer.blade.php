@@ -20,6 +20,9 @@
         background-size: cover;
         width: 100%;
     }
+    .link-white{
+        color:white !important;
+    }
 </style>
 <div class="container-fluid footer-template">
     <!--<div class="row" style="background-color: rgba(0,0,0,.8);">-->
@@ -30,7 +33,7 @@
                     <ul class="list-group">
                         <li class="list-group-item"><b>CATEGORIAS</b></li>
                         @foreach($categories as $val)
-                        <li class="list-group-item">{{ucwords(strtolower($val->description))}}</li>
+                        <li class="list-group-item"><a class="link-white" href="{{url("/products/".$val->slug)}}">{{ucwords(strtolower($val->description))}}</a></li>
                         @endforeach
                     </ul>
                 </div>
@@ -38,7 +41,7 @@
                     <ul class="list-group">
                         <li class="list-group-item"><b>DIETAS</b></li>
                         @foreach($dietas as $val)
-                        <li class="list-group-item">{{$val->description}}</li>
+                        <li class="list-group-item"><a class="link-white" href='{{url("search/s=".$val->slug)}}'>{{$val->description}}</a></li>
                         @endforeach
                     </ul>
                 </div>
