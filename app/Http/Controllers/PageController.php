@@ -105,7 +105,7 @@ class PageController extends Controller {
         $dietas = $this->dietas;
 
 
-
+        
         return view('page', compact("categories", "subcategory", "newproducts", "love_clients", "clients", "dietas", "most_sales"));
     }
 
@@ -139,8 +139,8 @@ class PageController extends Controller {
             (object) array("id" => 6, "description" => "Sin azucar", "slug" => "sin_azucar"),
         );
         
-
-        return view('listproducts', compact("categories", "row_category", 'products', "slug_category", "subcategory", "dietas"));
+            $breadcrumbs="<a href='/'>Home</a> / $slug_category";
+        return view('listproducts', compact("breadcrumbs","categories", "row_category", 'products', "slug_category", "subcategory", "dietas"));
     }
 
     public function search($param) {
@@ -207,7 +207,8 @@ class PageController extends Controller {
 
 //        dd($products);
         $dietas = $this->dietas;
-        return view('listproducts', compact("categories", "row_category", 'products', "slug_category", "subcategory", "param", "dietas"));
+        $breadcrumbs="<a href='/'>Home</a> / Alimentos";
+        return view('listproducts', compact("breadcrumbs","categories", "row_category", 'products', "slug_category", "subcategory", "param", "dietas"));
     }
 
     public function getProducts(Request $req, $param = null) {
@@ -294,6 +295,8 @@ class PageController extends Controller {
             $category = array();
             $slug_category = array();
 
+            
+            
             return view('listproducts', compact("category", "row_category", 'products', "slug_category", "subcategory"));
         }
 
@@ -311,7 +314,7 @@ class PageController extends Controller {
         }
 
 
-
+        
 
         return response()->json(["products" => $products, "subcategories" => $subcategory, "count_cat" => $count_cat, "row_category" => $row_category]);
     }
