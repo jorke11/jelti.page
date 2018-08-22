@@ -73,13 +73,13 @@
                     <a href="https://www.instagram.com/superfuds/?hl=es-la" target="_blank"><img src="/images/page/instagram.svg" class="img-fluid" style="width: 90%"></a>
                 </div>
                 <div class="col-lg-2 col-4">
-                    <a href="https://www.instagram.com/superfuds/?hl=es-la" target="_blank"><img src="/images/page/youtube.svg" class="img-fluid" style="width: 90%"></a>
+                    <a href="https://www.youtube.com/channel/UC4YzleJ0zrgAGHwhV74R_GA/featured" target="_blank"><img src="/images/page/youtube.svg" class="img-fluid" style="width: 90%"></a>
                 </div>
                 <div class="col-lg-2 col-4">
-                    <a href="https://www.instagram.com/superfuds/?hl=es-la" target="_blank"><img src="/images/page/pinterest.svg" class="img-fluid" style="width: 90%"></a>
+                    <a href="https://co.pinterest.com/superfuds/" target="_blank"><img src="/images/page/pinterest.svg" class="img-fluid" style="width: 90%"></a>
                 </div>
                 <div class="col-lg-2  col-4">
-                    <a href="https://www.instagram.com/superfuds/?hl=es-la" target="_blank"><img src="/images/page/google.svg" class="img-fluid" style="width: 90%"></a>
+                    <a href="https://plus.google.com/112289524335507891140" target="_blank"><img src="/images/page/google.svg" class="img-fluid" style="width: 90%"></a>
                 </div>
             </div>
 
@@ -88,23 +88,20 @@
                     <h2 class="white-label">Metodos de Pago</h2>
                 </div>
             </div>
-            <div class="row row-space">
+            <div class="row row-space row-center">
                 <div class="col-2 offset-1 col-lg-2">
-                    <img src="/images/page/logoamex.svg" class="img-fluid"></p>
+                    <a href="https://www.americanexpress.com/" target="_blank"><img src="/images/page/logoamex.svg" class="img-fluid"></a>
                 </div>
                 <div class="col-2 col-lg-2">
-                    <a href="https://www.instagram.com/superfuds/?hl=es-la" target="_blank">
+                    <a href="https://www.mastercard.com/global.html" target="_blank">
                         <img src="/images/page/logomastercard.svg" class="img-fluid">
                     </a>
                 </div>
                 <div class="col-2">
-                    <a href="https://www.instagram.com/superfuds/?hl=es-la" target="_blank"><img src="/images/page/logovisa.svg" class="img-fluid"></a>
+                    <a href="https://www.visa.com.co/" target="_blank"><img src="/images/page/logovisa.svg" class="img-fluid"></a>
                 </div>
                 <div class="col-2">
-                    <a href="https://www.instagram.com/superfuds/?hl=es-la" target="_blank"><img src="/images/page/logodinners.svg" class="img-fluid"></a>
-                </div>
-                <div class="col-2">
-                    <a href="https://www.instagram.com/superfuds/?hl=es-la" target="_blank"><img src="/images/page/logodinners.svg" class="img-fluid"></a>
+                    <a href="https://www.mundodinersclub.com/" target="_blank"><img src="/images/page/logodinners.svg" class="img-fluid"></a>
                 </div>
             </div>
         </div>
