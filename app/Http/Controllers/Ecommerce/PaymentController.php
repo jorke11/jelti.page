@@ -80,8 +80,12 @@ class PaymentController extends Controller {
         $this->amount = 0;
         $this->order_id = 0;
 
-        $this->categories = Categories::where("status_id", 1)->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)
-                        ->orderBy("order", "asc")->get();
+        $this->categories = Categories::where("status_id", 1)
+                        ->where("type_category_id", 1)
+                        ->where(function($query) {
+                            $query->whereNull("node_id")
+                            ->OrWhere("node_id", 0)->orderBy("order", "asc");
+                        })->get();
     }
 
     public function index() {
