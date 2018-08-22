@@ -50,8 +50,10 @@ function Counter() {
                 $('.go-top').slideDown(300);
                 $("#content-menu").height(300)
                 $("#content-image").css("top", 100);
+                
             } else {
-                $("#content-image").css("top", -300);
+                
+                $("#content-image").css("top", -500);
                 $(".popover").css("transform", "translate3d(1493px, 110px, 0px)")
                 $("#main-menu-id").addClass("main-menu").removeClass("main-menu-out");
                 $('.go-top').slideUp(300);
