@@ -140,6 +140,10 @@ class ShoppingController extends Controller {
             $relations = DB::table("vproducts")->where("category_id", $product->category_id)->whereNotNull("image")->get();
             $supplier = $product->supplier;
 
+//            dd($product->category);
+
+
+
             if ($product->characteristic != null) {
                 $id = array();
                 $id = array_map('intval', explode(',', implode(",", $product->characteristic)));
@@ -151,7 +155,7 @@ class ShoppingController extends Controller {
             }
 
             $available = $this->stock->getInventory($product->id);
-            $categories = Categories::where("node_id", 0)->where("status_id",1)->get();
+            $categories = Categories::where("node_id", 0)->where("status_id", 1)->get();
             $like_product = $product->is_like()->first();
             $text = '';
             if (count($like_product) > 0) {
@@ -163,8 +167,13 @@ class ShoppingController extends Controller {
             }
 
             $like = (count($like_product) > 0) ? 'red' : 'none';
+//            dd($product->category->node_id);
+            $category_f = Categories::find($product->category->node_id);
+           
 
-            return view("Ecommerce.payment.product", compact("product", "detail", "relations", "supplier", "available", "categories", "dietas", "like", "line", "text"));
+            $breadcrumbs = "<a href='/'>Home</a> / <a href='/products/$category_f->slug'>" . ucwords(strtolower($category_f->description)) . "</a> / $slug";
+
+            return view("Ecommerce.payment.product", compact("breadcrumbs", "product", "detail", "relations", "supplier", "available", "categories", "dietas", "like", "line", "text"));
         } else {
             return response(view('errors.503'), 404);
         }
@@ -318,7 +327,7 @@ class ShoppingController extends Controller {
             $con = ProductsComment::where("answer_id", $value->id)->get();
             $comment[$i][] = $value;
             if (count($con) > 0) {
-                
+
                 $comment[$i]["child"] = $this->getChild($con);
             }
         }

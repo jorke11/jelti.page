@@ -152,6 +152,11 @@
 <div class="container-fluid">
 
     <div class="row">
+        <div class="col-8 offset-1">
+                <?php echo $breadcrumbs;?>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-8">
             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                 <!-- Indicators -->
