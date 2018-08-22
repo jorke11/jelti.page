@@ -328,7 +328,7 @@ function listProduct() {
 
                                                     <h5 class="card-title text-left title-products" style="margin:0;min-height: 60px" 
                                                         onclick="obj.redirectProduct('${value.slug}')">
-                                                            ${(value.short_description).toUpperCase()}
+                                                            ${((value.short_description).toUpperCase()).substring(1, 50)}
                                                     </h5>           
                         
                         
