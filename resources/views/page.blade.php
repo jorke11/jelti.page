@@ -174,7 +174,7 @@
             padding: 0;min-height: 60px;
         }
         .text-supplier{
-            font-size: 14px;
+            font-size: 12px;
         }
         .buttonplus{
             display:scroll;
