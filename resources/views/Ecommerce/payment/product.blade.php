@@ -77,7 +77,7 @@
         display:scroll;
         position:fixed;
         bottom:170px;
-        margin-left: 6%;
+        margin-left: 7%;
         margin-bottom: 1%;
         border-radius: 10px;
         background-color: rgba(255,255,255,0);
@@ -109,7 +109,7 @@
             display:scroll;
             position:fixed;
             bottom:150px;
-            margin-left: 3.5%;
+            margin-left: 7%;
             margin-bottom: 2%;
             border-radius: 10px;
             background-color: rgba(255,255,255,0);
