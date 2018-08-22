@@ -285,7 +285,8 @@ class PaymentController extends Controller {
 
                 if ($quantiy == 0 && $in["quantity"] == 0) {
                     $detPro->delete();
-                    return response()->json(["success" => false]);
+                    $res = $this->getOrdersCurrent($slug);
+                    return response()->json(["success" => false, "quantity" => $res["quantity"], "detail" => $res["detail"], "row" => $res["row"], "total" => $res["total"]]);
                 } else {
                     $detPro->quantity = $detPro->quantity - 1;
                     $detPro->save();
