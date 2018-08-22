@@ -97,7 +97,21 @@
 
 
 
-    @media (min-width: 1100px){
+    @media (max-width: 1100px){
+        .col-cust{
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 26%;
+            flex: 0 0 26%;
+            max-width: 26%;
+            position: relative;
+            width: 100%;
+            min-height: 1px;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+    }
+
+    @media (max-width: 1100px){
         .title-new {
             display: none !important;
         }
@@ -108,8 +122,8 @@
         .buttonplus{
             display:scroll;
             position:fixed;
-            bottom:150px;
-            margin-left: 7%;
+            bottom:140px;
+            margin-left: 4%;
             margin-bottom: 2%;
             border-radius: 10px;
             background-color: rgba(255,255,255,0);
@@ -118,7 +132,7 @@
         }
 
         .buttonplus-svg{
-            width: 18px;
+            width: 14px;
             fill:"none"
         }
 
@@ -557,8 +571,8 @@
                     <h2 style="color:white">Productos que te puedan interesar</h2>
                 </div>
             </div>
-            <div class="row row-space" style="padding-bottom: 1%">
-                <div class="col-10 offset-1">
+            <div class="row row-space row-center" style="padding-bottom: 1%">
+                <div class="col-lg-10 col-md-12 ">
                     <div id="carouselExampleIndicators3" class="carousel slide" data-ride="carousel">
 
                         <div class="carousel-inner">
@@ -569,7 +583,7 @@
 
                                     foreach ($relations as $i => $value) {
                                         ?>
-                                        <div class="col-3">
+                                        <div class="col-lg-3 col-md-3 col-sm-7">
                                             <div class="card" >
                                                 <img class="card-img-top" src="https://superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                 <div class="card-body text-center">

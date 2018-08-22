@@ -151,7 +151,7 @@ class ShoppingController extends Controller {
             }
 
             $available = $this->stock->getInventory($product->id);
-            $categories = Categories::where("node_id", 0)->get();
+            $categories = Categories::where("node_id", 0)->where("status_id",1)->get();
             $like_product = $product->is_like()->first();
             $text = '';
             if (count($like_product) > 0) {
