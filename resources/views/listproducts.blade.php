@@ -26,6 +26,9 @@
         width: 20px;
         fill:"none"
     }
+    .text-supplier{
+        font-size: 9px;
+    }
 
 
 
@@ -65,6 +68,9 @@
             color:#ffa608;
             fill:#ffa608
         }
+        .text-supplier{
+            font-size: 9px;
+        }
     }
 
 </style>
@@ -75,7 +81,7 @@
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        
+
                         @if(isset($row_category->banner))
                         <img class="d-block w-100" src="{{url($row_category->banner)}}" alt="Second slide" id="main-image-category">
                         @else
@@ -188,7 +194,7 @@
                                         </a>
                                         <div class="card-body" style="padding-bottom: 1.25em;padding-top:0">
 
-                                            <p class="text-left text-muted" style="margin:0">{{$value->supplier}}</p>
+                                            <p class="text-left text-muted text-supplier" style="margin:0;">{{strtoupper($value->supplier)}}</p>
                                             <h5 class="card-title text-left title-products" style="margin:0;min-height: 60px" onclick="obj.redirectProduct('{{$value->slug}}')">
                                                 <?php echo strtoupper(substr($value->short_description, 0, 25)); ?>
                                             </h5>
@@ -218,7 +224,6 @@
                                                 <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                 </svg>
                                             </p>
-                                                                                                                                                                                                                <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                             @guest
                                             <p></p>
                                             @else
