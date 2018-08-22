@@ -16,7 +16,7 @@
         border: 1px solid #5baf98
     }
     .title-products{
-        padding: 0;min-height: 60px;
+        padding: 0;min-height: 60px;      font-size: 16px;
     }
     .star{
         width: 22px;height: 22px
@@ -37,7 +37,7 @@
             display: none !important;
         }
         .title-products{
-            font-size: 12px;
+            font-size: 16px;
             padding: 0;min-height: 60px;
         }
         .buttonplus{
