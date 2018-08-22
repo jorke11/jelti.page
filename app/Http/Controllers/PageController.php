@@ -112,6 +112,7 @@ class PageController extends Controller {
     public function productSearch($slug_category) {
         $row_category = Categories::where("slug", $slug_category)->where("type_category_id", 1)->where("node_id", 0)->first();
 
+//        dd($row_category);
 
         $categories = Categories::where("status_id", 1)->where("type_category_id", 1)
                         ->where(function($query) {
@@ -140,6 +141,9 @@ class PageController extends Controller {
         );
 
         $breadcrumbs = "<a href='/'>Home</a> / " . ucwords($slug_category);
+        
+        
+        
         return view('listproducts', compact("breadcrumbs", "categories", "row_category", 'products', "slug_category", "subcategory", "dietas"));
     }
 

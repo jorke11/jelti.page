@@ -169,9 +169,18 @@ class ShoppingController extends Controller {
             $like = (count($like_product) > 0) ? 'red' : 'none';
 //            dd($product->category->node_id);
             $category_f = Categories::find($product->category->node_id);
-           
 
-            $breadcrumbs = "<a href='/'>Home</a> / <a href='/products/$category_f->slug'>" . ucwords(strtolower($category_f->description)) . "</a> / $slug";
+
+            if ($product->category->node_id == 0) {
+                $slug_cat = $product->slug;
+                dd($product->category);
+                $description = $product->category->description;
+            } else {
+                $slug_cat = $category_f->slug;
+                $description = $category_f->description;
+            }
+
+            $breadcrumbs = "<a href='/'>Home</a> / <a href='/products/$slug_cat'>" . ucwords(strtolower($description)) . "</a> / $slug";
 
             return view("Ecommerce.payment.product", compact("breadcrumbs", "product", "detail", "relations", "supplier", "available", "categories", "dietas", "like", "line", "text"));
         } else {
