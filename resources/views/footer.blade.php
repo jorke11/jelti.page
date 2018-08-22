@@ -114,7 +114,7 @@
     <div class="row text-center">
         <div class="col">
             <div class="row">
-                <div class="col"><h2 class="text-white">Aliados</h2></div>
+                <div class="col"><h5 class="titles-footer">ALIADOS</h5></div>
             </div>
             <div class="row justify-content-center">
                 <div class="col-2">
