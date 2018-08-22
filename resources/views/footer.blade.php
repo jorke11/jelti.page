@@ -22,6 +22,10 @@
     }
     .link-white{
         color:white !important;
+        font-size: 15px
+    }
+    .titles-footer{
+        color:white;
     }
 </style>
 <div class="container-fluid footer-template">
@@ -31,17 +35,17 @@
             <div class="row">
                 <div class="col-4">
                     <ul class="list-group">
-                        <li class="list-group-item"><b>CATEGORIAS</b></li>
+                        <li class="list-group-item">CATEGORÍAS</li>
                         @foreach($categories as $val)
-                        <li class="list-group-item"><a class="link-white" href="{{url("/products/".$val->slug)}}">{{ucwords(strtolower($val->description))}}</a></li>
+                        <li class="list-group-item"><a class="link-white" href="{{url("/products/".$val->slug)}}">{{ucwords(strtoupper($val->description))}}</a></li>
                         @endforeach
                     </ul>
                 </div>
                 <div class="col-4 d-none d-lg-block d-md-none d-sm-block">
                     <ul class="list-group">
-                        <li class="list-group-item"><b>DIETAS</b></li>
+                        <li class="list-group-item">DIETAS</li>
                         @foreach($dietas as $val)
-                        <li class="list-group-item"><a class="link-white" href='{{url("search/s=".$val->slug)}}'>{{$val->description}}</a></li>
+                        <li class="list-group-item"><a class="link-white" href='{{url("search/s=".$val->slug)}}'>{{strtoupper($val->description)}}</a></li>
                         @endforeach
                     </ul>
                 </div>
@@ -62,7 +66,7 @@
         <div class="col-5" style="padding-top: 2%;">
             <div class="row row-space">
                 <div class="col-12 col-lg-12 text-center">
-                    <h2 class="white-label">Siguenos</h2>
+                    <h5 class="titles-footer">SÍGUENOS</h5>
                 </div>
             </div>
             <div class="row row-space justify-content-center">
@@ -85,7 +89,7 @@
 
             <div class="row row-space">
                 <div class="col-12 text-center">
-                    <h2 class="white-label">Metodos de Pago</h2>
+                    <h5 class="titles-footer">MÉTODOS DE PAGO</h5>
                 </div>
             </div>
             <div class="row row-space row-center">
