@@ -105,7 +105,7 @@ class PageController extends Controller {
         $dietas = $this->dietas;
 
 
-        
+
         return view('page', compact("categories", "subcategory", "newproducts", "love_clients", "clients", "dietas", "most_sales"));
     }
 
@@ -127,8 +127,8 @@ class PageController extends Controller {
         foreach ($subcategory as $val) {
             $ids[] = $val->id;
         }
-        
-        $products = DB::table("vproducts")->whereNotNull("image")->whereNotNull("thumbnail")->whereIn("category_id",$ids)
+
+        $products = DB::table("vproducts")->whereNotNull("image")->whereNotNull("thumbnail")->whereIn("category_id", $ids)
                         ->whereNotNull("warehouse")->orderBy("title", "desc")->paginate(16);
         $dietas = array(
             (object) array("id" => 1, "description" => "Paleo", "slug" => "paleo"),
@@ -138,9 +138,9 @@ class PageController extends Controller {
             (object) array("id" => 5, "description" => "Sin grasas Trans", "slug" => "sin_grasas_trans"),
             (object) array("id" => 6, "description" => "Sin azucar", "slug" => "sin_azucar"),
         );
-        
-            $breadcrumbs="<a href='/'>Home</a> / $slug_category";
-        return view('listproducts', compact("breadcrumbs","categories", "row_category", 'products', "slug_category", "subcategory", "dietas"));
+
+        $breadcrumbs = "<a href='/'>Home</a> / " . ucwords($slug_category);
+        return view('listproducts', compact("breadcrumbs", "categories", "row_category", 'products', "slug_category", "subcategory", "dietas"));
     }
 
     public function search($param) {
@@ -153,8 +153,8 @@ class PageController extends Controller {
 
         $subcategory = Categories::where("status_id", 1)->where("node_id", $row_category->id)->where("status_id", 1)->orderBy("description", "asc")->get();
 
-        if (stripos($param, "s=") !== false) {
-            $param = str_replace("s=", "", $param);
+        if (stripos($param, "s = ") !== false) {
+            $param = str_replace("s = ", "", $param);
             $char = \App\Models\Administration\Characteristic::where("description", "ilike", "%" . strtolower($param) . "%")->get();
             $products = DB::table("vproducts")->select("vproducts.id", "vproducts.title", "vproducts.short_description", "vproducts.price_sf", "vproducts.image", "vproducts.thumbnail", "vproducts.category_id", "vproducts.slug", "vproducts.tax", "vproducts.supplier"
                     )
@@ -165,7 +165,7 @@ class PageController extends Controller {
                 $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
 
                 if ($orders != null)
-                    $products->select("orders_detail.quantity", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id=" . $orders->id));
+                    $products->select("orders_detail.quantity", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
             }
 
             foreach ($char as $value) {
@@ -207,8 +207,8 @@ class PageController extends Controller {
 
 //        dd($products);
         $dietas = $this->dietas;
-        $breadcrumbs="<a href='/'>Home</a> / Alimentos";
-        return view('listproducts', compact("breadcrumbs","categories", "row_category", 'products', "slug_category", "subcategory", "param", "dietas"));
+        $breadcrumbs = "<a href = '/'>Home</a> / Alimentos";
+        return view('listproducts', compact("breadcrumbs", "categories", "row_category", 'products', "slug_category", "subcategory", "param", "dietas"));
     }
 
     public function getProducts(Request $req, $param = null) {
@@ -295,8 +295,8 @@ class PageController extends Controller {
             $category = array();
             $slug_category = array();
 
-            
-            
+
+
             return view('listproducts', compact("category", "row_category", 'products', "slug_category", "subcategory"));
         }
 
@@ -314,7 +314,7 @@ class PageController extends Controller {
         }
 
 
-        
+
 
         return response()->json(["products" => $products, "subcategories" => $subcategory, "count_cat" => $count_cat, "row_category" => $row_category]);
     }
