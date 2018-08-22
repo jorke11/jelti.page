@@ -37,7 +37,7 @@
                     <ul class="list-group">
                         <li class="list-group-item">CATEGORÍAS</li>
                         @foreach($categories as $val)
-                        <li class="list-group-item"><a class="link-white" href="{{url("/products/".$val->slug)}}">{{ucwords(strtoupper(str_replace("é","Ë",$val->description)))}}</a></li>
+                        <li class="list-group-item"><a class="link-white" href="{{url("/products/".$val->slug)}}">{{ucwords(strtoupper(str_replace("é","É",$val->description)))}}</a></li>
                         @endforeach
                     </ul>
                 </div>
