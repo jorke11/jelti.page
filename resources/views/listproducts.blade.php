@@ -70,7 +70,7 @@
 </style>
 
 <section id="content-menu">
-    <div  class="container-fluid" style="padding-left: 0; padding-right: 0;position:relative;top: -130px">
+    <div  class="container-fluid" style="padding-left: 0; padding-right: 0;position:relative;top: -110px">
         <section id="slider-main" class="main-slider">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
