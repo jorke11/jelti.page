@@ -190,7 +190,7 @@
 
                                             <p class="text-left text-muted" style="margin:0">{{$value->supplier}}</p>
                                             <h5 class="card-title text-left title-products" style="margin:0;min-height: 60px" onclick="obj.redirectProduct('{{$value->slug}}')">
-                                                <?php echo substr($value->short_description, 0, 25); ?>
+                                                <?php echo strtoupper(substr($value->short_description, 0, 25)); ?>
                                             </h5>
                                             <span class="card-title text-left title-products" style="font-weight: 900;color:rgba(91,175,152,1);font-size: 15px;margin:0;min-height: 60px" onclick="obj.redirectProduct('{{$value->slug}}')">
                                                 <span id="quantity_selected_{{$value->id}}">

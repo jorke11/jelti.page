@@ -108,6 +108,7 @@
     }
     .title-products{
         padding: 0;min-height: 60px;
+        
     }
     .star{
         width: 22px;height: 22px
@@ -169,14 +170,17 @@
             display: none !important;
         }
         .title-products{
-            font-size: 12px;
+            font-size: 16px;
             padding: 0;min-height: 60px;
+        }
+        .text-supplier{
+            font-size: 14px;
         }
         .buttonplus{
             display:scroll;
             position:fixed;
-            bottom:150px;
-            margin-left: 7%;
+            bottom:165px;
+            margin-left: 6%;
             margin-bottom: 2%;
             border-radius: 10px;
             background-color: rgba(255,255,255,0);
@@ -238,8 +242,9 @@
                                                 <div class="card" >
                                                     <img class="card-img-top" src="https://superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                     <div class="card-body text-center">
-                                                        <p class="text-left text-muted" style="margin:0;">{{$value->supplier}}</p>
-                                                        <h5 class="card-title text-left title-products" style="" onclick="obj.redirectProduct('{{$value->slug}}')"><?php echo trim(substr($value->short_description, 0, 30)); ?></h5>
+                                                        <p class="text-left text-muted text-supplier" style="margin:0;">{{strtoupper($value->supplier)}}</p>
+                                                        <h5 class="card-title text-left title-products" style="" onclick="obj.redirectProduct('{{$value->slug}}')">
+                                                            <?php echo trim(strtoupper(substr($value->short_description, 0, 30))); ?></h5>
                                                         <p class="text-left">
                                                             <svg id="i-star" viewBox="0 0 32 32"  class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                             <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
@@ -342,9 +347,9 @@
                                                 <div class="card" >
                                                     <img class="card-img-top" src="https://superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                     <div class="card-body text-center">
-                                                        <p class="text-left text-muted" style="margin:0">{{$value->supplier}}</p>
+                                                        <p class="text-left text-muted" style="margin:0">{{strtoupper($value->supplier)}}</p>
                                                         <h5 class="card-title text-left title-products" style="margin:0;min-height: 60px" onclick="obj.redirectProduct('{{$value->slug}}')">
-                                                            <?php echo substr($value->short_description, 0, 25); ?>
+                                                            <?php echo strtoupper(substr($value->short_description, 0, 25)); ?>
                                                         </h5>
                                                         <p class="text-left">
                                                             <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
