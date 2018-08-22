@@ -114,10 +114,10 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-2">
-                    <a href="https://www.facebook.com/superfuds/" target="_blank"><p class="text-center"><img src="/images/endeavor_logo.png" class="img-fluid"></p></a>
+                    <a href="https://www.innpulsacolombia.com/" target="_blank"><p class="text-center"><img src="/images/endeavor_logo.png" class="img-fluid"></p></a>
                 </div>
                 <div class="col-2">
-                    <a href="https://www.facebook.com/superfuds/" target="_blank"><p class="text-center"><img src="/images/impulsa_logo.png" class="img-fluid"></p></a>
+                    <a href="https://endeavor.org/location/colombia/" target="_blank"><p class="text-center"><img src="/images/impulsa_logo.png" class="img-fluid"></p></a>
                 </div>
             </div>
         </div>
