@@ -40,8 +40,8 @@ class PageController extends Controller {
 
             if ($orders != null) {
                 $join = "LEFT JOIN orders_detail ON orders_detail.product_id=p.id and orders_detail.order_id = " . $orders->id;
-                $field = ",orders_detail.quantity,orders_detail.price_sf,p.tax";
-                $group = ",orders_detail.quantity,orders_detail.price_sf,p.tax";
+                $field = ",orders_detail.quantity";
+                $group = ",orders_detail.quantity";
             }
         }
 
@@ -49,7 +49,8 @@ class PageController extends Controller {
         $sql = "
             SELECT p.id,p.title as product,sup.business as supplier, 
             sum(CASE WHEN d.real_quantity IS NULL THEN 0 ELSE d.real_quantity end * CASE WHEN d.packaging=0 THEN 1 WHEN d.packaging IS NULL THEN 1 ELSE d.packaging END) quantity, 
-            sum(d.value * CASE WHEN d.real_quantity IS NULL THEN 0 ELSE d.real_quantity end * d.units_sf) as subtotal,p.thumbnail,p.slug,p.short_description
+            sum(d.value * CASE WHEN d.real_quantity IS NULL THEN 0 ELSE d.real_quantity end * d.units_sf) as subtotal,p.thumbnail,p.slug,p.short_description,
+            p.price_sf,p.tax
             $field
             FROM departures_detail d 
             JOIN departures s ON s.id=d.departure_id and s.status_id IN(2,7) 
@@ -57,7 +58,7 @@ class PageController extends Controller {
             JOIN vproducts p ON p.id=d.product_id JOIN stakeholder sup ON sup.id=p.supplier_id and p.thumbnail is not null
             $join
             WHERE s.dispatched BETWEEN '" . $init . " 00:00' AND '" . $end . " 23:59' AND s.client_id NOT IN(258,264,24) AND p.category_id<>-1
-            GROUP by 1,2,3,p.thumbnail,p.slug,p.short_description$group ORDER BY 4 DESC limit 50
+            GROUP by 1,2,3,p.thumbnail,p.slug,p.short_description,p.price_sf,p.tax$group ORDER BY 4 DESC limit 50
             ";
         $most_sales = DB::select($sql);
         
