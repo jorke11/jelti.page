@@ -48,17 +48,17 @@
                                 <div class="row">
                                     <div class="col-4 col-md-4">
                                         <a href="https://www.facebook.com/superfuds/">
-                                            <img  src="{{ url('images/page/facebook.svg') }}">
+                                            <img  src="{{ url('images/page/facebook.svg') }}" class="center-block">
                                         </a>
                                     </div>
                                     <div class="col-4 col-md-4">
                                         <a href="https://co.pinterest.com/superfuds/">
-                                            <img  src="{{ url('images/page/pinterest.svg') }}">
+                                            <img  src="{{ url('images/page/pinterest.svg') }}" class="center-block">
                                         </a>
                                     </div>
-                                    <div class="col-4 col-md-4">
+                                    <div class="col-4 col-md-4 row-center">
                                         <a href="https://www.instagram.com/superfuds/?hl=es-la">
-                                            <img  src="{{ url('images/page/instagram.svg') }}" style="width:40%">
+                                            <img  src="{{ url('images/page/instagram.svg') }}" style="width:40%" class="center-block">
                                         </a>
                                     </div>
                                 </div>
