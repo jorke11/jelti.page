@@ -283,7 +283,7 @@
                                                                 <path d="M16 2 L16 30 M2 16 L30 16" />
                                                                 </svg>
                                                             </div>
-                                                            <div class="col-lg-8">
+                                                            <div class="col-lg-6">
                                                                 <span id="quantity_product_{{$value->id}}" style="color:white">{{(isset($value->quantity))?$value->quantity:0}}</span>
                                                             </div>
                                                             <div class="col-lg-2" >
