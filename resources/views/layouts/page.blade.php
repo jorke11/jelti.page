@@ -28,7 +28,7 @@ clearstatcache();
         <meta http-equiv="Pragma" content="no-cache">
         <title>SuperFüds</title>
         <script>var PATH = '{{url("/")}}'</script>
-        <link rel="shortcut icon" href="{{ asset('assets/images/logoico.png') }}">
+        <link rel="shortcut icon" href="{{ asset('assets/images/icon.png') }}">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
         <!-- Fonts -->
