@@ -26,7 +26,7 @@
 <div class="container" >
     <div class="row" style="padding-top: 10% ;">
         <div class="col-10 col-md-offset-1">
-            <div class="panel panel-default" style="background-image: url({{ asset('assets/images/curva.png') }});background-repeat:  no-repeat;border-radius:20px">
+            <div class="panel panel-default" style="background-image: url({{ asset('assets/images/curva.png') }});background-repeat:  no-repeat;border-radius:20px;background-size: auto 100%">
                 <div class="panel-body" >
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                         {{ csrf_field() }}
@@ -48,17 +48,17 @@
                                 <div class="row">
                                     <div class="col-4 col-md-4">
                                         <a href="https://www.facebook.com/superfuds/">
-                                            <img  src="{{ url('images/page/facebook.svg') }}" class="center-block">
+                                            <img  src="/images/page/facebook.svg" class="center-block">
                                         </a>
                                     </div>
                                     <div class="col-4 col-md-4">
                                         <a href="https://co.pinterest.com/superfuds/">
-                                            <img  src="{{ url('images/page/pinterest.svg') }}" class="center-block">
+                                            <img  src="/images/page/pinterest.svg" class="center-block">
                                         </a>
                                     </div>
-                                    <div class="col-4 col-md-4 row-center">
+                                    <div class="col-4 col-md-4">
                                         <a href="https://www.instagram.com/superfuds/?hl=es-la">
-                                            <img  src="{{ url('images/page/instagram.svg') }}" style="width:40%" class="center-block">
+                                            <img  src="/images/page/instagram.png" class="center-block">
                                         </a>
                                     </div>
                                 </div>
