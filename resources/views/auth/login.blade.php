@@ -62,7 +62,6 @@
                                         </a>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="col-lg-4 col-md-4 col-md-offset-2 col-lg-offset-2">
                                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
