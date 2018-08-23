@@ -173,7 +173,7 @@ class ShoppingController extends Controller {
 
             if ($product->category->node_id == 0) {
                 $slug_cat = $product->slug;
-                dd($product->category);
+//                dd($product->category);
                 $description = $product->category->description;
             } else {
                 $slug_cat = $category_f->slug;

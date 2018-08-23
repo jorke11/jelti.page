@@ -2,8 +2,9 @@ function Counter() {
     var id = 1;
     var param = [];
     var db;
-    var user_id;
+    var user_id, token;
     this.init = function () {
+        token = $("input[name=_token]").val();
 
         $('.input-number').on('input', function () {
             this.value = this.value.replace(/[^0-9]/g, '');
@@ -50,9 +51,9 @@ function Counter() {
                 $('.go-top').slideDown(300);
                 $("#content-menu").height(300)
                 $("#content-image").css("top", 100);
-                
+
             } else {
-                
+
                 $("#content-image").css("top", -500);
                 $(".popover").css("transform", "translate3d(1493px, 110px, 0px)")
                 $("#main-menu-id").addClass("main-menu").removeClass("main-menu-out");
@@ -199,6 +200,7 @@ function Counter() {
                 },
                 success: function (data) {
                     objCounter.setData(data);
+                    $("#quantity_product_" + product_id).html(data.current.quantity)
                     $("#quantity_selected_" + product_id).html("Cantidad (" + data.current.quantity + ")")
                     $("#loading-super").addClass("d-none");
                     $("#btn-plus-product_" + product_id).attr("disabled", true);
@@ -211,6 +213,39 @@ function Counter() {
         } else {
             $("#modalOptions").modal("show");
         }
+    }
+
+    this.deleteUnit = function (product_id, slug, index) {
+        $("#quantity_" + product_id).val(parseInt($("#quantity_" + product_id).val()) - 1)
+        var row = {
+            quantity: $("#quantity_" + product_id).val(),
+            product_id: product_id
+        }
+
+        $.ajax({
+            url: PATH + '/deleteProductUnit/' + slug,
+            method: 'PUT',
+            headers: {'X-CSRF-TOKEN': token},
+            data: row,
+            success: function (data) {
+//                $("#content-detail").empty();
+                if (data.row.quantity > 0) {
+                    $("#quantity_product_" + product_id).html(data.row.quantity)
+                } else {
+                    $("#buttonAdd_" + product_id).addClass("d-none");
+                    $("#btnOption_" + product_id).removeClass("d-none");
+                }
+
+                objCounter.setData(data);
+            }, error: function (xhr, ajaxOptions, thrownError) {
+//                console.log(xhr)
+//                console.log(ajaxOptions)
+//                console.log(thrownError)
+            }
+
+        })
+
+
     }
 
 

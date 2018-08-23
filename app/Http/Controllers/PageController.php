@@ -130,7 +130,7 @@ class PageController extends Controller {
         }
 
         $products = DB::table("vproducts")->whereNotNull("image")->whereNotNull("thumbnail")->whereIn("category_id", $ids)
-                        ->whereNotNull("warehouse")->orderBy("title", "desc")->paginate(16);
+                ->whereNotNull("warehouse");
         $dietas = array(
             (object) array("id" => 1, "description" => "Paleo", "slug" => "paleo"),
             (object) array("id" => 2, "description" => "Vegano", "slug" => "vegano"),
@@ -141,9 +141,18 @@ class PageController extends Controller {
         );
 
         $breadcrumbs = "<a href='/'>Home</a> / " . ucwords($slug_category);
+
+        if (Auth::user()) {
+            $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
+
+            if ($orders != null)
+                $products->select("orders_detail.quantity", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+        }
+
+
+        $products = $products->orderBy("title", "desc")->get();
         
-        
-        
+
         return view('listproducts', compact("breadcrumbs", "categories", "row_category", 'products', "slug_category", "subcategory", "dietas"));
     }
 

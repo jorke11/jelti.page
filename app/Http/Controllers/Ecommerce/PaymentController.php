@@ -285,9 +285,10 @@ class PaymentController extends Controller {
             $detPro = OrdersDetail::where("product_id", $pro->id)->where("order_id", $order->id)->first();
 
             if ($detPro != null) {
+
                 $quantiy = $detPro->quantity - 1;
 
-                if ($quantiy == 0 && $in["quantity"] == 0) {
+                if ($quantiy == 0) {
                     $detPro->delete();
                     $res = $this->getOrdersCurrent($slug);
                     return response()->json(["success" => false, "quantity" => $res["quantity"], "detail" => $res["detail"], "row" => $res["row"], "total" => $res["total"]]);

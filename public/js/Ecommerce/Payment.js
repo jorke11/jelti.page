@@ -197,7 +197,8 @@ function Payment() {
     }
 
     this.addProduct = function (title, slug, product_id, price_sf, img, tax) {
-        $("#quantity_" + product_id).val(parseInt($("#quantity_" + product_id).val()) + 1)
+//        $("#quantity_" + product_id).val(parseInt($("#quantity_" + product_id).val()) + 1)
+
         var row = {
             quantity: 1,
             title: title,
@@ -219,7 +220,8 @@ function Payment() {
                     objCounter.setData(data);
                     $("#frm #total").val($.formatNumber(data.total, "$"))
                     $("#badge-quantity").attr("font-size", '70%').css("background-color", "#f8f9fa");
-
+                    
+                    $("#quantity_product_" + product_id).html(data.current.quantity)
                     if (parseInt(data.total) > 10000) {
                         $("#message-mount").addClass("d-none")
                         $("#btnPayU").attr("disabled", false)
