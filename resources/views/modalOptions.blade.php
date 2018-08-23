@@ -19,7 +19,6 @@
 
             <div class="modal-body">
                 <div class="container-fluid">
-                    {!! Form::open(['id'=>'frm']) !!}
                     <div class="row">
                         <div class="col-12">
                             <div class="row row-space">
@@ -30,41 +29,44 @@
                             <div class="row row-space justify-content-center">
                                 <div class="col-12">
                                     <div class="row">
-                                        <div class="col-6" onclick="objCounter.optionsModal(1)" id="title-business" style="cursor:pointer">
-                                            <div class="row text-center" style="padding-bottom: 3%">
-                                                <div class="col-lg-12 title-green">
-                                                    Inicia Sesión
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label for="exampleInputEmail1">Correo</label>
-                                                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Correo">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label for="exampleInputEmail1">Clave</label>
-                                                        <input type="email" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Clave">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <button class="btn btn-success btn-login form-control">Ingresar</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 column-in-center" onclick="objCounter.optionsModal(2)" id="title-supplier" style="cursor:pointer">
-                                            <div class="row align-items-center">
-                                                <div class="col-lg-12">
-                                                    Solicita registro
-                                                </div>
-                                            </div>
 
+                                        <div class="col-6" onclick="objCounter.optionsModal(1)" id="title-business" style="cursor:pointer">
+                                            <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
+                                                {{ csrf_field() }}
+                                                <div class="row text-center" style="padding-bottom: 3%">
+                                                    <div class="col-lg-12 title-green">Inicia Sesión</div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Correo</label>
+                                                            <input type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus 
+                                                                   style="border: 1px solid #ccc">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Clave</label>
+                                                            <input type="password" class="form-control" name="password" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <button class="btn btn-success btn-login form-control" type="submit">Ingresar</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                        <div class="col-6  " onclick="objCounter.optionsModal(2)" id="title-supplier" style="cursor:pointer;">
+                                            <div class="row" style="padding-top: 50%">
+                                                <div class="col-lg-12 center-rowspan" style="font-size:20px">
+                                                    Solicita registro!
+                                                </div>
+                                            </div>
                                         </div>
                                         <input type="hidden" id="type_stakeholder" name="type_stakeholder" class="in-page">
                                     </div>
@@ -72,8 +74,6 @@
                             </div>
                         </div>
                     </div>
-
-                    {!!Form::close()!!}
                 </div>
             </div>
         </div>
