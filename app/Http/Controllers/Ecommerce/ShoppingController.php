@@ -137,11 +137,19 @@ class ShoppingController extends Controller {
         if ($product != null) {
 
             $detail = $product->images;
-            $relations = DB::table("vproducts")->where("category_id", $product->category_id)->whereNotNull("image")->get();
+            $relations = DB::table("vproducts")->where("category_id", $product->category_id)->whereNotNull("image");
+
+            if (Auth::user()) {
+                $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
+
+                if ($orders != null)
+                    $relations->select("orders_detail.quantity as quantity_order", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+            }
+
+            $relations = $relations->get();
+
+
             $supplier = $product->supplier;
-
-//            dd($product->category);
-
 
 
             if ($product->characteristic != null) {
@@ -156,8 +164,16 @@ class ShoppingController extends Controller {
 
             $available = $this->stock->getInventory($product->id);
             $categories = Categories::where("node_id", 0)->where("status_id", 1)->get();
-            $like_product = $product->is_like()->first();
+
+            $like_product = null;
+
+            if (Auth::user() != null) {
+                $like_product = $product->is_like()->where("user_id", auth()->id())->first();
+            }
+
             $text = '';
+
+
             if (count($like_product) > 0) {
                 $like = $line = 'red';
             } else {

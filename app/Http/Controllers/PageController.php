@@ -41,7 +41,7 @@ class PageController extends Controller {
 
             if ($orders != null) {
                 $join = "LEFT JOIN orders_detail ON orders_detail.product_id=p.id and orders_detail.order_id = " . $orders->id;
-                $field = ",orders_detail.quantity";
+                $field = ",orders_detail.quantity as quantity_order";
                 $group = ",orders_detail.quantity";
             }
         }
@@ -63,6 +63,8 @@ class PageController extends Controller {
             ";
         $most_sales = DB::select($sql);
 
+
+//        dd($most_sales);
 
 
         $categories = Categories::where("status_id", 1)

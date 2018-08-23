@@ -74,7 +74,7 @@ function detailProduct() {
 
                 })
             } else {
-                $("#myModal").modal("show");
+                $("#modalOptions").modal("show");
             }
         }
     }

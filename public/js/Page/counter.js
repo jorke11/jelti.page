@@ -249,10 +249,17 @@ function Counter() {
     }
 
     this.showButton = function (description, slug, id, price, thumbnail, tax) {
-        $("#buttonAdd_" + id).removeClass("d-none");
-        $("#btnOption_" + id).addClass("d-none");
+        console.log(user_id);
 
-        objCounter.addProduct(description, slug, id, price, thumbnail, tax);
+        if (user_id) {
+            $("#buttonAdd_" + id).removeClass("d-none");
+            $("#btnOption_" + id).addClass("d-none");
+            objCounter.addProduct(description, slug, id, price, thumbnail, tax);
+        } else {
+            $("#modalOptions").modal("show");
+        }
+
+
 
     }
 
