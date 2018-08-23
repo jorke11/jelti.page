@@ -425,13 +425,7 @@ function listProduct() {
         })
     }
 
-    this.showButton = function (description, slug, id, price, thumbnail, tax) {
-        $("#buttonAdd_" + id).removeClass("d-none");
-        $("#btnOption_" + id).addClass("d-none");
-        
-        objCounter.addProduct(description, slug, id, price, thumbnail, tax);
-
-    }
+   
     
     this.hideButton = function (id) {
         $("#buttonAdd_" + id).addClass("d-none");

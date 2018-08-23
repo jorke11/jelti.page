@@ -251,8 +251,9 @@
                                                 </div>
                                             </div>
 
-                                            <button class="btn btn-success <?php echo (isset($value->quantity)) ? 'd-none' : '' ?>" id="btnOption_{{$value->id}}" onclick="obj.showButton('{{$value->short_description}}',
-                                                    '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}                                            ')">Agregar</button>
+                                            <button class="btn btn-success <?php echo (isset($value->quantity)) ? 'd-none' : '' ?>" 
+                                                    id="btnOption_{{$value->id}}" onclick="objCounter.showButton('{{$value->short_description}}',
+                                                    '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}')">Agregar</button>
 
                                         </div>
                                     </div>
