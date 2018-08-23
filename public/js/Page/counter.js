@@ -19,6 +19,15 @@ function Counter() {
         });
 
 
+        $('body').on('click', function (e) {
+            //did not click a popover toggle, or icon in popover toggle, or popover
+            if ($(e.target).data('toggle') !== 'popover'
+                    && $(e.target).parents('[data-toggle="popover"]').length === 0
+                    && $(e.target).parents('.popover.in').length === 0) {
+                $('[data-toggle="popover"]').popover('hide');
+            }
+        });
+
         $("[data-toggle=popover]").popover({
             html: true,
             content: function () {
@@ -288,8 +297,8 @@ function Counter() {
         var html = '';
         if (data.detail != false) {
             data.detail.forEach((row, index) => {
-                if (index < 3) {
-                    html += `
+//                if (index < 3) {
+                html += `
                             <div class="row mb-3">
                                 <div class="card">
                                     <div class="card-body" style="padding:5%">
@@ -309,7 +318,7 @@ function Counter() {
                             </div>
                             `;
 
-                }
+//                }
             })
         }
 

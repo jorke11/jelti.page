@@ -206,6 +206,11 @@
 <style>
     .popover-body{
         padding: 20px;
+        overflow-y: scroll;
+        height: 550px
+    }
+    .popover{
+        max-width: 380px;
     }
 </style>
 <div class="d-none" id="popover-content" >
@@ -216,13 +221,12 @@
              overflow-y: scroll;">
 
         </div>
-        <div class="container-fluid" >
+<!--        <div class="container-fluid" >
             <div class="row">
                 <div class="col-12">
-
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>        
 </div>
 <script>
