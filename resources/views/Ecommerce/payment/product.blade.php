@@ -87,7 +87,10 @@
         padding: 0;min-height: 60px;
     }
     .star{
-        width: 22px;height: 22px
+        width: 22px;
+        height: 22px;
+        color:#ffa608;
+        fill:#ffa608
     }
 
     .buttonplus-svg{
@@ -95,23 +98,12 @@
         fill:"none"
     }
 
-
-
-    @media (max-width: 1100px){
-        .col-cust{
-            -webkit-box-flex: 0;
-            -ms-flex: 0 0 26%;
-            flex: 0 0 26%;
-            max-width: 26%;
-            position: relative;
-            width: 100%;
-            min-height: 1px;
-            padding-right: 15px;
-            padding-left: 15px;
-        }
+    .text-supplier{
+        font-size: 12px;
     }
 
-    @media (max-width: 1100px){
+
+    @media (max-width: 1200px){
         .title-new {
             display: none !important;
         }
@@ -119,6 +111,11 @@
             font-size: 12px;
             padding: 0;min-height: 60px;
         }
+
+        .text-supplier{
+            font-size: 12px;
+        }
+
         .buttonplus{
             display:scroll;
             position:fixed;
@@ -138,8 +135,8 @@
 
 
         .star{
-            width: 15px;
-            height: 15px;
+            width: 14px;
+            height: 14px;
             color:#ffa608;
             fill:#ffa608
         }
@@ -592,15 +589,15 @@
                                             <div class="card" >
                                                 <img class="card-img-top" src="https://superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                 <div class="card-body text-center">
-                                                    <p class="text-left text-muted" style="margin:0">{{$value->supplier}}</p>
+                                                    <p class="text-left text-muted text-supplier" >{{strtoupper($value->supplier)}}</p>
                                                     <h5 class="card-title text-left title-products" style="margin:0;min-height: 60px" onclick="obj.redirectProduct('{{$value->slug}}')">
-                                                        <?php echo substr($value->short_description, 0, 25); ?>
+                                                        <?php echo strtoupper(substr($value->short_description, 0, 25)); ?>
                                                     </h5>
                                                     <p class="text-left">
-                                                        <svg id="i-star" viewBox="0 0 32 32" class="star"  fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <svg id="i-star" viewBox="0 0 32 32" class="star"  stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                         <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                         </svg>
-                                                        <svg id="i-star" viewBox="0 0 32 32" class="star" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                         <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                         </svg>
                                                         <svg id="i-star" viewBox="0 0 32 32" class="star" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
