@@ -35,6 +35,7 @@ class PageController extends Controller {
         $join = '';
         $field = '';
         $group = '';
+        $orders = null;
         if (Auth::user()) {
             $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
 
@@ -79,7 +80,7 @@ class PageController extends Controller {
                 ->where("is_new", true);
 
         if ($orders != null) {
-            $newproducts->select("orders_detail.quantity","vproducts.characteristic" ,"vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+            $newproducts->select("orders_detail.quantity", "vproducts.characteristic", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
         }
 
 
