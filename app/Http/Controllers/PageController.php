@@ -61,8 +61,8 @@ class PageController extends Controller {
             GROUP by 1,2,3,p.thumbnail,p.slug,p.short_description,p.price_sf,p.tax$group ORDER BY 4 DESC limit 50
             ";
         $most_sales = DB::select($sql);
-        
-        
+
+
 
         $categories = Categories::where("status_id", 1)
                         ->where("type_category_id", 1)
@@ -78,6 +78,9 @@ class PageController extends Controller {
                 ->whereNotNull("thumbnail")
                 ->where("is_new", true);
 
+        if ($orders != null) {
+            $newproducts->select("orders_detail.quantity","vproducts.characteristic" ,"vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+        }
 
 
         $newproducts = $newproducts->orderBy("supplier", "asc")
@@ -209,7 +212,7 @@ class PageController extends Controller {
             }
 
             $products = $products->orderBy("title", "desc")->get();
-          
+
             $categories = Categories::where("status_id", 1);
 
             foreach ($products as $value) {
