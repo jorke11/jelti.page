@@ -399,7 +399,7 @@
                                                         </p>
                                                         @endguest
 
-                                                                                                                                                                                                                                     <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                                                                                                                                                                                                 <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                                         <div class="row <?php echo (isset($value->quantity)) ? '' : 'd-none' ?>" id="buttonAdd_{{$value->id}}" style="background-color: green;padding-bottom: 3%;padding-top: 3%;border-radius: 10px">
                                                             <div class="col-lg-2">
                                                                 <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="white" stroke="#ffffff" 

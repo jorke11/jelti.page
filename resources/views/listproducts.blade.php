@@ -240,7 +240,8 @@
                                                     </svg>
                                                 </div>
                                                 <div class="col-lg-8" >
-                                                    <span id="quantity_product_{{$value->id}}" style="color:white">{{$value->quantity}}</span>
+                                                    <span id="quantity_product_{{$value->id}}" style="color:white">{{(isset($value->quantity))?$value->quantity:0}}</span>
+                                                    
                                                 </div>
                                                 <div class="col-lg-2" >
                                                     <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="white"  style="cursor:pointer"

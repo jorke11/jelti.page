@@ -187,8 +187,8 @@ class PageController extends Controller {
 
         $subcategory = Categories::where("status_id", 1)->where("node_id", $row_category->id)->where("status_id", 1)->orderBy("description", "asc")->get();
 
-        if (stripos($param, "s = ") !== false) {
-            $param = str_replace("s = ", "", $param);
+        if (stripos($param, "s=") !== false) {
+            $param = str_replace("s=", "", $param);
             $char = \App\Models\Administration\Characteristic::where("description", "ilike", "%" . strtolower($param) . "%")->get();
             $products = DB::table("vproducts")->select("vproducts.id", "vproducts.title", "vproducts.short_description", "vproducts.price_sf", "vproducts.image", "vproducts.thumbnail", "vproducts.category_id", "vproducts.slug", "vproducts.tax", "vproducts.supplier"
                     )
@@ -209,7 +209,7 @@ class PageController extends Controller {
             }
 
             $products = $products->orderBy("title", "desc")->get();
-
+          
             $categories = Categories::where("status_id", 1);
 
             foreach ($products as $value) {
@@ -239,7 +239,6 @@ class PageController extends Controller {
             $categories = $categories->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->where("status_id", 1)->orderBy("order", "asc")->get();
         }
 
-//        dd($products);
         $dietas = $this->dietas;
         $breadcrumbs = "<a href = '/'>Home</a> / Alimentos";
         return view('listproducts', compact("breadcrumbs", "categories", "row_category", 'products', "slug_category", "subcategory", "param", "dietas"));
