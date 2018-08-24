@@ -102,6 +102,124 @@
         font-size: 12px;
     }
 
+    .btn-plus{
+        width: 22px;
+        height: 22px;
+        color:#ffffff;
+        fill:#ffffff;
+    }
+    .btn-minus{
+        width: 24px;
+        height: 24px;
+        color:#ffffff;
+        fill:#ffffff;
+    }
+
+    @media (max-width: 1400px){
+        .title-new {
+            display: none !important;
+        }
+        .title-products{
+            font-size: 12px;
+            padding: 0;min-height: 60px;
+        }
+
+        .text-supplier{
+            font-size: 12px;
+        }
+
+        .buttonplus{
+            display:scroll;
+            position:fixed;
+            bottom:140px;
+            margin-left: 4%;
+            margin-bottom: 2%;
+            border-radius: 10px;
+            background-color: rgba(255,255,255,0);
+            border: 1px solid #5baf98;
+
+        }
+
+        .buttonplus-svg{
+            width: 14px;
+            fill:"none"
+        }
+
+
+        .star{
+            width: 14px;
+            height: 14px;
+            color:#ffa608;
+            fill:#ffa608
+        }
+
+        .btn-plus{
+            width: 22px;
+            height: 22px;
+            color:#ffffff;
+            fill:#ffffff;
+        }
+        .btn-minus{
+            width: 22px;
+            height: 24px;
+            color:#ffffff;
+            fill:#ffffff;
+        }
+    }
+
+    @media (max-width: 1100px){
+        .title-new {
+            display: none !important;
+        }
+        .title-products{
+            font-size: 12px;
+            padding: 0;min-height: 60px;
+        }
+
+        .text-supplier{
+            font-size: 12px;
+        }
+
+        .buttonplus{
+            display:scroll;
+            position:fixed;
+            bottom:140px;
+            margin-left: 4%;
+            margin-bottom: 2%;
+            border-radius: 10px;
+            background-color: rgba(255,255,255,0);
+            border: 1px solid #5baf98;
+
+        }
+
+        .buttonplus-svg{
+            width: 14px;
+            fill:"none"
+        }
+
+
+        .star{
+            width: 14px;
+            height: 14px;
+            color:#ffa608;
+            fill:#ffa608
+        }
+
+        .btn-plus{
+            width: 22px;
+            height: 22px;
+            color:#ffffff;
+            fill:#ffffff;
+        }
+        .btn-minus{
+            width: 22px;
+            height: 24px;
+            color:#ffffff;
+            fill:#ffffff;
+        }
+    }
+
+
 
     @media (max-width: 1200px){
         .title-new {
@@ -141,6 +259,9 @@
             fill:#ffa608
         }
     }
+
+
+
 
 </style>
 @include("modalRegister")
@@ -622,19 +743,19 @@
                                                     @endguest
 
                                                     <div class="row <?php echo (isset($value->quantity_order)) ? '' : 'd-none' ?>" id="buttonAdd_{{$value->id}}" style="background-color: green;padding-bottom: 3%;padding-top: 3%;border-radius: 10px">
-                                                        <div class="col-lg-2">
-                                                            <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="white" stroke="#ffffff" 
+                                                        <div class="col">
+                                                            <svg id="i-plus" class="btn-plus" viewBox="0 0 35 35"  fill="white" stroke="#ffffff" 
                                                                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer"
                                                                  onclick="objCounter.addProduct('{{$value->short_description}}',
                                                                  '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}'); return false;">
                                                             <path d="M16 2 L16 30 M2 16 L30 16" />
                                                             </svg>
                                                         </div>
-                                                        <div class="col-lg-8">
+                                                        <div class="col">
                                                             <span id="quantity_product_{{$value->id}}" style="color:white">{{(isset($value->quantity_order))?$value->quantity_order:0}}</span>
                                                         </div>
-                                                        <div class="col-lg-2" >
-                                                            <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="white"  style="cursor:pointer"
+                                                        <div class="col" >
+                                                            <svg id="i-minus" class="btn-minus" viewBox="0 0 32 32" fill="white"  style="cursor:pointer"
                                                                  stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                                  onclick="objCounter.deleteUnit({{$value->id}},'{{$value->slug}}')">
                                                             <path d="M2 16 L30 16" />
