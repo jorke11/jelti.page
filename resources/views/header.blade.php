@@ -133,7 +133,7 @@
                         </li>-->
         </ul>
 
-        <ul class="navbar-nav mr-auto text-center" style="padding-left: 15%;padding-top: 15px;">
+        <ul class="navbar-nav mr-auto text-center" style="padding-left: 20%;padding-top: 15px;">
             <li class="nav-item">
                 <a href="{{url("/")}}"><img alt="Brand" src="{{asset('images/page/logosuperf.svg') }}" width="80%" /></a>
             </li>
@@ -186,8 +186,8 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="popover" title="Resumen Compra" data-placement="bottom"  
-                   data-popover-content="#a1" >
+                <a class="nav-link" href="#" data-toggle="popover" title='Resumen Compra  <button class="btn btn-outline-success my-2 my-sm-0 btn-sm form-control" type="submit">Checkout</button>' data-placement="bottom"  
+                   data-popover-content="#a1">
                     <img alt="Brand" src="{{asset('images/page/carrito.png') }}" width="45%" />
                     <span class="badge badge-light" id="badge-quantity">0</span>
                 </a>
@@ -221,22 +221,24 @@
              overflow-y: scroll;">
 
         </div>
-<!--        <div class="container-fluid" >
-            <div class="row">
-                <div class="col-12">
-                </div>
-            </div>
-        </div>-->
+        <!--        <div class="container-fluid" >
+                    <div class="row">R
+                        <div class="col-12">
+                        </div>
+                    </div>
+                </div>-->
     </div>        
 </div>
 <script>
     $(function () {
         $("[data-toggle=popover]").popover({
             html: true,
+            trigger: 'click',
+            title:'test',
             content: function () {
                 var id = $(this).attr('id')
                 return $('#popover-content').html();
-            }
+            },
         });
     })
 </script>

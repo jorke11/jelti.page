@@ -325,11 +325,11 @@
                     </button>
                 </div>
             </div>
-            <div class="row" style="padding-top: 10px">
-                <div class="col-1">
-                    <p>Total</p>
-                </div>
-            </div>
+            <!--            <div class="row" style="padding-top: 10px">
+                            <div class="col-1">
+                                <p>Total</p>
+                            </div>
+                        </div>-->
 
         </div>
     </div>

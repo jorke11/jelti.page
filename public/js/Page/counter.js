@@ -63,7 +63,7 @@ function Counter() {
 
             } else {
 
-                $("#content-image").css("top", -500);
+                $("#content-image").css("top", -300);
                 $(".popover").css("transform", "translate3d(1493px, 110px, 0px)")
                 $("#main-menu-id").addClass("main-menu").removeClass("main-menu-out");
                 $('.go-top').slideUp(300);

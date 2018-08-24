@@ -327,7 +327,7 @@ class PaymentController extends Controller {
 
     public function getMyOrders() {
         $categories = $this->categories;
-        $dietas = [];
+        $dietas = $this->dietas;
 
         $client = Stakeholder::find(Auth::user()->stakeholder_id);
 

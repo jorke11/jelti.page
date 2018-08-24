@@ -30,16 +30,32 @@
         font-size: 9px;
     }
 
+    .btn-plus{
+        width: 28px;
+        height: 28px;
+        color:#ffffff;
+        fill:#ffffff;
+    }
+    .btn-minus{
+        width: 28px;
+        height: 28px;
+        color:#ffffff;
+        fill:#ffffff;
+    }
+
+
 
 
     @media (min-width: 1100px){
         .title-new {
             display: none !important;
         }
+        
         .title-products{
             font-size: 16px;
             padding: 0;min-height: 60px;
         }
+        
         .buttonplus{
             display:scroll;
             position:fixed;
@@ -49,7 +65,6 @@
             border-radius: 10px;
             background-color: rgba(255,255,255,0);
             border: 1px solid #5baf98;
-
         }
 
         .buttonplus-svg{
@@ -60,6 +75,19 @@
         .plus-card{
             width: 15px;
             height: 15px
+        }
+
+        .btn-plus{
+            width: 22px;
+            height: 22px;
+            color:#ffffff;
+            fill:#ffffff;
+        }
+        .btn-minus{
+            width: 24px;
+            height: 24px;
+            color:#ffffff;
+            fill:#ffffff;
         }
 
         .star{
@@ -182,28 +210,13 @@
                                     <div class="card text-center">
                                         <img class="card-img-right img-fluid" src="http://www.superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" 
                                              style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
-                                        <!--                                        <a href="#" id="btn-plus-product_{{$value->id}}" class="btn btn-primary btn-sm" 
-                                                                                   style="
-                                                                                   margin-left: 75%;
-                                                                                   border-radius: 10px;
-                                                                                   background-color: white;
-                                                                                   border: 1px solid #ccc;
-                                                                                   cursor: pointer;
-                                                                                   margin-right: 5%;"
-                                                                                   onclick="objCounter.addProduct('{{$value->short_description}}',
-                                                                                   '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}'); return false;"
-                                                                                   >
-                                                                                    <svg id="i-plus" viewBox="0 0 32 32" class="plus-card" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                                                    <path d="M16 2 L16 30 M2 16 L30 16" />
-                                                                                    </svg>
-                                                                                </a>-->
                                         <div class="card-body" style="padding-bottom: 1.25em;padding-top:0">
 
                                             <p class="text-left text-muted text-supplier" style="margin:0;">{{strtoupper($value->supplier)}}</p>
                                             <h5 class="card-title text-left title-products" style="margin:0;min-height: 60px" onclick="obj.redirectProduct('{{$value->slug}}')">
                                                 <?php echo strtoupper(substr($value->short_description, 0, 25)); ?>
                                             </h5>
-                                           
+
                                             <p class="text-left">
                                                 <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                 <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
@@ -230,31 +243,32 @@
                                             @endguest
 
 
-                                            <div class="row <?php echo (isset($value->quantity)) ? '' : 'd-none' ?>" id="buttonAdd_{{$value->id}}" style="background-color: green;padding-bottom: 3%;padding-top: 3%;border-radius: 10px">
-                                                <div class="col-lg-2">
-                                                    <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="white" stroke="#ffffff" 
-                                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer"
+                                            <div class="row <?php echo (isset($value->quantity)) ? '' : 'd-none' ?>" id="buttonAdd_{{$value->id}}" style="background-color: #5cb19a;padding-top: 5%;border-radius: 10px">
+                                                <div class="col">
+                                                    <svg id="i-plus" class="btn-plus" viewBox="0 0 35 35" stroke-linecap="round"  stroke="#ffffff"
+                                                         stroke-linejoin="round" stroke-width="3" style="cursor:pointer"
                                                          onclick="objCounter.addProduct('{{$value->short_description}}',
                                                          '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}'); return false;">
                                                     <path d="M16 2 L16 30 M2 16 L30 16" />
                                                     </svg>
                                                 </div>
-                                                <div class="col-lg-8" >
+                                                <div class="col" >
                                                     <span id="quantity_product_{{$value->id}}" style="color:white">{{(isset($value->quantity))?$value->quantity:0}}</span>
-                                                    
+
                                                 </div>
-                                                <div class="col-lg-2" >
-                                                    <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="white"  style="cursor:pointer"
-                                                         stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                <div class="col" >
+                                                    <svg id="i-minus"  class="btn-minus" viewBox="0 0 32 32"  style="cursor:pointer"
+                                                         stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
                                                          onclick="objCounter.deleteUnit({{$value->id}},'{{$value->slug}}')">
                                                     <path d="M2 16 L30 16" />
                                                     </svg>
                                                 </div>
                                             </div>
 
-                                            <button class="btn btn-success <?php echo (isset($value->quantity)) ? 'd-none' : '' ?>" 
+                                            <button class="btn <?php echo (isset($value->quantity)) ? 'd-none' : '' ?>" 
                                                     id="btnOption_{{$value->id}}" onclick="objCounter.showButton('{{$value->short_description}}',
-                                                    '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}')">Agregar</button>
+                                                    '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}')" 
+                                                    style="background-color: #5cb19a;color:white">Agregar</button>
 
                                         </div>
                                     </div>

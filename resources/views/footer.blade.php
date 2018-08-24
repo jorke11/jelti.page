@@ -12,7 +12,7 @@
                 transition: all 1s ease;*/
         background-repeat: no-repeat;
         /*background-position-y: -20px;*/
-        background-image: url("/images/fondofooter.png");
+        background-image: url("/images/fondofooter_green.png");
         background-color: #6dcbb !important
             background-color: #6dcbb !important;
         -webkit-background-size: cover;
@@ -63,7 +63,7 @@
 
         </div>
         <div class="col-2 text-center" style="padding-top: 2%;">
-
+            <a href="/"><img src="/images/page/logosuperf.svg" class="img-fluid align-items-center justify-content-center" style="margin-top:50%"></a>
         </div>
         <div class="col-5" style="padding-top: 2%;">
             <div class="row row-space">

@@ -101,7 +101,7 @@
                                     </div>
                                     <div class="col-md-6" style="padding-right: 0">
                                         <button type="submit" class="btn" 
-                                                style="background-color: transparent; border: 2px solid #fff;color:rgba(0,0,0,0.8);width: 100%;">
+                                                style="background-color: transparent; border: 1px solid #5cb19a;color:rgba(0,0,0,0.8);width: 100%;">
                                             Registrarse
                                         </button>
 
