@@ -213,42 +213,48 @@ class PaymentController extends Controller {
     public function addProduct(Request $req, $slug) {
         $in = $req->all();
 
-        $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
+        dd($in);
+        if (Auth::user() != null) {
 
-        if ($order == null) {
-            $new["insert_id"] = Auth::user()->id;
-            $new["status_id"] = 1;
-            $order = Orders::create($new);
-        }
+            $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
 
-        if ($order != null) {
+            if ($order == null) {
+                $new["insert_id"] = Auth::user()->id;
+                $new["status_id"] = 1;
+                $order = Orders::create($new);
+            }
 
-            $pro = Products::find($in["product_id"]);
+            if ($order != null) {
+
+                $pro = Products::find($in["product_id"]);
 
 //            $detPro = OrdersDetail::where("product_id", $pro->id)->where("order_id", $order->id)->first();
-            $detPro = $order->detail->where("product_id", $pro->id)->first();
+                $detPro = $order->detail->where("product_id", $pro->id)->first();
 
 
-            $det["product_id"] = $pro->id;
-            $det["order_id"] = $order->id;
-            $det["tax"] = $in["tax"];
-            $det["units_sf"] = $pro->units_sf;
-            $det["packaging"] = $pro->packaging;
-            $det["price_sf"] = $pro->price_sf;
+                $det["product_id"] = $pro->id;
+                $det["order_id"] = $order->id;
+                $det["tax"] = $in["tax"];
+                $det["units_sf"] = $pro->units_sf;
+                $det["packaging"] = $pro->packaging;
+                $det["price_sf"] = $pro->price_sf;
 
-            if ($detPro != null) {
-                $detPro->quantity = $detPro->quantity + $in["quantity"];
-                $detPro->save();
-            } else {
-                $det["quantity"] = $in["quantity"];
-                $detPro = OrdersDetail::create($det);
+                if ($detPro != null) {
+                    $detPro->quantity = $detPro->quantity + $in["quantity"];
+                    $detPro->save();
+                } else {
+                    $det["quantity"] = $in["quantity"];
+                    $detPro = OrdersDetail::create($det);
+                }
             }
+
+
+            $res = $this->getOrdersCurrent($slug);
+
+            return response()->json(["success" => true, "quantity" => $res["quantity"], "detail" => $res["detail"], "current" => $detPro, "row" => $res["row"], "total" => $res["total"]]);
+        } else {
+            return response()->json(["success" => false, msg => "Sesion Perdido"], 409);
         }
-
-
-        $res = $this->getOrdersCurrent($slug);
-
-        return response()->json(["success" => true, "quantity" => $res["quantity"], "detail" => $res["detail"], "current" => $detPro, "row" => $res["row"], "total" => $res["total"]]);
     }
 
     public function deleteProduct(Request $req, $slug) {
