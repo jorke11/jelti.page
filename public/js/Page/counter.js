@@ -236,6 +236,9 @@ function Counter() {
             method: 'PUT',
             headers: {'X-CSRF-TOKEN': token},
             data: row,
+            beforeSend: function () {
+                $("#loading-super").removeClass("d-none");
+            },
             success: function (data) {
 //                $("#content-detail").empty();
                 if (data.row.quantity > 0) {
@@ -244,6 +247,7 @@ function Counter() {
                     $("#buttonAdd_" + product_id).addClass("d-none");
                     $("#btnOption_" + product_id).removeClass("d-none");
                 }
+                $("#loading-super").addClass("d-none");
 
                 objCounter.setData(data);
             }, error: function (xhr, ajaxOptions, thrownError) {

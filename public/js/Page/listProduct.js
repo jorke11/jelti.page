@@ -308,20 +308,7 @@ function listProduct() {
                                                 <img class="card-img-right img-fluid" src="https://superfuds.com/${value.thumbnail}" alt="Card image cap" 
                                                 onclick="obj.redirectProduct('${value.slug}')" 
                                                      style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
-                                                <a href="#" class="btn btn-primary btn-sm" style="
-                                                   margin-left: 75%;
-                                                   border-radius: 10px;
-                                                   background-color: white;
-                                                   border: 1px solid #ccc;
-                                                   cursor: pointer;
-                                                   margin-right: 5%;"
-                                                   onclick="objCounter.addProduct('${value.short_description}',
-                                                   '${value.slug}','${value.id}','${value.price_sf}','${value.thumbnail}','${value.tax}'); return false;"
-                                                   >
-                                                    <svg id="i-plus" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                    <path d="M16 2 L16 30 M2 16 L30 16" />
-                                                    </svg>
-                                                </a>
+                                              
                                                 <div class="card-body" style="padding-bottom: 1.25em;padding-top:0">
 
                                                     <p class="text-left text-muted text-supplier" style="margin:0;">${(value.supplier).toUpperCase()}</p>
@@ -349,17 +336,43 @@ function listProduct() {
                                                         <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                         </svg>
                                                     </p>
-
-                                                                                                                                                                                        <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-                                                    `
+                        `
                         if (user_id == undefined) {
                             html += `<p></p>`
                         } else {
                             html += `<p>
-                                                        ${$.formatNumber(value.price_sf,"$")}
+                                                        ${$.formatNumber(value.price_sf, "$")}
                                                         </p>`
                         }
-                        html += `  
+
+                        html += `
+                                            <div class="row ${(value.quantity) ? '' : 'd-none'}" id="buttonAdd_${value.id}" 
+                                                    style="background-color: #5cb19a;padding-top: 5%;border-radius: 10px">
+                                                <div class="col">
+                                                    <svg id="i-plus" class="btn-plus" viewBox="0 0 35 35" stroke-linecap="round"  stroke="#ffffff"
+                                                         stroke-linejoin="round" stroke-width="3" style="cursor:pointer"
+                                                         onclick="objCounter.addProduct('${value.short_description}',
+                                                         '${value.slug}','${value.id}','${value.price_sf}','${value.thumbnail}','${value.tax}'); return false;">
+                                                    <path d="M16 2 L16 30 M2 16 L30 16" />
+                                                    </svg>
+                                                </div>
+                                                <div class="col" >
+                                                    <span id="quantity_product_${value.id}" style="color:white">${(value.quantity != null) ? value.quantity : 0}</span>
+
+                                                </div>
+                                                <div class="col" >
+                                                    <svg id="i-minus"  class="btn-minus" viewBox="0 0 32 32"  style="cursor:pointer"
+                                                         stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                                         onclick="objCounter.deleteUnit(${value.id},'${value.slug}')">
+                                                    <path d="M2 16 L30 16" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+
+                                            <button class="btn ${(value.quantity == null) ? '' : 'd-none'}" 
+                                                    id="btnOption_${value.id}" onclick="objCounter.showButton('${value.short_description}',
+                                                    '${value.slug}','${value.id}','${value.price_sf}','${value.thumbnail}','${value.tax}')" 
+                                                    style="background-color: #5cb19a;color:white">Agregar</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -425,8 +438,8 @@ function listProduct() {
         })
     }
 
-   
-    
+
+
     this.hideButton = function (id) {
         $("#buttonAdd_" + id).addClass("d-none");
         $("#btnOption_" + id).removeClass("d-none");
