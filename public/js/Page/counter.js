@@ -5,19 +5,15 @@ function Counter() {
     var user_id, token;
     this.init = function () {
         token = $("input[name=_token]").val();
-
         $('.input-number').on('input', function () {
             this.value = this.value.replace(/[^0-9]/g, '');
         });
-
         $('.input-alpha').on('input', function () {
             this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
         });
-
         $('.input-date').on('input', function () {
             this.value = this.value.replace(/[^0-9]/g, '');
         });
-
         $("#popover-card,#popover-customer").mouseover(function () {
             $("#popover-customer").removeClass("d-none");
         })
@@ -34,10 +30,8 @@ function Counter() {
 
         user_id = $("#user_id").val();
         this.getData();
-
         $(".list-category").each(function () {
             var elem = $(this);
-
             if (elem.is(":checked")) {
                 console.log(elem.val());
             }
@@ -74,7 +68,6 @@ function Counter() {
                 scrollTop: '0px'
             }, 300);
         });
-
         $("#frmSearch").submit(function () {
             var search_data = $("#text-search").val();
             if (search_data != '') {
@@ -82,11 +75,9 @@ function Counter() {
                 return false;
             }
             return false;
-
         })
         $("#btnSearch").click(function () {
             var search_data = $("#text-search").val();
-
             if (search_data != '') {
                 location.href = PATH + "/search/" + search_data
                 return false;
@@ -98,7 +89,6 @@ function Counter() {
         $(document).keydown(function (e) {
             if (e.which == 13) {
                 var search_data = $("#text-search").val();
-
                 if (search_data != '') {
                     location.href = PATH + "/search/" + search_data
                     return false;
@@ -106,19 +96,13 @@ function Counter() {
                 return false;
             }
         });
-
-
-
         $(".box-client").addClass("back-green");
         $("#type_stakeholder").val(id);
-
         $("#register").click(function () {
             var elem = $(this);
             elem.attr("disabled", true);
             toastr.remove();
-
             var valida = $(".in-page").validate();
-
             if (!$("#agree").is(":checked")) {
                 toastr.error("Necesita estar de acuerdo con los terminos Legales");
                 elem.attr("disabled", false);
@@ -132,7 +116,6 @@ function Counter() {
 
 
             var form = $("#frm");
-
             if (valida.length == 0) {
                 $.ajax({
                     url: 'newVisitan',
@@ -157,12 +140,20 @@ function Counter() {
                 toastr.error("Es necesario ingresar los datos");
             }
         });
-
         $("#keepbuying").click(function () {
             location.href = PATH;
         })
 
+        $(".typeahead").typeahead({
+            onSelect: function (item) {
+                location.href = PATH + "/search/" + (item.value).toLowerCase();
+            },
+            ajax: {
+                url: '/search-input',
+                displayField: 'description',
+            },
 
+        });
     }
 
     this.showOption = function (e, product_id) {
@@ -249,7 +240,6 @@ function Counter() {
                     $("#btnOption_" + product_id).removeClass("d-none");
                 }
                 $("#loading-super").addClass("d-none");
-
                 objCounter.setData(data);
             }, error: function (xhr, ajaxOptions, thrownError) {
 //                console.log(xhr)
@@ -264,7 +254,6 @@ function Counter() {
 
     this.showButton = function (description, slug, id, price, thumbnail, tax) {
         console.log(user_id);
-
         if (user_id) {
             $("#buttonAdd_" + id).removeClass("d-none");
             $("#btnOption_" + id).addClass("d-none");
@@ -286,7 +275,6 @@ function Counter() {
                 method: 'GET',
                 success: function (data) {
                     objCounter.setData(data);
-
                 }, error: function (xhr, ajaxOptions, thrownError) {
 //                toastr.error(xhr.responseJSON.msg);
 //                elem.attr("disabled", false);
@@ -339,7 +327,6 @@ function Counter() {
                                 </div>
                             </div>
                             `;
-
 //                }
             })
         }
@@ -360,8 +347,6 @@ function Counter() {
                 </div>`
 
         $("#content-cart").html(html);
-
-
     }
 }
 

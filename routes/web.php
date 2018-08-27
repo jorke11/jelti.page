@@ -28,7 +28,7 @@ Route::get('/products/{slug_category}', "PageController@productSearch");
 
 Auth::routes();
 Route::get('/search', 'PageController@getProducts');
-//Route::get('/search/{input}', 'PageController@getProducts');
+Route::get('/search-input', 'PageController@getProductsInput');
 
 Route::get('/getComment/{id}', 'Ecommerce\ShoppingController@getComment');
 Route::post('addComment', 'Ecommerce\ShoppingController@storeComment');

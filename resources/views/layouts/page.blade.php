@@ -55,6 +55,7 @@ clearstatcache();
 
         {!!Html::script('/vendor/toastr/toastr.min.js')!!}
         {!!Html::style('/vendor/toastr/toastr.min.css')!!}
+        {!!Html::script('/vendor/bootstrap-typeahead.js')!!}
 
         {!!Html::style('/css/page.css')!!}
         {!!Html::script('/vendor/plugins.js')!!}

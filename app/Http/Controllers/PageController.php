@@ -232,6 +232,7 @@ class PageController extends Controller {
                                 $q->where(DB::raw("lower(title)"), "like", '%' . $param . '%');
                                 $q->Orwhere(DB::raw("lower(description)"), "like", '%' . $param . '%');
                                 $q->Orwhere(DB::raw("lower(supplier)"), "like", '%' . $param . '%');
+                                $q->Orwhere(DB::raw("lower(category)"), "like", '%' . $param . '%');
                             })
                             ->whereNotNull("warehouse")
                             ->orderBy("supplier")
@@ -249,6 +250,14 @@ class PageController extends Controller {
         $dietas = $this->dietas;
         $breadcrumbs = "<a href = '/'>Home</a> / Alimentos";
         return view('listproducts', compact("breadcrumbs", "categories", "row_category", 'products', "slug_category", "subcategory", "param", "dietas", "supplier"));
+    }
+
+    public function getProductsInput(Request $req, $param = null) {
+        $in = $req->all();
+
+        $category = DB::table("vsubcategories")->select(DB::raw(" INITCAP(lower(description ||' '|| node_master || ' ('||products||')')) as description"), DB::raw("lower(description) as id"))
+                        ->where("products", ">", 0)->where("description", "ilike", "%" . $in["query"] . "%")->get();
+        return response()->json($category);
     }
 
     public function getProducts(Request $req, $param = null) {
