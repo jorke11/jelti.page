@@ -228,12 +228,34 @@ clearstatcache();
             left: 50%;
             top: 40%
         }
+        #popover-customer{
+            position: absolute;
+            top: 12%;
+            right: 50px;
+            text-decoration: none;
+            width: 25%;
+            padding-top: 0.1em;
+            z-index: 2000;
+        }
+
+        #content-cart{
+            padding: 20px;
+            overflow-y: scroll;
+            height: 550px
+        }
 
     </style>
 
     <body >
         @include("modalRegister")
         @include("modalOptions")
+
+        <div id="popover-customer" class="d-none">
+            <div class="card">
+                <div class="card-header card-customer">Resumen de venta</div>
+                <div class="card-body card-customer" id="content-cart"></div>
+            </div>
+        </div>
 
         <div class="container-fluid" style="padding-left: 0; padding-right: 0">
             <div id="loading-super" class="d-none" >
@@ -247,22 +269,22 @@ clearstatcache();
     </body>
 
     <script>
-        $('#menuProduct').click(function () {
-            $("#menuProduct span").addClass("underline-green");
-            $("#menuInicio").removeClass("underline-green");
-            if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '')
-                    && location.hostname == this.hostname) {
+            $('#menuProduct').click(function () {
+                $("#menuProduct span").addClass("underline-green");
+                $("#menuInicio").removeClass("underline-green");
+                if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '')
+                        && location.hostname == this.hostname) {
 
-                var $target = $(this.hash);
-                $target = $target.length && $target || $('[name=' + this.hash.slice(1) + ']');
-                if ($target.length) {
-                    var targetOffset = $target.offset().top;
-                    $('html,body').animate({scrollTop: targetOffset}, 1000);
-                    return false;
+                    var $target = $(this.hash);
+                    $target = $target.length && $target || $('[name=' + this.hash.slice(1) + ']');
+                    if ($target.length) {
+                        var targetOffset = $target.offset().top;
+                        $('html,body').animate({scrollTop: targetOffset}, 1000);
+                        return false;
+                    }
                 }
-            }
 
-        });</script>
+            });</script>
 
 
 </html>

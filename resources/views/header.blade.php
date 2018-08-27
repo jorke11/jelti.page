@@ -121,7 +121,7 @@
 
 </style>
 
-<div class="icon-social">
+<div class="icon-social d-none d-lg-block">
     <div class="row row-space justify-content-center">
         <div class="col-lg-2 col-4 pr-0 pl-0">
             <a href="https://www.facebook.com/superfuds/" target="_blank">
@@ -242,8 +242,7 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="popover-card" href="#" data-toggle="popover" title='Resumen Compra' data-placement="bottom"
-                   role="button">
+                <a class="nav-link" id="popover-card" href="#" title='Resumen Compra' role="button">
                     <img alt="Brand" src="{{asset('images/page/carrito.png') }}" width="45%" />
                     <span class="badge badge-light" id="badge-quantity">0</span>
                 </a>

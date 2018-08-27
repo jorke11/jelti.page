@@ -2,7 +2,7 @@ function Counter() {
     var id = 1;
     var param = [];
     var db;
-    var user_id, token;
+    var user_id, token, popover = false;
     this.init = function () {
         token = $("input[name=_token]").val();
 
@@ -19,8 +19,11 @@ function Counter() {
         });
 
 
-//        $('body').on('click', function (e) {
-//            //did not click a popover toggle, or icon in popover toggle, or popover
+        $('body').on('mouseover', function (e) {
+
+            if (popover) {
+//            console.log("asd");
+                //did not click a popover toggle, or icon in popover toggle, or popover
 //            console.log($(e.target).data('toggle'));
 //            console.log($(e.target).parents('[data-toggle="popover"]'));
 //            console.log($(e.target).parents('.popover.in'));
@@ -29,51 +32,30 @@ function Counter() {
 //                    && $(e.target).parents('.popover.in').length === 0) {
 //                $('[data-toggle="popover"]').popover('hide');
 //            }
-//        });
+                console.log($(e.target))
+                console.log($(e.target)["context"].className)
+                console.log(($(e.target)["context"].className).indexOf("card-customer"))
 
-//        var options = {
-//            placement: function (context, source) {
-//                var position = $(source).position();
-//
-//console.log(position.left)
-//
-//                if (position.left > 515) {
-//                    return "bottom";
+                if (($(e.target)["context"].className).indexOf("card-customer") == -1) {
+                    $("#popover-customer").addClass("d-none");
+//            card-body
+//            console.log($(e.target).parents('.popover.in').context.className)
+//                if (($(e.target).parents('.popover.in').context.className).indexOf("popover")) {
+//                    $('[data-toggle="popover"]').popover('hide');
 //                }
-//
-//                if (position.left < 515) {
-//                    return "right";
-//                }
-//
-//                if (position.top < 110) {
-//                    return "bottom";
-//                }
-//
-//                return "top";
-//            }
-//            , trigger: "click"
-//        };
-//        $("[data-toggle=popover]").popover(options);
-
-
-
-        $("[data-toggle=popover]").popover({
-            html: true,
-            content: function () {
-                var id = $(this).attr('id')
-                return $('#popover-content').html();
+                }
             }
+
+
         });
 
 
-
         $("#popover-card").mouseover(function () {
-            $("[data-toggle=popover]").popover("show");
+//            popover = true
+            $("#popover-customer").removeClass("d-none");
         })
 
-        $("#popover-card").mouseout(function () {
-            $("[data-toggle=popover]").popover("hide");
-        })
+
         $("#popover-card").click(function () {
             location.href = PATH + "/payment"
         })
@@ -245,11 +227,11 @@ function Counter() {
                 },
                 success: function (data) {
                     objCounter.setData(data);
-                    $("#quantity_product_" + product_id).html(data.current.quantity)
-                    $("#quantity_selected_" + product_id).html("Cantidad (" + data.current.quantity + ")")
+                    $("#quantity_product_" + product_id).html(data.row.quantity)
+                    $("#quantity_selected_" + product_id).html("Cantidad (" + data.row.quantity + ")")
                     $("#loading-super").addClass("d-none");
                     $("#btn-plus-product_" + product_id).attr("disabled", true);
-                    $("#quantity").val(data.current.quantity)
+                    $("#quantity").val(data.row.quantity)
                 }, error: function (xhr, ajaxOptions, thrownError) {
 
                 }
@@ -339,30 +321,31 @@ function Counter() {
             data.detail.forEach((row, index) => {
 //                if (index < 3) {
                 html += `
-                            <div class="row mb-3">
-                                <div class="card">
-                                    <div class="card-body" style="padding:5%">
-                                        <div class="row">
-                                            <div class="col-4">
+                            <div class="row mb-2">
+                                <div class="card card-customer">
+                                    <div class="card-body card-customer" style="padding:3%">
+                                        <div class="row" card-customer>
+                                            <div class="col-3 card-customer">
                                                 <img class="img-fluid"  src="https://superfuds.com/${row.thumbnail}" alt="Card image cap" style="max-width: 160%;cursor:pointer" 
                                                  onclick="obj.redirectProduct('${row.slug}')">
                                             </div>
-                                            <div class="col-8">
+                                            <div class="col-9 card-customer">
                                                 <p>${row.product} <br>
                                                 Precio <b>${$.formatNumber(parseInt(row.price_sf), "$")}</b><br>
+                                                Total <b>${$.formatNumber(parseInt(row.subtotal), "$")}</b><br>
                                                 
-                                                 <div class="row" style="width:70%;z-index:1000">
-                                                <div class="input-group mb-2 offset-1">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" 
+                                                 <div class="row card-customer" style="width:70%;z-index:1000">
+                                                <div class="input-group mb-2 offset-1 card-customer">
+                                                    <div class="input-group-prepend card-customer">
+                                                        <span class="input-group-text card-customer" 
                                                                 onclick="objCounter.addProduct('${row.product}',
                                                                 '${row.slug}','${row.product_id}',
-                                                                '${row.price_sf}}','$deleteUnit{row.thumbnail}','${row.tax}')"
+                                                                '${row.price_sf}}','${row.thumbnail}','${row.tax}')"
                                                             style="background-color: #30c594;color:white;cursor: pointer">+</span>
                                                     </div>
-                                                    <input type="text" class="form-control form-control-sm" id="quantity_${row.product_id}" name="quantity" value="${row.quantity}" type="number">
+                                                    <input type="text" class="form-control form-control-sm card-customer" id="quantity_${row.product_id}" name="quantity" value="${row.quantity}" type="number">
                                                     <div class="input-group-append">
-                                                        <span class="input-group-text" onclick="objCounter.deleteUnit('${row.product_id}','${row.slug}',${index})" style="background-color: #30c594;color:white;cursor: pointer">-</span>
+                                                        <span class="input-group-text card-customer" onclick="objCounter.deleteUnit('${row.product_id}','${row.slug}',${index})" style="background-color: #30c594;color:white;cursor: pointer">-</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -393,7 +376,7 @@ function Counter() {
                     <div>   
                 </div>`
 
-        $("#popover-content").html(html);
+        $("#content-cart").html(html);
 
 
     }

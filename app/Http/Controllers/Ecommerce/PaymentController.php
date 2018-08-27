@@ -213,7 +213,6 @@ class PaymentController extends Controller {
     public function addProduct(Request $req, $slug) {
         $in = $req->all();
 
-        dd($in);
         if (Auth::user() != null) {
 
             $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
@@ -251,7 +250,7 @@ class PaymentController extends Controller {
 
             $res = $this->getOrdersCurrent($slug);
 
-            return response()->json(["success" => true, "quantity" => $res["quantity"], "detail" => $res["detail"], "current" => $detPro, "row" => $res["row"], "total" => $res["total"]]);
+            return response()->json(["success" => true, "quantity" => $res["quantity"], "detail" => $res["detail"], "row" => $res["row"], "total" => $res["total"]]);
         } else {
             return response()->json(["success" => false, msg => "Sesion Perdido"], 409);
         }
