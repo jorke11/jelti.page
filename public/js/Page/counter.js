@@ -19,14 +19,43 @@ function Counter() {
         });
 
 
-        $('body').on('click', function (e) {
-            //did not click a popover toggle, or icon in popover toggle, or popover
-            if ($(e.target).data('toggle') !== 'popover'
-                    && $(e.target).parents('[data-toggle="popover"]').length === 0
-                    && $(e.target).parents('.popover.in').length === 0) {
-                $('[data-toggle="popover"]').popover('hide');
-            }
-        });
+//        $('body').on('click', function (e) {
+//            //did not click a popover toggle, or icon in popover toggle, or popover
+//            console.log($(e.target).data('toggle'));
+//            console.log($(e.target).parents('[data-toggle="popover"]'));
+//            console.log($(e.target).parents('.popover.in'));
+//            if ($(e.target).data('toggle') !== 'popover'
+//                    && $(e.target).parents('[data-toggle="popover"]').length === 0
+//                    && $(e.target).parents('.popover.in').length === 0) {
+//                $('[data-toggle="popover"]').popover('hide');
+//            }
+//        });
+
+//        var options = {
+//            placement: function (context, source) {
+//                var position = $(source).position();
+//
+//console.log(position.left)
+//
+//                if (position.left > 515) {
+//                    return "bottom";
+//                }
+//
+//                if (position.left < 515) {
+//                    return "right";
+//                }
+//
+//                if (position.top < 110) {
+//                    return "bottom";
+//                }
+//
+//                return "top";
+//            }
+//            , trigger: "click"
+//        };
+//        $("[data-toggle=popover]").popover(options);
+
+
 
         $("[data-toggle=popover]").popover({
             html: true,
@@ -35,6 +64,21 @@ function Counter() {
                 return $('#popover-content').html();
             }
         });
+
+
+
+        $("#popover-card").mouseover(function () {
+            $("[data-toggle=popover]").popover("show");
+        })
+
+        $("#popover-card").mouseout(function () {
+            $("[data-toggle=popover]").popover("hide");
+        })
+        $("#popover-card").click(function () {
+            location.href = PATH + "/payment"
+        })
+
+
         user_id = $("#user_id").val();
         this.getData();
 
@@ -48,43 +92,35 @@ function Counter() {
         })
 
 
-        $(window).scroll(function () {
-
-            //Efect when down scroll
-            if ($(this).scrollTop() > 0) {
-
-                $("#main-menu-id").removeClass("main-menu").addClass("main-menu-out");
-//                $("#main-menu-id").removeClass("main-menu");
-//                $("#slider-main").removeClass("main-slider");
-//                $("#popover220259").css({"transform": "translate3d(1493px,  337px, 0px)"})
-                $('.go-top').slideDown(300);
-                $("#content-menu").height(300)
-                $("#content-image").css("top", 100);
-
-            } else {
-
-                $("#content-image").css("top", -300);
-                $(".popover").css("transform", "translate3d(1493px, 110px, 0px)")
-                $("#main-menu-id").addClass("main-menu").removeClass("main-menu-out");
-                $('.go-top').slideUp(300);
-                $("#content-menu").height(720)
-
-            }
-        });
-
-        $('.go-top').click(function () {
-            $('body, html').animate({
-                scrollTop: '0px'
-            }, 300);
-        });
-
+//        $(window).scroll(function () {
+//
+//            //Efect when down scroll
+//            if ($(this).scrollTop() > 0) {
+//
+//                $("#main-menu-id").removeClass("main-menu").addClass("main-menu-out");
+////                $("#main-menu-id").removeClass("main-menu");
+////                $("#slider-main").removeClass("main-slider");
+////                $("#popover220259").css({"transform": "translate3d(1493px,  337px, 0px)"})
+//                $('.go-top').slideDown(300);
+//                $("#content-menu").height(300)
+//                $("#content-image").css("top", 100);
+//
+//            } else {
+//
+//                $("#content-image").css("top", -300);
+//                $(".popover").css("transform", "translate3d(1493px, 110px, 0px)")
+//                $("#main-menu-id").addClass("main-menu").removeClass("main-menu-out");
+//                $('.go-top').slideUp(300);
+//                $("#content-menu").height(720)
+//
+//            }
+//        });
 
         $('.go-top').click(function () {
             $('body, html').animate({
                 scrollTop: '0px'
             }, 300);
         });
-
 
         $("#frmSearch").submit(function () {
             var search_data = $("#text-search").val();
@@ -314,7 +350,23 @@ function Counter() {
                                             <div class="col-8">
                                                 <p>${row.product} <br>
                                                 Precio <b>${$.formatNumber(parseInt(row.price_sf), "$")}</b><br>
-                                                Cantidad <b>${row.quantity}</b></p>
+                                                
+                                                 <div class="row" style="width:70%;z-index:1000">
+                                                <div class="input-group mb-2 offset-1">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" 
+                                                                onclick="objCounter.addProduct('${row.product}',
+                                                                '${row.slug}','${row.product_id}',
+                                                                '${row.price_sf}}','$deleteUnit{row.thumbnail}','${row.tax}')"
+                                                            style="background-color: #30c594;color:white;cursor: pointer">+</span>
+                                                    </div>
+                                                    <input type="text" class="form-control form-control-sm" id="quantity_${row.product_id}" name="quantity" value="${row.quantity}" type="number">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text" onclick="objCounter.deleteUnit('${row.product_id}','${row.slug}',${index})" style="background-color: #30c594;color:white;cursor: pointer">-</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                
                                             </div>
                                         </div>
                                     </div>

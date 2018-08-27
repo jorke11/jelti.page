@@ -63,6 +63,8 @@
         color:white;
     }
 
+
+
     #text-search{
         width: 320px;
         height: 26px
@@ -87,18 +89,72 @@
         }
     }
 
+
+    .btn-plus{
+        width: 20px;
+        height: 20px;
+        color:#ffffff;
+        fill:#ffffff;
+    }
+    .btn-minus{
+        width: 20px;
+        height: 20px;
+        color:#ffffff;
+        fill:#ffffff;
+    }
+
+    .icon-social {
+        position: absolute;
+        top: 0.1em;
+        right: 10em;
+        text-decoration: none;
+        color: #fff;
+        padding-top: 0.1em;
+        z-index: 2000;
+    }
+    
+    .img-social {
+        width: 50%
+    }
+
+
+
 </style>
+
+<div class="icon-social">
+    <div class="row row-space justify-content-center">
+        <div class="col-lg-2 col-4 pr-0 pl-0">
+            <a href="https://www.facebook.com/superfuds/" target="_blank">
+                <img src="/images/page/facebook.svg" class="img-fluid img-social">
+            </a>
+        </div>
+        <div class="col-lg-2 col-4 pr-0 pl-0">
+            <a href="https://www.instagram.com/superfuds/?hl=es-la" target="_blank"><img src="/images/page/instagram.svg" class="img-fluid img-social"></a>
+        </div>
+        <div class="col-lg-2 col-4 pr-0 pl-0">
+            <a href="https://www.youtube.com/channel/UC4YzleJ0zrgAGHwhV74R_GA/featured" target="_blank"><img src="/images/page/youtube.svg" class="img-fluid img-social"></a>
+        </div>
+        <div class="col-lg-2 col-4 pr-0 pl-0">
+            <a href="https://co.pinterest.com/superfuds/" target="_blank"><img src="/images/page/pinterest.svg" class="img-fluid img-social" ></a>
+        </div>
+        <div class="col-lg-2  col-4 pr-0 pl-0">
+            <a href="https://plus.google.com/112289524335507891140" target="_blank"><img src="/images/page/google.svg" class="img-fluid img-social"></a>
+        </div>
+    </div>
+</div>
+</div>
 
 @auth
 <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
 @endauth
 
-<nav class="navbar navbar-expand-lg fixed-top navbar-light main-menu img-fluid img-header " id="main-menu-id" style="background-color: #6dcbb;height: auto;left:-2px">
+<nav class="navbar navbar-expand-lg fixed-top navbar-light main-menu img-fluid img-header " id="main-menu-id" style="background-color: #6dcbb;height: 150px;left:-2px;padding-bottom:3%">
     <a class="navbar-brand d-lg-none" href="/">
         <img alt="Brand" src="/images/page/logosuperf.svg" class="img-fluid" width="30%">
     </a>
 
-    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" 
+            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon" style="color:red"></span>
     </button>
 
@@ -133,7 +189,7 @@
                         </li>-->
         </ul>
 
-        <ul class="navbar-nav mr-auto text-center" style="padding-left: 22%;padding-top: 15px;">
+        <ul class="navbar-nav mr-auto text-center" style="padding-left: 22%;padding-top: 15px;padding-bottom: 2%">
             <li class="nav-item">
                 <a href="{{url("/")}}"><img alt="Brand" src="{{asset('images/page/logosuperf.svg') }}" width="80%" /></a>
             </li>
@@ -186,8 +242,8 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="popover" title='Resumen Compra  <button class="btn btn-outline-success my-2 my-sm-0 btn-sm form-control" type="submit">Checkout</button>' data-placement="bottom"  
-                   data-popover-content="#a1">
+                <a class="nav-link" id="popover-card" href="#" data-toggle="popover" title='Resumen Compra' data-placement="bottom"
+                   role="button">
                     <img alt="Brand" src="{{asset('images/page/carrito.png') }}" width="45%" />
                     <span class="badge badge-light" id="badge-quantity">0</span>
                 </a>
@@ -201,6 +257,9 @@
 <a class="go-top" href="#">
     <img src='{{url("images/boton-subir.png")}}'>
 </a>
+
+
+
 
 
 <style>
@@ -221,24 +280,5 @@
              overflow-y: scroll;">
 
         </div>
-        <!--        <div class="container-fluid" >
-                    <div class="row">R
-                        <div class="col-12">
-                        </div>
-                    </div>
-                </div>-->
     </div>        
 </div>
-<script>
-    $(function () {
-        $("[data-toggle=popover]").popover({
-            html: true,
-            trigger: 'click',
-            title:'test',
-            content: function () {
-                var id = $(this).attr('id')
-                return $('#popover-content').html();
-            },
-        });
-    })
-</script>

@@ -6,13 +6,13 @@ function listProduct() {
     this.init = function () {
 
         $("#main-menu-id").removeClass("img-headers")
-        $("[data-toggle=popover]").popover({
-            html: true,
-            content: function () {
-                var id = $(this).attr('id')
-                return $('#popover-content').html();
-            }
-        });
+//        $("[data-toggle=popover]").popover({
+//            html: true,
+//            content: function () {
+//                var id = $(this).attr('id')
+//                return $('#popover-content').html();
+//            }
+//        });
         user_id = $("#user_id").val();
         // Initialize Firebase
 //        var config = {

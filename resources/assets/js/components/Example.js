@@ -11,7 +11,7 @@ export default class Example extends Component {
                             <div className="panel-heading">Example Component</div>
 
                             <div className="panel-body">
-                                Pinedo
+                                I'm an example component!
                             </div>
                         </div>
                     </div>
