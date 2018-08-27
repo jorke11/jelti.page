@@ -64,8 +64,8 @@ class PageController extends Controller {
         $most_sales = DB::select($sql);
 
 
-//        dd($most_sales);
-
+//        $supplier = DB::select("vsupplier");
+//        dd($supplier);
 
         $categories = Categories::where("status_id", 1)
                         ->where("type_category_id", 1)
@@ -185,6 +185,8 @@ class PageController extends Controller {
 
     public function search($param) {
         $orders = null;
+        $supplier = DB::table("vsupplier")->get();
+
 
         $slug_category = '';
         $row_category = Categories::where("type_category_id", 1)->where("node_id", 0)->where("status_id", 1)->orderBy("id", "desc")->first();
@@ -245,13 +247,15 @@ class PageController extends Controller {
 
         $dietas = $this->dietas;
         $breadcrumbs = "<a href = '/'>Home</a> / Alimentos";
-        return view('listproducts', compact("breadcrumbs", "categories", "row_category", 'products', "slug_category", "subcategory", "param", "dietas"));
+        return view('listproducts', compact("breadcrumbs", "categories", "row_category", 'products', "slug_category", "subcategory", "param", "dietas", "supplier"));
     }
 
     public function getProducts(Request $req, $param = null) {
         $in = $req->all();
+
         $category = Categories::where("node_id", 0)->get();
         $sub_ids = array();
+        $sup_ids = array();
 
         $row_category = array();
         $cat_ids = [];
@@ -290,6 +294,11 @@ class PageController extends Controller {
                 }
 
                 $products->whereIn("category_id", $sub_ids);
+            }
+
+            if (isset($in["supplier"])) {
+                $in["supplier"] = array_filter($in["supplier"]);
+                $products->whereIn("supplier_id", $in["supplier"]);
             }
 
             if (count($cat_ids) > 0) {

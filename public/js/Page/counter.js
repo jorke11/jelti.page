@@ -18,38 +18,6 @@ function Counter() {
             this.value = this.value.replace(/[^0-9]/g, '');
         });
 
-
-//        $('body').on('mouseover', function (e) {
-//
-//            if (popover) {
-////            console.log("asd");
-//                //did not click a popover toggle, or icon in popover toggle, or popover
-////            console.log($(e.target).data('toggle'));
-////            console.log($(e.target).parents('[data-toggle="popover"]'));
-////            console.log($(e.target).parents('.popover.in'));
-////            if ($(e.target).data('toggle') !== 'popover'
-////                    && $(e.target).parents('[data-toggle="popover"]').length === 0
-////                    && $(e.target).parents('.popover.in').length === 0) {
-////                $('[data-toggle="popover"]').popover('hide');
-////            }
-//                console.log($(e.target))
-//                console.log($(e.target)["context"].className)
-//                console.log(($(e.target)["context"].className).indexOf("card-customer"))
-//
-//                if (($(e.target)["context"].className).indexOf("card-customer") == -1) {
-//                    $("#popover-customer").addClass("d-none");
-////            card-body
-////            console.log($(e.target).parents('.popover.in').context.className)
-////                if (($(e.target).parents('.popover.in').context.className).indexOf("popover")) {
-////                    $('[data-toggle="popover"]').popover('hide');
-////                }
-//                }
-//            }
-//
-//
-//        });
-
-
         $("#popover-card,#popover-customer").mouseover(function () {
             $("#popover-customer").removeClass("d-none");
         })
@@ -194,6 +162,18 @@ function Counter() {
             location.href = PATH;
         })
 
+
+    }
+
+    this.showOption = function (e, product_id) {
+        $("#buttonShow_" + product_id).addClass("d-none");
+        $("#buttonAdd_" + product_id).removeClass("d-none")
+    }
+
+    this.hideButton = function (e, product_id) {
+        console.log("asdasd");
+        $("#buttonShow_" + product_id).removeClass("d-none")
+        $("#buttonAdd_" + product_id).addClass("d-none")
 
     }
 

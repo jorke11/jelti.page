@@ -1,5 +1,5 @@
 function listProduct() {
-    var id = 1;
+    var id = 1, flag_category = false, flag_subcategory = false, flag_supplier = false;
     var param = [];
     var db;
     var user_id;
@@ -44,6 +44,18 @@ function listProduct() {
             });
             $('#display-json').html(JSON.stringify(checkedItems, null, '\t'));
         });
+
+        $('#content-categories .list-group-item .custom-control-label').on('click', function () {
+            var checkBox = $(this).prev('input');
+
+            if ($(checkBox).attr('checked'))
+                $(checkBox).removeAttr('checked');
+            else
+                $(checkBox).attr('checked', 'checked');
+
+            return false;
+
+        })
     }
 
     this.registerClient = function () {
@@ -271,10 +283,31 @@ function listProduct() {
         $("#type_stakeholder").val(id);
     }
 
+    this.eventCategory = function (ref = null) {
+        ref = (ref == null) ? '' : "-" + ref;
+        if (flag_category == false) {
+            $("#plus-icon" + ref).addClass("d-none");
+            $("#minus-icon" + ref).removeClass("d-none");
+            flag_category = true;
+        } else {
+            $("#plus-icon" + ref).removeClass("d-none");
+            $("#minus-icon" + ref).addClass("d-none");
+            flag_category = false;
+    }
+    }
+
     this.reloadCategories = function (slug) {
         var data = {};
         var categories = [];
-        var cat = "", subcategories = [];
+        var cat = "", subcategories = [], supplier = [];
+
+
+        if ($("#checkbox_cat_" + slug).is(":checked")) {
+            $("#checkbox_cat_" + slug).attr("checked", false);
+        } else {
+            $("#checkbox_cat_" + slug).attr("checked", true);
+        }
+
         $("input[name='categories[]']:checked").each(function () {
             cat += (cat == '') ? '' : '&';
             cat += $(this).val();
@@ -284,9 +317,16 @@ function listProduct() {
         $("input[name='subcategories[]']:checked").each(function () {
             subcategories.push($(this).val());
         })
+        $("input[name='supplier[]']:checked").each(function () {
+            supplier.push($(this).val());
+        })
+
+
 
         data.subcategories = subcategories;
         data.categories = categories;
+        data.supplier = supplier;
+
         var html = "";
         $.ajax({
             url: PATH + '/search',
@@ -407,7 +447,7 @@ function listProduct() {
                                     ${val.short_description}
                                 </div>
                                 <div class="col-2">
-                                    <input type="checkbox" ${checked} name="subcategories[]" class="form-control" value="${val.slug}" onclick=obj.reloadCategories('${val.slug}')>
+                                    <input type="checkbox" ${checked} name="subcategories[]" class="form-control" value="${val.slug}" onclick=obj.reloadCategories(this,'${val.slug}')>
                                 </div>
                             </div>
                         </li>`;
@@ -423,7 +463,7 @@ function listProduct() {
                     console.log(data.row_category.banner);
                     $("#main-menu-id").removeClass("main-menu-out");
                     $("#main-image-category").attr("src", "https://superfuds.com/" + data.row_category.banner);
-                    $("#content-image").css("top", 80);
+//                    $("#content-image").css("top", 80);
                 }
 
                 $("#loading-super").addClass("d-none");
