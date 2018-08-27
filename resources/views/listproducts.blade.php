@@ -332,10 +332,12 @@
                                                 $ {{number_format($value->price_sf,0,",",'.')}}
                                             </p>
                                             @endguest
-
+                                            
+                                             @if(isset($value->quantity))
                                             <button class="btn <?php echo (isset($value->quantity)) ? '' : 'd-none' ?>" type="button" 
                                                     onmouseover="objCounter.showOption(this,{{$value->id}})" id="buttonShow_{{$value->id}}" style="background-color: #5cb19a;color:white;"
                                                     >{{$value->quantity}} en carrito</button>
+                                             @endif
 
                                             <div class="row d-none row-center" id="buttonAdd_{{$value->id}}" style="background-color: #5cb19a;color:white;padding-bottom: 3%;padding-top: 3%;border-radius: 10px;"
                                                  onmouseout="objCounter.hideButton(this,{{$value->id}})">
