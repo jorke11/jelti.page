@@ -231,12 +231,13 @@ class PageController extends Controller {
                             ->where(function($q) use($param) {
                                 $q->where(DB::raw("lower(title)"), "like", '%' . $param . '%');
                                 $q->Orwhere(DB::raw("lower(description)"), "like", '%' . $param . '%');
+                                $q->Orwhere(DB::raw("lower(supplier)"), "like", '%' . $param . '%');
                             })
                             ->whereNotNull("warehouse")
                             ->orderBy("supplier")
                             ->orderBy("title", "desc")->get();
 
-            $categories = Categories::where("status_id", 1);
+            $categories = DB::table("vcategories")->where("status_id", 1);
 
             foreach ($products as $value) {
                 $categories->where("id", $value->category_id);
