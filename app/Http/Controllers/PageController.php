@@ -227,15 +227,15 @@ class PageController extends Controller {
         } else {
 
             $products = DB::table("vproducts")
-                            ->whereNotNull("image")
-                            ->where(function($q) use($param) {
+                            ->where(function($q) {
+                                $q->whereNotNull("image")->whereNotNull("warehouse")
+                                ->orderBy("supplier");
+                            })->where(function($q) use($param) {
                                 $q->where(DB::raw("lower(title)"), "like", '%' . $param . '%');
                                 $q->Orwhere(DB::raw("lower(description)"), "like", '%' . $param . '%');
                                 $q->Orwhere(DB::raw("lower(supplier)"), "like", '%' . $param . '%');
                                 $q->Orwhere(DB::raw("lower(category)"), "like", '%' . $param . '%');
                             })
-                            ->whereNotNull("warehouse")
-                            ->orderBy("supplier")
                             ->orderBy("title", "desc")->get();
 
             $categories = DB::table("vcategories")->where("status_id", 1);
