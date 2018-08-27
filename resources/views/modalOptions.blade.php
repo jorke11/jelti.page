@@ -30,7 +30,7 @@
                                 <div class="col-12">
                                     <div class="row">
 
-                                        <div class="col-6" onclick="objCounter.optionsModal(1)" id="title-business" style="cursor:pointer">
+                                        <div class="col-6"  id="title-business" style="cursor:pointer">
                                             <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                                                 {{ csrf_field() }}
                                                 <div class="row text-center" style="padding-bottom: 3%">
