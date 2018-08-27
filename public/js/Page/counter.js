@@ -2,7 +2,7 @@ function Counter() {
     var id = 1;
     var param = [];
     var db;
-    var user_id, token, popover = false;
+    var user_id, token;
     this.init = function () {
         token = $("input[name=_token]").val();
 
@@ -19,40 +19,43 @@ function Counter() {
         });
 
 
-        $('body').on('mouseover', function (e) {
-
-            if (popover) {
-//            console.log("asd");
-                //did not click a popover toggle, or icon in popover toggle, or popover
-//            console.log($(e.target).data('toggle'));
-//            console.log($(e.target).parents('[data-toggle="popover"]'));
-//            console.log($(e.target).parents('.popover.in'));
-//            if ($(e.target).data('toggle') !== 'popover'
-//                    && $(e.target).parents('[data-toggle="popover"]').length === 0
-//                    && $(e.target).parents('.popover.in').length === 0) {
-//                $('[data-toggle="popover"]').popover('hide');
-//            }
-                console.log($(e.target))
-                console.log($(e.target)["context"].className)
-                console.log(($(e.target)["context"].className).indexOf("card-customer"))
-
-                if (($(e.target)["context"].className).indexOf("card-customer") == -1) {
-                    $("#popover-customer").addClass("d-none");
-//            card-body
-//            console.log($(e.target).parents('.popover.in').context.className)
-//                if (($(e.target).parents('.popover.in').context.className).indexOf("popover")) {
-//                    $('[data-toggle="popover"]').popover('hide');
+//        $('body').on('mouseover', function (e) {
+//
+//            if (popover) {
+////            console.log("asd");
+//                //did not click a popover toggle, or icon in popover toggle, or popover
+////            console.log($(e.target).data('toggle'));
+////            console.log($(e.target).parents('[data-toggle="popover"]'));
+////            console.log($(e.target).parents('.popover.in'));
+////            if ($(e.target).data('toggle') !== 'popover'
+////                    && $(e.target).parents('[data-toggle="popover"]').length === 0
+////                    && $(e.target).parents('.popover.in').length === 0) {
+////                $('[data-toggle="popover"]').popover('hide');
+////            }
+//                console.log($(e.target))
+//                console.log($(e.target)["context"].className)
+//                console.log(($(e.target)["context"].className).indexOf("card-customer"))
+//
+//                if (($(e.target)["context"].className).indexOf("card-customer") == -1) {
+//                    $("#popover-customer").addClass("d-none");
+////            card-body
+////            console.log($(e.target).parents('.popover.in').context.className)
+////                if (($(e.target).parents('.popover.in').context.className).indexOf("popover")) {
+////                    $('[data-toggle="popover"]').popover('hide');
+////                }
 //                }
-                }
-            }
+//            }
+//
+//
+//        });
 
 
-        });
-
-
-        $("#popover-card").mouseover(function () {
-//            popover = true
+        $("#popover-card,#popover-customer").mouseover(function () {
             $("#popover-customer").removeClass("d-none");
+        })
+
+        $("#popover-card,#popover-customer").mouseout(function (e) {
+            $("#popover-customer").addClass("d-none");
         })
 
 
