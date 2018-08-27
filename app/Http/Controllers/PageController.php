@@ -185,13 +185,13 @@ class PageController extends Controller {
 
     public function search($param) {
         $orders = null;
-        $supplier = DB::table("vsupplier")->get();
-
+        $supplier = DB::table("vsupplier")->where("products", ">", 0)->orderBy("business")->get();
 
         $slug_category = '';
-        $row_category = Categories::where("type_category_id", 1)->where("node_id", 0)->where("status_id", 1)->orderBy("id", "desc")->first();
+        $row_category = DB::table("vcategories")->where("type_category_id", 1)->where("node_id", 0)->where("status_id", 1)->orderBy("id", "desc")->first();
 
-        $subcategory = Categories::where("status_id", 1)->where("node_id", $row_category->id)->where("status_id", 1)->orderBy("description", "asc")->get();
+        $subcategory = DB::table("vsubcategories")->where("status_id", 1)->where("node_id", $row_category->id)->where("status_id", 1)->orderBy("description", "asc")->get();
+
 
         if (stripos($param, "s=") !== false) {
             $param = str_replace("s=", "", $param);
@@ -216,7 +216,7 @@ class PageController extends Controller {
 
             $products = $products->orderBy("title", "desc")->get();
 
-            $categories = Categories::where("status_id", 1);
+            $categories = DB::table("vcategories")->where("status_id", 1);
 
             foreach ($products as $value) {
 //                dd($value);
@@ -253,14 +253,16 @@ class PageController extends Controller {
     public function getProducts(Request $req, $param = null) {
         $in = $req->all();
 
-        $category = Categories::where("node_id", 0)->get();
+        $category = DB::table("vcategories")->where("node_id", 0)->get();
         $sub_ids = array();
         $sup_ids = array();
 
         $row_category = array();
         $cat_ids = [];
         if ($param == null) {
-            $products = DB::table("vproducts")->whereNotNull("image")->whereNotNull("thumbnail")->whereNotNull("warehouse");
+            $products = DB::table("vproducts")->where(function($q) {
+                $q->whereNotNull("image")->whereNotNull("thumbnail");
+            });
 
             if (isset($in["categories"])) {
 
@@ -272,7 +274,6 @@ class PageController extends Controller {
                         $cate = Categories::where("slug", $val)->first();
                         $cat_ids[] = $cate->id;
                         $real_cat = Categories::where("node_id", $cate->id)->get();
-
 
                         foreach ($real_cat as $value) {
                             $ids[] = $value->id;
@@ -292,7 +293,6 @@ class PageController extends Controller {
                         $sub_ids[] = $cate->id;
                     }
                 }
-
                 $products->whereIn("category_id", $sub_ids);
             }
 
@@ -302,14 +302,14 @@ class PageController extends Controller {
             }
 
             if (count($cat_ids) > 0) {
-                $subcategory = Categories::WhereIn("node_id", $cat_ids)->orderBy("description", "asc")->get();
+                $subcategory = DB::table("vsubcategories")->WhereIn("node_id", $cat_ids)->orderBy("description", "asc")->get();
                 foreach ($subcategory as $i => $value) {
                     if (in_array($value->id, $sub_ids)) {
                         $subcategory[$i]->checked = true;
                     }
                 }
             } else {
-                $subcategory = Categories::Where("node_id", "<>", 0)->orderBy("description", "asc")->get();
+                $subcategory = DB::table("vsubcategories")->orderBy("description", "asc")->get();
                 foreach ($subcategory as $i => $value) {
                     if (in_array($value->id, $sub_ids)) {
                         $subcategory[$i]->checked = true;
@@ -324,8 +324,8 @@ class PageController extends Controller {
                     $products->select("orders_detail.quantity", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
             }
 
-
             $products = $products->orderBy("supplier", "desc")->orderBy("title", "asc")->get();
+//            $products = $products->orderBy("supplier", "desc")->orderBy("title", "asc")->toSql();
         } else {
 
             echo "else";

@@ -168,7 +168,7 @@
                                                 <a href="#" class="list-group-item list-group-item-action" >
                                                     <div class="row">
                                                         <div class="col-lg-10">
-                                                            {{ucwords(strtolower($val->description))}}
+                                                            {{ucwords(strtolower($val->description))}} ({{$val->subcategories}})
                                                         </div>
                                                         <div class="col-lg-2">
                                                             <input type="checkbox" class="form-control list-category" 
@@ -224,11 +224,11 @@
                                                 <a href="#" class="list-group-item list-group-item-action" >
                                                     <div class="row">
                                                         <div class="col-lg-10">
-                                                            {{ucwords(strtolower($val->description))}}
+                                                            {{ucwords(strtolower($val->description))}} ({{$val->products}})
                                                         </div>
                                                         <div class="col-lg-2">
                                                             <input type="checkbox" class="form-control list-category" 
-                                                                   name="subcategories[]" <?php echo $check ?> value="{{$val->slug}}" id='checkbox_cat_{{$val->slug}}'>
+                                                                   name="subcategories[]" <?php echo $check ?> value="{{$val->slug}}" id='checkbox_subcat_{{$val->slug}}'>
                                                         </div>
                                                     </div>
 
@@ -274,10 +274,10 @@
                                     <li class="list-group-item">
                                         <div class="row" style="cursor:pointer" onclick="obj.reloadCategories('{{$val->id}}'); return false;">
                                             <div class="col-10">
-                                                {{ucwords(strtolower($val->business_name))}}
+                                                {{ucwords(strtolower($val->business))}} ({{$val->products}})
                                             </div>
                                             <div class="col-2">
-                                                <input type="checkbox" name="supplier[]" class="form-control" value="{{$val->id}}" id='checkbox_cat_{{$val->id}}'>
+                                                <input type="checkbox" name="supplier[]" class="form-control" value="{{$val->id}}" id='checkbox_sup_{{$val->id}}'>
                                             </div>
                                         </div>
                                     </li>

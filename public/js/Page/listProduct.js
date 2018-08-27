@@ -284,6 +284,7 @@ function listProduct() {
     }
 
     this.eventCategory = function (ref = null) {
+
         ref = (ref == null) ? '' : "-" + ref;
         if (flag_category == false) {
             $("#plus-icon" + ref).addClass("d-none");
@@ -301,27 +302,35 @@ function listProduct() {
         var categories = [];
         var cat = "", subcategories = [], supplier = [];
 
-
         if ($("#checkbox_cat_" + slug).is(":checked")) {
-            $("#checkbox_cat_" + slug).attr("checked", false);
+            $("#checkbox_cat_" + slug).prop("checked", false);
         } else {
-            $("#checkbox_cat_" + slug).attr("checked", true);
+            $("#checkbox_cat_" + slug).prop("checked", true);
+        }
+        if ($("#checkbox_subcat_" + slug).is(":checked")) {
+            $("#checkbox_subcat_" + slug).prop("checked", false);
+        } else {
+            $("#checkbox_subcat_" + slug).prop("checked", true);
+        }
+        if ($("#checkbox_sup_" + slug).is(":checked")) {
+            $("#checkbox_sup_" + slug).prop("checked", false);
+        } else {
+            $("#checkbox_sup_" + slug).prop("checked", true);
         }
 
         $("input[name='categories[]']:checked").each(function () {
             cat += (cat == '') ? '' : '&';
             cat += $(this).val();
             categories.push($(this).val());
-        })
+        });
 
         $("input[name='subcategories[]']:checked").each(function () {
             subcategories.push($(this).val());
-        })
+        });
+
         $("input[name='supplier[]']:checked").each(function () {
             supplier.push($(this).val());
-        })
-
-
+        });
 
         data.subcategories = subcategories;
         data.categories = categories;
@@ -398,7 +407,6 @@ function listProduct() {
                                                 </div>
                                                 <div class="col" >
                                                     <span id="quantity_product_${value.id}" style="color:white">${(value.quantity != null) ? value.quantity : 0}</span>
-
                                                 </div>
                                                 <div class="col" >
                                                     <svg id="i-minus"  class="btn-minus" viewBox="0 0 32 32"  style="cursor:pointer"
@@ -438,16 +446,16 @@ function listProduct() {
                 $("#content-subcategories").empty();
                 html = "";
                 var checked = false;
-                $.each(data.subcategories, function (i, val) {
+                    $.each(data.subcategories, function (i, val) {
                     checked = (val.checked != undefined) ? 'checked' : '';
                     html += `
                         <li class="list-group-item">
-                            <div class="row">
+                            <div class="row" onclick=obj.reloadCategories('${val.slug}') style="cursor:pointer">
                                 <div class="col-10">
-                                    ${val.short_description}
+                                    ${val.short_description} (${val.products})
                                 </div>
                                 <div class="col-2">
-                                    <input type="checkbox" ${checked} name="subcategories[]" class="form-control" value="${val.slug}" onclick=obj.reloadCategories(this,'${val.slug}')>
+                                    <input type="checkbox" ${checked} name="subcategories[]" class="form-control" value="${val.slug}" id='checkbox_subcat_${val.slug}'>
                                 </div>
                             </div>
                         </li>`;
@@ -457,12 +465,12 @@ function listProduct() {
 
                 if (data.count_cat > 1) {
                     $("#main-image-category").attr("src", "/images/banner_sf.png");
-                    $("#content-image").css("top", 100);
+//                    $("#content-image").css("top", 100);
                     $("#main-menu-id").addClass("main-menu-out");
                 } else {
-                    console.log(data.row_category.banner);
+//                    console.log(data.row_category.banner);
                     $("#main-menu-id").removeClass("main-menu-out");
-                    $("#main-image-category").attr("src", "https://superfuds.com/" + data.row_category.banner);
+                    $("#main-image-category").attr("src", data.row_category.banner);
 //                    $("#content-image").css("top", 80);
                 }
 
