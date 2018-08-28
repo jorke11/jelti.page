@@ -224,6 +224,8 @@ function Payment() {
                 },
                 success: function (data) {
                     objCounter.setData(data);
+                    detail=data.detail
+                    obj.printDetail()
                     $("#frm #total").val($.formatNumber(data.total, "$"))
                     $("#badge-quantity").attr("font-size", '70%').css("background-color", "#f8f9fa");
 
