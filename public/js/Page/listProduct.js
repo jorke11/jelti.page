@@ -477,15 +477,19 @@ function listProduct() {
 
                 $("#content-subcategories").html(html);
 
+                if ((data.row_category.banner).indexOf("banner_sf.png") == -1) {
+                    $("#img-image").removeClass("d-none");
+                } else {
+                    $("#img-image").addClass("d-none");
+
+                }
+
                 if (data.count_cat > 1) {
                     $("#main-image-category").attr("src", "/images/banner_sf.png");
-//                    $("#content-image").css("top", 100);
-                    $("#main-menu-id").addClass("main-menu-out");
+//                    $("#main-menu-id").addClass("main-menu-out");
                 } else {
-//                    console.log(data.row_category.banner);
-                    $("#main-menu-id").removeClass("main-menu-out");
+//                    $("#main-menu-id").removeClass("main-menu-out");
                     $("#main-image-category").attr("src", data.row_category.banner);
-//                    $("#content-image").css("top", 80);
                 }
 
                 $("#loading-super").addClass("d-none");

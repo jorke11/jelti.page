@@ -18,11 +18,11 @@
     }
 </style>
 
-{!! Form::open(['id'=>'frm','url'=>'payment/target']) !!}
+{!! Form::open(['id'=>'frmPayment','url'=>'payment/target']) !!}
 
 <p style="background:url(https://maf.pagosonline.net/ws/fp?id={{$deviceSessionId_concat}})"></p>
 
-<img src="https://maf.pagosonline.net/ws/fp/clear.png?id={{$deviceSessionId_concat}}">
+<!--<img src="https://maf.pagosonline.net/ws/fp/clear.png?id={{$deviceSessionId_concat}}">-->
 <script src="https://maf.pagosonline.net/ws/fp/check.js?id={{$deviceSessionId_concat}}"></script>
 <object type="application/x-shockwave-flash" data="https://maf.pagosonline.net/ws/fp/fp.swf?id={{$deviceSessionId_concat}}" width="1" height="1" id="thm_fp">
     <param name="movie" value="https://maf.pagosonline.net/ws/fp/fp.swf?id={{$deviceSessionId_concat}}" />
@@ -37,7 +37,6 @@
 </div>
 @endif
 
-<input id="order_id" name="order_id" type="hidden">
 <div class="container-fluid">
     <div class="row d-none" id="message-mount" >
         <div class=" col-lg-offset-2 col-lg-10">

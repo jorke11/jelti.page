@@ -45,14 +45,10 @@
     }
 
 
-
-
     @media (min-width: 1100px){
         .title-new {
             display: none !important;
         }
-
-
 
         .buttonplus{
             display:scroll;
@@ -106,7 +102,7 @@
 </style>
 
 <section id="content-menu">
-    <div  class="container-fluid" style="padding-left: 0; padding-right: 0;position:relative;top: -130px">
+    <div  class="container-fluid" style="padding-left: 0; padding-right: 0;position:relative;top: -120px">
         <section id="slider-main" class="main-slider">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
@@ -348,8 +344,7 @@
                                                 $ {{number_format($value->price_sf,0,",",'.')}}
                                             </p>
                                             @endguest
-
-
+                                            
                                             <p class="text-left">
                                                 <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                 <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />

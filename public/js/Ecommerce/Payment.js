@@ -96,9 +96,11 @@ function Payment() {
 
     this.printDetail = function () {
         var html = '';
-
+        var slug = "";
         for (var i = 0; i < lengthArr; i++) {
             if (detail[i] != undefined) {
+                slug = (detail[i].supplier).toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '')
+                console.log(slug)
                 html += `
                             <div class="card mb-2" id='card_${i}' style="border-radius:15px">
                                 <div class="card-body" style="padding-bottom:1%;padding-right:8%">
@@ -108,14 +110,15 @@ function Payment() {
                                     </div>
                                     <div class="row">
                                         <div class="col-2">
-                                            <img src="https://superfuds.com/${detail[i].thumbnail}" style="width:95%" class="img-fluid"/>
+                                            <img src="https://superfuds.com/${detail[i].thumbnail}" style="width:95%;cursor:pointer" class="img-fluid" 
+                                            onclick="obj.redirectProduct('${detail[i].slug}')"/>
                                         </div>
                                         <div class="col-7">
                                             <div class="row">
                                                 <div class="col">
                                                     <div>
-                                                        <span style="color:#827b7b">${detail[i].supplier}</span><br>
-                                                        <span style="font-size:20px">${detail[i].product}</span>
+                                                        <span ><a href="/search/s=${slug}"style="color:#827b7b">${detail[i].supplier}</a></span><br>
+                                                        <span style="font-size:20px;cursor:pointer" onclick="obj.redirectProduct('${detail[i].slug}')">${detail[i].product}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -129,15 +132,16 @@ function Payment() {
                                             <div class="row">
                                                 <div class="input-group mb-3 ">
                                                     <div class="input-group-prepend">
+                                                        <span class="input-group-text" onclick="obj.deleteUnit('${detail[i].product_id}','${detail[i].slug}',${i})" style="background-color: #30c594;color:white;cursor: pointer">-</span>
+                                                        
+                                                    </div>
+                                                    <input type="text" class="form-control" id="quantity_${detail[i].product_id}" name="quantity" value="${detail[i].quantity}" type="number">
+                                                    <div class="input-group-append">
                                                         <span class="input-group-text" 
                                                                 onclick="obj.addProduct('${detail[i].product}',
                                                                 '${detail[i].slug}','${detail[i].product_id}',
                                                                 '${detail[i].price_sf}}','${detail[i].thumbnail}','${detail[i].tax}')"
                                                             style="background-color: #30c594;color:white;cursor: pointer">+</span>
-                                                    </div>
-                                                    <input type="text" class="form-control" id="quantity_${detail[i].product_id}" name="quantity" value="${detail[i].quantity}" type="number">
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text" onclick="obj.deleteUnit('${detail[i].product_id}','${detail[i].slug}',${i})" style="background-color: #30c594;color:white;cursor: pointer">-</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -220,7 +224,7 @@ function Payment() {
                     objCounter.setData(data);
                     $("#frm #total").val($.formatNumber(data.total, "$"))
                     $("#badge-quantity").attr("font-size", '70%').css("background-color", "#f8f9fa");
-                    
+
                     $("#quantity_product_" + product_id).html(data.current.quantity)
                     if (parseInt(data.total) > 10000) {
                         $("#message-mount").addClass("d-none")

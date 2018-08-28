@@ -100,7 +100,7 @@
         }
 
         .center-image{
-            padding-left: 22%;padding-top: 15px;padding-bottom: 2%   
+            padding-left: 16%;padding-top: 15px;padding-bottom: 2%   
         }
         #img-menu{
             display: none;
@@ -172,7 +172,7 @@
 
 </style>
 
-<div class="icon-social d-none d-lg-block pt-10"  style="padding-top:2%">
+<div class="icon-social d-none d-lg-block pt-10"  style="padding-top:1%">
     <div class="row row-space justify-content-center ">
         <div class="col-lg-2 col-4 pr-0 pl-0">
             <a href="https://www.facebook.com/superfuds/" target="_blank">

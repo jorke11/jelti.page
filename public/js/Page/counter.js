@@ -162,9 +162,9 @@ function Counter() {
     }
 
     this.hideButton = function (e, product_id) {
-        console.log("asdasd");
-//        $("#buttonShow_" + product_id).removeClass("d-none")
-//        $("#buttonAdd_" + product_id).addClass("d-none")
+        console.log("hiden");
+        $("#buttonShow_" + product_id).removeClass("d-none")
+        $("#buttonAdd_" + product_id).addClass("d-none")
 
     }
 
