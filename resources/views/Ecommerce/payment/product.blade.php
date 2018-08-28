@@ -343,16 +343,17 @@
                 <div class="col-5 col-md-6">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
+                            <span class="input-group-text" onclick="obj.delete('{{$product->short_description}}',
+                                  '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->images[0]->path)}}','{{$product->tax}}')" 
+                                  style="background-color: rgba(91,175,152,1);color:white;cursor: pointer">-</span>
+
+                        </div>
+                        <input type="text" class="form-control" id="quantity" name="quantity" value="0" type="number">
+                        <div class="input-group-append">
                             <span class="input-group-text" 
                                   onclick="objCounter.addProduct('{{$product->short_description}}',
                                   '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->images[0]->path)}}','{{$product->tax}}')"
                                   style="background-color: rgba(91,175,152,1);color:white;cursor: pointer">+</span>
-                        </div>
-                        <input type="text" class="form-control" id="quantity" name="quantity" value="0" type="number">
-                        <div class="input-group-append">
-                            <span class="input-group-text" onclick="obj.delete('{{$product->short_description}}',
-                                  '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->images[0]->path)}}','{{$product->tax}}')" 
-                                  style="background-color: rgba(91,175,152,1);color:white;cursor: pointer">-</span>
                         </div>
                     </div>
                 </div>

@@ -148,9 +148,7 @@ class ShoppingController extends Controller {
 
             $relations = $relations->get();
 
-
             $supplier = $product->supplier;
-
 
             if ($product->characteristic != null) {
                 $id = array();
@@ -172,7 +170,6 @@ class ShoppingController extends Controller {
             }
 
             $text = '';
-
 
             if (count($like_product) > 0) {
                 $like = $line = 'red';

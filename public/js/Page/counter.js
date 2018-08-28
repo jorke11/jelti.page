@@ -313,15 +313,16 @@ function Counter() {
                                                  <div class="row card-customer" style="width:70%;z-index:1000">
                                                 <div class="input-group mb-2 offset-1 card-customer">
                                                     <div class="input-group-prepend card-customer">
+                                                        <span class="input-group-text card-customer" onclick="objCounter.deleteUnit('${row.product_id}','${row.slug}',${index})" style="background-color: #30c594;color:white;cursor: pointer">-</span>
+                                                    </div>
+                                                    <input type="text" class="form-control form-control-sm card-customer" id="quantity_${row.product_id}" name="quantity" value="${row.quantity}" type="number">
+                                                    <div class="input-group-append">
                                                         <span class="input-group-text card-customer" 
                                                                 onclick="objCounter.addProduct('${row.product}',
                                                                 '${row.slug}','${row.product_id}',
                                                                 '${row.price_sf}}','${row.thumbnail}','${row.tax}')"
                                                             style="background-color: #30c594;color:white;cursor: pointer">+</span>
-                                                    </div>
-                                                    <input type="text" class="form-control form-control-sm card-customer" id="quantity_${row.product_id}" name="quantity" value="${row.quantity}" type="number">
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text card-customer" onclick="objCounter.deleteUnit('${row.product_id}','${row.slug}',${index})" style="background-color: #30c594;color:white;cursor: pointer">-</span>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
