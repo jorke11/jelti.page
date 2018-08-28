@@ -268,9 +268,9 @@
 
         <ul class="navbar-nav">
             @guest
-            <li class="nav-item dropdown active">
+            <li class="nav-item dropdown active" style="padding-right: 75%">
                 <a class="nav-link" href="{{ route('login') }}">
-                    <button class="btn btn-outline-light my-2 my-sm-0 btn-sm" style="padding: .10rem .5rem" type="submit">Iniciar Sesión</button>
+                    <button class="btn btn-outline-light my-2 my-sm-0 btn-sm" style="padding: .10rem .5rem;" type="submit">Iniciar Sesión</button>
                 </a>
             </li>
             @else
