@@ -96,7 +96,7 @@
     .icon-social {
         position: absolute;
         top: 0.1em;
-        right: 0.01em;
+        right: 1em;
         text-decoration: none;
         color: #fff;
         padding-top: 0.1em;
@@ -193,7 +193,6 @@
             <a href="https://plus.google.com/112289524335507891140" target="_blank"><img src="/images/page/google.svg" class="img-fluid img-social"></a>
         </div>
     </div>
-</div>
 </div>
 
 @auth
