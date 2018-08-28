@@ -331,7 +331,7 @@
                                     <div class="card text-center">
                                         <img class="card-img-right img-fluid" src="http://www.superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" 
                                              style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
-                                        <div class="card-body" style="padding-bottom: 1.25em;padding-top:0">
+                                        <div class="card-body" style="padding-bottom: 1.25em;padding-top:0;padding-left: 15px;padding-right: 15px">
                                             <p class="text-left text-muted text-supplier" style="margin:0;">
                                                 <a style="color:#6c757d" href="{{url("/search/s=".str_slug(strtolower($value->supplier), '-'))}}">{{strtoupper($value->supplier)}}</a></p>
                                             <p class="text-left text-products" style="margin:0;min-height: 55px;cursor:pointer" onclick="obj.redirectProduct('{{$value->slug}}')">
@@ -365,13 +365,16 @@
 
                                             @if(isset($value->quantity))
                                             <button class="btn <?php echo (isset($value->quantity)) ? '' : 'd-none' ?>" type="button" 
-                                                    onmouseover="objCounter.showOption(this,{{$value->id}})" id="buttonShow_{{$value->id}}" style="background-color: #5cb19a;color:white;"
+                                                    onmouseover="objCounter.showOption(this,{{$value->id}})" id="buttonShow_{{$value->id}}" 
+                                                    style="background-color: #5cb19a;color:white;margin-bottom: 4%"
                                                     >{{$value->quantity}} en carrito</button>
                                             @endif
 
-                                            <div class="row d-none row-center" id="buttonAdd_{{$value->id}}" style="background-color: #5cb19a;color:white;padding-bottom: 3%;padding-top: 3%;border-radius: 10px;"
+                                            <div class="row d-none row-center" id="buttonAdd_{{$value->id}}" 
+                                                 style="background-color: #5cb19a;color:white;padding-bottom: 3%;padding-top: 3%;border-radius: 10px;
+                                                 padding-left: 0;padding-right: 0"
                                                  onmouseout="objCounter.hideButton(this,{{$value->id}})">
-                                                <div class="col-lg-2">
+                                                <div class="col-lg-3">
                                                     <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="white"  style="cursor:pointer"
                                                          stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                          onclick="objCounter.deleteUnit({{$value->id}},'{{$value->slug}}')">
@@ -381,7 +384,7 @@
                                                 <div class="col-lg-3">
                                                     <span id="quantity_product_{{$value->id}}" style="color:white">{{(isset($value->quantity))?$value->quantity:0}}</span>
                                                 </div>
-                                                <div class="col-lg-2" >
+                                                <div class="col-lg-3" >
                                                     <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="white" stroke="#ffffff" 
                                                          stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer"
                                                          onclick="objCounter.addProduct('{{$value->short_description}}',

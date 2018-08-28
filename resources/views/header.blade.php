@@ -106,20 +106,13 @@
             display: none;
         }
         #init-session{
-            padding-right: 40%
+            padding-right: 0
         }
 
 
     }
     @media screen and (max-width: 1300px) {
-        #text-search{
-            width: 200px;
-            height: 26px
-        }
 
-        .center-image{
-            padding-left: 22%;padding-top: 15px;padding-bottom: 2%   
-        }
         #img-menu{
             display: none;
         }
