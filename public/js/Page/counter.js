@@ -294,7 +294,12 @@ function Counter() {
                 html += `
                             <div class="row mb-2">
                                 <div class="card card-customer">
+                                    
                                     <div class="card-body card-customer" style="padding:3%">
+                                        <button type="button" class="close right" aria-label="Close" onclick="objCounter.deleteItem('${row.slug}',${index})">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                
                                         <div class="row" card-customer>
                                             <div class="col-3 card-customer">
                                                 <img class="img-fluid"  src="https://superfuds.com/${row.thumbnail}" alt="Card image cap" style="max-width: 160%;cursor:pointer" 
@@ -348,6 +353,27 @@ function Counter() {
 
         $("#content-cart").html(html);
     }
+
+    this.deleteItem = function (slug, index) {
+        toastr.remove();
+        var token = $("input[name=_token]").val();
+
+        $.ajax({
+            url: '/deleteAllProduct/' + slug,
+            headers: {'X-CSRF-TOKEN': token},
+            method: 'PUT',
+            dataType: 'JSON',
+            success: function (data) {
+
+                $("#card_" + index).remove()
+                $("#frm #total").val($.formatNumber(data.total, "$"))
+                toastr.success("Item Eliminado");
+                objCounter.setData(data);
+            }
+        })
+
+    }
+
 }
 
 objCounter = new Counter();

@@ -23,6 +23,7 @@ Route::get('myOrders', "Ecommerce\PaymentController@getMyOrders");
 Route::get('getDetailOrder/{invoice}', "Ecommerce\PaymentController@getInvoice");
 
 Route::post('newVisitan', "PageController@newVisitan");
+Route::post('loginModal', "Auth\LoginController@loginModal");
 
 Route::get('/products/{slug_category}', "PageController@productSearch");
 
