@@ -121,7 +121,7 @@
 
 <section>
     <div class="container-fluid"  id="content-image" style="padding-left: 0; padding-right: 0;padding-bottom: 5%;position:relative;top:-200px;min-height: 100px">
-        <div class="row center-block" style="margin-right: 0;padding-top:1%">
+        <div class="row center-block" style="margin-right: 0;padding-top:4%">
             <div class="col-lg-10 offset-1 ">
                 <span><?php echo $breadcrumbs ?></span>
             </div>
