@@ -83,9 +83,9 @@
         padding-left: 22%;padding-top: 15px;padding-bottom: 2%   
     }
 
-    @media screen and (min-width: 1400px) {
+    @media screen and (max-width: 1400px) {
         #text-search{
-            width: 240px;
+            width: 210px;
             height: 26px
         }
 
