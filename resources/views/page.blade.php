@@ -253,7 +253,7 @@
                                                         <p class="text-left text-muted " style="margin:0;" >
                                                             <a href="{{url("search/s=".str_slug(strtolower($value->supplier), '-'))}}" class="text-supplier">{{strtoupper($value->supplier)}}</a>
                                                         </p>
-                                                        <h5 class="card-title text-left title-products" style="cursor:pointer" onclick="obj.redirectProduct('{{$value->slug}}')">
+                                                        <h5 class="card-title text-left title-products" style="cursor:pointer;min-height: 60px" onclick="obj.redirectProduct('{{$value->slug}}')">
                                                             <?php echo trim(strtoupper(substr($value->short_description, 0, 30))); ?></h5>
                                                         <p class="text-left">
                                                             <svg id="i-star" viewBox="0 0 32 32"  class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -364,7 +364,7 @@
 
         <div class="row row-center test" >
             <div class="col-lg-3  col-xs-10 d-md-none d-lg-block" style="background-color: #f8f7f5">
-                <h1 class="text-center"style="padding-top: 30%">Lo Más <br>Vendidos</h1>
+                <h1 class="text-center"style="padding-top: 30%">Los Más <br>Vendidos</h1>
                 <p class="text-center"><a href="#" class="link-green">Ver todos</a></p>
             </div>
             <div class="col-lg-8 col-md-12 offset-md-0" style="background-color: #f8f7f5;margin-left: 10px;padding-top: 1%;padding-bottom: 1%">
@@ -373,8 +373,8 @@
                     <div class="col-10 offset-1">
                         <div id="most_sales" class="carousel slide" data-ride="carousel">
 
-                            <div class="carousel-inner" style="padding: 2%;">
-                                <div class="carousel-item active">
+                            <div class="carousel-inner" >
+                                <div class="carousel-item active" style="padding: 2%;">
                                     <div class="row text-center">
                                         <?php
                                         $cont = 0;
@@ -389,7 +389,7 @@
                                                         <p class="text-left text-muted " style="margin:0;" >
                                                             <a href="{{url("search/s=".str_slug(strtolower($value->supplier), '-'))}}" class="text-supplier">{{strtoupper($value->supplier)}}</a>
                                                         </p>
-                                                        <h5 class="card-title text-left title-products" style="margin:0;min-height: 60px" onclick="obj.redirectProduct('{{$value->slug}}')">
+                                                        <h5 class="card-title text-left title-products" style="margin:0;min-height: 70px" onclick="obj.redirectProduct('{{$value->slug}}')">
                                                             <?php echo strtoupper(substr($value->short_description, 0, 25)); ?>
                                                         </h5>
                                                         <p class="text-left">
