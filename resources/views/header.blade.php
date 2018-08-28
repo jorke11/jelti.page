@@ -70,10 +70,7 @@
         height: 26px
     }
 
-    #slider-main{
-        position:relative;
-        top: -66px   
-    }
+
 
     #img-image{
         width:70%
@@ -113,7 +110,10 @@
         padding-right: 72%
     }
 
-
+    #slider-main{
+        position:relative;
+        top: -66px   
+    }
 
     @media screen and (max-width: 1400px) {
         #text-search{
@@ -149,44 +149,14 @@
     }
     @media screen and (max-width: 1500px) {
 
-        #text-search{
-            width: 210px;
-            height: 26px
-        }
-
-        #init-session{
-            padding-right: 50%
-        }
-
-        .center-image{
-            padding-left: 22%;padding-top: 15px;padding-bottom: 2%   
-        }
-    }
-
-
-    @media screen and (max-width: 1000px) {
-        #slider-main{
-            position:relative;top: -125px;
-        }
-        #text-search{
-            width: 210px;
-            height: 26px
-        }
-
-        .center-image{
-            padding-left: 22%;padding-top: 15px;padding-bottom: 2%   
-        }
         #img-menu{
             display: none;
         }
+        
+        #slider-main{
+            position:relative;top: -45px;
+        }
     }
-
-
-
-
-
-
-
 
 </style>
 
@@ -217,7 +187,7 @@
 <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
 @endauth
 
-<nav class="navbar navbar-expand-lg fixed-top navbar-light main-menu img-fluid img-header " id="main-menu-id" style="background-color: #6dcbb;height: 150px;left:-2px;padding-bottom:3%">
+<nav class="navbar navbar-expand-lg fixed-top navbar-light main-menu img-fluid img-header " id="main-menu-id" style="background-color: #6dcbb;height: 150px;padding-bottom:3%">
     <a class="navbar-brand d-lg-none" href="/">
         <img alt="Brand" src="/images/page/logosuperf.svg" class="img-fluid" width="30%">
     </a>

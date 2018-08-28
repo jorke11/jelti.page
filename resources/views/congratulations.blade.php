@@ -54,39 +54,7 @@
 
 
             /* Para 960px */  
-            @media only screen and (max-width: 980px) and (min-width: 821px) {  
-                #slider-main{
-                    padding-top: 100px
-                }
-            }  
-
-            /* Para 800px */  
-            @media only screen and (max-width: 820px) and (min-width: 621px) {  
-                #slider-main{
-                    padding-top: 98px
-                }
-            }  
-
-            /* Para 600px */  
-            @media only screen and (max-width: 620px) and (min-width: 501px) {  
-                #slider-main{
-                    padding-top: 98px
-                }
-            }  
-
-            /* Para 480px */  
-            @media only screen and (max-width: 500px) and (min-width: 341px) {  
-                #slider-main{
-                    padding-top: 98px
-                }
-            }  
-
-            /* Para 320px */  
-            @media only screen and (max-width: 340px) and (min-width: 5px)  {  
-                #slider-main{
-                    padding-top: 100px
-                }
-            } 
+           
 
 
 
