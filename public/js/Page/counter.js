@@ -355,7 +355,6 @@ function Counter() {
     }
 
     this.deleteItem = function (slug, index) {
-        toastr.remove();
         var token = $("input[name=_token]").val();
 
         $.ajax({
@@ -364,10 +363,8 @@ function Counter() {
             method: 'PUT',
             dataType: 'JSON',
             success: function (data) {
-
                 $("#card_" + index).remove()
                 $("#frm #total").val($.formatNumber(data.total, "$"))
-                toastr.success("Item Eliminado");
                 objCounter.setData(data);
             }
         })
