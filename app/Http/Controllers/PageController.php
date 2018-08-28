@@ -81,6 +81,8 @@ class PageController extends Controller {
                 ->whereNotNull("thumbnail")
                 ->where("is_new", true);
 
+
+
         if ($orders != null) {
             $newproducts->select("orders_detail.quantity", "vproducts.characteristic", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
         }
@@ -130,8 +132,6 @@ class PageController extends Controller {
 
 
         $dietas = $this->dietas;
-
-
 
         return view('page', compact("categories", "subcategory", "newproducts", "love_clients", "clients", "dietas", "most_sales"));
     }
@@ -192,9 +192,11 @@ class PageController extends Controller {
 
         $subcategory = DB::table("vsubcategories")->where("status_id", 1)->where("node_id", $row_category->id)->where("status_id", 1)->orderBy("description", "asc")->get();
 
+        $breadcrumbs = "<a href = '/'>Home</a> / Alimentos";
 
-        if (stripos($param, "s=") !== false) {
-            $param = str_replace("s=", "", $param);
+
+        if (stripos($param, "c=") !== false) {
+            $param = str_replace("c=", "", $param);
             $char = \App\Models\Administration\Characteristic::where("description", "ilike", "%" . strtolower($param) . "%")->get();
             $products = DB::table("vproducts")->select("vproducts.id", "vproducts.title", "vproducts.short_description", "vproducts.price_sf", "vproducts.image", "vproducts.thumbnail", "vproducts.category_id", "vproducts.slug", "vproducts.tax", "vproducts.supplier"
                     )
@@ -224,6 +226,27 @@ class PageController extends Controller {
             }
 
             $categories = $categories->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->where("status_id", 1)->orderBy("order", "asc")->get();
+        } else if (stripos($param, "s=") !== false) {
+            $param = str_replace("s=", "", $param);
+            $stakeholder = \App\Models\Administration\Stakeholder::where("slug", $param)->first();
+
+            $products = DB::table("vproducts")->select("vproducts.id", "vproducts.title", "vproducts.short_description", "vproducts.price_sf", "vproducts.image", "vproducts.thumbnail", "vproducts.category_id", "vproducts.slug", "vproducts.tax", "vproducts.supplier"
+                            )
+                            ->whereNotNull("image")
+                            ->whereNotNull("warehouse")
+                            ->where("supplier_id", $stakeholder->id)->get();
+
+
+            $categories = DB::table("vcategories")->where("status_id", 1);
+
+            foreach ($products as $value) {
+//                dd($value);
+                $categories->where("id", $value->category_id);
+            }
+
+            $categories = $categories->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->where("status_id", 1)->orderBy("order", "asc")->get();
+
+            $breadcrumbs = "<a href = '/'>Home</a> / <a href = '/search/s=$stakeholder->slug'>" . $stakeholder->business . "</a> / Alimentos";
         } else {
             $products = DB::table("vproducts")
                             ->where(function($q) {
@@ -247,7 +270,7 @@ class PageController extends Controller {
         }
 
         $dietas = $this->dietas;
-        $breadcrumbs = "<a href = '/'>Home</a> / Alimentos";
+
         return view('listproducts', compact("breadcrumbs", "categories", "row_category", 'products', "slug_category", "subcategory", "param", "dietas", "supplier"));
     }
 

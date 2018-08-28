@@ -40,7 +40,7 @@
                     <img class="card-img-top" src="{{url("images/page/dietas/paleo.png")}}" alt="Card image cap">
                     <div class="card-body">
                         <h2 class="card-title text-center">Paleo</h2>
-                        <p class="text-center justify-content-center"><a href="{{url("search/s=paleo")}}" class="link-green">Ver todos</a></p>
+                        <p class="text-center justify-content-center"><a href="{{url("search/c=paleo")}}" class="link-green">Ver todos</a></p>
                     </div>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                     <img class="card-img-top" src="{{url("images/page/dietas/vegana.png")}}" alt="Card image cap">
                     <div class="card-body">
                         <h2 class="card-title text-center">Vegana</h2>
-                        <p class="text-center justify-content-center"><a href="{{url("search/s=vegano")}}" class="link-green">Ver todos</a></p>
+                        <p class="text-center justify-content-center"><a href="{{url("search/c=vegano")}}" class="link-green">Ver todos</a></p>
                     </div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                     <img class="card-img-top" src="{{url("images/page/dietas/sin_gluten.png")}}" alt="Card image cap">
                     <div class="card-body">
                         <h2 class="card-title text-center">Sin Gluten</h2>
-                        <p class="text-center justify-content-center"><a href="{{url("search/s=sin_gluten")}}" class="link-green">Ver todos</a></p>
+                        <p class="text-center justify-content-center"><a href="{{url("search/c=sin_gluten")}}" class="link-green">Ver todos</a></p>
                     </div>
                 </div>
             </div>
@@ -69,7 +69,7 @@
                     <img class="card-img-top" src="{{url("images/page/dietas/organico.png")}}" alt="Card image cap">
                     <div class="card-body">
                         <h2 class="card-title text-center">Orgánico</h2>
-                        <p class="text-center justify-content-center"><a href="{{url("search/s=organico")}}" class="link-green">Ver todos</a></p>
+                        <p class="text-center justify-content-center"><a href="{{url("search/c=organico")}}" class="link-green">Ver todos</a></p>
                     </div>
                 </div>
             </div>
@@ -78,7 +78,7 @@
                     <img class="card-img-top" src="{{url("images/page/dietas/singrasastrans.png")}}" alt="Card image cap">
                     <div class="card-body">
                         <h2 class="card-title text-center">Sin Grasas Trans</h2>
-                        <p class="text-center justify-content-center"><a href="{{url("search/s=sin_grasas_trans")}}" class="link-green" >Ver todos</a></p>
+                        <p class="text-center justify-content-center"><a href="{{url("search/c=sin_grasas_trans")}}" class="link-green" >Ver todos</a></p>
                     </div>
                 </div>
             </div>
@@ -87,7 +87,7 @@
                     <img class="card-img-top" src="{{url("images/page/dietas/sinazucar.png")}}" alt="Card image cap">
                     <div class="card-body">
                         <h2 class="card-title text-center">Sin Azúcar</h2>
-                        <p class="text-center justify-content-center"><a href="{{url("search/s=sin_azucar")}}" class="link-green" >Ver todos</a></p>
+                        <p class="text-center justify-content-center"><a href="{{url("search/c=sin_azucar")}}" class="link-green" >Ver todos</a></p>
                     </div>
                 </div>
             </div>
@@ -165,6 +165,12 @@
         }
     }
 
+    .text-supplier{
+        font-size: 12px;
+        color: #6c757d
+    }
+
+
     @media (min-width: 1250px){
         .title-new {
             display: none !important;
@@ -175,6 +181,7 @@
         }
         .text-supplier{
             font-size: 12px;
+            color: #6c757d
         }
         .buttonplus{
             display:scroll;
@@ -242,8 +249,10 @@
                                                 <div class="card" >
                                                     <img class="card-img-top" src="https://superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                     <div class="card-body text-center">
-                                                        <p class="text-left text-muted text-supplier" style="margin:0;">{{strtoupper($value->supplier)}}</p>
-                                                        <h5 class="card-title text-left title-products" style="" onclick="obj.redirectProduct('{{$value->slug}}')">
+                                                        <p class="text-left text-muted " style="margin:0;" >
+                                                            <a href="{{url("search/s=".str_slug(strtolower($value->supplier), '-'))}}" class="text-supplier">{{strtoupper($value->supplier)}}</a>
+                                                        </p>
+                                                        <h5 class="card-title text-left title-products" style="cursor:pointer" onclick="obj.redirectProduct('{{$value->slug}}')">
                                                             <?php echo trim(strtoupper(substr($value->short_description, 0, 30))); ?></h5>
                                                         <p class="text-left">
                                                             <svg id="i-star" viewBox="0 0 32 32"  class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -345,10 +354,9 @@
 
 <section style="padding-top: 3%;padding-bottom: 2%" >   
     <div class="container-fluid test">
-
         <div class="row row-center text-center d-none d-md-block d-lg-none" >
             <div class="col-8 offset-2" style="background-color: #f8f7f5">
-                <h1 class="text-center">Lo Más <br>Vendidos</h1>
+                <h1 class="text-center">Los Más <br>Vendidos</h1>
                 <p class="text-center"><a href="#" class="link-green">Ver todos</a></p>
             </div>
         </div>
@@ -376,7 +384,10 @@
                                                 <div class="card" >
                                                     <img class="card-img-top" src="https://superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                     <div class="card-body text-center">
-                                                        <p class="text-left text-muted text-supplier" style="margin:0">{{strtoupper($value->supplier)}}</p>
+                                                        
+                                                        <p class="text-left text-muted " style="margin:0;" >
+                                                            <a href="{{url("search/s=".str_slug(strtolower($value->supplier), '-'))}}" class="text-supplier">{{strtoupper($value->supplier)}}</a>
+                                                        </p>
                                                         <h5 class="card-title text-left title-products" style="margin:0;min-height: 60px" onclick="obj.redirectProduct('{{$value->slug}}')">
                                                             <?php echo strtoupper(substr($value->short_description, 0, 25)); ?>
                                                         </h5>
@@ -408,7 +419,7 @@
                                                         </p>
                                                         @endguest
 
-                                                                                                                                                                                                                                                                         <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                                                                                                                                                                                                                                                 <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                                         <div class="row row-center <?php echo (isset($value->quantity_order)) ? '' : 'd-none' ?>" id="buttonAdd_{{$value->id}}" style="background-color: #5cb19a;padding-bottom: 3%;padding-top: 3%;border-radius: 10px">
                                                             <div class="col-lg-2 pl-0">
                                                                 <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="white"  style="cursor:pointer"

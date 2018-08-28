@@ -152,10 +152,11 @@ clearstatcache();
         .card{
             -webkit-box-shadow: -9px 8px 12px -2px rgba(0,0,0,0.25);
             -moz-box-shadow: -9px 8px 12px -2px rgba(0,0,0,0.25);
-            box-shadow: -9px 8px 12px -2px rgba(0,0,0,0.25);
+            box-shadow: -9px 7px 12px -2px rgba(0,0,0,0.25);
             border-radius:10px;
             margin-bottom: 3%;
-            margin-left: 4%
+            margin-left: 4%;
+            border:none;
         }
 
         /* Para 960px */  

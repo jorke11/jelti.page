@@ -76,14 +76,15 @@ class Products extends Model {
     public function is_like() {
         return $this->hasOne(ProductsLike::class, "product_id", "id");
     }
+
     public function category() {
-        return $this->hasOne(Categories::class, "id","category_id");
+        return $this->hasOne(Categories::class, "id", "category_id");
     }
 
     public function supplier() {
-        return $this->belongsTo(Stakeholder::class, "supplier_id");
+        return $this->belongsTo(Stakeholder::class);
     }
-    
+
     public function orderDetail() {
         return $this->belongsTo(\App\Models\Inventory\OrdersDetail::class, "product_id");
     }

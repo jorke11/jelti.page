@@ -47,8 +47,8 @@ class Stakeholder extends Model {
         "exclude_report"
     ];
 
-    public function product() {
-        return $this->belongsTo(Products::class);
+    public function Product() {
+        return $this->hasMany(Products::class, "supplier_id");
     }
 
     public function city() {
