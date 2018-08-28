@@ -30,7 +30,7 @@ class PageController extends Controller {
     }
 
     public function index() {
-        $init = date('Y-m-d', strtotime('-3 month', strtotime(date('Y-m-d'))));
+
         $end = date("Y-m-d");
         $join = '';
         $field = '';
@@ -74,12 +74,14 @@ class PageController extends Controller {
                             ->OrWhere("node_id", 0)->orderBy("order", "asc");
                         })->get();
 
+        $init = date('Y-m-d', strtotime('-4 month', strtotime(date('Y-m-d'))));
+
         $newproducts = DB::table("vproducts")->where("status_id", 1)
                 ->where("category_id", "<>", -1)
                 ->where("category_id", "<>", 19)
                 ->whereNotNull("image")
                 ->whereNotNull("thumbnail")
-                ->where("is_new", true);
+                ->whereBetween("created_at", [$init, date("Y-m-d H:i:s")]);
 
 
 
@@ -89,6 +91,7 @@ class PageController extends Controller {
 
 
         $newproducts = $newproducts->orderBy("supplier", "asc")
+                ->orderBy("created_at")
                 ->orderBy("category_id")
                 ->orderBy("reference")
                 ->get();
