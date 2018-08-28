@@ -60,8 +60,6 @@ use AuthenticatesUsers;
 
         $in = $this->incrementLoginAttempts($request);
         $error = ["status" => false, "msg" => "Problemas con el usuario o clave"];
-//        return back()->with("error_login", $error);
-
 
         return $this->sendFailedLoginResponse($request);
     }
