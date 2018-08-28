@@ -280,7 +280,7 @@
                                                         @endif
 
                                                         <div class="row d-none row-center" id="buttonAdd_{{$value->id}}" style="background-color: #5cb19a;color:white;padding-bottom: 3%;padding-top: 3%;border-radius: 10px;"
-                                                             onmouseout="objCounter.hideButton(this,{{$value->id}})">
+                                                             >
                                                             <div class="col-lg-2 pl-0">
                                                                 <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="white" stroke="#ffffff" 
                                                                      stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer"
@@ -407,9 +407,9 @@
                                                         </p>
                                                         @endguest
 
-                                                                                                                                                                                                                                                             <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-                                                        <div class="row <?php echo (isset($value->quantity_order)) ? '' : 'd-none' ?>" id="buttonAdd_{{$value->id}}" style="background-color: green;padding-bottom: 3%;padding-top: 3%;border-radius: 10px">
-                                                            <div class="col-lg-2">
+                                                                                                                                                                                                                                                                 <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                        <div class="row row-center <?php echo (isset($value->quantity_order)) ? '' : 'd-none' ?>" id="buttonAdd_{{$value->id}}" style="background-color: #5cb19a;padding-bottom: 3%;padding-top: 3%;border-radius: 10px">
+                                                            <div class="col-lg-2 pl-0">
                                                                 <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="white" stroke="#ffffff" 
                                                                      stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer"
                                                                      onclick="objCounter.addProduct('{{$value->short_description}}',
@@ -417,10 +417,10 @@
                                                                 <path d="M16 2 L16 30 M2 16 L30 16" />
                                                                 </svg>
                                                             </div>
-                                                            <div class="col-lg-8">
+                                                            <div class="col-lg-4 pl-0 text-center">
                                                                 <span id="quantity_product_{{$value->id}}" style="color:white">{{(isset($value->quantity_order))?$value->quantity_order:0}}</span>
                                                             </div>
-                                                            <div class="col-lg-2" >
+                                                            <div class="col-lg-2 pl-0" >
                                                                 <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="white"  style="cursor:pointer"
                                                                      stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                                      onclick="objCounter.deleteUnit({{$value->id}},'{{$value->slug}}')">
@@ -429,7 +429,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <button class="btn btn-success <?php echo (isset($value->quantity_order)) ? 'd-none' : '' ?>" 
+                                                        <button style="background-color: #5cb19a;color:white" class="btn <?php echo (isset($value->quantity_order)) ? 'd-none' : '' ?>" 
                                                                 id="btnOption_{{$value->id}}" onclick="objCounter.showButton('{{$value->short_description}}',
                                                                 '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}')">Agregar</button>
                                                     </div>
