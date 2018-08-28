@@ -111,7 +111,7 @@
 
     }
     .star{
-        width: 24px;height: 22px
+        width: 22px;height: 22px
     }
 
     .buttonplus-svg{
@@ -204,10 +204,10 @@
         }
 
         .star{
-            width: 23px;
-            height: 23px;
+            width: 15px;
+            height: 15px;
             color:#ffa608;
-            padding-left: 4px;
+            padding-left: 1px;
             fill:#ffa608
         }
     }
@@ -239,7 +239,7 @@
                         <div id="carouselExampleIndicators3" class="carousel slide" data-ride="carousel">
 
                             <div class="carousel-inner">
-                                <div class="carousel-item active">
+                                <div class="carousel-item active" style="padding: 2%;">
                                     <div class="row text-center">
                                         <?php
                                         $cont = 0;
@@ -327,7 +327,7 @@
                                                 ?>
                                             </div>
                                         </div>
-                                        <div class="carousel-item ">
+                                        <div class="carousel-item " style="padding: 2%;">
                                             <div class="row">
                                                 <?php
                                             }
@@ -373,7 +373,7 @@
                     <div class="col-10 offset-1">
                         <div id="most_sales" class="carousel slide" data-ride="carousel">
 
-                            <div class="carousel-inner">
+                            <div class="carousel-inner" style="padding: 2%;">
                                 <div class="carousel-item active">
                                     <div class="row text-center">
                                         <?php
@@ -456,7 +456,7 @@
                                                 ?>
                                             </div>
                                         </div>
-                                        <div class="carousel-item ">
+                                        <div class="carousel-item " style="padding: 2%;">
                                             <div class="row">
                                                 <?php
                                             }
