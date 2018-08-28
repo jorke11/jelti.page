@@ -100,7 +100,6 @@ function Payment() {
         for (var i = 0; i < lengthArr; i++) {
             if (detail[i] != undefined) {
                 slug = (detail[i].supplier).toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '')
-                console.log(slug)
                 html += `
                             <div class="card mb-2" id='card_${i}' style="border-radius:15px">
                                 <div class="card-body" style="padding-bottom:1%;padding-right:8%">
@@ -356,9 +355,9 @@ function Payment() {
         $("#badge-quantity").html(data.quantity)
 
 
-        if ((data.detail).length > 3) {
-            $("#btnShowAll").removeClass("d-none")
-    }
+//        if ((data.detail).length > 3) {
+//            $("#btnShowAll").removeClass("d-none")
+//    }
 
     }
 
