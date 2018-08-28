@@ -159,7 +159,7 @@
         }
 
         .center-image{
-            padding-left: 13%;
+            padding-left: 18%;
             padding-top: 15px;padding-bottom: 2%   
         }
 
