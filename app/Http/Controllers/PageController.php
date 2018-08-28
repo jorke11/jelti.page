@@ -336,7 +336,8 @@ class PageController extends Controller {
                 foreach ($in["dietas"] as $val) {
                     if ($val != '') {
                         $caract = Characteristic::where("slug", $val)->first();
-                        $products->where(DB::raw("characteristic::text"), "like", "%" . $caract->id . "%");
+                        if ($caract)
+                            $products->where(DB::raw("characteristic::text"), "like", "%" . $caract->id . "%");
                     }
                 }
             }
