@@ -117,7 +117,7 @@
 
     @media screen and (max-width: 1400px) {
         #text-search{
-            width: 210px;
+            width: 200px;
             height: 26px
         }
 
@@ -148,6 +148,11 @@
 
     }
     @media screen and (max-width: 1500px) {
+
+        #text-search{
+            width: 220px;
+            height: 26px
+        }
 
         #img-menu{
             display: none;
