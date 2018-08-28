@@ -339,7 +339,7 @@ function Counter() {
         html += ` 
                 <div class="row">
                     <div class="col-12 text-center">
-                         Item total:${data.detail.length}
+                         Total ${$.formatNumber(data.total,"$")}  Item total:${data.detail.length}
                     <div>   
                 <div>   
                 
