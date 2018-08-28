@@ -406,7 +406,8 @@ class PaymentController extends Controller {
             FROM orders_detail d
             JOIN vproducts p on p.id=d.product_id
             WHERE d.order_id=" . $order["id"] . " $slug
-            group by 1, 2, 3, 4, 5, 6,slug,p.supplier";
+            group by 1, 2, 3, 4, 5, 6,slug,p.supplier
+                    ORDER BY 1";
 
             if ($slug != null) {
                 if (count(DB::select($sql)) > 0) {
