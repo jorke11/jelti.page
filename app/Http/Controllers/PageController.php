@@ -262,6 +262,8 @@ class PageController extends Controller {
     public function getProducts(Request $req, $param = null) {
         $in = $req->all();
 
+        
+        
         $category = DB::table("vcategories")->where("node_id", 0)->get();
         $sub_ids = array();
         $sup_ids = array();
@@ -299,6 +301,19 @@ class PageController extends Controller {
                 foreach ($in["subcategories"] as $val) {
                     if ($val != '') {
                         $cate = Categories::where("slug", $val)->first();
+                        $sub_ids[] = $cate->id;
+                    }
+                }
+                $products->whereIn("category_id", $sub_ids);
+            }
+            
+            if (isset($in["dietas"])) {
+                $in["dietas"] = array_filter($in["dietas"]);
+
+                foreach ($in["dietas"] as $val) {
+                    if ($val != '') {
+                        $caract = Characteristic::where("description", $val)->first();
+                        dd($caract);
                         $sub_ids[] = $cate->id;
                     }
                 }

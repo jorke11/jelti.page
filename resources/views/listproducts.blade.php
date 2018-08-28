@@ -110,7 +110,6 @@
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-
                         @if(isset($row_category->banner))
                         <img class="d-block w-100" src="{{url($row_category->banner)}}" alt="Second slide" id="main-image-category">
                         @else
@@ -280,6 +279,51 @@
                                             </div>
                                             <div class="col-2">
                                                 <input type="checkbox" name="supplier[]" class="form-control" value="{{$val->id}}" id='checkbox_sup_{{$val->id}}'>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <?php
+                                }
+                                ?>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row" >
+                    <div class="col-12" style="border:8px rgba(0,0,0,.1) solid;border-radius: 10px;cursor:pointer">
+                        <ul class="list-group">
+                            <li class="list-group-item"  style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;"
+                                data-toggle="collapse" data-target="#content-dietas" onclick="obj.eventCategory('sup')"><b>DIETAS</b> ({{count($supplier)}})
+                                <span style="float:right" id="plus-icon-sup">
+                                    <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="black" stroke="#000000" 
+                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer">
+                                    <path d="M16 2 L16 30 M2 16 L30 16" />
+                                    </svg>
+                                </span>
+                                <span style="float:right" id="minus-icon-sup" class="d-none">
+                                    <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="black"  style="cursor:pointer"
+                                         stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                    <path d="M2 16 L30 16" />
+                                    </svg>
+                                </span></li>
+                            <div id="content-dietas" class="collapse">
+                                <?php
+                                $active = "";
+                                foreach ($dietas as $val) {
+//                                    if ($slug_category == $val->slug) {
+//                                        $active = "active";
+//                                    } else {
+//                                        $active = "";
+//                                    }
+                                    ?>
+                                    <li class="list-group-item">
+                                        <div class="row" style="cursor:pointer" onclick="obj.reloadCategories('{{$val->slug}}'); return false;">
+                                            <div class="col-10">
+                                                {{ucwords(strtolower($val->description))}}
+                                            </div>
+                                            <div class="col-2">
+                                                <input type="checkbox" name="dietas[]" class="form-control" value="{{$val->slug}}" id='checkbox_dieta_{{$val->slug}}'>
                                             </div>
                                         </div>
                                     </li>

@@ -300,7 +300,7 @@ function listProduct() {
     this.reloadCategories = function (slug) {
         var data = {};
         var categories = [];
-        var cat = "", subcategories = [], supplier = [];
+        var cat = "", subcategories = [], supplier = [], dietas = [];
 
         if ($("#checkbox_cat_" + slug).is(":checked")) {
             $("#checkbox_cat_" + slug).prop("checked", false);
@@ -317,6 +317,11 @@ function listProduct() {
         } else {
             $("#checkbox_sup_" + slug).prop("checked", true);
         }
+        if ($("#checkbox_dieta_" + slug).is(":checked")) {
+            $("#checkbox_dieta_" + slug).prop("checked", false);
+        } else {
+            $("#checkbox_dieta_" + slug).prop("checked", true);
+        }
 
         $("input[name='categories[]']:checked").each(function () {
             cat += (cat == '') ? '' : '&';
@@ -331,10 +336,14 @@ function listProduct() {
         $("input[name='supplier[]']:checked").each(function () {
             supplier.push($(this).val());
         });
+        $("input[name='dietas[]']:checked").each(function () {
+            dietas.push($(this).val());
+        });
 
         data.subcategories = subcategories;
         data.categories = categories;
         data.supplier = supplier;
+        data.dietas = dietas;
 
         var html = "";
         $.ajax({
@@ -448,7 +457,7 @@ function listProduct() {
                 $("#content-subcategories").empty();
                 html = "";
                 var checked = false;
-                    $.each(data.subcategories, function (i, val) {
+                $.each(data.subcategories, function (i, val) {
                     checked = (val.checked != undefined) ? 'checked' : '';
                     html += `
                         <li class="list-group-item">

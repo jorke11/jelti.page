@@ -171,7 +171,7 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
-                   aria-haspopup="true" aria-expanded="false" style="color:white;padding-right:40px;font-size: 21px">DIETA</a>
+                   aria-haspopup="true" aria-expanded="false" style="color:white;padding-right:40px;font-size: 21px">DIETAS</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     @foreach($dietas as $val)
                     <a class="dropdown-item" href='{{url("search/s=".$val->slug)}}'>{{$val->description}}</a>
