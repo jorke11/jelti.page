@@ -141,7 +141,7 @@ class PageController extends Controller {
 
 //        dd($row_category);
         $supplier = DB::table("vsupplier")->where("products", ">", 0)->orderBy("business")->get();
-        $categories = Categories::where("status_id", 1)->where("type_category_id", 1)
+        $categories = DB::table("vcategories")->where("status_id", 1)->where("type_category_id", 1)
                         ->where(function($query) {
                             $query->whereNull("node_id")
                             ->OrWhere("node_id", 0)->orderBy("order", "asc");
@@ -149,7 +149,7 @@ class PageController extends Controller {
 
 
 
-        $subcategory = Categories::where("status_id", 1)->where("node_id", $row_category->id)->orderBy("order", "asc")->get();
+        $subcategory = Db::table("vsubcategories")->where("status_id", 1)->where("node_id", $row_category->id)->orderBy("order", "asc")->get();
 
         $ids = [];
         foreach ($subcategory as $val) {
