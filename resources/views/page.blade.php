@@ -31,7 +31,7 @@
     <div class="container-fluid">
         <div class="row" style="padding-bottom: 20px">
             <div class="col-lg-12">
-                <h1 class="text-center title-color" >Conoce Nuestras Dietas</h1>
+                <p class="text-center title-color" style='font-size: 50px;font-family: "dosis" !important'>Conoce Nuestras Dietas</p>
             </div>
         </div>
         <div class="row justify-content-center">
@@ -111,7 +111,7 @@
 
     }
     .star{
-        width: 22px;height: 22px
+        width: 24px;height: 22px
     }
 
     .buttonplus-svg{
@@ -204,9 +204,10 @@
         }
 
         .star{
-            width: 15px;
-            height: 15px;
+            width: 23px;
+            height: 23px;
             color:#ffa608;
+            padding-left: 4px;
             fill:#ffa608
         }
     }
@@ -277,7 +278,7 @@
                                                         </p>
 
                                                         @else
-                                                        <p>
+                                                        <p class="text-left">
                                                             $ {{number_format($value->price_sf,0,",",'.')}}
                                                         </p>
                                                         @endguest
@@ -384,7 +385,7 @@
                                                 <div class="card" >
                                                     <img class="card-img-top" src="https://superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                     <div class="card-body text-center">
-                                                        
+
                                                         <p class="text-left text-muted " style="margin:0;" >
                                                             <a href="{{url("search/s=".str_slug(strtolower($value->supplier), '-'))}}" class="text-supplier">{{strtoupper($value->supplier)}}</a>
                                                         </p>
@@ -414,12 +415,12 @@
 
                                                         </p>
                                                         @else
-                                                        <p>
-
+                                                        <p class="text-left">
+                                                            $ {{number_format($value->price_sf,0,",",'.')}}
                                                         </p>
                                                         @endguest
 
-                                                                                                                                                                                                                                                                                 <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                                                                                                                                                                                                                                                     <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                                         <div class="row row-center <?php echo (isset($value->quantity_order)) ? '' : 'd-none' ?>" id="buttonAdd_{{$value->id}}" style="background-color: #5cb19a;padding-bottom: 3%;padding-top: 3%;border-radius: 10px">
                                                             <div class="col-lg-2 pl-0">
                                                                 <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="white"  style="cursor:pointer"
