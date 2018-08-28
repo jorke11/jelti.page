@@ -137,7 +137,7 @@
                         <ul class="list-group">
                             <li class="list-group-item" style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;cursor:pointer" 
                                 data-toggle="collapse" data-target="#content-categories" onclick="obj.eventCategory()"><b>CATEGORIAS</b> ({{count($categories)}})
-                                <span style="float:right" id="plus-icon"   class="d-none">
+                                <span style="float:right" id="plus-icon" class="d-none">
                                     <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="black"  style="cursor:pointer"
                                          stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                     <path d="M2 16 L30 16" />
@@ -280,7 +280,7 @@
                                 ?>
                             </div>
                         </ul>
-                         <ul class="list-group">
+                        <ul class="list-group">
                             <li class="list-group-item"  style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;"
                                 data-toggle="collapse" data-target="#content-dietas" onclick="obj.eventCategory('sup')"><b>DIETAS</b> ({{count($dietas)}})
                                 <span style="float:right" id="plus-icon-sup">
@@ -325,7 +325,7 @@
             </div>
             <div class="col-8">
                 <section id="divproducts">
-                    <div class="row  text-center" style="padding-bottom: 1%;" >
+                    <div class="row text-center" style="padding-bottom: 1%;" >
                         <?php
                         $cont = 0;
                         if (count($products) > 0) {
@@ -341,6 +341,14 @@
                                             <p class="text-left text-products" style="margin:0;min-height: 55px;cursor:pointer" onclick="obj.redirectProduct('{{$value->slug}}')">
                                                 <?php echo strtoupper(substr(trim($value->short_description), 0, 25)); ?>
                                             </p>
+                                            @guest
+                                            <p></p>
+                                            @else
+                                            <p class="text-left">
+                                                $ {{number_format($value->price_sf,0,",",'.')}}
+                                            </p>
+                                            @endguest
+
 
                                             <p class="text-left">
                                                 <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -359,13 +367,6 @@
                                                 <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                 </svg>
                                             </p>
-                                            @guest
-                                            <p></p>
-                                            @else
-                                            <p class="text-left">
-                                                $ {{number_format($value->price_sf,0,",",'.')}}
-                                            </p>
-                                            @endguest
 
                                             @if(isset($value->quantity))
                                             <button class="btn <?php echo (isset($value->quantity)) ? '' : 'd-none' ?>" type="button" 

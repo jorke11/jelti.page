@@ -75,17 +75,66 @@
         top: -66px   
     }
 
-    @media screen and (max-width: 1400px) {
+    #img-image{
+        width:80%
+    }
+
+    .center-image{
+        padding-left: 22%;padding-top: 15px;padding-bottom: 2%   
+    }
+
+    @media screen and (min-width: 1400px) {
         #text-search{
-            width: 180px;
+            width: 240px;
             height: 26px
         }
 
+        .center-image{
+            padding-left: 22%;padding-top: 15px;padding-bottom: 2%   
+        }
     }
+    @media screen and (min-width: 1300px) {
+        #text-search{
+            width: 240px;
+            height: 26px
+        }
+
+        .center-image{
+            padding-left: 22%;padding-top: 15px;padding-bottom: 2%   
+        }
+        #img-menu{
+            display: none;
+        }
+    }
+    @media screen and (max-width: 1300px) {
+        #text-search{
+            width: 200px;
+            height: 26px
+        }
+
+        .center-image{
+            padding-left: 22%;padding-top: 15px;padding-bottom: 2%   
+        }
+        #img-menu{
+            display: none;
+        }
+    }
+
 
     @media screen and (max-width: 1000px) {
         #slider-main{
             position:relative;top: -125px;
+        }
+        #text-search{
+            width: 210px;
+            height: 26px
+        }
+
+        .center-image{
+            padding-left: 22%;padding-top: 15px;padding-bottom: 2%   
+        }
+        #img-menu{
+            display: none;
         }
     }
 
@@ -112,10 +161,12 @@
         padding-top: 0.1em;
         z-index: 2000;
     }
-    
+
     .img-social {
         width: 50%
     }
+
+
 
 
 
@@ -189,9 +240,9 @@
                         </li>-->
         </ul>
 
-        <ul class="navbar-nav mr-auto text-center" style="padding-left: 22%;padding-top: 15px;padding-bottom: 2%">
+        <ul class="navbar-nav mr-auto text-center center-image" style="">
             <li class="nav-item">
-                <a href="{{url("/")}}"><img alt="Brand" src="{{asset('images/page/logosuperf.svg') }}" width="80%" /></a>
+                <a href="{{url("/")}}"><img alt="Brand" src="{{asset('images/page/logosuperf.svg') }}" id="img-image" /></a>
             </li>
         </ul>
 
