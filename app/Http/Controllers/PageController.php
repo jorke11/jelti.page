@@ -58,7 +58,7 @@ class PageController extends Controller {
             JOIN stakeholder ON stakeholder.id=s.client_id and stakeholder.type_stakeholder=1 
             JOIN vproducts p ON p.id=d.product_id JOIN stakeholder sup ON sup.id=p.supplier_id and p.thumbnail is not null
             $join
-            WHERE s.dispatched BETWEEN '" . $init . " 00:00' AND '" . $end . " 23:59' AND s.client_id NOT IN(258,264,24) AND p.category_id<>-1
+            WHERE s.dispatched BETWEEN '" . date("Y") . "-01-01 00:00' AND '" . $end . " 23:59' AND s.client_id NOT IN(258,264,24) AND p.category_id<>-1
             GROUP by 1,2,3,p.thumbnail,p.slug,p.short_description,p.price_sf,p.tax$group ORDER BY 4 DESC limit 50
             ";
         $most_sales = DB::select($sql);
