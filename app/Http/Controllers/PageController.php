@@ -140,7 +140,7 @@ class PageController extends Controller {
         $row_category = Categories::where("slug", $slug_category)->where("type_category_id", 1)->where("node_id", 0)->first();
 
 //        dd($row_category);
-
+        $supplier = DB::table("vsupplier")->where("products", ">", 0)->orderBy("business")->get();
         $categories = Categories::where("status_id", 1)->where("type_category_id", 1)
                         ->where(function($query) {
                             $query->whereNull("node_id")
@@ -180,7 +180,7 @@ class PageController extends Controller {
         $products = $products->orderBy("title", "desc")->get();
 
 
-        return view('listproducts', compact("breadcrumbs", "categories", "row_category", 'products', "slug_category", "subcategory", "dietas"));
+        return view('listproducts', compact("breadcrumbs", "categories", "row_category", 'products', "slug_category", "subcategory", "dietas","supplier"));
     }
 
     public function search($param) {
