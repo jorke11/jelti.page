@@ -336,9 +336,9 @@
                                         <img class="card-img-right img-fluid" src="http://www.superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" 
                                              style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                         <div class="card-body" style="padding-bottom: 1.25em;padding-top:0">
-
-                                            <p class="text-left text-muted text-supplier" style="margin:0;">{{strtoupper($value->supplier)}}</p>
-                                            <p class="text-left text-products" style="margin:0;min-height: 55px" onclick="obj.redirectProduct('{{$value->slug}}')">
+                                            <p class="text-left text-muted text-supplier" style="margin:0;">
+                                                <a style="color:#6c757d" href="{{url("/search/s=".str_slug(strtolower($value->supplier), '-'))}}">{{strtoupper($value->supplier)}}</a></p>
+                                            <p class="text-left text-products" style="margin:0;min-height: 55px;cursor:pointer" onclick="obj.redirectProduct('{{$value->slug}}')">
                                                 <?php echo strtoupper(substr(trim($value->short_description), 0, 25)); ?>
                                             </p>
 
