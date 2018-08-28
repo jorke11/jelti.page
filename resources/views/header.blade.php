@@ -96,7 +96,7 @@
     .icon-social {
         position: absolute;
         top: 0.1em;
-        right: 10em;
+        right: 0.01em;
         text-decoration: none;
         color: #fff;
         padding-top: 0.1em;
