@@ -164,7 +164,7 @@
         }
 
         #init-session{
-            padding-right: 80px
+            padding-right:130px
         }
 
         #slider-main{
