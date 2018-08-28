@@ -372,7 +372,7 @@ function listProduct() {
                                               
                                                 <div class="card-body" style="padding-bottom: 1.25em;padding-top:0">
 
-                                                    <p class="text-left text-muted text-supplier" style="margin:0;">${(value.supplier).toUpperCase()}</p>
+                                                    <p class="text-left text-muted text-supplier" style="margin:0;min-height:70px">${(value.supplier).toUpperCase()}</p>
 
                                                     <h5 class="card-title text-left title-products" style="margin:0;min-height: 60px" 
                                                         onclick="obj.redirectProduct('${value.slug}')">
