@@ -122,7 +122,7 @@
         }
 
         #init-session{
-            padding-right: 30%
+            padding-right: 50%
         }
 
         .center-image{
