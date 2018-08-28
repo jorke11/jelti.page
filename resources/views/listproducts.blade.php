@@ -335,7 +335,7 @@
                                             <p class="text-left text-muted text-supplier" style="margin:0;">
                                                 <a style="color:#6c757d" href="{{url("/search/s=".str_slug(strtolower($value->supplier), '-'))}}">{{strtoupper($value->supplier)}}</a></p>
                                             <p class="text-left text-products" style="margin:0;min-height: 55px;cursor:pointer" onclick="obj.redirectProduct('{{$value->slug}}')">
-                                                <?php echo strtoupper(substr(trim($value->short_description), 0, 25)); ?>
+                                                <?php echo strtoupper(substr(trim($value->short_description), 0, 30)); ?>
                                             </p>
                                             @guest
                                             <p></p>
