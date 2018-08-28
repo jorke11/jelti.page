@@ -76,7 +76,7 @@
     }
 
     #img-image{
-        width:80%
+        width:70%
     }
 
     .center-image{
@@ -172,8 +172,8 @@
 
 </style>
 
-<div class="icon-social d-none d-lg-block">
-    <div class="row row-space justify-content-center">
+<div class="icon-social d-none d-lg-block pt-10"  style="padding-top:2%">
+    <div class="row row-space justify-content-center ">
         <div class="col-lg-2 col-4 pr-0 pl-0">
             <a href="https://www.facebook.com/superfuds/" target="_blank">
                 <img src="/images/page/facebook.svg" class="img-fluid img-social">
