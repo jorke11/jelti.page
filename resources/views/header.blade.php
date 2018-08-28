@@ -155,7 +155,11 @@
         }
 
         #img-menu{
-            display: none;
+
+        }
+
+        .center-image{
+            padding-left: 10%;padding-top: 15px;padding-bottom: 2%   
         }
 
         #init-session{
