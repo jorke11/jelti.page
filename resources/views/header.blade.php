@@ -147,10 +147,19 @@
 
 
     }
-    @media screen and (max-width: 1300px) {
+    @media screen and (max-width: 1500px) {
 
-        #img-menu{
-            display: none;
+        #text-search{
+            width: 210px;
+            height: 26px
+        }
+
+        #init-session{
+            padding-right: 50%
+        }
+
+        .center-image{
+            padding-left: 22%;padding-top: 15px;padding-bottom: 2%   
         }
     }
 
