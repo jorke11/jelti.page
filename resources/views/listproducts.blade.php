@@ -16,7 +16,8 @@
         border: 1px solid #5baf98
     }
     .title-products{
-        padding: 0;min-height: 60px;      font-size: 16px;
+        padding: 0;min-height: 60px;
+        font-size: 16px;
     }
     .star{
         width: 22px;height: 22px
@@ -137,16 +138,17 @@
                             <li class="list-group-item" style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;cursor:pointer" 
                                 data-toggle="collapse" data-target="#content-categories" onclick="obj.eventCategory()"><b>CATEGORIAS</b> ({{count($categories)}})
                                 <span style="float:right" id="plus-icon">
-                                    <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="black" stroke="#000000" 
-                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer">
-                                    <path d="M16 2 L16 30 M2 16 L30 16" />
-                                    </svg>
-                                </span>
-                                <span style="float:right" id="minus-icon" class="d-none">
                                     <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="black"  style="cursor:pointer"
                                          stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                     <path d="M2 16 L30 16" />
                                     </svg>
+                                </span>
+                                <span style="float:right" id="minus-icon" class="d-none">
+                                    <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="black" stroke="#000000" 
+                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer">
+                                    <path d="M16 2 L16 30 M2 16 L30 16" />
+                                    </svg>
+
                                 </span>
                             </li>
                             <div id="content-categories" class="collapse">
@@ -332,32 +334,33 @@
                                                 $ {{number_format($value->price_sf,0,",",'.')}}
                                             </p>
                                             @endguest
-                                            
-                                             @if(isset($value->quantity))
+
+                                            @if(isset($value->quantity))
                                             <button class="btn <?php echo (isset($value->quantity)) ? '' : 'd-none' ?>" type="button" 
                                                     onmouseover="objCounter.showOption(this,{{$value->id}})" id="buttonShow_{{$value->id}}" style="background-color: #5cb19a;color:white;"
                                                     >{{$value->quantity}} en carrito</button>
-                                             @endif
+                                            @endif
 
                                             <div class="row d-none row-center" id="buttonAdd_{{$value->id}}" style="background-color: #5cb19a;color:white;padding-bottom: 3%;padding-top: 3%;border-radius: 10px;"
                                                  onmouseout="objCounter.hideButton(this,{{$value->id}})">
                                                 <div class="col-lg-2">
-                                                    <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="white" stroke="#ffffff" 
-                                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer"
-                                                         onclick="objCounter.addProduct('{{$value->short_description}}',
-                                                         '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}'); return false;">
-                                                    <path d="M16 2 L16 30 M2 16 L30 16" />
+                                                    <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="white"  style="cursor:pointer"
+                                                         stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                         onclick="objCounter.deleteUnit({{$value->id}},'{{$value->slug}}')">
+                                                    <path d="M2 16 L30 16" />
                                                     </svg>
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <span id="quantity_product_{{$value->id}}" style="color:white">{{(isset($value->quantity))?$value->quantity:0}}</span>
                                                 </div>
                                                 <div class="col-lg-2" >
-                                                    <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="white"  style="cursor:pointer"
-                                                         stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                         onclick="objCounter.deleteUnit({{$value->id}},'{{$value->slug}}')">
-                                                    <path d="M2 16 L30 16" />
+                                                    <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="white" stroke="#ffffff" 
+                                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer"
+                                                         onclick="objCounter.addProduct('{{$value->short_description}}',
+                                                         '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}'); return false;">
+                                                    <path d="M16 2 L16 30 M2 16 L30 16" />
                                                     </svg>
+
                                                 </div>
                                             </div>
                                             <button class="btn <?php echo (isset($value->quantity)) ? 'd-none' : '' ?>" 

@@ -398,22 +398,24 @@ function listProduct() {
                                             <div class="row ${(value.quantity) ? '' : 'd-none'}" id="buttonAdd_${value.id}" 
                                                     style="background-color: #5cb19a;padding-top: 5%;border-radius: 10px">
                                                 <div class="col">
+                                                    <svg id="i-minus"  class="btn-minus" viewBox="0 0 32 32"  style="cursor:pointer"
+                                                         stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                                         onclick="objCounter.deleteUnit(${value.id},'${value.slug}')">
+                                                    <path d="M2 16 L30 16" />
+                                                    </svg>
+                                                    
+                                                </div>
+                                                <div class="col" >
+                                                    <span id="quantity_product_${value.id}" style="color:white">${(value.quantity != null) ? value.quantity : 0}</span>
+                                                </div>
+                                                <div class="col" >
                                                     <svg id="i-plus" class="btn-plus" viewBox="0 0 35 35" stroke-linecap="round"  stroke="#ffffff"
                                                          stroke-linejoin="round" stroke-width="3" style="cursor:pointer"
                                                          onclick="objCounter.addProduct('${value.short_description}',
                                                          '${value.slug}','${value.id}','${value.price_sf}','${value.thumbnail}','${value.tax}'); return false;">
                                                     <path d="M16 2 L16 30 M2 16 L30 16" />
                                                     </svg>
-                                                </div>
-                                                <div class="col" >
-                                                    <span id="quantity_product_${value.id}" style="color:white">${(value.quantity != null) ? value.quantity : 0}</span>
-                                                </div>
-                                                <div class="col" >
-                                                    <svg id="i-minus"  class="btn-minus" viewBox="0 0 32 32"  style="cursor:pointer"
-                                                         stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                                         onclick="objCounter.deleteUnit(${value.id},'${value.slug}')">
-                                                    <path d="M2 16 L30 16" />
-                                                    </svg>
+                                                    
                                                 </div>
                                             </div>
 

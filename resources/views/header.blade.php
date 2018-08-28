@@ -257,10 +257,6 @@
     <img src='{{url("images/boton-subir.png")}}'>
 </a>
 
-
-
-
-
 <style>
     .popover-body{
         padding: 20px;

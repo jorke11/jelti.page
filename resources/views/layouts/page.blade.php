@@ -242,7 +242,7 @@ clearstatcache();
         #content-cart{
             padding: 20px;
             overflow-y: scroll;
-            min-height: 100px
+            max-height: 500px;
         }
 
     </style>
