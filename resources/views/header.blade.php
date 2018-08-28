@@ -105,6 +105,11 @@
         #img-menu{
             display: none;
         }
+        #init-session{
+            padding-right: 40%
+        }
+
+
     }
     @media screen and (max-width: 1300px) {
         #text-search{
@@ -164,6 +169,9 @@
 
     .img-social {
         width: 50%
+    }
+    #init-session{
+        padding-right: 72%
     }
 
 
@@ -268,7 +276,7 @@
 
         <ul class="navbar-nav">
             @guest
-            <li class="nav-item dropdown active" style="padding-right: 72%">
+            <li class="nav-item dropdown active" id="init-session" >
                 <a class="nav-link" href="{{ route('login') }}">
                     <button class="btn btn-outline-light my-2 my-sm-0 btn-sm" style="padding: .10rem .5rem;" type="submit">Iniciar Sesión</button>
                 </a>
