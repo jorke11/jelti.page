@@ -294,7 +294,7 @@
                     <div class="col-12" style="border:8px rgba(0,0,0,.1) solid;border-radius: 10px;cursor:pointer">
                         <ul class="list-group">
                             <li class="list-group-item"  style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;"
-                                data-toggle="collapse" data-target="#content-dietas" onclick="obj.eventCategory('sup')"><b>DIETAS</b> ({{count($supplier)}})
+                                data-toggle="collapse" data-target="#content-dietas" onclick="obj.eventCategory('sup')"><b>DIETAS</b> ({{count($dietas)}})
                                 <span style="float:right" id="plus-icon-sup">
                                     <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="black" stroke="#000000" 
                                          stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer">

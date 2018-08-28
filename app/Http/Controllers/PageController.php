@@ -180,7 +180,7 @@ class PageController extends Controller {
         $products = $products->orderBy("title", "desc")->get();
 
 
-        return view('listproducts', compact("breadcrumbs", "categories", "row_category", 'products', "slug_category", "subcategory", "dietas","supplier"));
+        return view('listproducts', compact("breadcrumbs", "categories", "row_category", 'products', "slug_category", "subcategory", "dietas", "supplier"));
     }
 
     public function search($param) {
@@ -262,8 +262,8 @@ class PageController extends Controller {
     public function getProducts(Request $req, $param = null) {
         $in = $req->all();
 
-        
-        
+
+
         $category = DB::table("vcategories")->where("node_id", 0)->get();
         $sub_ids = array();
         $sup_ids = array();
@@ -306,18 +306,16 @@ class PageController extends Controller {
                 }
                 $products->whereIn("category_id", $sub_ids);
             }
-            
+
             if (isset($in["dietas"])) {
                 $in["dietas"] = array_filter($in["dietas"]);
 
                 foreach ($in["dietas"] as $val) {
                     if ($val != '') {
-                        $caract = Characteristic::where("description", $val)->first();
-                        dd($caract);
-                        $sub_ids[] = $cate->id;
+                        $caract = Characteristic::where("slug", $val)->first();
+                        $products->where(DB::raw("characteristic::text"), "like", "%" . $caract->id . "%");
                     }
                 }
-                $products->whereIn("category_id", $sub_ids);
             }
 
             if (isset($in["supplier"])) {
