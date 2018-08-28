@@ -325,7 +325,7 @@
             </div>
             <div class="col-8">
                 <section id="divproducts">
-                    <div class="row justify-content-center text-center" style="padding-bottom: 1%;" >
+                    <div class="row  text-center" style="padding-bottom: 1%;" >
                         <?php
                         $cont = 0;
                         if (count($products) > 0) {
