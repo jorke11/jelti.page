@@ -152,7 +152,11 @@
         #img-menu{
             display: none;
         }
-        
+
+        #init-session{
+            padding-right: 0
+        }
+
         #slider-main{
             position:relative;top: -45px;
         }
