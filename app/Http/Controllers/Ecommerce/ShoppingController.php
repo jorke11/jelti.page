@@ -193,7 +193,7 @@ class ShoppingController extends Controller {
                 $description = $category_f->description;
             }
 
-            $breadcrumbs = "<a href='/'>Home</a> / <a href='/products/$slug_cat'>" . ucwords(strtolower($description)) . "</a> / $slug";
+            $breadcrumbs = "<a href='/'>Home</a> / <a href='/products/". str_slug($description)."'>" . ucwords(strtolower($description)) . "</a> / $slug";
 
             return view("Ecommerce.payment.product", compact("breadcrumbs", "product", "detail", "relations", "supplier", "available", "categories", "dietas", "like", "line", "text"));
         } else {

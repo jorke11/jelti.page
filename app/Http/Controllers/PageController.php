@@ -147,13 +147,14 @@ class PageController extends Controller {
                             ->OrWhere("node_id", 0)->orderBy("order", "asc");
                         })->get();
 
-
-
-        $subcategory = Db::table("vsubcategories")->where("status_id", 1)->where("node_id", $row_category->id)->orderBy("order", "asc")->get();
-
         $ids = [];
-        foreach ($subcategory as $val) {
-            $ids[] = $val->id;
+        $subcategory = [];
+        if ($row_category) {
+            $subcategory = Db::table("vsubcategories")->where("status_id", 1)->where("node_id", $row_category->id)->orderBy("order", "asc")->get();
+
+            foreach ($subcategory as $val) {
+                $ids[] = $val->id;
+            }
         }
 
         $products = DB::table("vproducts")->whereNotNull("image")->whereNotNull("thumbnail")->whereIn("category_id", $ids)
