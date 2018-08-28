@@ -159,11 +159,12 @@
         }
 
         .center-image{
-            padding-left: 10%;padding-top: 15px;padding-bottom: 2%   
+            padding-left: 13%;
+            padding-top: 15px;padding-bottom: 2%   
         }
 
         #init-session{
-            padding-right: 0
+            padding-right: 80px
         }
 
         #slider-main{
