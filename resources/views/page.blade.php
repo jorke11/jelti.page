@@ -322,7 +322,7 @@
                                             </div>
                                             <?php
                                             $cont++;
-                                            if ($cont == 4) {
+                                            if ($cont == 4 && count($newproducts) != 4) {
                                                 $cont = 0;
                                                 ?>
                                             </div>
@@ -420,7 +420,7 @@
                                                         </p>
                                                         @endguest
 
-                                                                                                                                                                                                                                                                                     <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                                                                                                                                                                                                                                                         <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                                         <div class="row row-center <?php echo (isset($value->quantity_order)) ? '' : 'd-none' ?>" id="buttonAdd_{{$value->id}}" style="background-color: #5cb19a;padding-bottom: 3%;padding-top: 3%;border-radius: 10px">
                                                             <div class="col-lg-2 pl-0">
                                                                 <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="white"  style="cursor:pointer"

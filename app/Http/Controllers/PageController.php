@@ -74,7 +74,7 @@ class PageController extends Controller {
                             ->OrWhere("node_id", 0)->orderBy("order", "asc");
                         })->get();
 
-        $init = date('Y-m-d', strtotime('-4 month', strtotime(date('Y-m-d'))));
+        $init = date('Y-m-d', strtotime('-5 month', strtotime(date('Y-m-d'))));
 
         $newproducts = DB::table("vproducts")->where("status_id", 1)
                 ->where("category_id", "<>", -1)
