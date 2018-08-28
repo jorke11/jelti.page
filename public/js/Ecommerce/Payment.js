@@ -171,13 +171,15 @@ function Payment() {
             headers: {'X-CSRF-TOKEN': token},
             data: row,
             success: function (data) {
-//                $("#content-detail").empty();
+                $("#content-detail").empty();
                 $("#frm #total").val($.formatNumber(data.total, "$"))
 
                 if (data.success == false) {
                     $("#card_" + index).remove()
                 } else {
                     objCounter.setData(data);
+                    detail=data.detail
+                    obj.printDetail()
                 }
 
                 if (parseInt(data.total) > 10000) {
