@@ -413,7 +413,7 @@ class ShoppingController extends Controller {
             $image = "images/product/" . $value->id . "/" . $value->reference . ".png";
             $thumb = "images/product/" . $value->id . "/thumb/" . $value->reference . ".png";
 
-            if (file_exists($file) && file_exists($file_thumb)) {
+            if (file_exists($file_thumb)) {
                 $new["product_id"] = $value->id;
                 $new["main"] = true;
                 $new["path"] = $image;
