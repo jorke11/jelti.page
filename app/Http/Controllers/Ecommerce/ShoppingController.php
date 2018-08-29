@@ -425,7 +425,7 @@ class ShoppingController extends Controller {
             }else{
                 echo $file . "<br>";
                 echo $file_thumb. "<br>";
-                echo $pro->slug. "<br>";
+                echo $value->slug. "<br>";
             }
         }
 
