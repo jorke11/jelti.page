@@ -193,7 +193,7 @@ class ShoppingController extends Controller {
                 $description = $category_f->description;
             }
 
-            $breadcrumbs = "<a href='/'>Home</a> / <a href='/products/". str_slug($description)."'>" . ucwords(strtolower($description)) . "</a> / $slug";
+            $breadcrumbs = "<a href='/'>Home</a> / <a href='/products/" . str_slug($description) . "'>" . ucwords(strtolower($description)) . "</a> / $slug";
 
             return view("Ecommerce.payment.product", compact("breadcrumbs", "product", "detail", "relations", "supplier", "available", "categories", "dietas", "like", "line", "text"));
         } else {
@@ -342,11 +342,14 @@ class ShoppingController extends Controller {
     public function getComment($slug) {
         $pro = Products::findBySlug($slug);
         $comm = $pro->comment()->whereNull("answer_id")->get();
-
         $comment = [];
 
         foreach ($comm as $i => $value) {
+
+            $user = \App\Models\Security\Users::find($value->user_id);
             $con = ProductsComment::where("answer_id", $value->id)->get();
+            $client = Stakeholder::find($user->stakeholder_id);
+            $comm[$i]->client = $client->business;
             $comment[$i][] = $value;
             if (count($con) > 0) {
 

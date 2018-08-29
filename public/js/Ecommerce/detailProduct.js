@@ -282,7 +282,7 @@ function detailProduct() {
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">${val.subject}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted" style="padding:2%">Usuario</h6>
+                        <h6 class="card-subtitle mb-2 text-muted" style="padding:2%">${val.client}</h6>
                         <p class="card-text" style="padding:2%">${val.comment}</p>
 
                     </div>
