@@ -417,7 +417,7 @@ class ShoppingController extends Controller {
                 $new["product_id"] = $value->id;
                 $new["main"] = true;
                 $new["path"] = $image;
-                $new["thumbanail"] = $thumb;
+                $new["thumbnail"] = $thumb;
                 ProductsImage::create($new);
                 var_dump($new);
                 echo "<br>";
