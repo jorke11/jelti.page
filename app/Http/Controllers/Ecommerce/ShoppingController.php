@@ -341,9 +341,9 @@ class ShoppingController extends Controller {
 
     public function getComment($slug) {
         $pro = Products::findBySlug($slug);
-        
+
         $comm = $pro->comment()->get();
-        
+
         $comment = [];
 
         foreach ($comm as $i => $value) {
@@ -401,6 +401,35 @@ class ShoppingController extends Controller {
         }
 
         return response()->json(["like" => $like]);
+    }
+
+    public function updateLink() {
+        $pro = DB::table("vproducts")->whereNull("image")->whereNull("thumbnail")->where("status_id", 1)->get();
+
+        foreach ($pro as $value) {
+            
+            $file = public_path() . "/images/product/" . $value->id . "/" . $value->reference . ".png";
+            $file_thumb = public_path() . "/images/product/" . $value->id . "/thumb/" . $value->reference . ".png";
+            $image = "images/product/" . $value->id . "/" . $value->reference . ".png";
+            $thumb = "images/product/" . $value->id . "/thumb/" . $value->reference . ".png";
+
+            if (file_exists($file) && file_exists($file_thumb)) {
+                $new["product_id"] = $value->id;
+                $new["main"] = true;
+                $new["path"] = $image;
+                $new["thumbanail"] = $thumb;
+                ProductsImage::create($new);
+                var_dump($new);
+                echo "<br>";
+            }else{
+                echo $file . "<br>";
+                echo $file_thumb. "<br>";
+            }
+        }
+
+
+        echo "termino";
+        dd($pro);
     }
 
 }
