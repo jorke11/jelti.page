@@ -416,7 +416,7 @@ class ShoppingController extends Controller {
             if (file_exists($file_thumb)) {
                 $new["product_id"] = $value->id;
                 $new["main"] = true;
-                $new["path"] = $image;
+//                $new["path"] = $image;
                 $new["thumbnail"] = $thumb;
                 ProductsImage::create($new);
                 var_dump($new);
