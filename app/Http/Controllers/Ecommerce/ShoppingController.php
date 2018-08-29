@@ -404,7 +404,7 @@ class ShoppingController extends Controller {
     }
 
     public function updateLink() {
-        $pro = DB::table("vproducts")->whereNull("image")->whereNull("thumbnail")->where("status_id", 1)->get();
+        $pro = DB::table("vproducts")->whereNull("thumbnail")->where("status_id", 1)->get();
 
         foreach ($pro as $value) {
             
