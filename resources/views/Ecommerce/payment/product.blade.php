@@ -774,7 +774,7 @@
                                         </div>
                                         <?php
                                         $cont++;
-                                        if ($cont == 4) {
+                                        if ($cont == 4 && count($relations) != 4) {
                                             $cont = 0;
                                             ?>
                                         </div>

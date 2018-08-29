@@ -276,6 +276,7 @@ function detailProduct() {
 
     this.loadTable = function (data) {
         var html = '';
+        console.log(data);
         data.forEach(function (val, i) {
             html += `
                 <div class="card">
