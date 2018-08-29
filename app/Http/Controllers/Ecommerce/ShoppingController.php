@@ -404,7 +404,7 @@ class ShoppingController extends Controller {
     }
 
     public function updateLink() {
-        $pro = DB::table("vproducts")->whereNull("thumbnail")->where("status_id", 1)->get();
+        $pro = DB::table("vproducts")->whereNull("image")->whereNull("thumbnail")->where("status_id", 1)->get();
 
         foreach ($pro as $value) {
             
@@ -413,10 +413,11 @@ class ShoppingController extends Controller {
             $image = "images/product/" . $value->id . "/" . $value->reference . ".png";
             $thumb = "images/product/" . $value->id . "/thumb/" . $value->reference . ".png";
 
-            if (file_exists($file_thumb)) {
+            
+            if (file_exists($file) && file_exists($file_thumb)) {
                 $new["product_id"] = $value->id;
                 $new["main"] = true;
-//                $new["path"] = $image;
+                $new["path"] = $image;
                 $new["thumbnail"] = $thumb;
                 ProductsImage::create($new);
                 var_dump($new);
