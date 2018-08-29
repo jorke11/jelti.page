@@ -310,8 +310,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row">
-                        <div class="col-lg-12" style="color:#979797;font-size: 20px;font-weight: 600">
-                            {{ucwords($supplier["business"])}}
+                        <div class="col-lg-12" >
+                            <a href="/search/s={{str_slug($supplier["business"],'-')}}" style="color:#979797;font-size: 20px;font-weight: 600">{{ucwords($supplier["business"])}}</a>
                         </div>
                     </div>
                     <div class="row">
