@@ -51,7 +51,7 @@ class PageController extends Controller {
             SELECT p.id,p.title as product,sup.business as supplier, 
             sum(CASE WHEN d.real_quantity IS NULL THEN 0 ELSE d.real_quantity end * CASE WHEN d.packaging=0 THEN 1 WHEN d.packaging IS NULL THEN 1 ELSE d.packaging END) quantity, 
             sum(d.value * CASE WHEN d.real_quantity IS NULL THEN 0 ELSE d.real_quantity end * d.units_sf) as subtotal,p.thumbnail,p.slug,p.short_description,
-            p.price_sf,p.tax
+            p.price_sf,p.tax,p.title
             $field
             FROM departures_detail d 
             JOIN departures s ON s.id=d.departure_id and s.status_id IN(2,7) 

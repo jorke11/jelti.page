@@ -254,7 +254,7 @@
                                                             <a href="{{url("search/s=".str_slug(strtolower($value->supplier), '-'))}}" class="text-supplier">{{strtoupper($value->supplier)}}</a>
                                                         </p>
                                                         <h5 class="card-title text-left title-products" style="cursor:pointer;min-height: 60px" onclick="obj.redirectProduct('{{$value->slug}}')">
-                                                            <?php echo trim(strtoupper(substr($value->short_description, 0, 30))); ?></h5>
+                                                            <?php echo trim(strtoupper(substr($value->title, 0, 30))); ?></h5>
                                                         <p class="text-left">
                                                             <svg id="i-star" viewBox="0 0 32 32"  class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                             <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
@@ -390,7 +390,7 @@
                                                             <a href="{{url("search/s=".str_slug(strtolower($value->supplier), '-'))}}" class="text-supplier">{{strtoupper($value->supplier)}}</a>
                                                         </p>
                                                         <h5 class="card-title text-left title-products" style="margin:0;min-height: 70px" onclick="obj.redirectProduct('{{$value->slug}}')">
-                                                            <?php echo strtoupper(substr($value->short_description, 0, 25)); ?>
+                                                            <?php echo strtoupper(substr($value->title, 0, 50)); ?>
                                                         </h5>
                                                         <p class="text-left">
                                                             <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
