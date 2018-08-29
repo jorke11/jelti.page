@@ -695,7 +695,7 @@
                     <h2 style="color:white">Productos que te puedan interesar</h2>
                 </div>
             </div>
-            <div class="row row-space row-center" style="padding-bottom: 1%">
+            <div class="row row-space row-center">
                 <div class="col-lg-10 col-md-12 ">
                     <div id="carouselExampleIndicators3" class="carousel slide" data-ride="carousel">
 
@@ -712,7 +712,7 @@
                                                 <img class="card-img-top" src="https://superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                 <div class="card-body text-center">
                                                     <p class="text-left text-muted text-supplier" >{{strtoupper($value->supplier)}}</p>
-                                                    <h5 class="card-title text-left title-products" style="margin:0;min-height: 60px" onclick="obj.redirectProduct('{{$value->slug}}')">
+                                                    <h5 class="card-title text-left title-products" style="margin:0;min-height: 80px" onclick="obj.redirectProduct('{{$value->slug}}')">
                                                         <?php echo strtoupper(substr($value->short_description, 0, 25)); ?>
                                                     </h5>
                                                     <p class="text-left">
