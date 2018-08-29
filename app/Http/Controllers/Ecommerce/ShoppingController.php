@@ -207,7 +207,7 @@ class ShoppingController extends Controller {
 
         $new["product_id"] = $pro->id;
         $new["user_id"] = Auth::user()->id;
-        $new["subject"] = $in["subject"];
+//        $new["subject"] = $in["subject"];
         $new["comment"] = $in["comment"];
         $new["answer_id"] = $in["answer_id"];
         $pro->comment()->create($new);
@@ -341,7 +341,9 @@ class ShoppingController extends Controller {
 
     public function getComment($slug) {
         $pro = Products::findBySlug($slug);
-        $comm = $pro->comment()->whereNull("answer_id")->get();
+        
+        $comm = $pro->comment()->get();
+        
         $comment = [];
 
         foreach ($comm as $i => $value) {

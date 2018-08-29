@@ -41,12 +41,15 @@ function detailProduct() {
         });
 
         $("#btnSendComment").click(this.addComment)
+        $("#btnSendResponse").click(this.addResponse)
 
     }
 
     this.answer = function (comment_id) {
         $("#frmComment #answer_id").val(comment_id);
-        $("#modalComment").modal("show");
+        $("#frmResponse #answer_id").val(comment_id);
+        $("#modalResponse").modal("show");
+        $("#frmResponse #txtComment").val("");
     }
 
     this.addCard = function (title, slug, product_id, price_sf, img, tax) {
@@ -260,6 +263,30 @@ function detailProduct() {
         })
 
     }
+    this.addResponse = function (id) {
+
+        var token = $("input[name=_token]").val();
+
+        var html = "";
+        var param = {};
+        param.slug = $("#slug").val();
+        param.subject = $("#frmResponse #txtTitle").val();
+        param.comment = $("#frmResponse #txtComment").val();
+        param.answer_id = $("#frmResponse #answer_id").val();
+
+        $.ajax({
+            url: PATH + '/addComment',
+            method: 'POST',
+            headers: {'X-CSRF-TOKEN': token},
+            data: param,
+            dataType: 'JSON',
+            success: function (data) {
+                obj.loadTable(data)
+                $("#modalResponse").modal("hide");
+            }
+        })
+
+    }
 
 
     this.getComment = function () {
@@ -276,16 +303,20 @@ function detailProduct() {
 
     this.loadTable = function (data) {
         var html = '';
-        console.log(data);
+        
         data.forEach(function (val, i) {
+
             html += `
                 <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">${val.subject}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted" style="padding:2%">${val.client}</h6>
+            
+            
+                    <div class="card-body">`
+            if (val.subject != null) {
+                html += `<h5 class="card-title">${val.subject}</h5>`
+            }
+            html += `<h6 class="card-subtitle mb-2 text-muted" style="padding:2%">${val.client}</h6>
                         <p class="card-text" style="padding:2%">${val.comment}</p>
-
-                    </div>
+                </div>
                     <div class="card-body text-right" style="padding:1%">
                         <a href="#" class="card-link text-right">Me gusta</a>
                         <a href="#" class="card-link text-muted">No me gusta</a>

@@ -815,7 +815,8 @@
     </div>
     <div class="row" style="padding-top: 2%">
         <div class="col-lg-12" style="margin: 0 auto;">
-            <p class="text-center"><button class="btn btn-success" style="background-color:#30c594" id='btnOpenModal' data-target="#modalComment">Escribe tu comentario</button></p>
+            <p class="text-center">
+                <button class="btn btn-success" style="background-color:#30c594" id='btnOpenModal' data-target="#modalComment">Escribe tu comentario</button></p>
         </div>
     </div>
     <div class="row" style="padding-top: 2%">
@@ -853,6 +854,33 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" id="btnSendComment">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalResponse" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Responder</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="frmResponse">
+                    <input type="hidden" class="input-comment" name="answer_id" id="answer_id">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <textarea class="form-control input-comment" id="txtComment" placeholder="Escribe aqui tu comentario" rows="5"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="btnSendResponse">Enviar</button>
             </div>
         </div>
     </div>
