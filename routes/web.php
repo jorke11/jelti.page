@@ -53,3 +53,4 @@ Route::get('congratulations', "Ecommerce\PaymentController@congratulations");
 Route::get('updateLink', "Ecommerce\ShoppingController@updateLink");
 
 Route::post('addFavourite/{slug}', 'Ecommerce\ShoppingController@addFavourite');
+Route::post('comment-like', 'Ecommerce\ShoppingController@addCommentLike');

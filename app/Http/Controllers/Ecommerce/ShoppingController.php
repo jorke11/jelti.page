@@ -17,6 +17,7 @@ use Auth;
 use DB;
 use App\Http\Controllers\Inventory\StockController;
 use App\Models\Administration\ProductsComment;
+use App\Models\Administration\ProductsCommentLike;
 
 class ShoppingController extends Controller {
 
@@ -143,7 +144,7 @@ class ShoppingController extends Controller {
                 $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
 
                 if ($orders != null)
-                    $relations->select("orders_detail.quantity as quantity_order", "vproducts.category_id","vproducts.description", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+                    $relations->select("orders_detail.quantity as quantity_order", "vproducts.category_id", "vproducts.description", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
             }
 
             $relations = $relations->get();
@@ -207,7 +208,7 @@ class ShoppingController extends Controller {
 
         $new["product_id"] = $pro->id;
         $new["user_id"] = Auth::user()->id;
-//        $new["subject"] = $in["subject"];
+        $new["subject"] = isset($in["subject"]) ? $in["subject"] : null;
         $new["comment"] = $in["comment"];
         $new["answer_id"] = $in["answer_id"];
         $pro->comment()->create($new);
@@ -347,14 +348,17 @@ class ShoppingController extends Controller {
         $comment = [];
 
         foreach ($comm as $i => $value) {
+            $user = $value->user;
 
-            $user = \App\Models\Security\Users::find($value->user_id);
             $con = ProductsComment::where("answer_id", $value->id)->get();
-            $client = Stakeholder::find($user->stakeholder_id);
-            $comm[$i]->client = $client->business;
-            $comment[$i][] = $value;
-            if (count($con) > 0) {
+//            $l = ProductsCommentLike::where("comment_id", $value->id)->first();
 
+            $comm[$i]->is_like = $value->is_like;
+            $comm[$i]->is_like_count = ProductsCommentLike::where("comment_id",$value->id)->count();
+            $comm[$i]->client = $user->stakeholder->business;
+            $comment[$i][] = $value;
+
+            if (count($con) > 0) {
                 $comment[$i]["child"] = $this->getChild($con);
             }
         }
@@ -403,17 +407,34 @@ class ShoppingController extends Controller {
         return response()->json(["like" => $like]);
     }
 
+    public function addCommentLike(Request $req) {
+        $in = $req->all();
+        $like = ProductsCommentLike::where("comment_id", $in["comment_id"])->first();
+
+        if ($like == null) {
+            $new["user_id"] = Auth::user()->id;
+            $new["comment_id"] = $in["comment_id"];
+            ProductsCommentLike::create($new);
+            $like = true;
+        } else {
+            $like->delete();
+            $like = false;
+        }
+
+        return response()->json(["like" => $like]);
+    }
+
     public function updateLink() {
         $pro = DB::table("vproducts")->whereNull("image")->whereNull("thumbnail")->where("status_id", 1)->get();
 
         foreach ($pro as $value) {
-            
+
             $file = public_path() . "/images/product/" . $value->id . "/" . $value->reference . ".png";
             $file_thumb = public_path() . "/images/product/" . $value->id . "/thumb/" . $value->reference . ".png";
             $image = "images/product/" . $value->id . "/" . $value->reference . ".png";
             $thumb = "images/product/" . $value->id . "/thumb/" . $value->reference . ".png";
 
-            
+
             if (file_exists($file) && file_exists($file_thumb)) {
                 $new["product_id"] = $value->id;
                 $new["main"] = true;
@@ -422,10 +443,10 @@ class ShoppingController extends Controller {
                 ProductsImage::create($new);
                 var_dump($new);
                 echo "<br>";
-            }else{
+            } else {
                 echo $file . "<br>";
-                echo $file_thumb. "<br>";
-                echo $value->slug. "<br>";
+                echo $file_thumb . "<br>";
+                echo $value->slug . "<br>";
             }
         }
 

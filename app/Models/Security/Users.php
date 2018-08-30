@@ -13,7 +13,11 @@ class Users extends Model {
         "password", "remember_token", "document", "warehouse_id", "alias"];
 
     public function comment() {
-        return $this->belongsTo(\App\Models\Administration\ProductsComment::class,"user_id");
+        return $this->belongsTo(\App\Models\Administration\ProductsComment::class, "user_id");
+    }
+
+    public function stakeholder() {
+        return $this->hasOne(\App\Models\Administration\Stakeholder::class, "id", "stakeholder_id");
     }
 
 }

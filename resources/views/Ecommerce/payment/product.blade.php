@@ -264,7 +264,6 @@
 
 
 </style>
-@include("modalRegister")
 
 <input id="slug_product" value="{{$product->slug}}" type="hidden">
 <div class="container-fluid">
@@ -871,10 +870,10 @@
             </div>
             <div class="modal-body">
                 <form id="frmResponse">
-                    <input type="hidden" class="input-comment" name="answer_id" id="answer_id">
+                    <input type="hidden" class="input-comment" name="answer_response_id" id="answer_response">
                     <div class="row">
                         <div class="col-lg-12">
-                            <textarea class="form-control input-comment" id="txtComment" placeholder="Escribe aqui tu comentario" rows="5"></textarea>
+                            <textarea class="form-control input-comment" id="txtResponse" placeholder="Escribe aqui tu comentario" rows="5"></textarea>
                         </div>
                     </div>
                 </form>

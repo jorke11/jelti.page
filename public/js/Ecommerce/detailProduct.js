@@ -49,7 +49,7 @@ function detailProduct() {
         $("#frmComment #answer_id").val(comment_id);
         $("#frmResponse #answer_id").val(comment_id);
         $("#modalResponse").modal("show");
-        $("#frmResponse #txtComment").val("");
+        $("#frmResponse #txtResponse").val("");
     }
 
     this.addCard = function (title, slug, product_id, price_sf, img, tax) {
@@ -111,7 +111,7 @@ function detailProduct() {
 
 
     this.registerClient = function () {
-        $("#myModal").modal("show");
+        $("#modalOptions").modal("show");
     }
 
     this.getDataFirebase = function () {
@@ -154,9 +154,15 @@ function detailProduct() {
     }
 
     this.modalComment = function () {
-        $("#txtTitle").val("");
-        $("#txtComment").val("");
-        $("#modalComment").modal("show");
+
+        if (user_id) {
+            $("#txtTitle").val("");
+            $("#txtComment").val("");
+            $("#modalComment").modal("show");
+        } else {
+            $("#modalOptions").modal("show");
+        }
+
     }
 
     this.add = function () {
@@ -164,7 +170,6 @@ function detailProduct() {
         $("#quantity").val(parseInt(quantity) + 1)
     }
     this.delete = function (title, slug, product_id, price_sf, img, tax) {
-
 
         var token = $("input[name=_token]").val();
         var row = {
@@ -271,8 +276,8 @@ function detailProduct() {
         var param = {};
         param.slug = $("#slug").val();
         param.subject = $("#frmResponse #txtTitle").val();
-        param.comment = $("#frmResponse #txtComment").val();
-        param.answer_id = $("#frmResponse #answer_id").val();
+        param.comment = $("#frmResponse #txtResponse").val();
+        param.answer_id = $("#frmResponse #answer_response").val();
 
         $.ajax({
             url: PATH + '/addComment',
@@ -303,9 +308,10 @@ function detailProduct() {
 
     this.loadTable = function (data) {
         var html = '';
-        
+        var dat, muted = '';
         data.forEach(function (val, i) {
-
+            dat = new Date(val.created_at);
+            muted = (val.is_like == null) ? 'text-muted' : '';
             html += `
                 <div class="card">
             
@@ -314,12 +320,11 @@ function detailProduct() {
             if (val.subject != null) {
                 html += `<h5 class="card-title">${val.subject}</h5>`
             }
-            html += `<h6 class="card-subtitle mb-2 text-muted" style="padding:2%">${val.client}</h6>
+            html += `<h6 class="card-subtitle mb-2 text-muted">${val.client}  (${val.created_at})</h6>
                         <p class="card-text" style="padding:2%">${val.comment}</p>
                 </div>
                     <div class="card-body text-right" style="padding:1%">
-                        <a href="#" class="card-link text-right">Me gusta</a>
-                        <a href="#" class="card-link text-muted">No me gusta</a>
+                        <a href="#" style="color:green" class="card-link text-right ${muted}" onclick="obj.check_like(${val.id}); return false;" id="like_comment_${val.id}">Me gusta</a>
                         <a href="#" class="card-link text-right" onclick="obj.answer(${val.id}); return false;">Responder</a>
                     </div>
                 </div>`
@@ -327,6 +332,35 @@ function detailProduct() {
         })
 
         $("#contentComment").html(html);
+    }
+
+    this.check_like = function (comment_id) {
+        if (user_id == undefined) {
+            obj.registerClient();
+            return false;
+        }
+
+        var slug = $("#slug").val();
+        var token = $("input[name=_token]").val();
+
+        var param = {comment_id: comment_id};
+
+        $.ajax({
+            url: PATH + '/comment-like',
+            method: 'POST',
+            data: param,
+            headers: {'X-CSRF-TOKEN': token},
+            success: function (data) {
+                if (data.like == true) {
+                    $("#like_comment_" + comment_id).removeClass("text-muted");
+                } else {
+                    $("#like_comment_" + comment_id).addClass("text-muted");
+
+                }
+            }, error: function (xhr, ajaxOptions, thrownError) {
+
+            }
+        })
     }
 
 

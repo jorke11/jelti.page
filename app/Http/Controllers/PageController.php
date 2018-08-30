@@ -513,8 +513,8 @@ class PageController extends Controller {
     public function newVisitan(Request $req) {
         $in = $req->all();
 
-        $in["name"] = trim($in["name_stakeholder"]);
         $in["email"] = trim($in["email"]);
+        
         unset($in["_token"]);
         $email = \App\Models\Administration\Stakeholder::where("email", trim($in["email"]))->get();
 

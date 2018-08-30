@@ -39,7 +39,7 @@
                             </div>
                             <div class="row row-space">
                                 <div class="col-lg-12">
-                                    <input class="form-control in-page" placeholder="Nombre" type="text" name="name_stakeholder" id="name_stakeholder" required>
+                                    <input class="form-control in-page" placeholder="Nombre" type="text" name="name" id="name" required>
                                 </div>
                             </div>
                             <div class="row row-space">

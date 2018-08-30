@@ -55,4 +55,8 @@ class Stakeholder extends Model {
         return $this->hasOne(Cities::class, "id", "city_id");
     }
 
+    public function user() {
+        return $this->belongsTo(\App\Models\Security\Users::class);
+    }
+
 }
