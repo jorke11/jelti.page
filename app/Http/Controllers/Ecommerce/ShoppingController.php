@@ -134,7 +134,7 @@ class ShoppingController extends Controller {
     public function getProduct($slug) {
         $product = Products::findBySlug($slug);
         $dietas = $this->dietas;
-
+        $orders = null;
         if ($product != null) {
 
             $detail = $product->images;
@@ -197,14 +197,17 @@ class ShoppingController extends Controller {
 
             $breadcrumbs = "<a href='/'>Home</a> / <a href='/products/" . str_slug($description) . "'>" . ucwords(strtolower($description)) . "</a> / $slug";
 
-            $product = DB::table("vproducts")
-                    ->select("orders_detail.quantity as quantity_order", "vproducts.category_id", "vproducts.description", "vproducts.thumbnail", "vproducts.title",
-                            "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier","vproducts.image",
-                            "vproducts.why","vproducts.ingredients")
-                    ->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id))
-                    ->where("vproducts.id", $product->id)->first();
+            $product = DB::table("vproducts")->where("vproducts.id", $product->id);
+
+            if ($orders != null) {
+                $product->select("orders_detail.quantity as quantity_order", "vproducts.category_id", "vproducts.description", "vproducts.thumbnail", "vproducts.title", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier", "vproducts.image", "vproducts.why", "vproducts.ingredients")
+                        ->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+            }
+            $product = $product->first();
+
+
 //dd($product);
-            
+
             return view("Ecommerce.payment.product", compact("breadcrumbs", "product", "detail", "relations", "supplier", "available", "categories", "dietas", "like", "line", "text"));
         } else {
             return response(view('errors.503'), 404);
