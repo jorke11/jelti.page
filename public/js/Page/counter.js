@@ -156,17 +156,7 @@ function Counter() {
         });
     }
 
-    this.showOption = function (e, product_id) {
-        $("#buttonShow_" + product_id).addClass("d-none");
-        $("#buttonAdd_" + product_id).removeClass("d-none")
-    }
 
-    this.hideButton = function (e, product_id) {
-        console.log("hiden");
-        $("#buttonShow_" + product_id).removeClass("d-none")
-        $("#buttonAdd_" + product_id).addClass("d-none")
-
-    }
 
     this.optionsModal = function (opt) {
         if (opt == 1) {
@@ -252,8 +242,27 @@ function Counter() {
 
     }
 
+    this.showOption = function (e, product_id) {
+        $("#buttonShow_" + product_id).addClass("d-none");
+        $("#buttonAdd_" + product_id).removeClass("d-none")
+    }
+
+    this.hideButton = function (e, product_id) {
+        console.log(e)
+        if (e.target != this) {
+            return;
+        }
+        console.log(e);
+        console.log("ingreso");
+
+//        $("#buttonShow_" + product_id).removeClass("d-none")
+//        $("#buttonAdd_" + product_id).addClass("d-none")
+
+    }
+
+
     this.showButton = function (description, slug, id, price, thumbnail, tax) {
-        console.log(user_id);
+
         if (user_id) {
             $("#buttonAdd_" + id).removeClass("d-none");
             $("#btnOption_" + id).addClass("d-none");
@@ -261,9 +270,6 @@ function Counter() {
         } else {
             $("#modalOptions").modal("show");
         }
-
-
-
     }
 
 
@@ -340,7 +346,7 @@ function Counter() {
         html += ` 
                 <div class="row">
                     <div class="col-12 text-center">
-                         Total ${$.formatNumber(data.total,"$")}  Item total:${data.detail.length}
+                         Total ${$.formatNumber(data.total, "$")}  Item total:${data.detail.length}
                     <div>   
                 <div>   
                 

@@ -101,6 +101,7 @@
 
 </style>
 
+
 <section id="content-menu">
     <div  class="container-fluid" style="padding-left: 0; padding-right: 0;position:relative;top: -120px">
         <section id="slider-main" class="main-slider">
@@ -126,6 +127,7 @@
                 <span><?php echo $breadcrumbs ?></span>
             </div>
         </div>
+
         <div class="row center-block" style="margin-right: 0;padding-top:1%">
             <div class="col-2 offset-1 col-md-3 col-md-offset-0">
                 <div class="row center-block ml-0 mr-0 pl-0 pr-0" id="categories-filter">
@@ -161,16 +163,17 @@
                                     }
                                     ?>
                                     <li class="list-group-item pb-0 pt-0">
-                                        <div class="row" style="cursor:pointer" onclick="obj.reloadCategories('{{$val->slug}}'); return false;">
+                                        <div class="row" style="cursor:pointer" >
                                             <div class="col-12">
-                                                <a href="#" class="list-group-item list-group-item-action" >
-                                                    <div class="row">
+                                                <a href="javascript:;" class="list-group-item list-group-item-action" >
+                                                    <div class="row" >
                                                         <div class="col-lg-10">
                                                             {{ucwords(strtolower($val->description))}} ({{$val->subcategories}})
                                                         </div>
                                                         <div class="col-lg-2">
                                                             <input type="checkbox" class="form-control list-category" 
-                                                                   name="categories[]" <?php echo $check ?> value="{{$val->slug}}" id='checkbox_cat_{{$val->slug}}'>
+                                                                   name="categories[]" <?php echo $check ?> value="{{$val->slug}}" id='checkbox_cat_{{$val->slug}}'
+                                                                   onclick="obj.reloadCategories('{{$val->slug}}', this);">
                                                         </div>
                                                     </div>
 
@@ -344,7 +347,7 @@
                                                 $ {{number_format($value->price_sf,0,",",'.')}}
                                             </p>
                                             @endguest
-                                            
+
                                             <p class="text-left">
                                                 <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                 <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
@@ -370,12 +373,11 @@
                                                     >{{$value->quantity}} en carrito</button>
                                             @endif
 
-                                            <div class="row d-none row-center" id="buttonAdd_{{$value->id}}" 
-                                                 style="background-color: #5cb19a;color:white;padding-bottom: 3%;padding-top: 3%;border-radius: 10px;
-                                                 padding-left: 0;padding-right: 0"
-                                                 onmouseout="objCounter.hideButton(this,{{$value->id}})">
+                                            <div class="row d-none row-center" id="buttonAdd_{{$value->id}}" onmouseout=objCounter.hideButton(this, {{$value->id}})
+                                                style="background-color: #5cb19a;color:white;padding-bottom: 3%;padding-top: 3%;border-radius: 10px;
+                                                padding-left: 0;padding-right: 0;">
                                                 <div class="col-lg-3">
-                                                    <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="white"  style="cursor:pointer"
+                                                    <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="white"  style="cursor:pointer;"
                                                          stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                          onclick="objCounter.deleteUnit({{$value->id}},'{{$value->slug}}')">
                                                     <path d="M2 16 L30 16" />
