@@ -308,28 +308,28 @@ function listProduct() {
 
 //        console.log($("#checkbox_cat_" + slug).is(":checked"));
 //        console.log($(e).attr("type"));
-//
-//        if ($("#checkbox_cat_" + slug).is(":checked")) {
-//            $("#checkbox_cat_" + slug).prop("checked", false);
-//        } else {
-//            $("#checkbox_cat_" + slug).prop("checked", true);
-//        }
-//
-//        if ($("#checkbox_subcat_" + slug).is(":checked")) {
-//            $("#checkbox_subcat_" + slug).prop("checked", false);
-//        } else {
-//            $("#checkbox_subcat_" + slug).prop("checked", true);
-//        }
-//        if ($("#checkbox_sup_" + slug).is(":checked")) {
-//            $("#checkbox_sup_" + slug).prop("checked", false);
-//        } else {
-//            $("#checkbox_sup_" + slug).prop("checked", true);
-//        }
-//        if ($("#checkbox_dieta_" + slug).is(":checked")) {
-//            $("#checkbox_dieta_" + slug).prop("checked", false);
-//        } else {
-//            $("#checkbox_dieta_" + slug).prop("checked", true);
-//        }
+
+        if ($("#checkbox_cat_" + slug).is(":checked")) {
+            $("#checkbox_cat_" + slug).prop("checked", false);
+        } else {
+            $("#checkbox_cat_" + slug).prop("checked", true);
+        }
+
+        if ($("#checkbox_subcat_" + slug).is(":checked")) {
+            $("#checkbox_subcat_" + slug).prop("checked", false);
+        } else {
+            $("#checkbox_subcat_" + slug).prop("checked", true);
+        }
+        if ($("#checkbox_sup_" + slug).is(":checked")) {
+            $("#checkbox_sup_" + slug).prop("checked", false);
+        } else {
+            $("#checkbox_sup_" + slug).prop("checked", true);
+        }
+        if ($("#checkbox_dieta_" + slug).is(":checked")) {
+            $("#checkbox_dieta_" + slug).prop("checked", false);
+        } else {
+            $("#checkbox_dieta_" + slug).prop("checked", true);
+        }
 
         $("input[name='categories[]']:checked").each(function () {
             cat += (cat == '') ? '' : '&';
