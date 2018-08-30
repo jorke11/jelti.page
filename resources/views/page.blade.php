@@ -220,7 +220,7 @@
 <section style="padding-top: 3%;padding-bottom: 2%">   
     <div class="container-fluid test">
         <div class="row row-center text-center " >
-            <div class="col-8 offset-1" style="background-color: #f8f7f5">
+            <div class="col-8">
                 <h1 class="text-center">Lo Más Nuevo <br>en SuperFüds</h1>
                 <p class="text-center"><a href="#" class="link-green">Ver todos</a></p>
             </div>
@@ -231,7 +231,7 @@
                 <h1 class="text-center"style="padding-top: 30%">Lo Más Nuevo <br>en SuperFüds</h1>
                 <p class="text-center"><a href="/search/all=new" class="link-green">Ver todos</a></p>
             </div>-->
-            <div class="col-lg-8 col-md-12 offset-md-0" style="background-color: #f8f7f5;margin-left: 10px;padding-top: 1%;padding-bottom: 1%">
+            <div class="col-lg-10 col-md-12 offset-md-0" style="background-color: #f8f7f5;margin-left: 10px;padding-top: 1%;padding-bottom: 1%">
 
                 <div class="row">
                     <div class="col-10 offset-1 ">
