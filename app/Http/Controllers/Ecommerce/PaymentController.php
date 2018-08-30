@@ -834,9 +834,7 @@ class PaymentController extends Controller {
     }
 
     public function paymentCredit() {
-
-//        $order = Orders::where("status_id", 1)->where("stakeholder_id", Auth::user()->id)->first();
-        $order = Orders::where("status_id", 1)->first();
+        $order = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
 
         $sql = "SELECT p.title product,d.product_id,d.order_id,sum(d.quantity) quantity,sum(d.quantity * d.price_sf) total,p.image
                             FROM orders_detail d
