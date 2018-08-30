@@ -80,18 +80,18 @@ class PageController extends Controller {
                 ->where("category_id", "<>", -1)
                 ->where("category_id", "<>", 19)
                 ->whereNotNull("image")
-                ->whereNotNull("thumbnail")
-                ->whereBetween("created_at", [$init, date("Y-m-d H:i:s")]);
+                ->whereNotNull("vproducts.thumbnail")
+                ->whereBetween("vproducts.created_at", [$init, date("Y-m-d H:i:s")]);
 
 
 
         if ($orders != null) {
-            $newproducts->select("orders_detail.quantity", "vproducts.characteristic", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+            $newproducts->select("orders_detail.quantity","vproducts.title", "vproducts.characteristic", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
         }
 
 
         $newproducts = $newproducts->orderBy("supplier", "asc")
-                ->orderBy("created_at")
+                ->orderBy("vproducts.created_at")
                 ->orderBy("category_id")
                 ->orderBy("reference")
                 ->get();

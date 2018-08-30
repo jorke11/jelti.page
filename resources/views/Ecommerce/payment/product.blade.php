@@ -305,6 +305,9 @@
                 </a>
             </div>
         </div>
+
+
+
         <input type="hidden" id="slug" value="{{$product->slug}}">
         <div class="col-3">
             <div class="row">
@@ -359,6 +362,9 @@
                 </div>
 
             </div>
+
+
+
             <div class="row justify-content-center">
                 <div class="col-7 col-md-10">
                     <button class="btn form-control" 
@@ -675,6 +681,8 @@
         </div>
     </div>
 
+
+
         <!--<section style="background-color: rgba(255,252,245,.7);width: 100%">-->
 
     <div class="row justify-content-center" style="background-color: #7bc0ad;">
@@ -702,7 +710,7 @@
                                                 <div class="card-body text-center">
                                                     <p class="text-left text-muted text-supplier" >{{strtoupper($value->supplier)}}</p>
                                                     <h5 class="card-title text-left title-products" style="margin:0;min-height: 80px" onclick="obj.redirectProduct('{{$value->slug}}')">
-                                                        <?php echo strtoupper(substr($value->short_description, 0, 25)); ?>
+                                                        <?php echo strtoupper(substr($value->description, 0, 25)); ?>
                                                     </h5>
                                                     <p class="text-left">
                                                         <svg id="i-star" viewBox="0 0 32 32" class="star"  stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -753,9 +761,10 @@
                                                         </div>
                                                     </div>
 
-                                                    <button class="btn btn-success <?php echo (isset($value->quantity_order)) ? 'd-none' : '' ?>" 
+                                                    <button class="btn <?php echo (isset($value->quantity_order)) ? 'd-none' : '' ?>" 
                                                             id="btnOption_{{$value->id}}" onclick="objCounter.showButton('{{$value->short_description}}',
-                                                            '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}')">Agregar</button>
+                                                            '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}')"
+                                                            style="background-color: #5cb19a;color:white">Agregar</button>
                                                                                                                                                     <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
 
                                                 </div>
@@ -815,6 +824,9 @@
 
     </div>
 </div>
+
+
+
 
 <div class="modal fade" id="modalComment" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">

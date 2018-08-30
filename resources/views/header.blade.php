@@ -96,8 +96,10 @@
     .icon-social {
         position: absolute;
         top: 0.1em;
-        right: 1em;
+        /*right: 90%;*/
+        right: 20px;
         text-decoration: none;
+        text-align: right;
         color: #fff;
         padding-top: 0.1em;
         z-index: 2000;
