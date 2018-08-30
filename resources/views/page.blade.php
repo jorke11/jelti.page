@@ -230,7 +230,7 @@
             <!--<div class="col-3 d-none d-md-none d-lg-block" style="background-color: #f8f7f5">-->
             <div class="col-lg-3 col-xs-10 d-lg-block d-md-none " style="background-color: #f8f7f5">
                 <h1 class="text-center"style="padding-top: 30%">Lo Más Nuevo <br>en SuperFüds</h1>
-                <p class="text-center"><a href="#" class="link-green">Ver todos</a></p>
+                <p class="text-center"><a href="/search/all=new" class="link-green">Ver todos</a></p>
             </div>
             <div class="col-lg-8 col-md-12 offset-md-0" style="background-color: #f8f7f5;margin-left: 10px;padding-top: 1%;padding-bottom: 1%">
 
@@ -365,7 +365,7 @@
         <div class="row row-center test" >
             <div class="col-lg-3  col-xs-10 d-md-none d-lg-block" style="background-color: #f8f7f5">
                 <h1 class="text-center"style="padding-top: 30%">Los Más <br>Vendidos</h1>
-                <p class="text-center"><a href="#" class="link-green">Ver todos</a></p>
+                <p class="text-center"><a href="/search/all=most" class="link-green">Ver todos</a></p>
             </div>
             <div class="col-lg-8 col-md-12 offset-md-0" style="background-color: #f8f7f5;margin-left: 10px;padding-top: 1%;padding-bottom: 1%">
 

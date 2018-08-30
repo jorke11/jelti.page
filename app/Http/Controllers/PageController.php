@@ -86,7 +86,7 @@ class PageController extends Controller {
 
 
         if ($orders != null) {
-            $newproducts->select("orders_detail.quantity","vproducts.title", "vproducts.characteristic", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+            $newproducts->select("orders_detail.quantity", "vproducts.title", "vproducts.characteristic", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
         }
 
 
@@ -251,6 +251,93 @@ class PageController extends Controller {
             $categories = $categories->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->where("status_id", 1)->orderBy("order", "asc")->get();
 
             $breadcrumbs = "<a href = '/'>Home</a> / <a href = '/search/s=$stakeholder->slug'>" . $stakeholder->business . "</a> / Alimentos";
+        } else if (stripos($param, "all=") !== false) {
+            $param = str_replace("all=", "", $param);
+
+            if ($param == 'new') {
+                $init = date('Y-m-d', strtotime('-5 month', strtotime(date('Y-m-d'))));
+                $products = DB::table("vproducts")->where("status_id", 1)
+                        ->where("category_id", "<>", -1)
+                        ->where("category_id", "<>", 19)
+                        ->whereNotNull("image")
+                        ->whereNotNull("vproducts.thumbnail")
+                        ->whereBetween("vproducts.created_at", [$init, date("Y-m-d H:i:s")]);
+
+
+
+                if ($orders != null) {
+                    $products->select("orders_detail.quantity", "vproducts.title", "vproducts.characteristic", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+                }
+
+
+                $products = $products->orderBy("supplier", "asc")
+                        ->orderBy("vproducts.created_at")
+                        ->orderBy("category_id")
+                        ->orderBy("reference")
+                        ->get();
+            } else {
+                if (Auth::user()) {
+                    $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
+
+                    if ($orders != null) {
+                        $join = "LEFT JOIN orders_detail ON orders_detail.product_id=p.id and orders_detail.order_id = " . $orders->id;
+                        $field = ",orders_detail.quantity as quantity_order";
+                        $group = ",orders_detail.quantity";
+                    }
+                }
+                $end = date("Y-m-d");
+
+                $sql = "
+            SELECT p.id,p.title as product,sup.business as supplier, 
+            sum(CASE WHEN d.real_quantity IS NULL THEN 0 ELSE d.real_quantity end * CASE WHEN d.packaging=0 THEN 1 WHEN d.packaging IS NULL THEN 1 ELSE d.packaging END) quantity, 
+            sum(d.value * CASE WHEN d.real_quantity IS NULL THEN 0 ELSE d.real_quantity end * d.units_sf) as subtotal,p.thumbnail,p.slug,p.short_description,
+            p.price_sf,p.tax,p.title,p.characteristic::text,p.category_id
+            $field
+            FROM departures_detail d 
+            JOIN departures s ON s.id=d.departure_id and s.status_id IN(2,7) 
+            JOIN stakeholder ON stakeholder.id=s.client_id and stakeholder.type_stakeholder=1 
+            JOIN vproducts p ON p.id=d.product_id JOIN stakeholder sup ON sup.id=p.supplier_id and p.thumbnail is not null
+            $join
+            WHERE s.dispatched BETWEEN '" . date("Y") . "-01-01 00:00' AND '" . $end . " 23:59' AND s.client_id NOT IN(258,264,24) AND p.category_id<>-1
+            GROUP by 1,2,3,p.thumbnail,p.characteristic::text,p.category_id,p.slug,p.short_description,p.price_sf,p.tax$group ORDER BY 4 DESC limit 50
+            ";
+                $products = DB::select($sql);
+            }
+
+            $subcategory = Characteristic::where("status_id", 1)->where("type_subcategory_id", 1)->whereNotNull("img")->orderBy("order", "asc")->get();
+
+            foreach ($products as $i => $value) {
+                $cod = str_replace("]", "", str_replace("[", "", $products[$i]->characteristic));
+                if ($cod != '') {
+                    $cod = array_map('intval', explode(",", $cod));
+                    $cod = array_filter($cod);
+                    $cha = null;
+                    if (count($cod) > 0) {
+
+                        $cha = Characteristic::whereIn("id", $cod)->get();
+                        if (count($cha) == 0) {
+                            $cha = null;
+                        }
+                        $products[$i]->characteristic = $cha;
+                    }
+
+                    $products[$i]->short_description = str_replace("/", "<br>", $products[$i]->short_description);
+                } else {
+                    $products[$i]->characteristic = null;
+                }
+            }
+
+
+            $categories = DB::table("vcategories")->where("status_id", 1);
+
+            foreach ($products as $value) {
+//                dd($value);
+                $categories->where("id", $value->category_id);
+            }
+
+            $categories = $categories->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->where("status_id", 1)->orderBy("order", "asc")->get();
+
+            $breadcrumbs = "<a href = '/'>Home</a> / Nuevos";
         } else {
             $products = DB::table("vproducts")
                             ->where(function($q) {
