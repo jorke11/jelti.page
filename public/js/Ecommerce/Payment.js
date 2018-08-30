@@ -134,7 +134,7 @@ function Payment() {
                                                         <span class="input-group-text" onclick="obj.deleteUnit('${detail[i].product_id}','${detail[i].slug}',${i})" style="background-color: #30c594;color:white;cursor: pointer">-</span>
                                                         
                                                     </div>
-                                                    <input type="text" class="form-control" id="quantity_${detail[i].product_id}" name="quantity" value="${detail[i].quantity}" type="number">
+                                                    <input type="text" class="form-control" id="quantity_payment_${detail[i].product_id}" value="${detail[i].quantity}" type="number">
                                                     <div class="input-group-append">
                                                         <span class="input-group-text" 
                                                                 onclick="obj.addProduct('${detail[i].product}',
@@ -158,9 +158,9 @@ function Payment() {
     }
 
     this.deleteUnit = function (product_id, slug, index) {
-        $("#quantity_" + product_id).val(parseInt($("#quantity_" + product_id).val()) - 1)
+        $("#quantity_payment_" + product_id).val(parseInt($("#quantity_" + product_id).val()) - 1)
         var row = {
-            quantity: $("#quantity_" + product_id).val(),
+            quantity: $("#quantity_payment_" + product_id).val(),
             product_id: product_id
         }
 
@@ -172,12 +172,13 @@ function Payment() {
             success: function (data) {
                 $("#content-detail").empty();
                 $("#frm #total").val($.formatNumber(data.total, "$"))
+                $("#frmPayment #total").val($.formatNumber(data.total, "$"))
 
                 if (data.success == false) {
                     $("#card_" + index).remove()
                 } else {
                     objCounter.setData(data);
-                    detail=data.detail
+                    detail = data.detail
                     obj.printDetail()
                 }
 
@@ -202,7 +203,6 @@ function Payment() {
     }
 
     this.addProduct = function (title, slug, product_id, price_sf, img, tax) {
-//        $("#quantity_" + product_id).val(parseInt($("#quantity_" + product_id).val()) + 1)
 
         var row = {
             quantity: 1,
@@ -223,12 +223,13 @@ function Payment() {
                 },
                 success: function (data) {
                     objCounter.setData(data);
-                    detail=data.detail
+                    detail = data.detail
                     obj.printDetail()
                     $("#frm #total").val($.formatNumber(data.total, "$"))
+                    $("#frmPayment #total").val($.formatNumber(data.total, "$"))
                     $("#badge-quantity").attr("font-size", '70%').css("background-color", "#f8f9fa");
-
-                    $("#quantity_product_" + product_id).html(data.current.quantity)
+                   
+                    $("#quantity_product_" + product_id).html(data.row.quantity)
                     if (parseInt(data.total) > 10000) {
                         $("#message-mount").addClass("d-none")
                         $("#btnPayU").attr("disabled", false)
