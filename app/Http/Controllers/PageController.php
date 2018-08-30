@@ -291,7 +291,7 @@ class PageController extends Controller {
                 $group= '';
                 $sql = "
             SELECT p.id,p.title as product,sup.business as supplier, 
-            sum(CASE WHEN d.real_quantity IS NULL THEN 0 ELSE d.real_quantity end * CASE WHEN d.packaging=0 THEN 1 WHEN d.packaging IS NULL THEN 1 ELSE d.packaging END) quantity, 
+            sum(CASE WHEN d.real_quantity IS NULL THEN 0 ELSE d.real_quantity end * CASE WHEN d.packaging=0 THEN 1 WHEN d.packaging IS NULL THEN 1 ELSE d.packaging END) quantity_sales, 
             sum(d.value * CASE WHEN d.real_quantity IS NULL THEN 0 ELSE d.real_quantity end * d.units_sf) as subtotal,p.thumbnail,p.slug,p.short_description,
             p.price_sf,p.tax,p.title,p.characteristic::text,p.category_id
             $field
