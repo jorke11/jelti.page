@@ -833,20 +833,12 @@ class PaymentController extends Controller {
         }
     }
 
-    public function paymentCredit(Request $req) {
-        $in = $req->all();
-        $this->processPayment($in["order_id"]);
-    }
+    public function paymentCredit() {
 
-    public function processPayment($id) {
 //        $order = Orders::where("status_id", 1)->where("stakeholder_id", Auth::user()->id)->first();
-        $order = Orders::where("status_id", 1)->where("id", $id)->first();
+        $order = Orders::where("status_id", 1)->first();
 
-        $stake = Stakeholder::find($order->stakeholder_id);
-
-        dd($stake);
-
-        $sql = "SELECT p.title product,d.product_id,d.order_id,sum(d.quantity) quantity,sum(d.quantity * d.value) total,p.image
+        $sql = "SELECT p.title product,d.product_id,d.order_id,sum(d.quantity) quantity,sum(d.quantity * d.price_sf) total,p.image
                             FROM orders_detail d
                             JOIN products p ON p.id=d.product_id
                             WHERE order_id=$order->id
@@ -854,6 +846,7 @@ class PaymentController extends Controller {
 
         $detail = DB::select($sql);
         $detail = json_decode(json_encode($detail), true);
+
 
         $user = \App\Models\Security\Users::find(Auth::user()->id);
 
@@ -871,13 +864,12 @@ class PaymentController extends Controller {
         $header["shipping_cost"] = 0;
         $header["type_request"] = "ecommerce";
 
-        $this->depObj->processDeparture($header, $detail);
+        $data = $this->depObj->processDeparture($header, $detail)->getData();
         \Session::flash('success', 'Compra Realizada con exito');
 
         $order->status_id = 2;
         $order->save();
-
-        return redirect('ecommerce/0')->with("success", 'Payment success');
+        return redirect('congratulations')->with("success", 'Compra Realizada! Orden #' . $data->header->id);
     }
 
     public function payu(Request $req) {

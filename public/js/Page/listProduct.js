@@ -284,16 +284,14 @@ function listProduct() {
     }
 
     this.eventCategory = function (ref = null) {
-
         ref = (ref == null) ? '' : "-" + ref;
-        console.log(ref)
+
         if (flag_category == false) {
-            console.log(ref)
             $("#plus-icon" + ref).addClass("d-none");
             $("#minus-icon" + ref).removeClass("d-none");
             flag_category = true;
         } else {
-            console.log(ref)
+
             $("#plus-icon" + ref).removeClass("d-none");
             $("#minus-icon" + ref).addClass("d-none");
             flag_category = false;

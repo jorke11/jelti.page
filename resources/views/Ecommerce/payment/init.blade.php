@@ -237,7 +237,7 @@
                                         </div>
                                         <div class="col-6">
                                             @if($term>1)
-                                            <button type="submit" class="btn btn-info form-control" id="btnPay">
+                                            <button type="button" class="btn btn-info form-control" id="btnPay">
                                                 <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span>({{$term}}) días Credito SuperFuds
                                             </button>
                                             @endif

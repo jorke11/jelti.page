@@ -41,7 +41,7 @@ function Payment() {
         $("#btnShowAll").click(this.printDetailAll)
 
 
-//        $("#btnPayU").click(this.payu);
+        $("#btnPay").click(this.payCredit);
 //        this.getDetail();
 //        this.getQuantity();
 
@@ -228,7 +228,7 @@ function Payment() {
                     $("#frm #total").val($.formatNumber(data.total, "$"))
                     $("#frmPayment #total").val($.formatNumber(data.total, "$"))
                     $("#badge-quantity").attr("font-size", '70%').css("background-color", "#f8f9fa");
-                   
+
                     $("#quantity_product_" + product_id).html(data.row.quantity)
                     if (parseInt(data.total) > 10000) {
                         $("#message-mount").addClass("d-none")
@@ -369,6 +369,9 @@ function Payment() {
 
     this.redirectProduct = function (url) {
         window.location = PATH + "/productDetail/" + url;
+    }
+    this.payCredit = function () {
+        window.location = PATH + "/payment-credit";
     }
 
     this.updateQuantity = function (order_id, product_id, input) {

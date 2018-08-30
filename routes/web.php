@@ -39,6 +39,7 @@ Route::get('/productDetail/{id}', 'Ecommerce\ShoppingController@getProduct');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/payment', 'Ecommerce\PaymentController@index');
+Route::get('/payment-credit', 'Ecommerce\PaymentController@paymentCredit');
 Route::get('/selectPay', 'Ecommerce\PaymentController@methodsPayment');
 Route::put('addProduct/{slug}', 'Ecommerce\PaymentController@addProduct');
 Route::put('deleteProduct/{slug}', 'Ecommerce\PaymentController@deleteProduct');
