@@ -286,7 +286,7 @@ class PageController extends Controller {
                     }
                 }
                 $end = date("Y-m-d");
-
+                $field = '';
                 $sql = "
             SELECT p.id,p.title as product,sup.business as supplier, 
             sum(CASE WHEN d.real_quantity IS NULL THEN 0 ELSE d.real_quantity end * CASE WHEN d.packaging=0 THEN 1 WHEN d.packaging IS NULL THEN 1 ELSE d.packaging END) quantity, 
@@ -514,7 +514,7 @@ class PageController extends Controller {
         $in = $req->all();
 
         $in["email"] = trim($in["email"]);
-        
+
         unset($in["_token"]);
         $email = \App\Models\Administration\Stakeholder::where("email", trim($in["email"]))->get();
 
