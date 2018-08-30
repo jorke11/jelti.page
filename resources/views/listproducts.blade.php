@@ -165,15 +165,15 @@
                                     <li class="list-group-item pb-0 pt-0">
                                         <div class="row" style="cursor:pointer" >
                                             <div class="col-12">
-                                                <a href="javascript:;" class="list-group-item list-group-item-action" >
-                                                    <div class="row" >
+                                                <a href="javascript:;" class="list-group-item list-group-item-action" onclick="obj.reloadCategories('{{$val->slug}}', this);">
+                                                    <div class="row">
                                                         <div class="col-lg-10">
                                                             {{ucwords(strtolower($val->description))}} ({{$val->subcategories}})
                                                         </div>
                                                         <div class="col-lg-2">
                                                             <input type="checkbox" class="form-control list-category" 
                                                                    name="categories[]" <?php echo $check ?> value="{{$val->slug}}" id='checkbox_cat_{{$val->slug}}'
-                                                                   onclick="obj.reloadCategories('{{$val->slug}}', this);">
+                                                                   >
                                                         </div>
                                                     </div>
 
