@@ -222,16 +222,16 @@
         <div class="row row-center text-center " >
             <div class="col-8">
                 <h1 class="text-center">Lo Más Nuevo <br>en SuperFüds</h1>
-                <p class="text-center"><a href="#" class="link-green">Ver todos</a></p>
+                <p class="text-center"><a href="/search/all=new" class="link-green">Ver todos</a></p>
             </div>
         </div>
 
         <div class="row row-center test" >
-<!--            <div class="col-lg-3 col-xs-10 d-lg-block d-md-none " style="background-color: #f8f7f5">
-                <h1 class="text-center"style="padding-top: 30%">Lo Más Nuevo <br>en SuperFüds</h1>
-                <p class="text-center"><a href="/search/all=new" class="link-green">Ver todos</a></p>
-            </div>-->
-            <div class="col-lg-10 col-md-12 offset-md-0" style="background-color: #f8f7f5;margin-left: 10px;padding-top: 1%;padding-bottom: 1%">
+            <!--            <div class="col-lg-3 col-xs-10 d-lg-block d-md-none " style="background-color: #f8f7f5">
+                            <h1 class="text-center"style="padding-top: 30%">Lo Más Nuevo <br>en SuperFüds</h1>
+                            <p class="text-center"><a href="/search/all=new" class="link-green">Ver todos</a></p>
+                        </div>-->
+            <div class="col-lg-11 col-md-12 offset-md-0" style="background-color: #f8f7f5;margin-left: 10px;padding-top: 1%;padding-bottom: 1%">
 
                 <div class="row">
                     <div class="col-10 offset-1 ">
@@ -354,19 +354,18 @@
 
 <section style="padding-top: 3%;padding-bottom: 2%" >   
     <div class="container-fluid test">
-        <div class="row row-center text-center d-none d-md-block d-lg-none" >
-            <div class="col-8 offset-2" style="background-color: #f8f7f5">
+        <div class="row row-center text-center" >
+            <div class="col-8 ">
                 <h1 class="text-center">Los Más <br>Vendidos</h1>
-                <p class="text-center"><a href="#" class="link-green">Ver todos</a></p>
-            </div>
-        </div>
-
-        <div class="row row-center test" >
-            <div class="col-lg-3  col-xs-10 d-md-none d-lg-block" style="background-color: #f8f7f5">
-                <h1 class="text-center"style="padding-top: 30%">Los Más <br>Vendidos</h1>
                 <p class="text-center"><a href="/search/all=most" class="link-green">Ver todos</a></p>
             </div>
-            <div class="col-lg-8 col-md-12 offset-md-0" style="background-color: #f8f7f5;margin-left: 10px;padding-top: 1%;padding-bottom: 1%">
+        </div>
+        <div class="row row-center test" >
+            <!--            <div class="col-lg-3  col-xs-10 d-md-none d-lg-block" style="background-color: #f8f7f5">
+                            <h1 class="text-center"style="padding-top: 30%">Los Más <br>Vendidos</h1>
+                            <p class="text-center"><a href="/search/all=most" class="link-green">Ver todos</a></p>
+                        </div>-->
+            <div class="col-lg-11 col-md-12 offset-md-0" style="background-color: #f8f7f5;margin-left: 10px;padding-top: 1%;padding-bottom: 1%">
 
                 <div class="row">
                     <div class="col-10 offset-1">
@@ -419,7 +418,7 @@
                                                         </p>
                                                         @endguest
 
-                                                                                                                                                                                                                                                                                         <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                                                                                                                                                                                                                                                                         <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                                         <div class="row row-center <?php echo (isset($value->quantity_order)) ? '' : 'd-none' ?>" id="buttonAdd_{{$value->id}}" style="background-color: #5cb19a;padding-bottom: 3%;padding-top: 3%;border-radius: 10px">
                                                             <div class="col-lg-2 pl-0">
                                                                 <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="white"  style="cursor:pointer"
