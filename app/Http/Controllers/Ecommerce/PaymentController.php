@@ -98,6 +98,14 @@ class PaymentController extends Controller {
 //        dd(Cookie::get('name'));
 //        dd($_COOKIE["jelti_session"]);
 
+        $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
+
+
+        if ($order == null) {
+            return back()->with("error", "No tienes Items Seleccionados");
+        }
+
+
         $month = $this->getMonts();
         $years = $this->getYears();
 

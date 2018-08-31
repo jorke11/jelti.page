@@ -405,7 +405,7 @@ function listProduct() {
                             html += `<p></p>`
                         } else {
                             html += `<p>
-                                                        ${$.formatNumber(value.price_sf, "$")}
+                                                        ${$.formatNumber(value.price_sf_with_tax, "$")}
                                                         </p>`
                         }
 

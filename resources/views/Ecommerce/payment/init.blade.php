@@ -232,13 +232,20 @@
 
                                 <div class="panel-footer">
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <button type="submit" id="btnPayU" class="btn btn-success form-control btn-sm">Pagar</button>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             @if($term>1)
                                             <button type="button" class="btn btn-info form-control" id="btnPay">
                                                 <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span>({{$term}}) días Credito SuperFuds
+                                            </button>
+                                            @endif
+                                        </div>
+                                        <div class="col-4">
+                                            @if($term>1)
+                                            <button type="button" class="btn btn-info form-control" id="btnPSE">
+                                                <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span>PSE
                                             </button>
                                             @endif
                                         </div>

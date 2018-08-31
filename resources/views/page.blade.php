@@ -278,7 +278,7 @@
 
                                                         @else
                                                         <p class="text-left">
-                                                            $ {{number_format($value->price_sf,0,",",'.')}}
+                                                            $ {{number_format($value->price_sf_with_tax,0,",",'.')}}
                                                         </p>
                                                         @endguest
 
@@ -410,11 +410,10 @@
 
                                                         @guest
                                                         <p>
-
                                                         </p>
                                                         @else
                                                         <p class="text-left">
-                                                            $ {{number_format($value->price_sf,0,",",'.')}}
+                                                            $ {{number_format($value->price_sf_with_tax,0,",",'.')}}
                                                         </p>
                                                         @endguest
 
@@ -437,7 +436,6 @@
                                                                      '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}'); return false;">
                                                                 <path d="M16 2 L16 30 M2 16 L30 16" />
                                                                 </svg>
-
                                                             </div>
                                                         </div>
 
@@ -475,8 +473,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
@@ -532,7 +528,6 @@
                             <?php
                         }
                         ?>
-
                     </div>
 
                     <a class="carousel-control-prev" href="#carouselExampleIndicators4" role="button" data-slide="prev">

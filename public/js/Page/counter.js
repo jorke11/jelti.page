@@ -313,7 +313,7 @@ function Counter() {
                                             </div>
                                             <div class="col-9 card-customer">
                                                 <p>${row.product} <br>
-                                                Precio <b>${$.formatNumber(parseInt(row.price_sf), "$")}</b><br>
+                                                Precio <b>${$.formatNumber(parseInt(row.price_sf_with_tax), "$")}</b><br>
                                                 Total <b>${$.formatNumber(parseInt(row.subtotal), "$")}</b><br>
                                                 
                                                  <div class="row card-customer" style="width:70%;z-index:1000">

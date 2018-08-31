@@ -344,7 +344,7 @@
                                             <p></p>
                                             @else
                                             <p class="text-left">
-                                                $ {{number_format($value->price_sf,0,",",'.')}}
+                                                $ {{number_format($value->price_sf_with_tax,0,",",'.')}}
                                             </p>
                                             @endguest
 
