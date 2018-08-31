@@ -143,9 +143,15 @@ class ShoppingController extends Controller {
             if (Auth::user()) {
                 $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
 
-                if ($orders != null)
-                    $relations->select("orders_detail.quantity as quantity_order", "vproducts.category_id", "vproducts.description", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
-                $product->select("orders_detail.quantity as quantity_order", "vproducts.category_id", "vproducts.description", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+                if ($orders != null) {
+
+
+                    $relations->select("orders_detail.quantity as quantity_order", "vproducts.category_id", "vproducts.description", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")
+                            ->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+
+                    $product->select("orders_detail.quantity as quantity_order", "vproducts.category_id", "vproducts.description", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")
+                            ->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+                }
             }
 
             $relations = $relations->get();
@@ -200,7 +206,7 @@ class ShoppingController extends Controller {
             $product = DB::table("vproducts")->where("vproducts.id", $product->id);
 
             if ($orders != null) {
-                $product->select("orders_detail.quantity as quantity_order", "vproducts.category_id", "vproducts.description", "vproducts.thumbnail", "vproducts.title", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier", "vproducts.image", "vproducts.why", "vproducts.ingredients")
+                $product->select("orders_detail.quantity as quantity_order", "vproducts.category_id", "vproducts.description", "vproducts.thumbnail", "vproducts.title", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier", "vproducts.image", "vproducts.why", "vproducts.ingredients", "vproducts.price_sf_with_tax")
                         ->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
             }
             $product = $product->first();

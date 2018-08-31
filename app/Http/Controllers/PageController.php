@@ -202,7 +202,8 @@ class PageController extends Controller {
         if (stripos($param, "c=") !== false) {
             $param = str_replace("c=", "", $param);
             $char = \App\Models\Administration\Characteristic::where("description", "ilike", "%" . strtolower($param) . "%")->get();
-            $products = DB::table("vproducts")->select("vproducts.id", "vproducts.title", "vproducts.short_description", "vproducts.price_sf", "vproducts.image", "vproducts.thumbnail", "vproducts.category_id", "vproducts.slug", "vproducts.tax", "vproducts.supplier"
+            $products = DB::table("vproducts")->select("vproducts.id", "vproducts.title", "vproducts.short_description", "vproducts.price_sf", "vproducts.price_sf_with_tax",
+                    "vproducts.image", "vproducts.thumbnail", "vproducts.category_id", "vproducts.slug", "vproducts.tax", "vproducts.supplier"
                     )
                     ->whereNotNull("image")
                     ->whereNotNull("warehouse");
