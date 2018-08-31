@@ -356,9 +356,9 @@ function Payment() {
         $("#badge-quantity").html(data.quantity)
 
 
-//        if ((data.detail).length > 3) {
-//            $("#btnShowAll").removeClass("d-none")
-//    }
+        if ((data.detail).length > 3) {
+            $("#btnShowAll").removeClass("d-none")
+    }
 
     }
 
