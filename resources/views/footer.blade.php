@@ -22,10 +22,7 @@
         background-size: 100% 100%;
         /*width: 100%;*/
     }
-    .link-white{
-        color:white !important;
-        font-size: 15px
-    }
+   
     .titles-footer{
         color:white;
     }
@@ -51,14 +48,6 @@
                         @endforeach
                     </ul>
                 </div>
-                <!--                <div class="col-4 d-none d-lg-block d-sm-block d-md-none">
-                                    <ul class="list-group">
-                                        <li class="list-group-item"><b>SF</b></li>
-                                        @foreach($categories as $val)
-                                        <li class="list-group-item">{{$val->description}}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>-->
             </div>
 
         </div>

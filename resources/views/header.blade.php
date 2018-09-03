@@ -10,7 +10,8 @@
     }
 
     .title-menu{
-        color: white
+        color: white !important;
+        font-size: 21px
     }
 
     .title-menu:hover{
@@ -129,10 +130,17 @@
         width:45%
     }
 
-    .title-menu{
-        color:white;
-        font-size: 21px
+    .title-diet{
+        font-family: "dosis" !important
     }
+
+    .link-white{
+        color:white !important;
+        font-size: 15px
+    }
+
+
+
 
     @media screen and (max-width: 1500px) {
 
@@ -208,10 +216,10 @@
 
     @media screen and (max-width: 1200px) {
         .center-image{
-            padding-left: 20%;padding-top: 15px;padding-bottom: 2%   
+            padding-left: 23%;padding-top: 15px;padding-bottom: 2%   
         }
         #text-search{
-            width: 150px;
+            width: 140px;
             height: 26px
         }
         #title-account{
@@ -223,6 +231,20 @@
             font-size: 16px
         }
 
+        #style-input-search{
+            padding-left: 0px;
+            padding-right: 0px
+        }
+
+    }
+
+    @media screen and (max-width: 1100px) {
+        .title-diet{
+            font-size: 25px;
+        }
+        .link-white{
+            font-size: 13px;
+        }
     }
 
 
@@ -283,7 +305,7 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle title-menu" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
-                   aria-haspopup="true" aria-expanded="false" style="color:white;padding-right:40px;font-size: 21px">DIETAS</a>
+                   aria-haspopup="true" aria-expanded="false" >DIETAS</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     @foreach($dietas as $val)
                     <a class="dropdown-item" href='{{url("search/s=".$val->slug)}}'>{{$val->description}}</a>
@@ -309,7 +331,7 @@
 
         <form class="form-inline  my-2 my-lg-1"  id="frmSearch">
 
-            <div class="col-auto" >
+            <div class="col-auto" id="style-input-search" >
                 <label class="sr-only" for="inlineFormInputGroup">Username</label>
                 <div class="input-group mb-2" style="padding-top:10px">
                     <input type="text" class="form-control form-control-sm typeahead" id="text-search" placeholder="Brownie, Paleo, Quinua" required=""  data-provide="typeahead">
