@@ -117,38 +117,23 @@
         top: -66px   
     }
 
-    @media screen and (max-width: 1400px) {
-        #text-search{
-            width: 200px;
-            height: 26px
-        }
-
-        #init-session{
-            padding-right: 50%
-        }
-
-        .center-image{
-            padding-left: 22%;padding-top: 15px;padding-bottom: 2%   
-        }
+    #title-account{
+        color:white;
+        font-size: 19px;
+        padding-left: 15px;
+        padding-right:15px;
+        padding-top: 15px    
     }
-    @media screen and (max-width: 1300px) {
-        #text-search{
-            width: 240px;
-            height: 26px
-        }
 
-        .center-image{
-            padding-left: 16%;padding-top: 15px;padding-bottom: 2%   
-        }
-        #img-menu{
-            display: none;
-        }
-        #init-session{
-            padding-right: 0
-        }
-
-
+    #img-cart{
+        width:45%
     }
+
+    .title-menu{
+        color:white;
+        font-size: 21px
+    }
+
     @media screen and (max-width: 1500px) {
 
         #text-search{
@@ -173,6 +158,79 @@
             position:relative;top: -45px;
         }
     }
+
+    @media screen and (max-width: 1400px) {
+        #text-search{
+            width: 200px;
+            height: 26px
+        }
+
+        #init-session{
+            padding-right: 50%
+        }
+
+        .center-image{
+            padding-left: 22%;padding-top: 15px;padding-bottom: 2%   
+        }
+    }
+
+
+    @media screen and (max-width: 1300px) {
+        #text-search{
+            width: 240px;
+            height: 26px
+        }
+
+        .center-image{
+            padding-left: 20%;padding-top: 15px;padding-bottom: 2%   
+        }
+
+        #img-menu{
+            display: none;
+        }
+
+        #init-session{
+            padding-right: 0
+        }
+        #title-account{
+            font-size: 16px
+        }
+        #img-cart{
+            width:35%
+        }
+
+        #text-search{
+            width: 180px;
+            height: 26px
+        }
+    }
+
+
+    @media screen and (max-width: 1200px) {
+        .center-image{
+            padding-left: 20%;padding-top: 15px;padding-bottom: 2%   
+        }
+        #text-search{
+            width: 150px;
+            height: 26px
+        }
+        #title-account{
+            font-size: 14px
+        }
+
+        .title-menu{
+            color:white;
+            font-size: 16px
+        }
+
+    }
+
+
+
+
+
+
+
 
 </style>
 
@@ -215,8 +273,8 @@
     <div class="navbar-collapse collapse" id="navbarsExampleDefault" style="">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown active">
-                <a class="nav-link dropdown-toggle" href="{{url("/")}}" id="dropdown01" data-toggle="dropdown" 
-                   aria-haspopup="true" aria-expanded="false" style="color:white;font-size: 21px" >CATEGORIAS</a>
+                <a class="nav-link dropdown-toggle title-menu" href="{{url("/")}}" id="title-categories" data-toggle="dropdown" 
+                   aria-haspopup="true" aria-expanded="false" >CATEGORIAS</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     @foreach($categories as $val)
                     <a style="color:black" class="dropdown-item" href="{{url("")}}/products/{{$val->slug}}">{{ucwords(strtolower($val->description))}}</a>
@@ -224,7 +282,7 @@
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
+                <a class="nav-link dropdown-toggle title-menu" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
                    aria-haspopup="true" aria-expanded="false" style="color:white;padding-right:40px;font-size: 21px">DIETAS</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     @foreach($dietas as $val)
@@ -279,8 +337,8 @@
             @else
 
             <li class="nav-item dropdown active">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
-                   aria-haspopup="true" aria-expanded="false" style="color:white;font-size: 19px;padding-left: 15px;padding-right:15px;padding-top: 15px">Mi Cuenta</a>
+                <a class="nav-link dropdown-toggle" href="http://example.com" id="title-account" data-toggle="dropdown" 
+                   aria-haspopup="true" aria-expanded="false" >Mi Cuenta</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <a class="dropdown-item" href="/myOrders">Historial Pedidos</a>
                     <a class="dropdown-item" href="/myFavourite">Mis favoritos</a>
@@ -297,7 +355,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="popover-card" href="#" title='Resumen Compra' role="button">
-                    <img alt="Brand" src="{{asset('images/page/carrito.png') }}" width="45%" />
+                    <img alt="Brand" src="{{asset('images/page/carrito.png') }}"  id="img-cart" />
                     <span class="badge badge-light" id="badge-quantity">0</span>
                 </a>
             </li>

@@ -1,6 +1,21 @@
-function Payment() {
+function Pse() {
     var user_id, detail = [], lengthArr = 3, token = '';
     this.init = function () {
+        
+
+        $('.input-number').on('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        $('.input-alpha').on('input', function () {
+            this.value = this.value.replace(/[^a-zA-Z\s]/g, '');
+        });
+
+        $('.input-date').on('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+
 
         token = $("input[name=_token]").val();
         $("#number").blur(this.validateTarjet);
@@ -357,16 +372,10 @@ function Payment() {
         $("#badge-quantity").html(data.quantity)
 
 
-        if ((data.detail).length > 3) {
-            $("#btnShowAll").removeClass("d-none")
-    }
+        if ((data.detail).length > 3)
+            $("#btnShowAll").removeClass("d-none");
 
     }
-
-
-//    this.payu = function () {
-//        window.location.href = PATH + "/selectPay"
-//    }
 
     this.redirectProduct = function (url) {
         window.location = PATH + "/productDetail/" + url;
@@ -439,16 +448,7 @@ function Payment() {
         })
 
     }
-
-//    this.deleteItem = function (product_id, document_id) {
-//
-//        db.collection(user_id).doc(document_id).delete().then(function () {
-//            console.log("Document successfully deleted!");
-//        }).catch(function (error) {
-//            console.error("Error removing document: ", error);
-//        });
-//    }
 }
 
-var obj = new Payment();
+var obj = new Pse();
 obj.init();

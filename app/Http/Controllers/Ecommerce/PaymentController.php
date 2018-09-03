@@ -90,14 +90,6 @@ class PaymentController extends Controller {
 
     public function index() {
 
-//        $cookie = cookie('name', 'value', 100);
-//        dd($cookie);
-//
-//        dd(response('Hello World')->cookie($cookie));
-//        Cookie::make('name', "ada", 360);
-//        dd(Cookie::get('name'));
-//        dd($_COOKIE["jelti_session"]);
-
         $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
 
 
@@ -126,6 +118,7 @@ class PaymentController extends Controller {
 
         $deviceSessionId = md5(session_id() . microtime());
         $deviceSessionId_concat = $deviceSessionId . "80200";
+        
         $dietas = $this->dietas;
 
         return view("Ecommerce.payment.init", compact("id", "categories", "client", "month", "years", "total", "countries", "subtotal", "deviceSessionId", "deviceSessionId_concat", "term", "dietas"));
@@ -176,6 +169,44 @@ class PaymentController extends Controller {
     }
 
     public function getMethodsPayments() {
+        $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi ";
+        $postData = array(
+            "test" => "false",
+            "language" => "es",
+            "command" => "GET_PAYMENT_METHODS",
+            "merchant" => array("apiLogin" => "pRRXKOl8ikMmt9u", "apiKey" => "4Vj8eK4rloUd272L48hsrarnUA"));
+
+
+        $data_string = json_encode($postData);
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json;',
+            'Host: sandbox.api.payulatam.com',
+            'Accept:application/json',
+            'Content-Length: ' . strlen($data_string))
+        );
+//print_r($data_string);exit;                        
+
+        $result = curl_exec($ch);
+        $arr = json_decode($result, TRUE);
+        $banks = [];
+
+
+        dd($arr);
+        foreach ($arr["paymentMethods"] as $val) {
+            if ($val["country"] == 'CO') {
+                $banks[] = $val;
+            }
+        }
+
+        return $banks;
+    }
+
+    public function getBanks() {
         $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi ";
         $postData = array(
             "test" => "false",
@@ -658,7 +689,6 @@ class PaymentController extends Controller {
                 $buyer_city = $client->city->description;
                 $buyer_department = $department->description;
 
-
                 if (!isset($in["checkbuyer"])) {
                     $city_buyer = \App\Models\Administration\Cities::find($in["city_buyer_id"]);
                     $department_buyer = \App\Models\Administration\Department::find($in["department_buyer_id"]);
@@ -685,7 +715,7 @@ class PaymentController extends Controller {
                     }
                 }
 
-                $payer_fullName = $postData["transaction"] = array("order" => array(
+                $payer_fullName = $postData["transaction"] = array("order" => [
                         "accountId" => $accountId,
                         "referenceCode" => $referenceCode,
                         "description" => "Pago " . $referenceCode,
@@ -693,28 +723,27 @@ class PaymentController extends Controller {
                         "signature" => $signature,
 //                    "notifyUrl" => "http://localhost:8080/payu/tarjetas_credito.php",
                         "notifyUrl" => "",
-                        "additionalValues" => array(
-                            "TX_VALUE" => array("value" => $TX_VALUE, "currency" => $currency),
-                            "TX_TAX" => array("value" => $TX_TAX, "currency" => $currency),
-                            "TX_TAX_RETURN_BASE" => array("value" => $TX_TAX_RETURN_BASE, "currency" => $currency),
-                        ),
-                        "buyer" => array(
+                        "additionalValues" => [
+                            "TX_VALUE" => ["value" => $TX_VALUE, "currency" => $currency],
+                            "TX_TAX" => ["value" => $TX_TAX, "currency" => $currency],
+                            "TX_TAX_RETURN_BASE" => ["value" => $TX_TAX_RETURN_BASE, "currency" => $currency],
+                        ],
+                        "buyer" => [
                             "merchantBuyerId" => "1",
                             "fullName" => $buyer_full_name,
                             "emailAddress" => $buyer_email,
                             "contactPhone" => $buyer_phone,
                             "dniNumber" => $buyer_document,
-                            "shippingAddress" => array(
+                            "shippingAddress" => [
                                 "street1" => $buyer_address,
-//                        "street2" => "5555487",
                                 "city" => $buyer_city,
                                 "state" => $buyer_department,
                                 "country" => $country,
                                 "postalCode" => "000000",
                                 "phone" => $buyer_phone
-                            )
-                        ),
-                        "shippingAddress" => array(
+                            ]
+                        ],
+                        "shippingAddress" => [
                             "street1" => $buyer_address,
 //                        "street2" => "5555487",
                             "city" => $buyer_city,
@@ -722,15 +751,15 @@ class PaymentController extends Controller {
                             "country" => $country,
                             "postalCode" => "000000",
                             "phone" => $buyer_phone
-                        )
-                    ),
-                    "payer" => array(
+                        ]
+                    ],
+                    "payer" => [
                         "merchantPayerId" => $client->id,
                         "fullName" => $client->business,
                         "emailAddress" => $client->email,
                         "contactPhone" => $client->phone,
                         "dniNumber" => $client->document,
-                        "billingAddress" => array(
+                        "billingAddress" => [
                             "street1" => $client->address_send,
 //                        "street2" => "5555487",
                             "city" => $city->description,
@@ -738,9 +767,9 @@ class PaymentController extends Controller {
                             "country" => $country,
                             "postalCode" => "000000",
                             "phone" => $client->phone
-                        )
-                    ),
-                    "creditCard" => array(
+                        ]
+                    ],
+                    "creditCard" => [
 //                "number" => "4097440000000004",
                         "number" => $in["number"],
 //                "securityCode" => "321",
@@ -748,10 +777,10 @@ class PaymentController extends Controller {
 //                "expirationDate" => "2019/02",
                         "expirationDate" => $in["expirate"],
                         "name" => $in["name"]
-                    ),
-                    "extraParameters" => array(
+                    ],
+                    "extraParameters" => [
                         "INSTALLMENTS_NUMBER" => $in["dues"]
-                    ),
+                    ],
                     "type" => "AUTHORIZATION_AND_CAPTURE",
 //            "paymentMethod" => "VISA",
                     "paymentMethod" => $type_card["paymentMethod"],
