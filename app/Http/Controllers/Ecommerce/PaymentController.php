@@ -118,7 +118,7 @@ class PaymentController extends Controller {
 
         $deviceSessionId = md5(session_id() . microtime());
         $deviceSessionId_concat = $deviceSessionId . "80200";
-        
+
         $dietas = $this->dietas;
 
         return view("Ecommerce.payment.init", compact("id", "categories", "client", "month", "years", "total", "countries", "subtotal", "deviceSessionId", "deviceSessionId_concat", "term", "dietas"));
@@ -375,11 +375,8 @@ class PaymentController extends Controller {
 
         $client = Stakeholder::find(Auth::user()->stakeholder_id);
 
-        $sql = "
-             SELECT *
-             FROM vdepartures where client_id=" . $client->id . " and status_id IN(2,7)";
+        $list = DB::table("vdepartures")->where("client_id", $client->id)->whereIn("status_id", [2, 7])->get();
 
-        $list = DB::select($sql);
         return view("Ecommerce.shopping.orders", compact("product", "categories", "dietas", "list"));
     }
 
@@ -441,11 +438,13 @@ class PaymentController extends Controller {
             }
 
             $sql = "
-            SELECT d.product_id,p.title as product,d.tax,d.price_sf,COALESCE(d.units_sf,1) as units_sf,p.thumbnail,sum(d.quantity) as quantity,sum(d.quantity * d.price_sf) as subtotal,p.slug,p.supplier
+            SELECT 
+                d.product_id,p.title as product,d.tax,d.price_sf,COALESCE(d.units_sf,1) as units_sf,p.thumbnail,sum(d.quantity) as quantity,
+                sum(d.quantity * d.price_sf) as subtotal,p.slug,p.supplier,p.price_sf_with_tax
             FROM orders_detail d
             JOIN vproducts p on p.id=d.product_id
             WHERE d.order_id=" . $order["id"] . " $slug
-            group by 1, 2, 3, 4, 5, 6,slug,p.supplier
+            group by 1, 2, 3, 4, 5, 6,slug,p.supplier,p.price_sf_with_tax
                     ORDER BY 1";
 
             if ($slug != null) {

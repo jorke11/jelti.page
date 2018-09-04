@@ -45,7 +45,8 @@ class Products extends Model {
         "measure_box",
         "measure_master",
         "content_product",
-        "expire_month"
+        "expire_month",
+        "discount",
     ];
     protected $casts = [
         'characteristic' => 'array',

@@ -203,7 +203,8 @@ class PageController extends Controller {
         if (stripos($param, "c=") !== false) {
             $param = str_replace("c=", "", $param);
             $char = \App\Models\Administration\Characteristic::where("description", "ilike", "%" . strtolower($param) . "%")->get();
-            $products = DB::table("vproducts")->select("vproducts.id", "vproducts.title", "vproducts.short_description", "vproducts.price_sf", "vproducts.price_sf_with_tax",
+            $products = DB::table("vproducts")->select("vproducts.id", "vproducts.title", "vproducts.short_description", "vproducts.price_sf", 
+                    "vproducts.price_sf_with_tax",
                     "vproducts.image", "vproducts.thumbnail", "vproducts.category_id", "vproducts.slug", "vproducts.tax", "vproducts.supplier"
                     )
                     ->whereNotNull("image")
@@ -213,7 +214,8 @@ class PageController extends Controller {
                 $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
 
                 if ($orders != null)
-                    $products->select("orders_detail.quantity", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+                    $products->select("orders_detail.quantity", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", 
+                            "vproducts.short_description","vproducts.price_sf_with_tax", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
             }
 
             foreach ($char as $value) {
