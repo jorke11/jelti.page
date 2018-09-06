@@ -281,14 +281,14 @@
                         </ul>
                         <ul class="list-group">
                             <li class="list-group-item"  style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;"
-                                data-toggle="collapse" data-target="#content-dietas" onclick="obj.eventCategory('sup')"><b>DIETAS</b> ({{count($dietas)}})
-                                <span style="float:right" id="plus-icon-sup">
+                                data-toggle="collapse" data-target="#content-dietas" onclick="obj.eventCategory('diet')"><b>DIETAS</b> ({{count($dietas)}})
+                                <span style="float:right" id="plus-icon-diet">
                                     <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="black" stroke="#000000" 
                                          stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer">
                                     <path d="M16 2 L16 30 M2 16 L30 16" />
                                     </svg>
                                 </span>
-                                <span style="float:right" id="minus-icon-sup" class="d-none">
+                                <span style="float:right" id="minus-icon-diet" class="d-none">
                                     <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="black"  style="cursor:pointer"
                                          stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                     <path d="M2 16 L30 16" />

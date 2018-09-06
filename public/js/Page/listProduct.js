@@ -44,18 +44,20 @@ function listProduct() {
             });
             $('#display-json').html(JSON.stringify(checkedItems, null, '\t'));
         });
-
         $('#content-categories .list-group-item .custom-control-label').on('click', function () {
             var checkBox = $(this).prev('input');
-
             if ($(checkBox).attr('checked'))
                 $(checkBox).removeAttr('checked');
             else
                 $(checkBox).attr('checked', 'checked');
-
             return false;
-
         })
+
+
+
+        this.getCategories();
+        this.getSuppliers();
+        this.getDiet();
     }
 
     this.registerClient = function () {
@@ -63,7 +65,6 @@ function listProduct() {
     }
 
     this.getData = function () {
-
         if (user_id) {
             $.ajax({
                 url: PATH + '/getCounter',
@@ -77,6 +78,114 @@ function listProduct() {
 
             })
         }
+    }
+
+    this.getCategories = function () {
+        $.ajax({
+            url: PATH + '/categories',
+            method: 'GET',
+            success: function (data) {
+                obj.setListCategories(data)
+            }, error: function (xhr, ajaxOptions, thrownError) {
+//                toastr.error(xhr.responseJSON.msg);
+//                elem.attr("disabled", false);
+            }
+
+        })
+
+    }
+    this.getSuppliers = function () {
+        $.ajax({
+            url: PATH + '/suppliers',
+            method: 'GET',
+            success: function (data) {
+                obj.setListSupplier(data)
+            }, error: function (xhr, ajaxOptions, thrownError) {
+//                toastr.error(xhr.responseJSON.msg);
+//                elem.attr("disabled", false);
+            }
+
+        })
+
+    }
+
+    this.getDiet = function () {
+        $.ajax({
+            url: PATH + '/diet',
+            method: 'GET',
+            success: function (data) {
+                obj.setListDiet(data)
+            }, error: function (xhr, ajaxOptions, thrownError) {
+//                toastr.error(xhr.responseJSON.msg);
+//                elem.attr("disabled", false);
+            }
+
+        })
+
+    }
+
+    this.setListCategories = function (data) {
+        $("#content-categories").empty();
+        var html = ''
+        data.forEach(function (row, i) {
+            html += ` <li class="list-group-item pb-0 pt-0">
+                            <div class="row" style="cursor:pointer" >
+                                <div class="col-12">
+                                    <a href="javascript:;" class="list-group-item list-group-item-action" onclick="obj.reloadCategories('${row.slug}', this)";>
+                                        <div class="row">
+                                            <div class="col-lg-10">
+                                                    ${row.description} (${row.subcategories})
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <input type="checkbox" class="form-control list-category" 
+                                                    name="categories[]"  value="${row.slug}" id='checkbox_cat_${row.slug}'>
+                                            </div>
+                                        </div>
+
+                                    </a>
+                                </div>
+                            </div>
+                        </li>`;
+        })
+
+        $("#content-categories").html(html);
+    }
+
+    this.setListSupplier = function (data) {
+        $("#content-supplier").empty();
+        var html = ''
+        data.forEach(function (val, i) {
+            html += ` <li class="list-group-item">
+                            <div class="row" style="cursor:pointer" onclick="obj.reloadCategories('${val.id}'); return false;">
+                                <div class="col-10">
+                                    ${val.business} (${val.products})
+                                </div>
+                                <div class="col-2">
+                                    <input type="checkbox" name="supplier[]" class="form-control" value="${val.id}" id='checkbox_sup_${val.id}'>
+                                </div>
+                            </div>
+                    </li>`;
+        })
+
+        $("#content-supplier").html(html);
+    }
+    this.setListDiet = function (data) {
+        $("#content-dietas").empty();
+        var html = ''
+        data.forEach(function (val, i) {
+            html += ` <li class="list-group-item">
+                            <div class="row" style="cursor:pointer" onclick="obj.reloadCategories('${val.slug}'); return false;">
+                                <div class="col-10">
+                                        ${val.description}
+                                </div>
+                                <div class="col-2">
+                                    <input type="checkbox" name="dietas[]" class="form-control" value="${val.slug}" id='checkbox_dieta_${val.slug}'>
+                                </div>
+                            </div>
+                        </li>`;
+        })
+
+        $("#content-dietas").html(html);
     }
 
     this.setData = function (data) {
@@ -106,19 +215,19 @@ function listProduct() {
         }
 
         html += ` 
-                <div class="row">
-                    <div class="col-12 text-center">
-                         Item total:${data.detail.length}
-                    <div>   
-                <div>   
-                
+<div class="row">
+    <div class="col-12 text-center">
+        Item total:${data.detail.length}
+        <div>
+            <div>   
+
                 <div class="row">
                     <div class="col-12">
-                         <form action="/payment" method="GET">
+                        <form action="/payment" method="GET">
                             <button class="btn btn-outline-success my-2 my-sm-0 btn-sm form-control" type="submit">Checkout</button>
                         </form>
-                    <div>   
-                </div>`
+                        <div>   
+                        </div>`
 
         $("#popover-content").html(html);
     }
@@ -180,12 +289,12 @@ function listProduct() {
                             data.push({title: doc.data().title, img: doc.data().img});
                         });
                         html += ` <div class="row">
-                                <div class="col-12">
-                                     <form action="/payment" method="GET">
-                                        <button class="btn btn-outline-success my-2 my-sm-0 btn-sm form-control" type="submit">Checkout</button>
-                                    </form>
+                            <div class="col-12">
+                                <form action="/payment" method="GET">
+                                    <button class="btn btn-outline-success my-2 my-sm-0 btn-sm form-control" type="submit">Checkout</button>
+                                </form>
                                 <div>   
-                            </div>`
+                                </div>`
 
                         $("#badge-quantity").html(quantity)
                         $("#popover-content").html(html);
@@ -285,7 +394,6 @@ function listProduct() {
 
     this.eventCategory = function (ref = null) {
         ref = (ref == null) ? '' : "-" + ref;
-
         if (flag_category == false) {
             $("#plus-icon" + ref).addClass("d-none");
             $("#minus-icon" + ref).removeClass("d-none");
@@ -304,8 +412,8 @@ function listProduct() {
         var categories = [];
         var cat = "", subcategories = [], supplier = [], dietas = [];
 
-//        console.log($("#checkbox_cat_" + slug).is(":checked"));
-//        console.log($(e).attr("type"));
+        //        console.log($("#checkbox_cat_" + slug).is(":checked"));
+        //        console.log($(e).attr("type"));
 
         if ($("#checkbox_cat_" + slug).is(":checked")) {
             $("#checkbox_cat_" + slug).prop("checked", false);
@@ -410,38 +518,38 @@ function listProduct() {
                         }
 
                         html += `
-                                            <div class="row ${(value.quantity) ? '' : 'd-none'}" id="buttonAdd_${value.id}" 
-                                                    style="background-color: #5cb19a;padding-top: 5%;border-radius: 10px">
-                                                <div class="col">
-                                                    <svg id="i-minus"  class="btn-minus" viewBox="0 0 32 32"  style="cursor:pointer"
-                                                         stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                                         onclick="objCounter.deleteUnit(${value.id},'${value.slug}')">
-                                                    <path d="M2 16 L30 16" />
-                                                    </svg>
-                                                    
-                                                </div>
-                                                <div class="col" >
-                                                    <span id="quantity_product_${value.id}" style="color:white">${(value.quantity != null) ? value.quantity : 0}</span>
-                                                </div>
-                                                <div class="col" >
-                                                    <svg id="i-plus" class="btn-plus" viewBox="0 0 35 35" stroke-linecap="round"  stroke="#ffffff"
-                                                         stroke-linejoin="round" stroke-width="3" style="cursor:pointer"
-                                                         onclick="objCounter.addProduct('${value.short_description}',
-                                                         '${value.slug}','${value.id}','${value.price_sf}','${value.thumbnail}','${value.tax}'); return false;">
-                                                    <path d="M16 2 L16 30 M2 16 L30 16" />
-                                                    </svg>
-                                                    
-                                                </div>
-                                            </div>
+                                <div class="row ${(value.quantity) ? '' : 'd-none'}" id="buttonAdd_${value.id}" 
+                                     style="background-color: #5cb19a;padding-top: 5%;border-radius: 10px">
+                                    <div class="col">
+                                        <svg id="i-minus"  class="btn-minus" viewBox="0 0 32 32"  style="cursor:pointer"
+                                             stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                             onclick="objCounter.deleteUnit(${value.id},'${value.slug}')">
+                                        <path d="M2 16 L30 16" />
+                                        </svg>
 
-                                            <button class="btn ${(value.quantity == null) ? '' : 'd-none'}" 
-                                                    id="btnOption_${value.id}" onclick="objCounter.showButton('${value.short_description}',
+                                    </div>
+                                    <div class="col" >
+                                        <span id="quantity_product_${value.id}" style="color:white">${(value.quantity != null) ? value.quantity : 0}</span>
+                                    </div>
+                                    <div class="col" >
+                                        <svg id="i-plus" class="btn-plus" viewBox="0 0 35 35" stroke-linecap="round"  stroke="#ffffff"
+                                             stroke-linejoin="round" stroke-width="3" style="cursor:pointer"
+                                             onclick="objCounter.addProduct('${value.short_description}',
+                                                         '${value.slug}','${value.id}','${value.price_sf}','${value.thumbnail}','${value.tax}'); return false;">
+                                        <path d="M16 2 L16 30 M2 16 L30 16" />
+                                        </svg>
+
+                                    </div>
+                                </div>
+
+                                <button class="btn ${(value.quantity == null) ? '' : 'd-none'}" 
+                                        id="btnOption_${value.id}" onclick="objCounter.showButton('${value.short_description}',
                                                     '${value.slug}','${value.id}','${value.price_sf}','${value.thumbnail}','${value.tax}')" 
-                                                    style="background-color: #5cb19a;color:white">Agregar</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        `
+                                        style="background-color: #5cb19a;color:white">Agregar</button>
+                            </div>
+                        </div>
+                    </div>
+                    `
 
                         cont++;
                         if (cont == 4) {
@@ -484,7 +592,6 @@ function listProduct() {
                     $("#img-image").removeClass("d-none");
                 } else {
                     $("#img-image").addClass("d-none");
-
                 }
 
                 if (data.count_cat > 1) {
@@ -512,7 +619,6 @@ function listProduct() {
     this.hideButton = function (id) {
         $("#buttonAdd_" + id).addClass("d-none");
         $("#btnOption_" + id).removeClass("d-none");
-
     }
 
 }

@@ -13,11 +13,9 @@
 
 use App\Models;
 
+Auth::routes();
 Route::get('/search/{busqueda}', 'PageController@search');
-
-
 Route::get('/', 'PageController@index');
-
 
 Route::get('myOrders', "Ecommerce\PaymentController@getMyOrders");
 Route::get('getDetailOrder/{invoice}', "Ecommerce\PaymentController@getInvoice");
@@ -26,8 +24,10 @@ Route::post('newVisitan', "PageController@newVisitan");
 Route::post('loginModal', "Auth\LoginController@loginModal");
 
 Route::get('/products/{slug_category}', "PageController@productSearch");
+Route::get('/categories', "PageController@getCategories");
+Route::get('/suppliers', "PageController@getSuppliers");
+Route::get('/diet', "PageController@getDiet");
 
-Auth::routes();
 Route::get('/search', 'PageController@getProducts');
 Route::get('/search-input', 'PageController@getProductsInput');
 
