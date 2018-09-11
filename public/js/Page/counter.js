@@ -39,29 +39,29 @@ function Counter() {
         })
 
 
-//        $(window).scroll(function () {
-//
-//            //Efect when down scroll
-//            if ($(this).scrollTop() > 0) {
-//
-//                $("#main-menu-id").removeClass("main-menu").addClass("main-menu-out");
-////                $("#main-menu-id").removeClass("main-menu");
-////                $("#slider-main").removeClass("main-slider");
-////                $("#popover220259").css({"transform": "translate3d(1493px,  337px, 0px)"})
-//                $('.go-top').slideDown(300);
-//                $("#content-menu").height(300)
-//                $("#content-image").css("top", 100);
-//
-//            } else {
-//
-//                $("#content-image").css("top", -300);
-//                $(".popover").css("transform", "translate3d(1493px, 110px, 0px)")
-//                $("#main-menu-id").addClass("main-menu").removeClass("main-menu-out");
-//                $('.go-top').slideUp(300);
-//                $("#content-menu").height(720)
-//
-//            }
-//        });
+        //        $(window).scroll(function () {
+        //
+        //            //Efect when down scroll
+        //            if ($(this).scrollTop() > 0) {
+        //
+        //                $("#main-menu-id").removeClass("main-menu").addClass("main-menu-out");
+        ////                $("#main-menu-id").removeClass("main-menu");
+        ////                $("#slider-main").removeClass("main-slider");
+        ////                $("#popover220259").css({"transform": "translate3d(1493px,  337px, 0px)"})
+        //                $('.go-top').slideDown(300);
+        //                $("#content-menu").height(300)
+        //                $("#content-image").css("top", 100);
+        //
+        //            } else {
+        //
+        //                $("#content-image").css("top", -300);
+        //                $(".popover").css("transform", "translate3d(1493px, 110px, 0px)")
+        //                $("#main-menu-id").addClass("main-menu").removeClass("main-menu-out");
+        //                $('.go-top').slideUp(300);
+        //                $("#content-menu").height(720)
+        //
+        //            }
+        //        });
 
         $('.go-top').click(function () {
             $('body, html').animate({
@@ -183,7 +183,7 @@ function Counter() {
             $.ajax({
                 url: PATH + '/addProduct/' + slug,
                 method: 'PUT',
-                headers: {'X-CSRF-TOKEN': token},
+                headers: { 'X-CSRF-TOKEN': token },
                 data: row,
                 beforeSend: function () {
                     $("#loading-super").removeClass("d-none");
@@ -216,13 +216,13 @@ function Counter() {
         $.ajax({
             url: PATH + '/deleteProductUnit/' + slug,
             method: 'PUT',
-            headers: {'X-CSRF-TOKEN': token},
+            headers: { 'X-CSRF-TOKEN': token },
             data: row,
             beforeSend: function () {
                 $("#loading-super").removeClass("d-none");
             },
             success: function (data) {
-//                $("#content-detail").empty();
+                //                $("#content-detail").empty();
                 if (data.row.quantity > 0) {
                     $("#quantity_product_" + product_id).html(data.row.quantity)
                 } else {
@@ -232,9 +232,9 @@ function Counter() {
                 $("#loading-super").addClass("d-none");
                 objCounter.setData(data);
             }, error: function (xhr, ajaxOptions, thrownError) {
-//                console.log(xhr)
-//                console.log(ajaxOptions)
-//                console.log(thrownError)
+                //                console.log(xhr)
+                //                console.log(ajaxOptions)
+                //                console.log(thrownError)
             }
 
         })
@@ -255,8 +255,8 @@ function Counter() {
         console.log(e);
         console.log("ingreso");
 
-//        $("#buttonShow_" + product_id).removeClass("d-none")
-//        $("#buttonAdd_" + product_id).addClass("d-none")
+        //        $("#buttonShow_" + product_id).removeClass("d-none")
+        //        $("#buttonAdd_" + product_id).addClass("d-none")
 
     }
 
@@ -282,8 +282,8 @@ function Counter() {
                 success: function (data) {
                     objCounter.setData(data);
                 }, error: function (xhr, ajaxOptions, thrownError) {
-//                toastr.error(xhr.responseJSON.msg);
-//                elem.attr("disabled", false);
+                    //                toastr.error(xhr.responseJSON.msg);
+                    //                elem.attr("disabled", false);
                 }
 
             })
@@ -296,7 +296,7 @@ function Counter() {
         var html = '';
         if (data.detail != false) {
             data.detail.forEach((row, index) => {
-//                if (index < 3) {
+                //                if (index < 3) {
                 html += `
                             <div class="row mb-2">
                                 <div class="card card-customer">
@@ -339,7 +339,7 @@ function Counter() {
                                 </div>
                             </div>
                             `;
-//                }
+                //                }
             })
         }
 
@@ -366,7 +366,7 @@ function Counter() {
 
         $.ajax({
             url: '/deleteAllProduct/' + slug,
-            headers: {'X-CSRF-TOKEN': token},
+            headers: { 'X-CSRF-TOKEN': token },
             method: 'PUT',
             dataType: 'JSON',
             success: function (data) {
@@ -375,7 +375,19 @@ function Counter() {
                 objCounter.setData(data);
             }
         })
+    }
+    this.slug = function (text) {
+        return text.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
+    }
 
+    this.formatNumber = function (n,currency) {
+        if (currency == undefined) {
+            currency = "$";
+        }
+        
+        return currency + " " + parseFloat(n).toFixed(0).replace(/./g, function (c, i, a) {
+            return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
+        });
     }
 
 }

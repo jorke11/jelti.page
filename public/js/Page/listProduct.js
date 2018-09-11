@@ -52,10 +52,6 @@ function listProduct() {
             return false;
         })
 
-
-
-        // this.getCategories();
-        // this.getSuppliers();
     }
 
     this.registerClient = function () {
@@ -481,7 +477,7 @@ function listProduct() {
                                               
                                                 <div class="card-body" style="padding-bottom: 1.25em;padding-top:0">
 
-                                                    <p class="text-left text-supplier" style="margin:0;"><a href="/search/s=${$.slug(value.supplier)}" class="text-muted ">${(value.supplier).toUpperCase()}</a></p>
+                                                    <p class="text-left text-supplier" style="margin:0;"><a href="/search/s=${objCounter.slug(value.supplier)}" class="text-muted ">${(value.supplier).toUpperCase()}</a></p>
 
                                                     <h5 class="card-title text-left title-products" style="margin:0;min-height: 100px" 
                                                         onclick="obj.redirectProduct('${value.slug}')">
@@ -511,7 +507,7 @@ function listProduct() {
                             html += `<p></p>`
                         } else {
                             html += `<p>
-                                                        ${$.formatNumber(value.price_sf_with_tax, "$")}
+                                                        ${objCounter.formatNumber(value.price_sf_with_tax, "$")}
                                                         </p>`
                         }
 

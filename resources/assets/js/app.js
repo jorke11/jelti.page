@@ -33,6 +33,8 @@ let menuDietFooter = Vue.component('menu-diet-footer', require('./components/Men
 let menuCategoryHeader = Vue.component('menu-category', require('./components/MenuCategory.vue'));
 let menuCategoryFooter = Vue.component('menu-category-footer', require('./components/MenuCategoryFooter.vue'));
 Vue.component('card-product', require('./components/CardProduct.vue'));
+Vue.component('filter-category', require('./components/MenuCategoryFilter.vue'));
+Vue.component('filter-subcategory', require('./components/MenuCategoryFilter.vue'));
 //let newProducts = Vue.component('new-products', require('./components/NewProduct.vue'));
 
 
@@ -66,6 +68,24 @@ if (document.getElementById("list-products")) {
         store
     });
 } 
+
+
+if (document.getElementById("content-categories")) {
+    const app = new Vue({
+        el: '#content-categories',
+        store
+    });
+} 
+
+if (document.getElementById("content-subcategories")) {
+    const app = new Vue({
+        el: '#content-subcategories',
+        store
+    });
+} 
+
+
+
 
 
 new Vue({

@@ -151,8 +151,6 @@
                             </li>
                             <div id="content-categories" class="collapse">
 
-                                <!--<menu-filter-category />-->
-
                                 <?php
                                 $active = "";
                                 $check = "";

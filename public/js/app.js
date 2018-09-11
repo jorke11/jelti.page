@@ -10408,6 +10408,8 @@ var menuDietFooter = Vue.component('menu-diet-footer', __webpack_require__(237))
 var menuCategoryHeader = Vue.component('menu-category', __webpack_require__(240));
 var menuCategoryFooter = Vue.component('menu-category-footer', __webpack_require__(243));
 Vue.component('card-product', __webpack_require__(225));
+Vue.component('filter-category', __webpack_require__(260));
+Vue.component('filter-subcategory', __webpack_require__(260));
 //let newProducts = Vue.component('new-products', require('./components/NewProduct.vue'));
 
 
@@ -10437,6 +10439,20 @@ if (document.getElementById("new-products")) {
 if (document.getElementById("list-products")) {
     var _app2 = new Vue({
         el: '#list-products',
+        store: store
+    });
+}
+
+if (document.getElementById("content-categories")) {
+    var _app3 = new Vue({
+        el: '#content-categories',
+        store: store
+    });
+}
+
+if (document.getElementById("content-subcategories")) {
+    var _app4 = new Vue({
+        el: '#content-subcategories',
         store: store
     });
 }
@@ -69562,6 +69578,292 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 250 */,
+/* 251 */,
+/* 252 */,
+/* 253 */,
+/* 254 */,
+/* 255 */,
+/* 256 */,
+/* 257 */,
+/* 258 */,
+/* 259 */,
+/* 260 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(14)
+/* script */
+var __vue_script__ = __webpack_require__(261)
+/* template */
+var __vue_template__ = __webpack_require__(262)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/MenuCategoryFilter.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-9811cd68", Component.options)
+  } else {
+    hotAPI.reload("data-v-9811cd68", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 261 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ListFilter_vue__ = __webpack_require__(263);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ListFilter_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ListFilter_vue__);
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    "list-filter": __WEBPACK_IMPORTED_MODULE_0__ListFilter_vue___default.a
+  },
+  computed: {
+    categories: function categories() {
+      return this.$store.getters.categories;
+    },
+    appPath: function appPath() {
+      return this.$store.getters.appPath;
+    }
+  },
+  mounted: function mounted() {
+    console.log("Component mounted card diets menu.");
+  },
+
+  methods: {}
+});
+
+/***/ }),
+/* 262 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [_c("list-filter", { attrs: { categories: _vm.categories } })],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-9811cd68", module.exports)
+  }
+}
+
+/***/ }),
+/* 263 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(14)
+/* script */
+var __vue_script__ = __webpack_require__(264)
+/* template */
+var __vue_template__ = __webpack_require__(265)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ListFilter.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-01ab07a6", Component.options)
+  } else {
+    hotAPI.reload("data-v-01ab07a6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 264 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var props = {
+
+    categories: {
+        type: Array
+    }
+
+};
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: props,
+    mounted: function mounted() {},
+
+    methods: {}
+});
+
+/***/ }),
+/* 265 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    _vm._l(_vm.categories, function(category) {
+      return _c("div", { key: category.id }, [
+        _c("li", { staticClass: "list-group-item pb-0 pt-0" }, [
+          _c(
+            "div",
+            { staticClass: "row", staticStyle: { cursor: "pointer" } },
+            [
+              _c("div", { staticClass: "col-12" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "list-group-item list-group-item-action",
+                    attrs: { href: "javascript:;" },
+                    on: {
+                      ":click": function($event) {
+                        _vm.reloadCategories("{{category.slug}}", this)
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-lg-10" }, [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(category.description) +
+                            " (" +
+                            _vm._s(category.subcategories) +
+                            ")\n                            "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _vm._m(0, true)
+                    ])
+                  ]
+                )
+              ])
+            ]
+          )
+        ])
+      ])
+    })
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-lg-2" }, [
+      _c("input", {
+        staticClass: "form-control list-category",
+        attrs: { type: "checkbox", name: "categories[]" }
+      })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-01ab07a6", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

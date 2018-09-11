@@ -31,7 +31,7 @@ clearstatcache();
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="shortcut icon" href="{{ asset('assets/images/icon.png') }}">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-        {!!Html::script('/vendor/plugins.js')!!}
+        
         <!-- Fonts -->
 
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -59,10 +59,12 @@ clearstatcache();
         {!!Html::script('/vendor/bootstrap-typeahead.js')!!}
 
         {!!Html::style('/css/page.css')!!}
+        <script src="/vendor/plugins.js" async></script>
         
         {!!Html::style('/vendor/select2/css/select2.min.css')!!}
         {!!Html::script('/vendor/select2/js/select2.js')!!}
         {!!Html::style('/css/edited.css')!!}
+        
     </head>
     <!--Start of Tawk.to Script-->
 <!--    <script type="text/javascript">

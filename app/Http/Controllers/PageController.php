@@ -486,7 +486,7 @@ class PageController extends Controller {
                 $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
 
                 if ($orders != null)
-                    $products->select("orders_detail.quantity", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+                    $products->select("orders_detail.quantity", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id","vproducts.price_sf_with_tax", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
             }
 
             $products = $products->orderBy("supplier", "desc")->orderBy("title", "asc")->get();
