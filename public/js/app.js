@@ -10407,6 +10407,7 @@ var menuDietFooter = Vue.component('menu-diet-footer', __webpack_require__(237))
 
 var menuCategoryHeader = Vue.component('menu-category', __webpack_require__(240));
 var menuCategoryFooter = Vue.component('menu-category-footer', __webpack_require__(243));
+Vue.component('card-product', __webpack_require__(225));
 //let newProducts = Vue.component('new-products', require('./components/NewProduct.vue'));
 
 
@@ -10429,6 +10430,13 @@ if (document.getElementById("divProduct")) {
 if (document.getElementById("new-products")) {
     var _app = new Vue({
         el: '#new-products',
+        store: store
+    });
+}
+
+if (document.getElementById("list-products")) {
+    var _app2 = new Vue({
+        el: '#list-products',
         store: store
     });
 }
@@ -65125,6 +65133,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
         diets: [],
         categories: [],
         newProducts: [],
+        listProducts: [],
         appPath: "http://localhost:8000/"
     },
 
@@ -65134,6 +65143,9 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
         },
         categories: function categories(state) {
             return state.categories;
+        },
+        listProduct: function listProduct(state) {
+            return state.listProducts;
         },
         AppPath: function AppPath(state) {
             return state.appPath;
@@ -65148,6 +65160,9 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
         },
         updateNewProducts: function updateNewProducts(state, payload) {
             return state.newProducts = payload;
+        },
+        updateListProduct: function updateListProduct(state, payload) {
+            return state.listProducts = payload;
         }
     },
     actions: {
@@ -65164,6 +65179,11 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
         getNewProducts: function getNewProducts(context) {
             axios.get("/new-products").then(function (response) {
                 context.commit("updateNewProducts", response.data);
+            });
+        },
+        getListProduct: function getListProduct(context) {
+            axios.get("/list-products").then(function (response) {
+                context.commit("updateListProduct", response.data);
             });
         }
     }
@@ -68810,9 +68830,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {};
+    return {
+      param: ''
+    };
   },
   mounted: function mounted() {
+    console.log(this.param);
+    this.$store.dispatch("getListProduct");
     console.log("Component mounted.");
   }
 });

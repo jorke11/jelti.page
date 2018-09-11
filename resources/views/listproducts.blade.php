@@ -151,7 +151,7 @@
                             </li>
                             <div id="content-categories" class="collapse">
 
-                                <menu-filter-category />
+                                <!--<menu-filter-category />-->
 
                                 <?php
                                 $active = "";
@@ -424,4 +424,6 @@
         </div>
     </div>
 </section>
+</section>
+{!!Html::script('js/Page/listProduct.js')!!}
 @endsection

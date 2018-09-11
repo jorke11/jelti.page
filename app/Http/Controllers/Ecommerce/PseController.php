@@ -330,9 +330,9 @@ class PseController extends Controller {
         dd($data);
 
         if($data["lapTransactionState"]=='PENDING'){
-            $data["status"]=""
+            $data["status"]="Por favor";
         }else{
-            $data["status"]=""
+            $data["status"]="OK";
         }
 
         return view("Ecommerce.pse.confirmation",compact("data"));

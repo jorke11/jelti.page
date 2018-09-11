@@ -10,12 +10,15 @@
 
 <script>
 export default {
+  
   data() {
     return {
-      
+      param:''
     }
   },
   mounted() {
+    console.log(this.param)
+    this.$store.dispatch("getListProduct");
     console.log("Component mounted.");
   }
 };

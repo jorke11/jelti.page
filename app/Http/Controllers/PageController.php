@@ -385,10 +385,12 @@ class PageController extends Controller {
         }
 
         $dietas = $this->dietas;
+        
+        return view('listproducts', compact("breadcrumbs", "categories", "row_category", 'products', "slug_category", "subcategory", "param", "dietas", "supplier","param"));
+    }
 
-
-
-        return view('listproducts', compact("breadcrumbs", "categories", "row_category", 'products', "slug_category", "subcategory", "param", "dietas", "supplier"));
+    public function getListProduct(){
+        return response()->json([]);
     }
 
     public function getProductsInput(Request $req, $param = null) {

@@ -32,6 +32,7 @@ let menuDietFooter = Vue.component('menu-diet-footer', require('./components/Men
 
 let menuCategoryHeader = Vue.component('menu-category', require('./components/MenuCategory.vue'));
 let menuCategoryFooter = Vue.component('menu-category-footer', require('./components/MenuCategoryFooter.vue'));
+Vue.component('card-product', require('./components/CardProduct.vue'));
 //let newProducts = Vue.component('new-products', require('./components/NewProduct.vue'));
 
 
@@ -58,7 +59,13 @@ if (document.getElementById("new-products")) {
         store
     });
 } 
-    
+
+if (document.getElementById("list-products")) {
+    const app = new Vue({
+        el: '#list-products',
+        store
+    });
+} 
 
 
 new Vue({

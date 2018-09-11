@@ -4,7 +4,6 @@ function listProduct() {
     var db;
     var user_id;
     this.init = function () {
-
         $("#main-menu-id").removeClass("img-headers")
 //        $("[data-toggle=popover]").popover({
 //            html: true,

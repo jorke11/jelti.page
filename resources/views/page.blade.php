@@ -213,10 +213,6 @@
         </div>
     </section>-->
 
-
-
-
-
 <!--Web-->
 <section style="padding-top: 3%;padding-bottom: 2%">   
     <div class="container-fluid test">

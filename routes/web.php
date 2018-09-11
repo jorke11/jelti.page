@@ -31,6 +31,7 @@ Route::get('/diet', "PageController@getDiet");
 Route::get('/search', 'PageController@getProducts');
 Route::get('/search-input', 'PageController@getProductsInput');
 Route::get('/card-diets', 'PageController@getDiets');
+Route::get('/list-products', 'PageController@getListProduct');
 
 Route::get('/getComment/{id}', 'Ecommerce\ShoppingController@getComment');
 Route::post('addComment', 'Ecommerce\ShoppingController@storeComment');
@@ -60,3 +61,4 @@ Route::post('comment-like', 'Ecommerce\ShoppingController@addCommentLike');
 Route::get('pse', "Ecommerce\PseController@index");
 Route::post('payment/pse', "Ecommerce\PseController@payment");
 Route::get('confirmation', 'Ecommerce\PseController@confirmation');
+
