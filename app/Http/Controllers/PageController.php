@@ -19,14 +19,14 @@ class PageController extends Controller {
     public $dietas;
 
     public function __construct() {
-        $this->dietas = array(
-            (object) array("id" => 1, "description" => "Paleo", "slug" => "paleo"),
-            (object) array("id" => 2, "description" => "Vegano", "slug" => "vegano"),
-            (object) array("id" => 3, "description" => "Sin gluten", "slug" => "sin_gluten"),
-            (object) array("id" => 4, "description" => "Organico", "slug" => "organico"),
-            (object) array("id" => 5, "description" => "Sin grasas Trans", "slug" => "sin_grasas_trans"),
-            (object) array("id" => 6, "description" => "Sin azucar", "slug" => "sin_azucar"),
-        );
+        $this->dietas = [
+            ["id" => 1, "description" => "Paleo", "slug" => "paleo","image"=>"images/page/dietas/paleo.png","search"=>"paleo"],
+            ["id" => 2, "description" => "Vegano", "slug" => "vegano","image"=>"images/page/dietas/vegana.png","search"=>"vegano"],
+            ["id" => 3, "description" => "Sin gluten", "slug" => "sin_gluten","image"=>"images/page/dietas/sin_gluten.png","search"=>"sin_gluten"],
+            ["id" => 4, "description" => "Organico", "slug" => "organico","image"=>"images/page/dietas/organico.png","search"=>"organico"],
+            ["id" => 5, "description" => "Sin grasas Trans", "slug" => "sin_grasas_trans","image"=>"images/page/dietas/singrasastrans.png","search"=>"sin_grasas_trans"],
+            ["id" => 6, "description" => "Sin azucar", "slug" => "sin_azucar","image"=>"images/page/dietas/sinazucar.png","search"=>"sin_azucar"],
+        ];
     }
 
     public function index() {
@@ -136,8 +136,14 @@ class PageController extends Controller {
 
         $dietas = $this->dietas;
 
-        return view('page', compact("categories", "subcategory", "newproducts", "love_clients", "clients", "dietas", "most_sales"));
+        return view('page', compact("subcategory", "newproducts", "love_clients", "clients", "most_sales"));
     }
+
+
+    public function getDiets(){
+        return response()->json($this->dietas);
+    }
+
 
     public function getCategories() {
         $categories = DB::table("vcategories")->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->where("status_id", 1)->orderBy("order", "asc")->get();
@@ -192,7 +198,8 @@ class PageController extends Controller {
             $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
 
             if ($orders != null)
-                $products->select("orders_detail.quantity", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+                $products->select("orders_detail.quantity", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", 
+                "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier","vproducts.price_sf_with_tax")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
         }
 
 
