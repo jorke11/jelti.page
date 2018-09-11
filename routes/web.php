@@ -32,8 +32,6 @@ Route::get('/search', 'PageController@getProducts');
 Route::get('/search-input', 'PageController@getProductsInput');
 Route::get('/card-diets', 'PageController@getDiets');
 
-
-
 Route::get('/getComment/{id}', 'Ecommerce\ShoppingController@getComment');
 Route::post('addComment', 'Ecommerce\ShoppingController@storeComment');
 Route::get('/getCounter', 'Ecommerce\PaymentController@getOrdersCurrent');

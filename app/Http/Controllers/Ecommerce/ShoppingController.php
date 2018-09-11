@@ -146,7 +146,7 @@ class ShoppingController extends Controller {
                 if ($orders != null) {
 
 
-                    $relations->select("orders_detail.quantity as quantity_order", "vproducts.category_id", "vproducts.description", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")
+                    $relations->select("orders_detail.quantity as quantity_order", "vproducts.category_id","vproducts.title", "vproducts.description", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")
                             ->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
 
                     $product->select("orders_detail.quantity as quantity_order", "vproducts.category_id", "vproducts.description", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")
