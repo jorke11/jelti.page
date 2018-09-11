@@ -55,9 +55,8 @@ function listProduct() {
 
 
 
-        this.getCategories();
-        this.getSuppliers();
-        this.getDiet();
+        // this.getCategories();
+        // this.getSuppliers();
     }
 
     this.registerClient = function () {

@@ -18,6 +18,12 @@
         "laravel-mix": "^1.0",
         "lodash": "^4.17.4",
         "react": "^15.4.2",
-        "react-dom": "^15.4.2"
+        "react-dom": "^15.4.2",
+        "vue-template-compiler": "^2.5.17"
+    },
+    "dependencies": {
+        "vue": "^2.5.17",
+        "vue-router": "^3.0.1",
+        "vuex": "^3.0.1"
     }
 }

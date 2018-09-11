@@ -313,8 +313,8 @@ function Counter() {
                                             </div>
                                             <div class="col-9 card-customer">
                                                 <p>${row.product} <br>
-                                                Precio <b>${$.formatNumber(parseInt(row.price_sf_with_tax), "$")}</b><br>
-                                                Total <b>${$.formatNumber(parseInt(row.subtotal), "$")}</b><br>
+                                                Precio <b>${parseInt(row.price_sf_with_tax)}</b><br>
+                                                Total <b>${parseInt(row.subtotal)}</b><br>
                                                 
                                                  <div class="row card-customer" style="width:70%;z-index:1000">
                                                 <div class="input-group mb-2 offset-1 card-customer">
@@ -346,7 +346,7 @@ function Counter() {
         html += ` 
                 <div class="row">
                     <div class="col-12 text-center">
-                         Total ${$.formatNumber(data.total, "$")}  Item total:${data.detail.length}
+                         Total ${data.total}  Item total:${data.detail.length}
                     <div>   
                 <div>   
                 
@@ -371,7 +371,7 @@ function Counter() {
             dataType: 'JSON',
             success: function (data) {
                 $("#card_" + index).remove()
-                $("#frm #total").val($.formatNumber(data.total, "$"))
+                $("#frm #total").val($.formatNumber(data.total))
                 objCounter.setData(data);
             }
         })

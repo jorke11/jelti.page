@@ -1,14 +1,4 @@
 
-<style>
-    .modal-content {
-        background-color: rgba(255,255,255,.6)
-    }
-    .title-green{
-        color: #28a745;
-        font-size: 26px;
-        cursor: pointer;
-    }
-</style>
 <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" style="background-color: rgba(255,255,255,.8) !important;padding-top: 7%;">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="background-color: rgba(249,247,246,.9) !important;border: 3px solid #ffffff;border-radius: 20px;">

@@ -124,19 +124,19 @@ class PseController extends Controller {
 
     public function getListBanks() {
 
-//        $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
-//        $url_ch = 'sandbox.api.payulatam.com';
+       $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
+       $url_ch = 'sandbox.api.payulatam.com';
 
-        $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
-        $url_ch = 'api.payulatam.com';
+        /* $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
+        $url_ch = 'api.payulatam.com'; */
 
         //Production
-        $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
-        $apiLogin = "tGovZHuhL97hNh7";
+        /* $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
+        $apiLogin = "tGovZHuhL97hNh7"; */
 
         //test
-//        $apiLogin = "pRRXKOl8ikMmt9u";
-//        $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
+       $apiLogin = "pRRXKOl8ikMmt9u";
+       $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
 
 
         $postData = array(
@@ -206,24 +206,26 @@ class PseController extends Controller {
         $client = Stakeholder::where("email", Auth::user()->email)->first();
         $country = $in["country_id"];
 
-//        $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
-        $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
         //Production
+        /* $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
+        $host="api.payulatam.com";
         $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
         $apiLogin = "tGovZHuhL97hNh7";
         $merchantId = "559634";
-        $accountId = "562109";
+        $accountId = "562109"; */
 
-//        $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
-//        $apiLogin = "pRRXKOl8ikMmt9u";
-//        $merchantId = 508029;
-//        $accountId = 512321;
+        //Test
+        $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
+        $host="sandbox.api.payulatam.com";
+        $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
+        $apiLogin = "pRRXKOl8ikMmt9u";
+        $merchantId = 508029;
+        $accountId = 512321;
 
         $referenceCode = 'invoice_' . microtime();
         $currency = "COP";
 
         $data_order = $this->createOrder();
-
 
         $TX_VALUE = round($data_order["header"]["total"]);
         $TX_TAX = 0;
@@ -265,7 +267,7 @@ class PseController extends Controller {
                     "contactPhone" => $client->phone
                 ],
                 "extraParameters" => [
-                    "RESPONSE_URL" => "http://localhost/confirmation",
+                    "RESPONSE_URL" => "http://localhost:8000/confirmation",
                     "PSE_REFERENCE1" => "127.0.0.1",
 //                    "FINANCIAL_INSTITUTION_CODE" => "1007",
                     "FINANCIAL_INSTITUTION_CODE" => $in["bank"],
@@ -296,7 +298,7 @@ class PseController extends Controller {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json',
-            'Host: api.payulatam.com',
+            'Host: '.$host,
             'Accept:application/json',
             'Content-Length: ' . strlen($data_string))
         );
@@ -308,11 +310,32 @@ class PseController extends Controller {
 
         Log::debug("RESPONSE TO PAY PSE: " . print_r($arr, true));
 
+
+        
         if ($arr["code"] == 'SUCCESS') {
             if ($arr["transactionResponse"]["pendingReason"] == 'AWAITING_NOTIFICATION') {
                 return Redirect::to($arr["transactionResponse"]["extraParameters"]["BANK_URL"]);
+            }else{
+                echo "No paso de response";    
+                dd($arr);
             }
+        }else{
+            echo "No paso de success";
+            dd($arr);
         }
+    }
+
+    public function confirmation(){
+        $data = $_GET;
+        dd($data);
+
+        if($data["lapTransactionState"]=='PENDING'){
+            $data["status"]=""
+        }else{
+            $data["status"]=""
+        }
+
+        return view("Ecommerce.pse.confirmation",compact("data"));
     }
 
 }

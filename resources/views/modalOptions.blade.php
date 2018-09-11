@@ -1,20 +1,4 @@
 
-<style>
-    .modal-content {
-        background-color: rgba(255,255,255,.6)
-    }
-    .title-green{
-        color: #28a745;
-        font-size: 26px;
-        cursor: pointer;
-    }
-    .vertical-align {
-        display: flex;
-        align-items: center;
-    }
-</style>
-
-
 @if ($errors->has('email'))
 <script>$(function () {
         $("#modalOptions").modal("show")

@@ -150,6 +150,9 @@
                                 </span>
                             </li>
                             <div id="content-categories" class="collapse">
+
+                                <menu-filter-category />
+
                                 <?php
                                 $active = "";
                                 $check = "";
@@ -297,25 +300,7 @@
                             <div id="content-dietas" class="collapse">
                                 <?php
                                 $active = "";
-                                foreach ($dietas as $val) {
-//                                    if ($slug_category == $val->slug) {
-//                                        $active = "active";
-//                                    } else {
-//                                        $active = "";
-//                                    }
-                                    ?>
-                                    <li class="list-group-item">
-                                        <div class="row" style="cursor:pointer" onclick="obj.reloadCategories('{{$val->slug}}'); return false;">
-                                            <div class="col-10">
-                                                {{ucwords(strtolower($val->description))}}
-                                            </div>
-                                            <div class="col-2">
-                                                <input type="checkbox" name="dietas[]" class="form-control" value="{{$val->slug}}" id='checkbox_dieta_{{$val->slug}}'>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <?php
-                                }
+                               
                                 ?>
                             </div>
                         </ul>
@@ -439,7 +424,4 @@
         </div>
     </div>
 </section>
-{!!Html::script('js/Page/listProduct.js')!!}
 @endsection
-
-

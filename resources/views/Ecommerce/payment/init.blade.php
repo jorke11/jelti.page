@@ -117,8 +117,8 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label for="tgarjeta">Nombre como aparece en la tarjeta</label>
-                                                <input type="text" class="form-control form-control-sm input input-payment input-alpha" id="name" name="name" placeholder="Nombre como aparece en la tarjeta" required autocomplete="off" maxlength="150"
-                                                       value="{{Session::get('name')}}">
+                                                <input type="text" class="form-control form-control-sm input input-payment input-alpha" id="name_card" name="name_card" placeholder="Nombre como aparece en la tarjeta" required autocomplete="off" maxlength="150"
+                                                       value="{{Session::get('name_card')}}">
                                             </div>
                                         </div>
                                     </div>
@@ -283,6 +283,5 @@
     </div>
 </div>
 {!!Form::close()!!}
-
 {!!Html::script('js/Ecommerce/Payment.js')!!}
 @endsection

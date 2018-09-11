@@ -139,7 +139,7 @@ function Pse() {
                                             </div>
                                             <div class="detail[i]" style="padding-top:10%">
                                                 <div class="col" >
-                                                    <p>${$.formatNumber(detail[i].price_sf, "$")}</p>
+                                                    <p>${detail[i].price_sf}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -365,10 +365,10 @@ function Pse() {
             $("#message-mount").addClass("d-none");
         }
 
-        $("#tax5").html($.formatNumber(parseInt(data.tax5), "$"))
-        $("#tax19").html($.formatNumber(parseInt(data.tax19), "$"))
-        $("#totalOrder").html($.formatNumber(parseInt(data.total), "$"))
-        $("#subtotalOrder").html($.formatNumber(parseInt(data.subtotal), "$"))
+        $("#tax5").html(parseInt(data.tax5))
+        $("#tax19").html(parseInt(data.tax19))
+        $("#totalOrder").html(parseInt(data.total))
+        $("#subtotalOrder").html(parseInt(data.subtotal))
         $("#badge-quantity").html(data.quantity)
 
 

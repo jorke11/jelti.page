@@ -28,9 +28,10 @@ clearstatcache();
         <meta http-equiv="Pragma" content="no-cache">
         <title>SuperFüds</title>
         <script>var PATH = '{{url("/")}}'</script>
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="shortcut icon" href="{{ asset('assets/images/icon.png') }}">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-
+        {!!Html::script('/vendor/plugins.js')!!}
         <!-- Fonts -->
 
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -58,7 +59,7 @@ clearstatcache();
         {!!Html::script('/vendor/bootstrap-typeahead.js')!!}
 
         {!!Html::style('/css/page.css')!!}
-        {!!Html::script('/vendor/plugins.js')!!}
+        
         {!!Html::style('/vendor/select2/css/select2.min.css')!!}
         {!!Html::script('/vendor/select2/js/select2.js')!!}
         {!!Html::style('/css/edited.css')!!}
@@ -250,7 +251,7 @@ clearstatcache();
 
     </style>
 
-    <body >
+    <body>
         @include("modalRegister")
         @include("modalOptions")
 
@@ -307,4 +308,6 @@ if ($exibirModal === true) : // Si nuestra variable de control "$exibirModal" es
 <?php endif; ?>
 
 {!!Html::script('js/Page/counter.js')!!}
+
 <link href="{{ asset('/css/fonts.css') }}" rel="stylesheet" type="text/css">
+<script src="{{asset("js/app.js")}}"></script>

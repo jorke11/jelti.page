@@ -30,6 +30,9 @@ Route::get('/diet', "PageController@getDiet");
 
 Route::get('/search', 'PageController@getProducts');
 Route::get('/search-input', 'PageController@getProductsInput');
+Route::get('/card-diets', 'PageController@getDiets');
+
+
 
 Route::get('/getComment/{id}', 'Ecommerce\ShoppingController@getComment');
 Route::post('addComment', 'Ecommerce\ShoppingController@storeComment');
@@ -47,6 +50,7 @@ Route::put('deleteProductUnit/{slug}', 'Ecommerce\PaymentController@deleteProduc
 Route::put('deleteAllProduct/{slug}', 'Ecommerce\PaymentController@deleteAllProduct');
 Route::post('payment/target', 'Ecommerce\PaymentController@payment');
 
+
 Route::get('/api/getDepartment', 'Administration\SeekController@getDepartment');
 
 Route::get('getCity/{department_id}', "Ecommerce\PaymentController@getCities");
@@ -57,3 +61,4 @@ Route::post('addFavourite/{slug}', 'Ecommerce\ShoppingController@addFavourite');
 Route::post('comment-like', 'Ecommerce\ShoppingController@addCommentLike');
 Route::get('pse', "Ecommerce\PseController@index");
 Route::post('payment/pse', "Ecommerce\PseController@payment");
+Route::get('confirmation', 'Ecommerce\PseController@confirmation');

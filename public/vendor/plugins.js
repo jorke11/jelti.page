@@ -440,6 +440,7 @@ $.formatNumber = function (n, currency) {
         return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
     });
 }
+
 $.slug = function (text) {
     return text.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
 }

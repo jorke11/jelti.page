@@ -35,7 +35,7 @@
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
-        background-color: rgba(91,175,152,1);
+    background-color: rgba(91,175,152,1);
         /*background-size: 100% 132%;*/
     }
 
@@ -243,7 +243,7 @@
             font-size: 25px;
         }
         .link-white{
-            font-size: 13px;
+            font-size: 14px;
         }
     }
 
@@ -282,7 +282,7 @@
 <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
 @endauth
 
-<nav class="navbar navbar-expand-lg fixed-top navbar-light main-menu img-fluid img-header " id="main-menu-id" style="background-color: #6dcbb;height: 150px;padding-bottom:3%">
+<nav class="navbar navbar-expand-lg fixed-top navbar-light main-menu img-fluid img-header " id="main-menu-id" style="height: 150px;padding-bottom:3%">
     <a class="navbar-brand d-lg-none" href="/">
         <img alt="Brand" src="/images/page/logosuperf.svg" class="img-fluid" width="30%">
     </a>
@@ -293,34 +293,21 @@
     </button>
 
     <div class="navbar-collapse collapse" id="navbarsExampleDefault" style="">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item dropdown active">
+        <ul class="navbar-nav mr-auto" id="menu-header">
+            <li class="nav-item dropdown active" id="menu-diet">
                 <a class="nav-link dropdown-toggle title-menu" href="{{url("/")}}" id="title-categories" data-toggle="dropdown" 
                    aria-haspopup="true" aria-expanded="false" >CATEGORIAS</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    @foreach($categories as $val)
-                    <a style="color:black" class="dropdown-item" href="{{url("")}}/products/{{$val->slug}}">{{ucwords(strtolower($val->description))}}</a>
-                    @endforeach
+                    <menu-category />
                 </div>
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" id="menu-category">
                 <a class="nav-link dropdown-toggle title-menu" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
                    aria-haspopup="true" aria-expanded="false" >DIETAS</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    @foreach($dietas as $val)
-                    <a class="dropdown-item" href='{{url("search/s=".$val->slug)}}'>{{$val->description}}</a>
-                    @endforeach
+                    <menu-diet />
                 </div>
             </li>
-            <!--            <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
-                               aria-haspopup="true" aria-expanded="false" style="font-size: 19;padding-right:40px">Blog</a>
-                            <div class="dropdown-menu" aria-labelledby="dropdown01">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </li>-->
         </ul>
 
         <ul class="navbar-nav mr-auto text-center center-image" style="">

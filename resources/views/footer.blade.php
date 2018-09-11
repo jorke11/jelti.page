@@ -29,27 +29,22 @@
 </style>
 <div class="container-fluid footer-template" >
     <!--<div class="row" style="background-color: rgba(0,0,0,.8);">-->
-    <div class="row" >
+    <div class="row" id="options-footer">
         <div class="col-5" style="padding-top: 2%;padding-bottom: 2%"  id="categories-footer">
             <div class="row">
                 <div class="col-4">
                     <ul class="list-group">
                         <li class="list-group-item">CATEGORÍAS</li>
-                        @foreach($categories as $val)
-                        <li class="list-group-item"><a class="link-white" href="{{url("/products/".$val->slug)}}">{{ucwords(strtoupper(str_replace("é","É",$val->description)))}}</a></li>
-                        @endforeach
+                        <menu-category-footer />
                     </ul>
                 </div>
-                <div class="col-4 d-none d-lg-block d-md-none d-sm-block">
+                <div class="col-4 d-none d-lg-block d-md-none d-sm-block" id="diet-footer">
                     <ul class="list-group">
                         <li class="list-group-item">DIETAS</li>
-                        @foreach($dietas as $val)
-                        <li class="list-group-item"><a class="link-white" href='{{url("search/s=".$val->slug)}}'>{{strtoupper($val->description)}}</a></li>
-                        @endforeach
+                        <menu-diet-footer />
                     </ul>
                 </div>
             </div>
-
         </div>
         <div class="col-2 text-center" style="padding-top: 2%;">
             <a href="/"><img src="/images/page/logosuperf.svg" class="img-fluid align-items-center justify-content-center" style="margin-top:50%"></a>

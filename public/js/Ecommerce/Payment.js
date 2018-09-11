@@ -124,7 +124,7 @@ function Payment() {
                                             </div>
                                             <div class="detail[i]" style="padding-top:10%">
                                                 <div class="col" >
-                                                    <p>${$.formatNumber(detail[i].price_sf, "$")}</p>
+                                                    <p>${detail[i].price_sf}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -172,8 +172,8 @@ function Payment() {
             data: row,
             success: function (data) {
                 $("#content-detail").empty();
-                $("#frm #total").val($.formatNumber(data.total, "$"))
-                $("#frmPayment #total").val($.formatNumber(data.total, "$"))
+                $("#frm #total").val($.formatNumber(data.total))
+                $("#frmPayment #total").val($.formatNumber(data.total))
 
                 if (data.success == false) {
                     $("#card_" + index).remove()
@@ -226,8 +226,8 @@ function Payment() {
                     objCounter.setData(data);
                     detail = data.detail
                     obj.printDetail()
-                    $("#frm #total").val($.formatNumber(data.total, "$"))
-                    $("#frmPayment #total").val($.formatNumber(data.total, "$"))
+                    $("#frm #total").val($.formatNumber(data.total))
+                    $("#frmPayment #total").val($.formatNumber(data.total))
                     $("#badge-quantity").attr("font-size", '70%').css("background-color", "#f8f9fa");
 
                     $("#quantity_product_" + product_id).html(data.row.quantity)
@@ -350,10 +350,10 @@ function Payment() {
             $("#message-mount").addClass("d-none");
         }
 
-        $("#tax5").html($.formatNumber(parseInt(data.tax5), "$"))
-        $("#tax19").html($.formatNumber(parseInt(data.tax19), "$"))
-        $("#totalOrder").html($.formatNumber(parseInt(data.total), "$"))
-        $("#subtotalOrder").html($.formatNumber(parseInt(data.subtotal), "$"))
+        $("#tax5").html(parseInt(data.tax5))
+        $("#tax19").html(parseInt(data.tax19))
+        $("#totalOrder").html(parseInt(data.total))
+        $("#subtotalOrder").html(parseInt(data.subtotal))
         $("#badge-quantity").html(data.quantity)
 
 
@@ -424,7 +424,7 @@ function Payment() {
             success: function (data) {
 
                 $("#card_" + index).remove()
-                $("#frm #total").val($.formatNumber(data.total, "$"))
+                $("#frm #total").val(data.total)
                 toastr.success("Item Eliminado");
                 obj.setListDetail(data);
 
@@ -439,15 +439,6 @@ function Payment() {
         })
 
     }
-
-//    this.deleteItem = function (product_id, document_id) {
-//
-//        db.collection(user_id).doc(document_id).delete().then(function () {
-//            console.log("Document successfully deleted!");
-//        }).catch(function (error) {
-//            console.error("Error removing document: ", error);
-//        });
-//    }
 }
 
 var obj = new Payment();

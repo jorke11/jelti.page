@@ -206,43 +206,7 @@ class PaymentController extends Controller {
         return $banks;
     }
 
-    public function getBanks() {
-        $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi ";
-        $postData = array(
-            "test" => "false",
-            "language" => "es",
-            "command" => "GET_PAYMENT_METHODS",
-            "merchant" => array("apiLogin" => "pRRXKOl8ikMmt9u", "apiKey" => "4Vj8eK4rloUd272L48hsrarnUA"));
-
-
-        $data_string = json_encode($postData);
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json;',
-            'Host: sandbox.api.payulatam.com',
-            'Accept:application/json',
-            'Content-Length: ' . strlen($data_string))
-        );
-//print_r($data_string);exit;                        
-
-        $result = curl_exec($ch);
-        $arr = json_decode($result, TRUE);
-        $banks = [];
-
-
-        dd($arr);
-        foreach ($arr["paymentMethods"] as $val) {
-            if ($val["country"] == 'CO') {
-                $banks[] = $val;
-            }
-        }
-
-        return $banks;
-    }
+    
 
     public function generatekey() {
         $key = md5($this->ApiKey . "~" . $this->merchantId . "~" . $this->referenceCode . "~" . $this->currency);
@@ -609,17 +573,59 @@ class PaymentController extends Controller {
         return $param;
     }
 
+
+    public function getBanks() {
+        $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi ";
+        $host = "sandbox.api.payulatam.com";
+        $apiLogin="pRRXKOl8ikMmt9u";
+        $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
+
+        $postData = array(
+            "test" => "false",
+            "language" => "es",
+            "command" => "GET_PAYMENT_METHODS",
+            "merchant" => array("apiLogin" => $apiLogin, "apiKey" =>$apiKey));
+
+
+        $data_string = json_encode($postData);
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json;',
+            'Host: '.$host,
+            'Accept:application/json',
+            'Content-Length: ' . strlen($data_string))
+        );
+//print_r($data_string);exit;                        
+
+        $result = curl_exec($ch);
+        $arr = json_decode($result, TRUE);
+        $banks = [];
+
+
+        dd($arr);
+        foreach ($arr["paymentMethods"] as $val) {
+            if ($val["country"] == 'CO') {
+                $banks[] = $val;
+            }
+        }
+
+        return $banks;
+    }
+
+
     public function payment(Request $req) {
 //        dd($_SERVER["HTTP_USER_AGENT"]);
         try {
             DB::beginTransaction();
             $in = $req->all();
-//            setcookie('month', 'some value', time() + 60 * 60 * 24 * 365);
-//            dd($_COOKIE['month']);
-//            echo Request::cookie('devicesessionid');exit;
 
             if ((int) date("m") > (int) $in["month"] || (int) date("Y") > (int) $in["year"]) {
-                return back()->with("error", "Fecha vencimiento de tarjeta no es valida")->with("number", $in["number"])->with("name", $in["name"]);
+                return back()->with("error", "Fecha vencimiento de tarjeta no es valida")->with("number", $in["number"])
+                ->with("name_card", $in["name_card"]);
             }
 
 
@@ -645,20 +651,25 @@ class PaymentController extends Controller {
 
                 $deviceSessionId = $in["devicesessionid"];
 
-//                $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
-                $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
-//                $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
-//$apiKey = "maGw8KQ5JlOEv64D79ma1N0l9G";
-//                $apiLogin = "pRRXKOl8ikMmt9u";
-//$apiLogin = "rHpg9EL98w905Nv";
-//                $merchantId = "508029";
-//                $accountId = "512321";
-//                
+                /* 
+                    Otra key
+                    $apiKey = "maGw8KQ5JlOEv64D79ma1N0l9G";
+                    $apiLogin = "rHpg9EL98w905Nv";
+                 */
+                $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
+                $apiLogin= "pRRXKOl8ikMmt9u";
+                $apiKey="4Vj8eK4rloUd272L48hsrarnUA";
+                $merchantId = "508029";
+                $accountId = "512321"; 
+
+
                 //data Produccion
+                /* $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
                 $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
                 $apiLogin = "tGovZHuhL97hNh7";
                 $merchantId = "559634";
-                $accountId = "562109";
+                $accountId = "562109"; */
+
                 $postData["test"] = "true";
 
                 $referenceCode = 'invoice_' . microtime();
