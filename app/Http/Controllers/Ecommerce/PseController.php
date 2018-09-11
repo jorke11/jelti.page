@@ -267,7 +267,10 @@ class PseController extends Controller {
                     "contactPhone" => $client->phone
                 ],
                 "extraParameters" => [
-                    "RESPONSE_URL" => "http://localhost:8000/confirmation",
+
+                    //"RESPONSE_URL" => "http://localhost:8000/confirmation",
+                    "RESPONSE_URL" => "https://superfuds.com/confirmation",
+
                     "PSE_REFERENCE1" => "127.0.0.1",
 //                    "FINANCIAL_INSTITUTION_CODE" => "1007",
                     "FINANCIAL_INSTITUTION_CODE" => $in["bank"],
@@ -327,7 +330,7 @@ class PseController extends Controller {
 
     public function confirmation(){
         $data = $_GET;
-        dd($data);
+        //dd($data);
 
         if($data["lapTransactionState"]=='PENDING'){
             $data["status"]="Por favor";
