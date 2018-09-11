@@ -390,6 +390,21 @@ function Counter() {
         });
     }
 
+    this.eventCategory = function (ref = null) {
+        ref = (ref == null) ? '' : "-" + ref;
+        console.log(eventCategory);
+        if (flag_category == false) {
+            $("#plus-icon" + ref).addClass("d-none");
+            $("#minus-icon" + ref).removeClass("d-none");
+            flag_category = true;
+        } else {
+
+            $("#plus-icon" + ref).removeClass("d-none");
+            $("#minus-icon" + ref).addClass("d-none");
+            flag_category = false;
+    }
+    }
+
 }
 
 objCounter = new Counter();

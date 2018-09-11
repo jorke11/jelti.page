@@ -105,7 +105,7 @@
 <section id="content-menu">
     <div  class="container-fluid" style="padding-left: 0; padding-right: 0;position:relative;top: -120px">
         <section id="slider-main" class="main-slider">
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <div id="carouselExampleIndicators" class="carousel slide">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         @if(isset($row_category->banner))
@@ -134,7 +134,7 @@
                     <div class="col-12" style="border:8px rgba(0,0,0,.1) solid;border-radius: 10px; margin-bottom: 20px">
                         <ul class="list-group">
                             <li class="list-group-item" style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;cursor:pointer" 
-                                data-toggle="collapse" data-target="#content-categories" onclick="obj.eventCategory()"><b>CATEGORIAS</b> ({{count($categories)}})
+                                data-toggle="collapse" data-target="#content-filter-categories" onclick="obj.eventCategory()"><b>CATEGORIAS</b> ({{count($categories)}})
                                 <span style="float:right" id="plus-icon" class="d-none">
                                     <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="black"  style="cursor:pointer"
                                          stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -149,7 +149,7 @@
 
                                 </span>
                             </li>
-                            <div id="content-categories" class="collapse">
+                            <div id="content-filter-categories" class="collapse">
 
                                 <?php
                                 $active = "";

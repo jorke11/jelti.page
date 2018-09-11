@@ -388,6 +388,7 @@ function listProduct() {
 
     this.eventCategory = function (ref = null) {
         ref = (ref == null) ? '' : "-" + ref;
+        
         if (flag_category == false) {
             $("#plus-icon" + ref).addClass("d-none");
             $("#minus-icon" + ref).removeClass("d-none");
