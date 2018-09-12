@@ -183,9 +183,7 @@ class PseController extends Controller
 
 
         $result = curl_exec($ch);
-        dd($result);
         $arr = json_decode($result, true);
-        dd($arr);
         return $arr["banks"];
     }
 
