@@ -403,9 +403,7 @@ class PageController extends Controller {
 
     public function getProducts(Request $req, $param = null) {
         $in = $req->all();
-
-
-
+        
         $category = DB::table("vcategories")->where("node_id", 0)->get();
         $sub_ids = array();
         $sup_ids = array();

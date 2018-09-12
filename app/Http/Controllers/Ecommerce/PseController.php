@@ -13,15 +13,18 @@ use App\Traits\Invoice;
 use Log;
 use Illuminate\Support\Facades\Redirect;
 
-class PseController extends Controller {
-
+class PseController extends Controller
+{
     use Invoice;
 
     public $client;
+    public $test;
     public $categories;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->client = '';
+        $this->test = true;
 
         $this->dietas = array(
             (object) array("id" => 1, "description" => "Paleo", "slug" => "paleo"),
@@ -33,13 +36,14 @@ class PseController extends Controller {
         );
         $this->categories = Categories::where("status_id", 1)
                         ->where("type_category_id", 1)
-                        ->where(function($query) {
+                        ->where(function ($query) {
                             $query->whereNull("node_id")
                             ->OrWhere("node_id", 0)->orderBy("order", "asc");
                         })->get();
     }
 
-    public function index() {
+    public function index()
+    {
         $this->client = Stakeholder::where("email", Auth::user()->email)->first();
         $term = 2;
         $month = array();
@@ -85,7 +89,8 @@ class PseController extends Controller {
         return view("Ecommerce.pse.init", compact("subtotal", "total", "client", "countries", "month", "years", "term", "categories", "dietas", "banks", "type_client", "type_document", "deviceSessionId", "deviceSessionId_concat"));
     }
 
-    public function getDataPayment() {
+    public function getDataPayment()
+    {
         $data = [];
 
         $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
@@ -112,7 +117,6 @@ class PseController extends Controller {
         $data["deviceSessionId_concat"] = $deviceSessionId_concat;
 
         if ($detail) {
-
             $data["id"] = $order->id;
             $data["term"] = $data["client"]->term;
             $data["total"] = "$" . number_format($this->total, 0, ",", ".");
@@ -122,22 +126,31 @@ class PseController extends Controller {
         return $data;
     }
 
-    public function getListBanks() {
-
-       $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
-       $url_ch = 'sandbox.api.payulatam.com';
+    public function getListBanks()
+    {
+        $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
+        $host = "sandbox.api.payulatam.com";
+        $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
+        $apiLogin = "pRRXKOl8ikMmt9u";
 
         /* $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
-        $url_ch = 'api.payulatam.com'; */
-
-        //Production
-        /* $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
+        $host = 'api.payulatam.com';
+        $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
         $apiLogin = "tGovZHuhL97hNh7"; */
 
-        //test
-       $apiLogin = "pRRXKOl8ikMmt9u";
-       $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
+        
 
+        /* if ($this->test) {
+            $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
+            $host = 'sandbox.api.payulatam.com';
+            $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
+            $apiLogin = "pRRXKOl8ikMmt9u";
+        } else {
+            $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
+            $host = 'api.payulatam.com';
+            $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
+            $apiLogin = "tGovZHuhL97hNh7";
+        } */
 
         $postData = array(
             "test" => false,
@@ -149,32 +162,35 @@ class PseController extends Controller {
             ],
             "merchant" => [
                 "apiLogin" => $apiLogin,
-                "apiKey" => $apiKey]
+                "apiKey" => $apiKey
+                ]
         );
 
-
-
         $data_string = json_encode($postData);
-
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            array(
             'Content-Type: application/json;',
-            'Host: ' . $url_ch,
+            'Host: ' . $host,
             'Accept:application/json',
             'Content-Length: ' . strlen($data_string))
         );
 
 
         $result = curl_exec($ch);
-        $arr = json_decode($result, TRUE);
-
+        dd($result);
+        $arr = json_decode($result, true);
+        dd($arr);
         return $arr["banks"];
     }
 
-    public function createOrder() {
+    public function createOrder()
+    {
         $row = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
         $user = Users::find(Auth::user()->id);
 
@@ -197,30 +213,42 @@ class PseController extends Controller {
         $param["header"]["subtotal"] = $this->subtotal;
         $param["header"]["tax19"] = $this->tax19;
         $param["header"]["tax5"] = $this->tax5;
-//        
+//
         return $param;
     }
 
-    public function payment(Request $req) {
+    public function payment(Request $req)
+    {
         $in = $req->all();
         $client = Stakeholder::where("email", Auth::user()->email)->first();
         $country = $in["country_id"];
 
-        //Production
-        /* $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
-        $host="api.payulatam.com";
-        $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
-        $apiLogin = "tGovZHuhL97hNh7";
-        $merchantId = "559634";
-        $accountId = "562109"; */
-
-        //Test
         $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
         $host="sandbox.api.payulatam.com";
         $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
         $apiLogin = "pRRXKOl8ikMmt9u";
         $merchantId = 508029;
         $accountId = 512321;
+        $url_response='http://localhost:8000/confirmation';
+
+        /* if ($this->test) {
+
+            $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
+            $host="sandbox.api.payulatam.com";
+            $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
+            $apiLogin = "pRRXKOl8ikMmt9u";
+            $merchantId = 508029;
+            $accountId = 512321;
+            $url_response='http://localhost:8000/confirmation';
+        } else {
+            $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
+            $host="api.payulatam.com";
+            $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
+            $apiLogin = "tGovZHuhL97hNh7";
+            $merchantId = "559634";
+            $accountId = "562109";
+            $url_response ='https://superfuds.com/confirmation';
+        } */
 
         $referenceCode = 'invoice_' . microtime();
         $currency = "COP";
@@ -230,7 +258,6 @@ class PseController extends Controller {
         $TX_VALUE = round($data_order["header"]["total"]);
         $TX_TAX = 0;
         $TX_TAX_RETURN_BASE = 0;
-
 
         $signature = md5($apiKey . "~" . $merchantId . "~" . $referenceCode . "~" . $TX_VALUE . "~" . $currency);
 
@@ -267,19 +294,12 @@ class PseController extends Controller {
                     "contactPhone" => $client->phone
                 ],
                 "extraParameters" => [
-
-                    //"RESPONSE_URL" => "http://localhost:8000/confirmation",
-                    "RESPONSE_URL" => "https://superfuds.com/confirmation",
-
-                    "PSE_REFERENCE1" => "127.0.0.1",
-//                    "FINANCIAL_INSTITUTION_CODE" => "1007",
+                    "RESPONSE_URL" => $url_response,
+                    "PSE_REFERENCE1" => request()->ip(),
                     "FINANCIAL_INSTITUTION_CODE" => $in["bank"],
-//                    "USER_TYPE" => "N",
                     "USER_TYPE" => $in["type_client"],
-//                    "PSE_REFERENCE2" => "CC",
                     "PSE_REFERENCE2" => $in["type_document"],
                     "PSE_REFERENCE3" => $in["document"],
-//                    "PSE_REFERENCE3" => "123456789"
                 ],
                 "type" => "AUTHORIZATION_AND_CAPTURE",
                 "paymentMethod" => "PSE",
@@ -299,7 +319,10 @@ class PseController extends Controller {
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            array(
             'Content-Type: application/json',
             'Host: '.$host,
             'Accept:application/json',
@@ -309,7 +332,7 @@ class PseController extends Controller {
 
         $result = curl_exec($ch);
 
-        $arr = json_decode($result, TRUE);
+        $arr = json_decode($result, true);
 
         Log::debug("RESPONSE TO PAY PSE: " . print_r($arr, true));
 
@@ -318,27 +341,27 @@ class PseController extends Controller {
         if ($arr["code"] == 'SUCCESS') {
             if ($arr["transactionResponse"]["pendingReason"] == 'AWAITING_NOTIFICATION') {
                 return Redirect::to($arr["transactionResponse"]["extraParameters"]["BANK_URL"]);
-            }else{
-                echo "No paso de response";    
+            } else {
+                echo "No paso de response";
                 dd($arr);
             }
-        }else{
+        } else {
             echo "No paso de success";
             dd($arr);
         }
     }
 
-    public function confirmation(){
+    public function confirmation()
+    {
         $data = $_GET;
         //dd($data);
 
-        if($data["lapTransactionState"]=='PENDING'){
+        if ($data["lapTransactionState"]=='PENDING') {
             $data["status"]="Por favor";
-        }else{
+        } else {
             $data["status"]="OK";
         }
 
-        return view("Ecommerce.pse.confirmation",compact("data"));
+        return view("Ecommerce.pse.confirmation", compact("data"));
     }
-
 }

@@ -1,4 +1,4 @@
-  
+
 @extends('layouts.page')
 
 @section('content')
@@ -98,9 +98,7 @@
             padding: 0;min-height: 60px;
         }
     }
-
 </style>
-
 
 <section id="content-menu">
     <div  class="container-fluid" style="padding-left: 0; padding-right: 0;position:relative;top: -120px">
@@ -123,8 +121,13 @@
 <section>
     <div class="container-fluid"  id="content-image" style="padding-left: 0; padding-right: 0;padding-bottom: 5%;position:relative;top:-200px;min-height: 100px">
         <div class="row center-block" style="margin-right: 0;padding-top:4%">
-            <div class="col-lg-10 offset-1 ">
+            <div class="col-lg-3 offset-1 ">
                 <span><?php echo $breadcrumbs ?></span>
+            </div>
+            <div class="col-lg-8">
+                @if(isset($param) && count($products)>0)
+                    <div class="alert alert-warning">{{count($products)}} Producto{{(count($products)>1)?'s':''}} relacionado con: ({{$param}})</div>
+                @endif
             </div>
         </div>
 
@@ -134,7 +137,7 @@
                     <div class="col-12" style="border:8px rgba(0,0,0,.1) solid;border-radius: 10px; margin-bottom: 20px">
                         <ul class="list-group">
                             <li class="list-group-item" style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;cursor:pointer" 
-                                data-toggle="collapse" data-target="#content-filter-categories" onclick="obj.eventCategory()"><b>CATEGORIAS</b> ({{count($categories)}})
+                                data-toggle="collapse" onclick="obj.eventCategory(null,'content-filter-categories')"><b>CATEGORIAS</b> ({{count($categories)}})
                                 <span style="float:right" id="plus-icon" class="d-none">
                                     <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="black"  style="cursor:pointer"
                                          stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -190,7 +193,7 @@
                         </ul>
                         <ul class="list-group">
                             <li class="list-group-item"  style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px"
-                                data-toggle="collapse" data-target="#content-subcategories" onclick="obj.eventCategory('subcat')"><b>SUBCATEGORIAS</b> ({{count($subcategory)}})
+                                data-toggle="collapse" onclick="obj.eventCategory('subcat','content-subcategories')"><b>SUBCATEGORIAS</b> ({{count($subcategory)}})
 
                                 <span style="float:right" id="plus-icon-subcat">
                                     <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="black" stroke="#000000" 
@@ -242,7 +245,7 @@
                         </ul>
                         <ul class="list-group">
                             <li class="list-group-item"  style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;"
-                                data-toggle="collapse" data-target="#content-supplier" onclick="obj.eventCategory('sup')"><b>PROVEEDORES</b> ({{count($supplier)}})
+                                data-toggle="collapse" onclick="obj.eventCategory('sup','content-supplier')"><b>PROVEEDORES</b> ({{count($supplier)}})
                                 <span style="float:right" id="plus-icon-sup">
                                     <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="black" stroke="#000000" 
                                          stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer">
@@ -280,9 +283,9 @@
                                 ?>
                             </div>
                         </ul>
-                        <ul class="list-group">
+                        <ul class="list-group" id="filter-diet">
                             <li class="list-group-item"  style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;"
-                                data-toggle="collapse" data-target="#content-dietas" onclick="obj.eventCategory('diet')"><b>DIETAS</b> ({{count($dietas)}})
+                                data-toggle="collapse" onclick="obj.eventCategory('diet','content-dietas')"><b>DIETAS</b> ({{count($dietas)}})
                                 <span style="float:right" id="plus-icon-diet">
                                     <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="black" stroke="#000000" 
                                          stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer">
@@ -296,10 +299,7 @@
                                     </svg>
                                 </span></li>
                             <div id="content-dietas" class="collapse">
-                                <?php
-                                $active = "";
-                               
-                                ?>
+                                <filter-diet />
                             </div>
                         </ul>
                     </div>

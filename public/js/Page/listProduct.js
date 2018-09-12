@@ -5,33 +5,33 @@ function listProduct() {
     var user_id;
     this.init = function () {
         $("#main-menu-id").removeClass("img-headers")
-//        $("[data-toggle=popover]").popover({
-//            html: true,
-//            content: function () {
-//                var id = $(this).attr('id')
-//                return $('#popover-content').html();
-//            }
-//        });
+        //        $("[data-toggle=popover]").popover({
+        //            html: true,
+        //            content: function () {
+        //                var id = $(this).attr('id')
+        //                return $('#popover-content').html();
+        //            }
+        //        });
         user_id = $("#user_id").val();
         // Initialize Firebase
-//        var config = {
-//            apiKey: "AIzaSyBT2aaBBDgYpdd0PPXCOzIpHVY74Fa__sY",
-//            authDomain: "jelti-40807.firebaseapp.com",
-//            databaseURL: "https://jelti-40807.firebaseio.com",
-//            projectId: "jelti-40807",
-//            storageBucket: "jelti-40807.appspot.com",
-//            messagingSenderId: "145976538184"
-//        };
+        //        var config = {
+        //            apiKey: "AIzaSyBT2aaBBDgYpdd0PPXCOzIpHVY74Fa__sY",
+        //            authDomain: "jelti-40807.firebaseapp.com",
+        //            databaseURL: "https://jelti-40807.firebaseio.com",
+        //            projectId: "jelti-40807",
+        //            storageBucket: "jelti-40807.appspot.com",
+        //            messagingSenderId: "145976538184"
+        //        };
 
-//        firebase.initializeApp(config);
+        //        firebase.initializeApp(config);
 
-//        db = firebase.database().ref();
-//        db = firebase.firestore();
+        //        db = firebase.database().ref();
+        //        db = firebase.firestore();
 
-//        db.child(user_id).set({id:"prueba"})
-//        this.getDataFirebase();
+        //        db.child(user_id).set({id:"prueba"})
+        //        this.getDataFirebase();
 
-//        this.getDataFireStore();
+        //        this.getDataFireStore();
 
         $("#main-menu-id").css("background-color", "rgba(0,0,0,0)")
         $('#get-checked-data').on('click', function (event) {
@@ -66,8 +66,8 @@ function listProduct() {
                 success: function (data) {
                     obj.setData(data);
                 }, error: function (xhr, ajaxOptions, thrownError) {
-//                toastr.error(xhr.responseJSON.msg);
-//                elem.attr("disabled", false);
+                    //                toastr.error(xhr.responseJSON.msg);
+                    //                elem.attr("disabled", false);
                 }
 
             })
@@ -81,8 +81,8 @@ function listProduct() {
             success: function (data) {
                 obj.setListCategories(data)
             }, error: function (xhr, ajaxOptions, thrownError) {
-//                toastr.error(xhr.responseJSON.msg);
-//                elem.attr("disabled", false);
+                //                toastr.error(xhr.responseJSON.msg);
+                //                elem.attr("disabled", false);
             }
 
         })
@@ -95,8 +95,8 @@ function listProduct() {
             success: function (data) {
                 obj.setListSupplier(data)
             }, error: function (xhr, ajaxOptions, thrownError) {
-//                toastr.error(xhr.responseJSON.msg);
-//                elem.attr("disabled", false);
+                //                toastr.error(xhr.responseJSON.msg);
+                //                elem.attr("disabled", false);
             }
 
         })
@@ -110,8 +110,8 @@ function listProduct() {
             success: function (data) {
                 obj.setListDiet(data)
             }, error: function (xhr, ajaxOptions, thrownError) {
-//                toastr.error(xhr.responseJSON.msg);
-//                elem.attr("disabled", false);
+                //                toastr.error(xhr.responseJSON.msg);
+                //                elem.attr("disabled", false);
             }
 
         })
@@ -260,14 +260,14 @@ function listProduct() {
         if (user_id != undefined) {
 
             db.collection(user_id)
-//                .where("state", "==", "CA")
-                    .onSnapshot(function (querySnapshot) {
+                //                .where("state", "==", "CA")
+                .onSnapshot(function (querySnapshot) {
 
-                        $("#popover-content").empty();
-                        var data = [], html = '', quantity = 0;
-                        querySnapshot.forEach(function (doc) {
+                    $("#popover-content").empty();
+                    var data = [], html = '', quantity = 0;
+                    querySnapshot.forEach(function (doc) {
 
-                            html += `
+                        html += `
                             <div class="row mb-3">
                                 <div class="col-4">
                                         <img class="img-fluid"  src="${doc.data().img}" alt="Card image cap" >
@@ -279,10 +279,10 @@ function listProduct() {
                                 </div>
                             </div>
                             `;
-                            quantity += doc.data().quantity;
-                            data.push({title: doc.data().title, img: doc.data().img});
-                        });
-                        html += ` <div class="row">
+                        quantity += doc.data().quantity;
+                        data.push({ title: doc.data().title, img: doc.data().img });
+                    });
+                    html += ` <div class="row">
                             <div class="col-12">
                                 <form action="/payment" method="GET">
                                     <button class="btn btn-outline-success my-2 my-sm-0 btn-sm form-control" type="submit">Checkout</button>
@@ -290,9 +290,9 @@ function listProduct() {
                                 <div>   
                                 </div>`
 
-                        $("#badge-quantity").html(quantity)
-                        $("#popover-content").html(html);
-                    });
+                    $("#badge-quantity").html(quantity)
+                    $("#popover-content").html(html);
+                });
         }
 
     }
@@ -321,41 +321,41 @@ function listProduct() {
     this.addProductStore = function (title, slug, product_id, price, img, tax) {
         var doc_id = '';
         db.collection(user_id).where("product_id", "==", product_id)
-                .get()
-                .then(function (querySnapshot) {
-                    var cont = false;
-                    querySnapshot.forEach(function (doc) {
-                        if (doc.exists) {
-                            cont = true;
-                            db.collection(user_id).doc(doc.id).set({
-                                quantity: doc.data().quantity + 1,
-                                title: title,
-                                product_id: product_id,
-                                price: price,
-                                img: img,
-                                tax: tax
-                            })
-                        }
-                    })
-
-                    if (cont == false) {
-                        db.collection(user_id).add({
+            .get()
+            .then(function (querySnapshot) {
+                var cont = false;
+                querySnapshot.forEach(function (doc) {
+                    if (doc.exists) {
+                        cont = true;
+                        db.collection(user_id).doc(doc.id).set({
+                            quantity: doc.data().quantity + 1,
                             title: title,
                             product_id: product_id,
                             price: price,
-                            quantity: 1,
                             img: img,
                             tax: tax
-                        }).then(function (docRef) {
-                            console.log("Document written with ID: ", docRef.id);
-                        }).catch(function (error) {
-                            console.error("Error adding document: ", error);
-                        });
+                        })
                     }
                 })
-                .catch(function (error) {
-                    console.log("Error getting documents: ", error);
-                });
+
+                if (cont == false) {
+                    db.collection(user_id).add({
+                        title: title,
+                        product_id: product_id,
+                        price: price,
+                        quantity: 1,
+                        img: img,
+                        tax: tax
+                    }).then(function (docRef) {
+                        console.log("Document written with ID: ", docRef.id);
+                    }).catch(function (error) {
+                        console.error("Error adding document: ", error);
+                    });
+                }
+            })
+            .catch(function (error) {
+                console.log("Error getting documents: ", error);
+            });
     }
 
 
@@ -368,7 +368,7 @@ function listProduct() {
     }
 
     this.search = function () {
-//        location.href = PATH + "/search/" + $("#formSearch #search").val();
+        //        location.href = PATH + "/search/" + $("#formSearch #search").val();
         $("#formSearch").submit();
     }
 
@@ -386,19 +386,20 @@ function listProduct() {
         $("#type_stakeholder").val(id);
     }
 
-    this.eventCategory = function (ref = null) {
+    this.eventCategory = function (ref = null, id) {
         ref = (ref == null) ? '' : "-" + ref;
-        
+
+        $("#" + id).toggle("collapse");
+
         if (flag_category == false) {
             $("#plus-icon" + ref).addClass("d-none");
             $("#minus-icon" + ref).removeClass("d-none");
             flag_category = true;
         } else {
-
             $("#plus-icon" + ref).removeClass("d-none");
             $("#minus-icon" + ref).addClass("d-none");
             flag_category = false;
-    }
+        }
     }
 
     this.reloadCategories = function (slug, e) {
@@ -591,9 +592,9 @@ function listProduct() {
 
                 if (data.count_cat > 1) {
                     $("#main-image-category").attr("src", "/images/banner_sf.png");
-//                    $("#main-menu-id").addClass("main-menu-out");
+                    //                    $("#main-menu-id").addClass("main-menu-out");
                 } else {
-//                    $("#main-menu-id").removeClass("main-menu-out");
+                    //                    $("#main-menu-id").removeClass("main-menu-out");
                     $("#main-image-category").attr("src", data.row_category.banner);
                 }
 
@@ -602,8 +603,8 @@ function listProduct() {
 
             }, error: function (xhr, ajaxOptions, thrownError) {
                 console.log(xhr)
-//                toastr.error(xhr.responseJSON.msg);
-//                elem.attr("disabled", false);
+                //                toastr.error(xhr.responseJSON.msg);
+                //                elem.attr("disabled", false);
             }
 
         })

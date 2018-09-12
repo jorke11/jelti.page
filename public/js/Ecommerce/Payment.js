@@ -172,8 +172,8 @@ function Payment() {
             data: row,
             success: function (data) {
                 $("#content-detail").empty();
-                $("#frm #total").val($.formatNumber(data.total))
-                $("#frmPayment #total").val($.formatNumber(data.total))
+                $("#frm #total").val(objCounter.formatNumber(data.total))
+                $("#frmPayment #total").val(objCounter.formatNumber(data.total))
 
                 if (data.success == false) {
                     $("#card_" + index).remove()
@@ -226,8 +226,8 @@ function Payment() {
                     objCounter.setData(data);
                     detail = data.detail
                     obj.printDetail()
-                    $("#frm #total").val($.formatNumber(data.total))
-                    $("#frmPayment #total").val($.formatNumber(data.total))
+                    $("#frm #total").val(objCounter.formatNumber(data.total))
+                    $("#frmPayment #total").val(objCounter.formatNumber(data.total))
                     $("#badge-quantity").attr("font-size", '70%').css("background-color", "#f8f9fa");
 
                     $("#quantity_product_" + product_id).html(data.row.quantity)

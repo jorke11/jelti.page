@@ -36,7 +36,7 @@ Vue.component('card-product', require('./components/CardProduct.vue'));
 Vue.component('filter-category', require('./components/MenuCategoryFilter.vue'));
 Vue.component('filter-subcategory', require('./components/MenuCategoryFilter.vue'));
 //let newProducts = Vue.component('new-products', require('./components/NewProduct.vue'));
-
+Vue.component('filter-diet', require('./components/MenuDietFilter.vue'));
 
 new Vue({
     el: '#menu-header',
@@ -85,6 +85,12 @@ if (document.getElementById("content-subcategories")) {
 } 
 
 
+if (document.getElementById("filter-diet")) {
+    const app = new Vue({
+        el: '#filter-diet',
+        store
+    });
+} 
 
 
 

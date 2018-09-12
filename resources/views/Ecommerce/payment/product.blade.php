@@ -259,10 +259,6 @@
             fill:#ffa608
         }
     }
-
-
-
-
 </style>
 
 <input id="slug_product" value="{{$product->slug}}" type="hidden">

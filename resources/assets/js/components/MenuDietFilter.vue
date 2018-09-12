@@ -1,6 +1,6 @@
 <template>
     <div>
-        <list-filter :listData="categories"/>
+        <list-filter :listData="diets"/>
     </div>
 </template>
 
@@ -8,12 +8,12 @@
 import listFilter from "./ListFilter.vue";
 
 export default {
-   components: {
-    "list-filter":listFilter
-  }, 
+  components: {
+    "list-filter": listFilter
+  },
   computed: {
-    categories() {
-      return this.$store.getters.categories;
+    diets() {
+      return this.$store.getters.diets;
     },
     appPath() {
       return this.$store.getters.appPath;
