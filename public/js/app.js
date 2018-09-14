@@ -69401,7 +69401,7 @@ var render = function() {
             "a",
             {
               staticClass: "link-white",
-              attrs: { href: "search/c=" + diet.slug + "" }
+              attrs: { href: "/search/c=" + diet.slug + "" }
             },
             [_vm._v(_vm._s(diet.description.toUpperCase()))]
           )
@@ -69629,7 +69629,7 @@ var render = function() {
             "a",
             {
               staticClass: "link-white",
-              attrs: { href: "search/c=" + category.slug + "" }
+              attrs: { href: "/search/c=" + category.slug + "" }
             },
             [_vm._v(_vm._s(category.description.toUpperCase()))]
           )
