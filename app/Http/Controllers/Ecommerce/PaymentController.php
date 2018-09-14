@@ -339,7 +339,7 @@ class PaymentController extends Controller {
 
         $client = Stakeholder::find(Auth::user()->stakeholder_id);
 
-        $list = DB::table("vdepartures")->where("client_id", $client->id)->whereIn("status_id", [2, 7])->get();
+        $list = DB::table("vdepartures")->where("client_id", $client->id)->whereIn("status_id", [2, 7])->orderBy("invoice","desc")->get();
 
         return view("Ecommerce.shopping.orders", compact("product", "categories", "dietas", "list"));
     }
