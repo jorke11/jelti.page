@@ -24,25 +24,35 @@
 @endif
 
 <div class="container-fluid" style="padding-top: 40px">
-    <div class="row d-none" id="message-mount" >
-        <div class=" col-lg-offset-2 col-lg-10">
-            <div class="alert alert-danger">El monto total debe ser Mayor a $10.000 Pesos</div>
+    <div class="row row-center">
+            <?php
+            $color="";
+            if($data["transactionState"]==4){
+                $color="success";
+            }else if($data["transactionState"]==7){
+                    $color="warning";
+                }else if($data["transactionState"]==6){
+                    $color="danger";
+                }
+                ?>
+        <div class="col-lg-7 justify-content-center align-items-center">
+        <div class="alert alert-{{$color}}">{{$data["message"]}}</div>
         </div>
     </div>
-    <div class="row col-center">
+    <div class="row row-center">
 
-        <div class="col-lg-6 justify-content-center align-items-center">
+        <div class="col-lg-7 justify-content-center align-items-center">
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="row justify-content-center align-items-center" style="padding-bottom: 5%">
-                        <div class="col-11">
+                        <div class="col-12">                          
                             <table class="table">
                                         <thead>
-                                            <tr ><th colspan="2">Resultados de la operación</th></tr>
+                                            <tr ><th colspan="2">Resultados de la operación </th></tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>Empresa</td>
+                                                <td width="50%">Empresa</td>
                                                 <td>Superfuds S.A.S</td>
                                             </tr>
                                             <tr>
@@ -90,16 +100,26 @@
                                                 <td>{{$data["pseReference1"]}}</td>
                                             </tr>
                                             <tr>
-                                                <td><a href="">Reintentar Transacción</a></td>
-                                                <td><a href="">Finalizar Transacción</a></td>
+                                                <?php
+                                                    if($data["transactionState"]!=4){
+                                                        ?>
+                                                        <td><a href="/pse" class="btn btn-info">Reintentar Transacción</a></td>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                <td><a href="/finish-payment?transactionId={{$data["transactionId"]}}" class="btn btn-success">Finalizar Transacción</a></td>
                                             </tr>
                                         </tbody>
                                     </table>
                         </div>
                     </div>
-                    <div class="row justify-content-center align-items-center" style="padding-bottom: 5%">
-                            <div class="col-6">
-                                <a href="" class="">Imprimir comprobante</a>
+                    <div class="row row-center justify-content-center align-items-center" style="padding-bottom: 5%">
+                            <div class="col-3">
+                                <a 
+                                href="/voucher?referenceCode={{$data["referenceCode"]}}&transactionId={{$data["transactionId"]}}&cus={{$data["cus"]}}
+                                &pseBank={{$data["pseBank"]}}&TX_VALUE={{$data["TX_VALUE"]}}&currency={{$data["currency"]}}
+                                &description={{$data["description"]}}&pseReference1={{$data["pseReference1"]}}" 
+                                target="_blank" class="btn btn-info">Imprimir comprobante</a>
                             </div>
                     </div>
                 </div>

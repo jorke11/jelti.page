@@ -333,8 +333,6 @@ class PseController extends Controller
         $arr = json_decode($result, true);
 
         Log::debug("RESPONSE TO PAY PSE: " . print_r($arr, true));
-
-
         
         if ($arr["code"] == 'SUCCESS') {
             if ($arr["transactionResponse"]["pendingReason"] == 'AWAITING_NOTIFICATION') {
@@ -352,14 +350,38 @@ class PseController extends Controller
     public function confirmation()
     {
         $data = $_GET;
-        //dd($data);
+        $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
 
-        if ($data["lapTransactionState"]=='PENDING') {
-            $data["status"]="Por favor";
-        } else {
-            $data["status"]="OK";
+        if ($data["transactionState"] == 4) {
+            $data["message"] = "Pago Realizado Orden Id #".$data["transactionId"];
+            $data["order"] = $order;
+            $order->status_id=2;
+            $order->save(); 
+        } else  if ($data["transactionState"] == 7) {
+            $data["message"] = "En un tiempo de aproximado de 4 Horas te llegará la notificación del pago mientras realizamos validaciones de seguridad, gracias por preferirnos, Orden Id # ".$data["transactionId"];
+            $data["order"] = $order;
+        }else{
+            $data["message"] = "No se ha podido realizar la transaccion por favor vuelva a intentar, Orden Id #".$data["transactionId"];
+            $data["order"] = $order;
         }
 
         return view("Ecommerce.pse.confirmation", compact("data"));
+    }
+
+
+    public function finishPurchase(){
+        $data = $_GET;
+        return redirect('congratulations')->with("success", 'Compra Realizada! Orden #' . $data["transactionId"]);
+    }
+
+    public function voucher()
+    {   
+        $data["data"] = $_GET;
+        $pdf = \PDF::loadView('Ecommerce.pse.voucher', [], $data, [
+            'title' => 'Vouche',
+            'margin_top' => -12, "margin_bottom" => 1]);
+
+        header('Content-Type: application/pdf');
+        return $pdf->stream('voucher.pdf');
     }
 }

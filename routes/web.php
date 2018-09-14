@@ -61,4 +61,6 @@ Route::post('comment-like', 'Ecommerce\ShoppingController@addCommentLike');
 Route::get('pse', "Ecommerce\PseController@index");
 Route::post('payment/pse', "Ecommerce\PseController@payment");
 Route::get('confirmation', 'Ecommerce\PseController@confirmation');
+Route::get('voucher', 'Ecommerce\PseController@voucher');
+Route::get('finish-payment', 'Ecommerce\PseController@finishPurchase');
 
