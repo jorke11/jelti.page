@@ -4,6 +4,7 @@ export default {
         categories:[],
         newProducts:[],
         listProducts:[],
+        listSupplier:[],
         appPath:"http://localhost:8000/"
     },
     
@@ -16,6 +17,9 @@ export default {
         },
         listProduct(state){
             return state.listProducts
+        },
+        listSupplier(state){
+            return state.listSupplier
         },
         AppPath(state){
             return state.appPath
@@ -34,6 +38,9 @@ export default {
         },
         updateListProduct(state,payload){
             return state.listProducts = payload
+        },
+        updateListSupplier(state,payload){
+            return state.listSupplier = payload
         }
     },
     actions:{
@@ -56,6 +63,11 @@ export default {
         getListProduct(context){
             axios.get("/list-products").then(response => {
                 context.commit("updateListProduct",response.data)
+            });
+        },
+        getListSupplier(context){
+            axios.get("/suppliers").then(response => {
+                context.commit("updateListSupplier",response.data)
             });
         }
     }

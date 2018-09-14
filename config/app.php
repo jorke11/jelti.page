@@ -12,7 +12,7 @@ return [
       |
      */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Superfuds'),
     /*
       |--------------------------------------------------------------------------
       | Application Environment
@@ -45,7 +45,7 @@ return [
       | your application so that it is used when running Artisan tasks.
       |
      */
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://superfuds.com'),
     /*
       |--------------------------------------------------------------------------
       | Application Timezone
