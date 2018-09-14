@@ -47,5 +47,5 @@
         </div>
     </div>
 </div>
-{!!Html::script('js/Ecommerce/Detail.js')!!}
+{!!Html::script('js/Ecommerce/Orders.js')!!}
 @endsection

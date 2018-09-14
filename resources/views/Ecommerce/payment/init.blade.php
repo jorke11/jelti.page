@@ -243,11 +243,9 @@
                                             @endif
                                         </div>
                                         <div class="col-4">
-                                            @if($term>1)
                                             <button type="button" class="btn btn-info form-control" id="btnPSE">
                                                 <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span>PSE
                                             </button>
-                                            @endif
                                         </div>
                                     </div>
                                 </div>

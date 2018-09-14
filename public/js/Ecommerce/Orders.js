@@ -25,7 +25,7 @@ function Detail() {
                                                 </div>
                                                 <div class="col-9">
                                                     <p>${row.product} <br>
-                                                    Precio <b>${$.formatNumber(parseInt(row.value), "$")}</b><br>
+                                                    Precio <b>${objCounter.formatNumber(parseInt(row.value))}</b><br>
                                                     Cantidad <b>${row.quantity}</b></p>
                                                     <p>Total: <b>${row.totalFormated_real}</b></p>
                                                 </div>
