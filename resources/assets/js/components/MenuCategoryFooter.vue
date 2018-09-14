@@ -2,7 +2,7 @@
 <template>
     <div>
         <div v-for="category in categories" :key="category.id" >
-            <li class="list-group-item"><a class="link-white" v-bind:href="'search/c='+category.slug+''">{{category.description.toUpperCase()}}</a></li>
+            <li class="list-group-item"><a class="link-white" v-bind:href="'\search/c='+category.slug+''">{{category.description.toUpperCase()}}</a></li>
         </div>
     </div>
 </template>
