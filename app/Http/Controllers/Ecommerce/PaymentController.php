@@ -206,8 +206,6 @@ class PaymentController extends Controller {
         return $banks;
     }
 
-    
-
     public function generatekey() {
         $key = md5($this->ApiKey . "~" . $this->merchantId . "~" . $this->referenceCode . "~" . $this->currency);
         return response()->json(["key" => $key]);
@@ -338,10 +336,18 @@ class PaymentController extends Controller {
         $dietas = $this->dietas;
 
         $client = Stakeholder::find(Auth::user()->stakeholder_id);
+        $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
 
-        $list = DB::table("vdepartures")->where("client_id", $client->id)->whereIn("status_id", [2, 7])->orderBy("invoice","desc")->get();
+        $current = OrdersDetail::select("orders.created_at", DB::raw("round(sum(vproducts.price_sf * orders_detail.quantity * orders_detail.units_sf)) subtotal"), DB::raw("round(sum(vproducts.price_sf_with_tax * orders_detail.quantity * orders_detail.units_sf)) total"))
+                ->join("orders", "orders.id", "orders_detail.order_id")
+                ->join("vproducts", "vproducts.id", "orders_detail.product_id")
+                ->where("order_id", $order->id)
+                ->groupBy("orders.created_at")
+                ->first();
 
-        return view("Ecommerce.shopping.orders", compact("product", "categories", "dietas", "list"));
+        $list = DB::table("vdepartures")->where("client_id", $client->id)->whereIn("status_id", [2, 7])->orderBy("invoice", "desc")->get();
+
+        return view("Ecommerce.shopping.orders", compact("product", "categories", "dietas", "list","current"));
     }
 
     public function getInvoice($invoice) {
@@ -573,18 +579,17 @@ class PaymentController extends Controller {
         return $param;
     }
 
-
     public function getBanks() {
         $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi ";
         $host = "sandbox.api.payulatam.com";
-        $apiLogin="pRRXKOl8ikMmt9u";
+        $apiLogin = "pRRXKOl8ikMmt9u";
         $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
 
         $postData = array(
             "test" => "false",
             "language" => "es",
             "command" => "GET_PAYMENT_METHODS",
-            "merchant" => array("apiLogin" => $apiLogin, "apiKey" =>$apiKey));
+            "merchant" => array("apiLogin" => $apiLogin, "apiKey" => $apiKey));
 
 
         $data_string = json_encode($postData);
@@ -595,7 +600,7 @@ class PaymentController extends Controller {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json;',
-            'Host: '.$host,
+            'Host: ' . $host,
             'Accept:application/json',
             'Content-Length: ' . strlen($data_string))
         );
@@ -616,7 +621,6 @@ class PaymentController extends Controller {
         return $banks;
     }
 
-
     public function payment(Request $req) {
 //        dd($_SERVER["HTTP_USER_AGENT"]);
         try {
@@ -625,7 +629,7 @@ class PaymentController extends Controller {
 
             if ((int) date("m") > (int) $in["month"] || (int) date("Y") > (int) $in["year"]) {
                 return back()->with("error", "Fecha vencimiento de tarjeta no es valida")->with("number", $in["number"])
-                ->with("name_card", $in["name_card"]);
+                                ->with("name_card", $in["name_card"]);
             }
 
 
@@ -651,24 +655,24 @@ class PaymentController extends Controller {
 
                 $deviceSessionId = $in["devicesessionid"];
 
-                /* 
-                    Otra key
-                    $apiKey = "maGw8KQ5JlOEv64D79ma1N0l9G";
-                    $apiLogin = "rHpg9EL98w905Nv";
+                /*
+                  Otra key
+                  $apiKey = "maGw8KQ5JlOEv64D79ma1N0l9G";
+                  $apiLogin = "rHpg9EL98w905Nv";
                  */
                 $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
-                $apiLogin= "pRRXKOl8ikMmt9u";
-                $apiKey="4Vj8eK4rloUd272L48hsrarnUA";
+                $apiLogin = "pRRXKOl8ikMmt9u";
+                $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
                 $merchantId = "508029";
-                $accountId = "512321"; 
+                $accountId = "512321";
 
 
                 //data Produccion
                 /* $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
-                $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
-                $apiLogin = "tGovZHuhL97hNh7";
-                $merchantId = "559634";
-                $accountId = "562109"; */
+                  $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
+                  $apiLogin = "tGovZHuhL97hNh7";
+                  $merchantId = "559634";
+                  $accountId = "562109"; */
 
                 $postData["test"] = "true";
 

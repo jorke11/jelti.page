@@ -1,14 +1,52 @@
 @extends('layouts.page')
 @section('content')
 <div class="container-fluid">
-    <div class="row" style="padding-bottom: 1%;padding-top: 5%">
+
+
+    <div class="row" style="padding-top: 5%">
+        <div class="col-6 offset-1">
+            <h2>Pedido Actual</h2>
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 1%;">
+        <div class="col-6 offset-1">
+            <table class="table table-bordered  table-condensed" id="orderClient">
+                <thead>
+                    <tr class="table-info">
+                        <th>Orden</th>
+                        <th>Fecha</th>
+                        <th>Subtotal</th>
+                        <th>Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Orden #{{$current->id}}</td>
+                        <td>{{date("Y-m-d",strtotime($current->created_at))}}</td>
+                        <td>{{$current->subtotal}}</td>
+                        <td>{{$current->total}}</td>
+                        <td>Ver mas <button class="btn btn-outline-success btn-sm" type="button" onclick=obj.showContent({{$current->invoice}})>
+                                <svg id="i-chevron-right" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                <path d="M12 30 L24 16 12 2" />
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot></tfoot>
+            </table>
+        </div>
+    </div>
+
+    <div class="row" style="padding-bottom: 1%;padding-top: 1%">
         <div class="col-6 offset-1">
             <h2>Tus pedidos</h2>
         </div>
     </div>
 
     <div class="row" style="padding-bottom: 2%;">
-        <div class="col-6 ">
+        <div class="col-6 offset-1">
             <table class="table table-bordered  table-condensed" id="orderClient">
                 <thead>
                     <tr>

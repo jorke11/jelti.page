@@ -48,7 +48,7 @@ class PseController extends Controller
         $term = 2;
         $month = array();
         $years = array();
-        $categories = array();
+        $categories = $this->categories;
         $dietas = $this->dietas;
         $countries = [
                 ["code" => "CO", "description" => "Colombia"]
@@ -364,8 +364,12 @@ class PseController extends Controller
             $data["message"] = "No se ha podido realizar la transaccion por favor vuelva a intentar, Orden Id #".$data["transactionId"];
             $data["order"] = $order;
         }
+        
+        $categories=$this->categories;  
+        $dietas=$this->dietas;  
+                
 
-        return view("Ecommerce.pse.confirmation", compact("data"));
+        return view("Ecommerce.pse.confirmation", compact("data","categories","dietas"));
     }
 
 
