@@ -20,12 +20,12 @@ class PageController extends Controller {
 
     public function __construct() {
         $this->dietas = [
-            ["id" => 1, "description" => "Paleo", "slug" => "paleo","image"=>"images/page/dietas/paleo.png","search"=>"paleo"],
-            ["id" => 2, "description" => "Vegano", "slug" => "vegano","image"=>"images/page/dietas/vegana.png","search"=>"vegano"],
-            ["id" => 3, "description" => "Sin gluten", "slug" => "sin_gluten","image"=>"images/page/dietas/sin_gluten.png","search"=>"sin_gluten"],
-            ["id" => 4, "description" => "Organico", "slug" => "organico","image"=>"images/page/dietas/organico.png","search"=>"organico"],
-            ["id" => 5, "description" => "Sin grasas Trans", "slug" => "sin_grasas_trans","image"=>"images/page/dietas/singrasastrans.png","search"=>"sin_grasas_trans"],
-            ["id" => 6, "description" => "Sin azucar", "slug" => "sin_azucar","image"=>"images/page/dietas/sinazucar.png","search"=>"sin_azucar"],
+            ["id" => 1, "description" => "Paleo", "slug" => "paleo","image"=>"images/page/dietas/paleo.png","search"=>"paleo","checked"=>false],
+            ["id" => 2, "description" => "Vegano", "slug" => "vegano","image"=>"images/page/dietas/vegana.png","search"=>"vegano","checked"=>false],
+            ["id" => 3, "description" => "Sin gluten", "slug" => "sin_gluten","image"=>"images/page/dietas/sin_gluten.png","search"=>"sin_gluten","checked"=>false],
+            ["id" => 4, "description" => "Organico", "slug" => "organico","image"=>"images/page/dietas/organico.png","search"=>"organico","checked"=>false],
+            ["id" => 5, "description" => "Sin grasas Trans", "slug" => "sin_grasas_trans","image"=>"images/page/dietas/singrasastrans.png","search"=>"sin_grasas_trans","checked"=>false],
+            ["id" => 6, "description" => "Sin azucar", "slug" => "sin_azucar","image"=>"images/page/dietas/sinazucar.png","search"=>"sin_azucar","checked"=>false],
         ];
     }
 
@@ -133,9 +133,7 @@ class PageController extends Controller {
             array("url" => "https://superfuds.com/images_blog/referentes/terrafertil-4.jpg", "title" => "Terrafertil"),
             array("url" => "https://superfuds.com/images_blog/referentes/chocolov-6.jpg", "title" => "Chocolov"));
 
-
         $dietas = $this->dietas;
-
         return view('page', compact("subcategory", "newproducts", "love_clients", "clients", "most_sales"));
     }
 
@@ -146,12 +144,12 @@ class PageController extends Controller {
 
 
     public function getCategories() {
-        $categories = DB::table("vcategories")->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->where("status_id", 1)->orderBy("order", "asc")->get();
+        $categories = DB::table("vcategories")->select("id","slug","description","subcategories",DB::raw("false as checked"))->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->where("status_id", 1)->orderBy("order", "asc")->get();
         return response()->json($categories);
     }
 
     public function getSuppliers() {
-        $supplier = DB::table("vsupplier")->where("products", ">", 0)->orderBy("business")->get();
+        $supplier = DB::table("vsupplier")->select("id as slug","business as description","products as subcategories",DB::raw("false as checked"))->where("products", ">", 0)->orderBy("business")->get();
         return response()->json($supplier);
     }
     
@@ -355,7 +353,6 @@ class PageController extends Controller {
             $categories = DB::table("vcategories")->where("status_id", 1);
 
             foreach ($products as $value) {
-//                dd($value);
                 $categories->where("id", $value->category_id);
             }
 

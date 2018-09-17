@@ -21,8 +21,6 @@ const store = new Vuex.Store(StoreData)
 //     ]
 //   })
 
-
-
 Vue.component('card-product', require('./components/CardProduct.vue'));
 Vue.component('card-diet', require('./components/CardDiet.vue'));
 Vue.component('card-diet-detail', require('./components/CardDietDetail.vue'));
@@ -33,10 +31,13 @@ let menuDietFooter = Vue.component('menu-diet-footer', require('./components/Men
 let menuCategoryHeader = Vue.component('menu-category', require('./components/MenuCategory.vue'));
 let menuCategoryFooter = Vue.component('menu-category-footer', require('./components/MenuCategoryFooter.vue'));
 Vue.component('card-product', require('./components/CardProduct.vue'));
-Vue.component('filter-category', require('./components/MenuCategoryFilter.vue'));
-Vue.component('filter-subcategory', require('./components/MenuCategoryFilter.vue'));
+
+//Vue.component('filter-subcategory', require('./components/MenuCategoryFilter.vue'));
 //let newProducts = Vue.component('new-products', require('./components/NewProduct.vue'));
-Vue.component('filter-diet', require('./components/MenuDietFilter.vue'));
+let filterList = Vue.component('main-list-filter', require('./components/MainListFilter.vue'));
+let menuDietFilter = Vue.component('menu-diet-filter', require('./components/MenuDietFilter.vue'));
+let filterSupplier = Vue.component('menu-supplier-filter', require('./components/MenuSupplierFilter.vue'));
+let filterCategory = Vue.component('menu-category-filter', require('./components/MenuCategoryFilter.vue'));
 
 new Vue({
     el: '#menu-header',
@@ -54,7 +55,6 @@ if (document.getElementById("divProduct")) {
     });
 } 
     
-
 if (document.getElementById("new-products")) {
     const app = new Vue({
         el: '#new-products',
@@ -69,6 +69,22 @@ if (document.getElementById("list-products")) {
     });
 } 
 
+if (document.getElementById("general-filters")) {
+    const app = new Vue({
+        el: '#general-filters',
+        data:{
+            total_category:0
+        },
+        store,
+        component:{
+            filterList,
+            filterSupplier,
+            menuDietFilter,
+            filterCategory,
+            
+        }
+    });
+}
 
 if (document.getElementById("content-categories")) {
     const app = new Vue({
@@ -83,16 +99,6 @@ if (document.getElementById("content-subcategories")) {
         store
     });
 } 
-
-
-if (document.getElementById("filter-diet")) {
-    const app = new Vue({
-        el: '#filter-diet',
-        store
-    });
-} 
-
-
 
 new Vue({
     el: '#options-footer',

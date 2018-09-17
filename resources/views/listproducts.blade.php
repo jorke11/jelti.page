@@ -43,7 +43,15 @@
         color:#ffffff;
         fill:#ffffff;
     }
-
+    #content-image{
+        padding-left: 0; padding-right: 0;padding-bottom: 5%;position:relative;top:-200px;min-height: 100px
+    }
+    .category-filter{
+        border:8px rgba(0,0,0,.1) solid;border-radius: 10px; margin-bottom: 20px
+    }
+    .category-filter-item{
+        border-bottom: 3px solid #ccd07b;margin-bottom: 20px;cursor:pointer
+    }
 
     @media (min-width: 1100px){
         .title-new {
@@ -119,7 +127,7 @@
 </section>
 
 <section>
-    <div class="container-fluid"  id="content-image" style="padding-left: 0; padding-right: 0;padding-bottom: 5%;position:relative;top:-200px;min-height: 100px">
+    <div class="container-fluid"  id="content-image">
         <div class="row center-block" style="margin-right: 0;padding-top:4%">
             <div class="col-lg-3 offset-1 ">
                 <span><?php echo $breadcrumbs ?></span>
@@ -132,178 +140,8 @@
         </div>
 
         <div class="row center-block" style="margin-right: 0;padding-top:1%">
-            <div class="col-2 offset-1 col-md-3 col-md-offset-0">
-                <div class="row center-block ml-0 mr-0 pl-0 pr-0" id="categories-filter">
-                    <div class="col-12" style="border:8px rgba(0,0,0,.1) solid;border-radius: 10px; margin-bottom: 20px">
-                        <ul class="list-group">
-                            <li class="list-group-item" style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;cursor:pointer" 
-                                data-toggle="collapse" onclick="obj.eventCategory(null,'content-filter-categories')"><b>CATEGORIAS</b> ({{count($categories)}})
-                                <span style="float:right" id="plus-icon" class="d-none">
-                                    <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="black"  style="cursor:pointer"
-                                         stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                    <path d="M2 16 L30 16" />
-                                    </svg>
-                                </span>
-                                <span style="float:right" id="minus-icon">
-                                    <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="black" stroke="#000000" 
-                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer">
-                                    <path d="M16 2 L16 30 M2 16 L30 16" />
-                                    </svg>
-
-                                </span>
-                            </li>
-                            <div id="content-filter-categories" class="collapse">
-
-                                <?php
-                                $active = "";
-                                $check = "";
-                                $check = "";
-
-                                foreach ($categories as $val) {
-                                    if ($slug_category == $val->slug && $val->slug != '') {
-                                        $check = "checked";
-                                    } else {
-                                        $check = "";
-                                    }
-                                    ?>
-                                    <li class="list-group-item pb-0 pt-0">
-                                        <div class="row" style="cursor:pointer" >
-                                            <div class="col-12">
-                                                <a href="javascript:;" class="list-group-item list-group-item-action" onclick="obj.reloadCategories('{{$val->slug}}', this);">
-                                                    <div class="row">
-                                                        <div class="col-lg-10">
-                                                            {{ucwords(strtolower($val->description))}} ({{$val->subcategories}})
-                                                        </div>
-                                                        <div class="col-lg-2">
-                                                            <input type="checkbox" class="form-control list-category" 
-                                                                   name="categories[]" <?php echo $check ?> value="{{$val->slug}}" id='checkbox_cat_{{$val->slug}}'
-                                                                   >
-                                                        </div>
-                                                    </div>
-
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                    </li>
-                                    <?php
-                                }
-                                ?>
-                            </div>
-                        </ul>
-                        <ul class="list-group">
-                            <li class="list-group-item"  style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px"
-                                data-toggle="collapse" onclick="obj.eventCategory('subcat','content-subcategories')"><b>SUBCATEGORIAS</b> ({{count($subcategory)}})
-
-                                <span style="float:right" id="plus-icon-subcat">
-                                    <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="black" stroke="#000000" 
-                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer">
-                                    <path d="M16 2 L16 30 M2 16 L30 16" />
-                                    </svg>
-                                </span>
-                                <span style="float:right" id="minus-icon-subcat" class="d-none">
-                                    <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="black"  style="cursor:pointer"
-                                         stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                    <path d="M2 16 L30 16" />
-                                    </svg>
-                                </span>
-
-                            </li>
-                            <div id="content-subcategories" class="collapse">
-                                <?php
-                                $active = "";
-                                foreach ($subcategory as $val) {
-                                    if ($slug_category == $val->slug) {
-                                        $active = "active";
-                                    } else {
-                                        $active = "";
-                                    }
-                                    ?>
-                                    <li class="list-group-item pb-0 pt-0">
-                                        <div class="row" style="cursor:pointer" onclick="obj.reloadCategories('{{$val->slug}}'); return false;">
-                                            <div class="col-12">
-                                                <a href="#" class="list-group-item list-group-item-action" >
-                                                    <div class="row">
-                                                        <div class="col-lg-10">
-                                                            {{ucwords(strtolower($val->description))}} ({{$val->products}})
-                                                        </div>
-                                                        <div class="col-lg-2">
-                                                            <input type="checkbox" class="form-control list-category" 
-                                                                   name="subcategories[]" <?php echo $check ?> value="{{$val->slug}}" id='checkbox_subcat_{{$val->slug}}'>
-                                                        </div>
-                                                    </div>
-
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                    </li>
-                                    <?php
-                                }
-                                ?>
-                            </div>
-                        </ul>
-                        <ul class="list-group">
-                            <li class="list-group-item"  style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;"
-                                data-toggle="collapse" onclick="obj.eventCategory('sup','content-supplier')"><b>PROVEEDORES</b> ({{count($supplier)}})
-                                <span style="float:right" id="plus-icon-sup">
-                                    <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="black" stroke="#000000" 
-                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer">
-                                    <path d="M16 2 L16 30 M2 16 L30 16" />
-                                    </svg>
-                                </span>
-                                <span style="float:right" id="minus-icon-sup" class="d-none">
-                                    <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="black"  style="cursor:pointer"
-                                         stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                    <path d="M2 16 L30 16" />
-                                    </svg>
-                                </span></li>
-                            <div id="content-supplier" class="collapse">
-                                <?php
-                                $active = "";
-                                foreach ($supplier as $val) {
-//                                    if ($slug_category == $val->slug) {
-//                                        $active = "active";
-//                                    } else {
-//                                        $active = "";
-//                                    }
-                                    ?>
-                                    <li class="list-group-item">
-                                        <div class="row" style="cursor:pointer" onclick="obj.reloadCategories('{{$val->id}}'); return false;">
-                                            <div class="col-10">
-                                                {{ucwords(strtolower($val->business))}} ({{$val->products}})
-                                            </div>
-                                            <div class="col-2">
-                                                <input type="checkbox" name="supplier[]" class="form-control" value="{{$val->id}}" id='checkbox_sup_{{$val->id}}'>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <?php
-                                }
-                                ?>
-                            </div>
-                        </ul>
-                        <ul class="list-group" id="filter-diet">
-                            <li class="list-group-item"  style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;"
-                                data-toggle="collapse" onclick="obj.eventCategory('diet','content-dietas')"><b>DIETAS</b> ({{count($dietas)}})
-                                <span style="float:right" id="plus-icon-diet">
-                                    <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="black" stroke="#000000" 
-                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer">
-                                    <path d="M16 2 L16 30 M2 16 L30 16" />
-                                    </svg>
-                                </span>
-                                <span style="float:right" id="minus-icon-diet" class="d-none">
-                                    <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="black"  style="cursor:pointer"
-                                         stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                    <path d="M2 16 L30 16" />
-                                    </svg>
-                                </span></li>
-                            <div id="content-dietas" class="collapse">
-                                <filter-diet />
-                            </div>
-                        </ul>
-                    </div>
-                </div>
+            <div class="col-2 offset-1 col-md-3 col-md-offset-0" id="general-filters">
+                <main-list-filter />
             </div>
             <div class="col-8">
                 <section id="divproducts">

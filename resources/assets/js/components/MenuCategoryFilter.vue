@@ -1,15 +1,20 @@
 <template>
     <div>
-        <list-filter :listData="categories"/>
+     <list-filter-item
+          v-for="(row,index) in categories" 
+          :data="row"
+          :key="row.id"
+          @update="updateFilter(index, ...arguments)"
+          />
     </div>
 </template>
 
 <script>
-import listFilter from "./ListFilter.vue";
+import listFilterItem from "./ListFilterItem.vue";
 
 export default {
    components: {
-    "list-filter":listFilter
+    "list-filter-item":listFilterItem
   }, 
   computed: {
     categories() {
@@ -20,8 +25,13 @@ export default {
     }
   },
   mounted() {
-    console.log("Component mounted card diets menu.");
+    console.log("Component mounted card diets menu  asd.");
   },
-  methods: {}
+  methods: {
+    updateFilter(index, row) {
+      console.log(row)
+      console.log(this.$store.getters.diets);
+    }
+  }
 };
 </script>
