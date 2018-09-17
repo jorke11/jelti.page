@@ -47,12 +47,6 @@ clearstatcache();
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 
-        <!-- Add the slick-theme.css if you want default styling -->
-        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick-theme.css"/>
-        <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
-
 
         {!!Html::script('/vendor/toastr/toastr.min.js')!!}
         {!!Html::style('/vendor/toastr/toastr.min.css')!!}
@@ -312,4 +306,4 @@ if ($exibirModal === true) : // Si nuestra variable de control "$exibirModal" es
 {!!Html::script('js/Page/counter.js')!!}
 
 <link href="{{ asset('/css/fonts.css') }}" rel="stylesheet" type="text/css">
-<script src="{{asset("js/app.js")}}"></script>
+<!--<script src="{{asset("js/app.js")}}"></script>-->

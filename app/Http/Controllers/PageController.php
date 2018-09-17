@@ -20,12 +20,12 @@ class PageController extends Controller {
 
     public function __construct() {
         $this->dietas = [
-            ["id" => 1, "description" => "Paleo", "slug" => "paleo","image"=>"images/page/dietas/paleo.png","search"=>"paleo"],
-            ["id" => 2, "description" => "Vegano", "slug" => "vegano","image"=>"images/page/dietas/vegana.png","search"=>"vegano"],
-            ["id" => 3, "description" => "Sin gluten", "slug" => "sin_gluten","image"=>"images/page/dietas/sin_gluten.png","search"=>"sin_gluten"],
-            ["id" => 4, "description" => "Organico", "slug" => "organico","image"=>"images/page/dietas/organico.png","search"=>"organico"],
-            ["id" => 5, "description" => "Sin grasas Trans", "slug" => "sin_grasas_trans","image"=>"images/page/dietas/singrasastrans.png","search"=>"sin_grasas_trans"],
-            ["id" => 6, "description" => "Sin azucar", "slug" => "sin_azucar","image"=>"images/page/dietas/sinazucar.png","search"=>"sin_azucar"],
+            (object)["id" => 1, "description" => "Paleo", "slug" => "paleo","image"=>"images/page/dietas/paleo.png","search"=>"paleo"],
+            (object)["id" => 2, "description" => "Vegano", "slug" => "vegano","image"=>"images/page/dietas/vegana.png","search"=>"vegano"],
+            (object)["id" => 3, "description" => "Sin gluten", "slug" => "sin_gluten","image"=>"images/page/dietas/sin_gluten.png","search"=>"sin_gluten"],
+            (object)["id" => 4, "description" => "Organico", "slug" => "organico","image"=>"images/page/dietas/organico.png","search"=>"organico"],
+            (object)["id" => 5, "description" => "Sin grasas Trans", "slug" => "sin_grasas_trans","image"=>"images/page/dietas/singrasastrans.png","search"=>"sin_grasas_trans"],
+            (object)["id" => 6, "description" => "Sin azucar", "slug" => "sin_azucar","image"=>"images/page/dietas/sinazucar.png","search"=>"sin_azucar"],
         ];
     }
 
@@ -136,7 +136,7 @@ class PageController extends Controller {
 
         $dietas = $this->dietas;
 
-        return view('page', compact("subcategory", "newproducts", "love_clients", "clients", "most_sales"));
+        return view('page', compact("subcategory","categories","dietas", "newproducts", "love_clients", "clients", "most_sales"));
     }
 
 
@@ -411,7 +411,7 @@ class PageController extends Controller {
         $row_category = array();
         $cat_ids = [];
         if ($param == null) {
-            $products = DB::table("vproducts")->where(function($q) {
+            $products = DB::table("vproducts")->whereNotNull("characteristic")->where(function($q) {
                 $q->whereNotNull("image")->whereNotNull("thumbnail");
             });
 

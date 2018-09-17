@@ -299,7 +299,27 @@
                                     </svg>
                                 </span></li>
                             <div id="content-dietas" class="collapse">
-                                <filter-diet />
+                                <?php
+                                   foreach ($dietas as $val) {
+//                                    if ($slug_category == $val->slug) {
+//                                        $active = "active";
+//                                    } else {
+//                                        $active = "";
+//                                    }
+                                    ?>
+                                    <li class="list-group-item">
+                                        <div class="row" style="cursor:pointer" onclick="obj.reloadCategories('{{$val->id}}'); return false;">
+                                            <div class="col-10">
+                                                {{ucwords(strtolower($val->description))}} ({{$val->description}})
+                                            </div>
+                                            <div class="col-2">
+                                                <input type="checkbox" name="dietas[]" class="form-control" value="{{$val->slug}}" id='checkbox_dieta_{{$val->id}}'>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <?php
+                                }
+                                ?>
                             </div>
                         </ul>
                     </div>
@@ -356,7 +376,7 @@
                                                     >{{$value->quantity}} en carrito</button>
                                             @endif
 
-                                            <div class="row d-none row-center" id="buttonAdd_{{$value->id}}" onmouseout=objCounter.hideButton(this, {{$value->id}})
+                                            <div class="row d-none row-center" id="buttonAdd_{{$value->id}}" onmouseout="objCounter.hideButton(this, {{$value->id}})"
                                                 style="background-color: #5cb19a;color:white;padding-bottom: 3%;padding-top: 3%;border-radius: 10px;
                                                 padding-left: 0;padding-right: 0;">
                                                 <div class="col-lg-3">
@@ -421,7 +441,6 @@
             </div>
         </div>
     </div>
-</section>
 </section>
 {!!Html::script('js/Page/listProduct.js')!!}
 @endsection

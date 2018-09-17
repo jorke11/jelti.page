@@ -1,8 +1,11 @@
 
 @if ($errors->has('email'))
-<script>$(function () {
+<script>
+$(function () {
         $("#modalOptions").modal("show")
-    })</script>
+    })
+        
+</script>
 @endif
 
 

@@ -35,13 +35,17 @@
                 <div class="col-4">
                     <ul class="list-group">
                         <li class="list-group-item">CATEGORÍAS</li>
-                        <menu-category-footer />
+                        @foreach($categories as $val)
+                        <li class="list-group-item"><a class="link-white" href="{{url("/products/".$val->slug)}}">{{ucwords(strtoupper(str_replace("é","É",$val->description)))}}</a></li>
+                        @endforeach
                     </ul>
                 </div>
                 <div class="col-4 d-none d-lg-block d-md-none d-sm-block" id="diet-footer">
                     <ul class="list-group">
                         <li class="list-group-item">DIETAS</li>
-                        <menu-diet-footer />
+                        @foreach($dietas as $val)
+                        <li class="list-group-item"><a class="link-white" href='{{url("search/c=".$val->slug)}}'>{{strtoupper($val->description)}}</a></li>
+                        @endforeach
                     </ul>
                 </div>
             </div>

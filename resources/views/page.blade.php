@@ -29,16 +29,68 @@
 <section id="divProduct" style="padding-top:2%" class=" d-lg-block">
     <div class="container-fluid">
         <div class="row" style="padding-bottom: 20px">
-            <div class="col-lg-10 col-center">
-                <p class="text-center title-color " style='font-size: 50px;font-family: "dosis" !important'>Conoce Nuestras Dietas</p>
+            <div class="col-lg-12">
+                <p class="text-center title-color" style='font-size: 50px;font-family: "dosis" !important'>Conoce Nuestras Dietas</p>
             </div>
         </div>
-        <div class="row" style="padding-bottom: 20px">
-            <div class="col-lg-10 col-center">
-                    <card-diet></card-diet>
+        <div class="row justify-content-center">
+            <div class='col-lg-3 col-xs-6 col-md-6'>
+                <div class="card">
+                    <img class="card-img-top" src="{{url("images/page/dietas/paleo.png")}}" alt="Card image cap">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Paleo</h2>
+                        <p class="text-center justify-content-center"><a href="{{url("search/c=paleo")}}" class="link-green">Ver todos</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class='col-lg-3 col-xs-6 col-md-6'>
+                <div class="card">
+                    <img class="card-img-top" src="{{url("images/page/dietas/vegana.png")}}" alt="Card image cap">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Vegana</h2>
+                        <p class="text-center justify-content-center"><a href="{{url("search/c=vegano")}}" class="link-green">Ver todos</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class='col-lg-3 col-xs-6 col-md-6'>
+                <div class="card">
+                    <img class="card-img-top" src="{{url("images/page/dietas/sin_gluten.png")}}" alt="Card image cap">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Sin Gluten</h2>
+                        <p class="text-center justify-content-center"><a href="{{url("search/c=sin_gluten")}}" class="link-green">Ver todos</a></p>
+                    </div>
+                </div>
             </div>
         </div>
-        
+        <div class="row justify-content-center" style="padding-top: 50px">
+            <div class='col-lg-3 col-xs-6 col-md-6'>
+                <div class="card">
+                    <img class="card-img-top" src="{{url("images/page/dietas/organico.png")}}" alt="Card image cap">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Orgánico</h2>
+                        <p class="text-center justify-content-center"><a href="{{url("search/c=organico")}}" class="link-green">Ver todos</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class='col-lg-3 col-xs-6 col-md-6'>
+                <div class="card">
+                    <img class="card-img-top" src="{{url("images/page/dietas/singrasastrans.png")}}" alt="Card image cap">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Sin Grasas Trans</h2>
+                        <p class="text-center justify-content-center"><a href="{{url("search/c=sin_grasas_trans")}}" class="link-green" >Ver todos</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class='col-lg-3 col-xs-6 col-md-6'>
+                <div class="card">
+                    <img class="card-img-top" src="{{url("images/page/dietas/sinazucar.png")}}" alt="Card image cap">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Sin Azúcar</h2>
+                        <p class="text-center justify-content-center"><a href="{{url("search/c=sin_azucar")}}" class="link-green" >Ver todos</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -176,42 +228,6 @@
 
 </style>
 
-
-<!--<section style="padding-top: 3%;padding-bottom: 2%" id="new-products">   
-        <div class="container-fluid test">
-            <div class="row row-center text-center " >
-                <div class="col-8">
-                    <h1 class="text-center">Lo Más Nuevo <br>en SuperFüds</h1>
-                    <p class="text-center"><a href="/search/all=new" class="link-green">Ver todos</a></p>
-                </div>
-            </div>
-    
-            <div class="row row-center test" >
-                <div class="col-lg-11 col-md-12 offset-md-0" style="background-color: #f8f7f5;margin-left: 10px;padding-top: 1%;padding-bottom: 1%">
-    
-                    <div class="row">
-                        <div class="col-10 offset-1 ">
-                            <div id="carouselExampleIndicators3" class="carousel slide" data-ride="carousel">
-    
-                                <div class="carousel-inner">
-                                    <new-products />
-                                </div>
-    
-                                <a class="carousel-control-prev" href="#carouselExampleIndicators3" role="button" data-slide="prev" style="left:-15%;">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true" style="color:red"></span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                                <a class="carousel-control-next" href="#carouselExampleIndicators3" role="button" data-slide="next" style="right: -15%;">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>-->
 
 <!--Web-->
 <section style="padding-top: 3%;padding-bottom: 2%">   
