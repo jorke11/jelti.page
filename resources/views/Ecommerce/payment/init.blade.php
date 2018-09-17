@@ -233,7 +233,7 @@
                                 <div class="panel-footer">
                                     <div class="row">
                                         <div class="col-4">
-                                            <button type="submit" id="btnPayU" class="btn btn-success form-control btn-sm">Pagar</button>
+                                            <button type="submit" id="btnPayU" class="btn btn-success form-control btn-sm">Pagar Con Tarjeta Credito</button>
                                         </div>
                                         <div class="col-4">
                                             @if($term>1)
