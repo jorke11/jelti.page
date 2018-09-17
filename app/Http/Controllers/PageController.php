@@ -71,8 +71,8 @@ class PageController extends Controller {
                         ->where("type_category_id", 1)
                         ->where(function($query) {
                             $query->whereNull("node_id")
-                            ->OrWhere("node_id", 0)->orderBy("order", "asc");
-                        })->get();
+                            ->OrWhere("node_id", 0)->orderBy("description");
+                        })->orderBy("description")->get();
 
         $init = date('Y-m-d', strtotime('-5 month', strtotime(date('Y-m-d'))));
 
@@ -168,8 +168,8 @@ class PageController extends Controller {
         $categories = DB::table("vcategories")->where("status_id", 1)->where("type_category_id", 1)
                         ->where(function($query) {
                             $query->whereNull("node_id")
-                            ->OrWhere("node_id", 0)->orderBy("order", "asc");
-                        })->get();
+                            ->OrWhere("node_id", 0)->orderBy("description", "asc");
+                        })->orderBy("description")->get();
 
         $ids = [];
         $subcategory = [];
@@ -220,7 +220,6 @@ class PageController extends Controller {
 
         $breadcrumbs = "<a href = '/'>Home</a> / Alimentos";
 
-
         if (stripos($param, "c=") !== false) {
             $param = str_replace("c=", "", $param);
             $char = \App\Models\Administration\Characteristic::where("description", "ilike", "%" . strtolower($param) . "%")->get();
@@ -244,7 +243,8 @@ class PageController extends Controller {
 
             $products = $products->orderBy("title", "desc")->get();
 
-            $categories = DB::table("vcategories")->where("status_id", 1);
+            $categories = DB::table("vcategories")->where("status_id", 1)->orderBy("description");
+            
 
             foreach ($products as $value) {
 //                dd($value);
