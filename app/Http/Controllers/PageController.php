@@ -158,6 +158,14 @@ class PageController extends Controller {
         return response()->json($diet);
     }
 
+    public function getSubcagories() {
+        // $subcategory = Characteristic::select("id","description")->where("status_id", 1)->where("type_subcategory_id", 1)->whereNotNull("img")->orderBy("order", "asc")->get();
+        $subcategory = DB::table("vsubcategories")->select("id","description",DB::raw("0 as subcategories"),DB::raw("false as checked"))->where("status_id", 1)->orderBy("order", "asc")->get();
+
+        return response()->json($subcategory);
+    }
+
+
     public function productSearch($slug_category) {
         $row_category = Categories::where("slug", $slug_category)->where("type_category_id", 1)->where("node_id", 0)->first();
 

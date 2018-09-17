@@ -1,8 +1,8 @@
 <template>
     <div>
-            {{categories}}
+      {{subcategories}}
      <list-filter-item
-          v-for="(row,index) in categories" 
+          v-for="(row,index) in subcategories" 
           :data="row"
           :key="row.id"
           @update="updateFilter(index, ...arguments)"
@@ -17,15 +17,17 @@ export default {
    components: {
     "list-filter-item":listFilterItem
   }, 
+  
   computed: {
-    categories() {
-      return this.$store.getters.listCategories;
+    subcategories() {
+        return this.$store.getters.listSubcategories;
     },
     appPath() {
       return this.$store.getters.appPath;
     }
   },
   mounted() {
+    this.$store.dispatch("getSubcategories");
     console.log("Component mounted card diets menu  asd.");
   },
   methods: {

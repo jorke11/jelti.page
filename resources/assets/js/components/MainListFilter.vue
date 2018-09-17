@@ -42,7 +42,7 @@
 
                                 </li>
                                 <div id="content-subcategories" class="collapse">
-                                   
+                                   <menu-subcategory-filter @update="updateFilter(index, ...arguments)"/>
                                 </div>
                             </ul>
                             <ul class="list-group">

@@ -5,6 +5,7 @@ export default {
         newProducts:[],
         listProducts:[],
         listSupplier:[],
+        subcategories:[],
         appPath:"http://localhost:8000/"
     },
     
@@ -12,7 +13,7 @@ export default {
         diets(state){
             return state.diets
         },
-        categories(state){
+        listCategories(state){
             return state.categories
         },
         listProduct(state){
@@ -20,6 +21,9 @@ export default {
         },
         listSupplier(state){
             return state.listSupplier
+        },
+        listSubcategories(state){
+            return state.subcategories
         },
         AppPath(state){
             return state.appPath
@@ -41,7 +45,11 @@ export default {
         },
         updateListSupplier(state,payload){
             return state.listSupplier = payload
+        },
+        updateSubcategory(state,payload){
+            return state.subcategories = payload
         }
+        
     },
     actions:{
         getDiets(context){
@@ -68,6 +76,11 @@ export default {
         getListSupplier(context){
             axios.get("/suppliers").then(response => {
                 context.commit("updateListSupplier",response.data)
+            });
+        },
+        getSubcategories(context){
+            axios.get("/subcategory").then(response => {
+                context.commit("updateSubcategory",response.data)
             });
         }
     }

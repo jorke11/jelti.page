@@ -11,7 +11,7 @@
 export default {
   computed: {
     categories() {
-        return this.$store.getters.categories;
+        return this.$store.getters.listCategories;
     },
     appPath() {
         return this.$store.getters.appPath;

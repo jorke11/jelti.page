@@ -38,6 +38,7 @@ let filterList = Vue.component('main-list-filter', require('./components/MainLis
 let menuDietFilter = Vue.component('menu-diet-filter', require('./components/MenuDietFilter.vue'));
 let filterSupplier = Vue.component('menu-supplier-filter', require('./components/MenuSupplierFilter.vue'));
 let filterCategory = Vue.component('menu-category-filter', require('./components/MenuCategoryFilter.vue'));
+let menuSubcategoryFilter = Vue.component('menu-subcategory-filter', require('./components/MenuSubcategoryFilter.vue'));
 
 new Vue({
     el: '#menu-header',
@@ -72,15 +73,13 @@ if (document.getElementById("list-products")) {
 if (document.getElementById("general-filters")) {
     const app = new Vue({
         el: '#general-filters',
-        data:{
-            total_category:0
-        },
         store,
         component:{
             filterList,
             filterSupplier,
             menuDietFilter,
             filterCategory,
+            menuSubcategoryFilter
             
         }
     });

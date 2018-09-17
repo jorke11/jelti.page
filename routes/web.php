@@ -27,6 +27,7 @@ Route::get('/products/{slug_category}', "PageController@productSearch");
 Route::get('/categories', "PageController@getCategories");
 Route::get('/suppliers', "PageController@getSuppliers");
 Route::get('/diet', "PageController@getDiet");
+Route::get('/subcategory', "PageController@getSubcagories");
 
 Route::get('/search', 'PageController@getProducts');
 Route::get('/search-input', 'PageController@getProductsInput');
