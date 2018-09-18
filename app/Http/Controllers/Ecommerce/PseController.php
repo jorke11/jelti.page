@@ -394,13 +394,12 @@ class PseController extends Controller {
                 $data["state"] = "Transacción aprobada";
             } else if ($data["polTransactionState"] == 6 && $data["polResponseCode"] == 5) {
                 $data["state"] = "Transacción fallida";
-            } else if (($data["polTransactionState"] == 12 || $data["polTransactionState"] == 14) && $data["polResponseCode"] > 25) {
+            } else if (($data["polTransactionState"] == 12 || $data["polTransactionState"] == 14) && $data["polResponseCode"] >= 25) {
                 $data["state"] = "ransacción pendiente, por favor revisar si el débito fue realizado en el banco.";
             }
 
         $categories = $this->categories;
         $dietas = $this->dietas;
-
 
         return view("Ecommerce.pse.confirmation", compact("data", "categories", "dietas"));
     }
