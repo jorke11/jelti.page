@@ -215,8 +215,8 @@ class PseController extends Controller {
         $apiLogin = "pRRXKOl8ikMmt9u";
         $merchantId = 508029;
         $accountId = 512321;
-        $url_response = 'http://localhost:8000/confirmation';
-//        $url_response='https://superfuds.com/confirmation';
+//        $url_response = 'http://localhost:8000/confirmation';
+        $url_response='https://superfuds.com/confirmation';
 
         /* if ($this->test) {
 
@@ -351,7 +351,6 @@ class PseController extends Controller {
     public function confirmation() {
         $data = $_GET;
         $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
-
         
         
         if($order==null){
@@ -359,13 +358,7 @@ class PseController extends Controller {
         }
         
         if ($data["transactionState"] == 4) {
-            if ($data["polTransactionState"] == 4 && $data["polResponseCode"] == 1) {
-                $data["state"] = "Transacción aprobada";
-            } else if ($data["polTransactionState"] == 6 && $data["polResponseCode"] == 5) {
-                $data["state"] = "Transacción fallida";
-            } else if (($data["polTransactionState"] == 12 || $data["polTransactionState"] == 14) && $data["polResponseCode"] > 25) {
-                $data["state"] = "ransacción pendiente, por favor revisar si el débito fue realizado en el banco.";
-            }
+          
 
             $data["message"] = "Pago Realizado Orden Id #" . $data["transactionId"];
             $data["order"] = $order;
@@ -396,6 +389,14 @@ class PseController extends Controller {
             $data["message"] = "No se ha podido realizar la transaccion por favor vuelva a intentar, Orden Id #" . $data["transactionId"];
             $data["order"] = $order;
         }
+        
+          if ($data["polTransactionState"] == 4 && $data["polResponseCode"] == 1) {
+                $data["state"] = "Transacción aprobada";
+            } else if ($data["polTransactionState"] == 6 && $data["polResponseCode"] == 5) {
+                $data["state"] = "Transacción fallida";
+            } else if (($data["polTransactionState"] == 12 || $data["polTransactionState"] == 14) && $data["polResponseCode"] > 25) {
+                $data["state"] = "ransacción pendiente, por favor revisar si el débito fue realizado en el banco.";
+            }
 
         $categories = $this->categories;
         $dietas = $this->dietas;
