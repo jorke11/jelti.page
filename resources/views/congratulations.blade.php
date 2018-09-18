@@ -110,7 +110,7 @@
             </div>
             @else
             <?php
-            header('Location: http://www.superfuds.com/');
+            header('Location: https://superfuds.com/');
             ?>
             @endif
 
