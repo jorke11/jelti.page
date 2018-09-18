@@ -336,18 +336,21 @@ class PaymentController extends Controller {
         $dietas = $this->dietas;
 
         $client = Stakeholder::find(Auth::user()->stakeholder_id);
-        $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
 
-        $current = OrdersDetail::select("orders.created_at", DB::raw("round(sum(vproducts.price_sf * orders_detail.quantity * orders_detail.units_sf)) subtotal"), DB::raw("round(sum(vproducts.price_sf_with_tax * orders_detail.quantity * orders_detail.units_sf)) total"))
-                ->join("orders", "orders.id", "orders_detail.order_id")
-                ->join("vproducts", "vproducts.id", "orders_detail.product_id")
-                ->where("order_id", $order->id)
-                ->groupBy("orders.created_at")
-                ->first();
+        $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
+        $current = array();
+        if ($order) {
+            $current = OrdersDetail::select("orders.created_at", DB::raw("round(sum(vproducts.price_sf * orders_detail.quantity * orders_detail.units_sf)) subtotal"), DB::raw("round(sum(vproducts.price_sf_with_tax * orders_detail.quantity * orders_detail.units_sf)) total"))
+                    ->join("orders", "orders.id", "orders_detail.order_id")
+                    ->join("vproducts", "vproducts.id", "orders_detail.product_id")
+                    ->where("order_id", $order->id)
+                    ->groupBy("orders.created_at")
+                    ->first();
+        }
 
         $list = DB::table("vdepartures")->where("client_id", $client->id)->whereIn("status_id", [2, 7])->orderBy("invoice", "desc")->get();
 
-        return view("Ecommerce.shopping.orders", compact("product", "categories", "dietas", "list","current"));
+        return view("Ecommerce.shopping.orders", compact("product", "categories", "dietas", "list", "current"));
     }
 
     public function getInvoice($invoice) {
@@ -843,6 +846,7 @@ class PaymentController extends Controller {
 
                     $order->response_payu = json_encode($result);
                     $order->status_id = 2;
+                    $order->departure_id = $row->id;
                     $order->save();
 
                     DB::commit();

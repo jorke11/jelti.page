@@ -12,19 +12,26 @@ use Auth;
 use App\Traits\Invoice;
 use Log;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Controllers\Sales\DepartureController;
+use App\Http\Controllers\Ecommerce\PaymentController;
+use DB;
 
-class PseController extends Controller
-{
+class PseController extends Controller {
+
     use Invoice;
 
+    public $depObj;
+    public $oayObj;
     public $client;
     public $test;
     public $categories;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->client = '';
         $this->test = true;
+
+        $this->depObj = new DepartureController();
+        $this->payObj = new PaymentController();
 
         $this->dietas = array(
             (object) array("id" => 1, "description" => "Paleo", "slug" => "paleo"),
@@ -42,8 +49,7 @@ class PseController extends Controller
                         })->get();
     }
 
-    public function index()
-    {
+    public function index() {
         $this->client = Stakeholder::where("email", Auth::user()->email)->first();
         $term = 2;
         $month = array();
@@ -56,12 +62,13 @@ class PseController extends Controller
 
         $data = $this->getDataPayment();
 
-        $data_order = $this->createOrder();
+        $data_order = $this->dataCart();
+
 
         $banks = $this->getListBanks();
         $type_client = [
-                ["id" => "N", "description" => "Persona Natura"],
-                ["id" => "J", "description" => "Persona Juridica"]
+                ["id" => "N", "description" => "Persona Natural"],
+                ["id" => "J", "description" => "Persona Jurídica"]
         ];
 
 
@@ -73,11 +80,11 @@ class PseController extends Controller
                 ["id" => "IDC", "description" => "Identificador único de cliente, para el caso de ID’s únicos de clientes/usuarios de servicios públicos"],
                 ["id" => "CEL", "description" => "En caso de identificarse a través de la línea del móvil"],
                 ["id" => "RC", "description" => "Registro civil de nacimiento"],
-                ["id" => "DE", "description" => "Documento de identificación extranjeroo"],
+                ["id" => "DE", "description" => "Documento de identificación extranjero"],
         ];
 
-        $total = "$" . number_format(round($data_order["header"]["total"]), 0, ",", ".");
-        $subtotal = "$" . number_format(round($data_order["header"]["subtotal"]), 0, ",", ".");
+        $total = "$" . number_format(round($data_order["total"]), 0, ",", ".");
+        $subtotal = "$" . number_format(round($data_order["subtotal"]), 0, ",", ".");
 
         $client = $this->client;
 
@@ -89,8 +96,21 @@ class PseController extends Controller
         return view("Ecommerce.pse.init", compact("subtotal", "total", "client", "countries", "month", "years", "term", "categories", "dietas", "banks", "type_client", "type_document", "deviceSessionId", "deviceSessionId_concat"));
     }
 
-    public function getDataPayment()
-    {
+    public function dataCart() {
+
+        $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
+
+        $current = \App\Models\Inventory\OrdersDetail::select("orders.created_at", DB::raw("round(sum(vproducts.price_sf * orders_detail.quantity * orders_detail.units_sf)) subtotal"), DB::raw("round(sum(vproducts.price_sf_with_tax * orders_detail.quantity * orders_detail.units_sf)) total"))
+                ->join("orders", "orders.id", "orders_detail.order_id")
+                ->join("vproducts", "vproducts.id", "orders_detail.product_id")
+                ->where("order_id", $order->id)
+                ->groupBy("orders.created_at")
+                ->first();
+
+        return $current;
+    }
+
+    public function getDataPayment() {
         $data = [];
 
         $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
@@ -126,31 +146,30 @@ class PseController extends Controller
         return $data;
     }
 
-    public function getListBanks()
-    {
+    public function getListBanks() {
         $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
         $host = "sandbox.api.payulatam.com";
         $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
         $apiLogin = "pRRXKOl8ikMmt9u";
 
         /* $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
-        $host = 'api.payulatam.com';
-        $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
-        $apiLogin = "tGovZHuhL97hNh7"; */
+          $host = 'api.payulatam.com';
+          $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
+          $apiLogin = "tGovZHuhL97hNh7"; */
 
-        
+
 
         /* if ($this->test) {
-            $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
-            $host = 'sandbox.api.payulatam.com';
-            $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
-            $apiLogin = "pRRXKOl8ikMmt9u";
-        } else {
-            $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
-            $host = 'api.payulatam.com';
-            $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
-            $apiLogin = "tGovZHuhL97hNh7";
-        } */
+          $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
+          $host = 'sandbox.api.payulatam.com';
+          $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
+          $apiLogin = "pRRXKOl8ikMmt9u";
+          } else {
+          $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
+          $host = 'api.payulatam.com';
+          $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
+          $apiLogin = "tGovZHuhL97hNh7";
+          } */
 
         $postData = array(
             "test" => false,
@@ -163,7 +182,7 @@ class PseController extends Controller
             "merchant" => [
                 "apiLogin" => $apiLogin,
                 "apiKey" => $apiKey
-                ]
+            ]
         );
 
         $data_string = json_encode($postData);
@@ -172,9 +191,7 @@ class PseController extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt(
-            $ch,
-            CURLOPT_HTTPHEADER,
-            array(
+                $ch, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json;',
             'Host: ' . $host,
             'Accept:application/json',
@@ -187,72 +204,44 @@ class PseController extends Controller
         return $arr["banks"];
     }
 
-    public function createOrder()
-    {
-        $row = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
-        $user = Users::find(Auth::user()->id);
-
-        $client = Stakeholder::find($user->stakeholder_id);
-
-        $param["header"]["warehouse_id"] = 3;
-        $param["header"]["responsible_id"] = 1;
-        $param["header"]["city_id"] = $client->city_id;
-        $param["header"]["created"] = date("Y-m-d H:i");
-        $param["header"]["status_id"] = 1;
-        $param["header"]["client_id"] = $user->stakeholder_id;
-        $param["header"]["destination_id"] = $client->city_id;
-        $param["header"]["address"] = $client->address_send;
-        $param["header"]["phone"] = $client->phone;
-        $param["header"]["shipping_cost"] = 0;
-        $param["header"]["insert_id"] = Auth::user()->id;
-        $param["header"]["order_id"] = $row->id;
-        $param["detail"] = $this->formatDetailOrder($row);
-        $param["header"]["total"] = $this->total;
-        $param["header"]["subtotal"] = $this->subtotal;
-        $param["header"]["tax19"] = $this->tax19;
-        $param["header"]["tax5"] = $this->tax5;
-//
-        return $param;
-    }
-
-    public function payment(Request $req)
-    {
+    public function payment(Request $req) {
         $in = $req->all();
         $client = Stakeholder::where("email", Auth::user()->email)->first();
         $country = $in["country_id"];
 
         $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
-        $host="sandbox.api.payulatam.com";
+        $host = "sandbox.api.payulatam.com";
         $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
         $apiLogin = "pRRXKOl8ikMmt9u";
         $merchantId = 508029;
         $accountId = 512321;
-//        $url_response='http://localhost:8000/confirmation';
-        $url_response='https://superfuds.com/confirmation';
+        $url_response = 'http://localhost:8000/confirmation';
+//        $url_response='https://superfuds.com/confirmation';
 
         /* if ($this->test) {
 
-            $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
-            $host="sandbox.api.payulatam.com";
-            $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
-            $apiLogin = "pRRXKOl8ikMmt9u";
-            $merchantId = 508029;
-            $accountId = 512321;
-            $url_response='http://localhost:8000/confirmation';
-        } else {
-            $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
-            $host="api.payulatam.com";
-            $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
-            $apiLogin = "tGovZHuhL97hNh7";
-            $merchantId = "559634";
-            $accountId = "562109";
-            $url_response ='https://superfuds.com/confirmation';
-        } */
+          $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
+          $host="sandbox.api.payulatam.com";
+          $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
+          $apiLogin = "pRRXKOl8ikMmt9u";
+          $merchantId = 508029;
+          $accountId = 512321;
+          $url_response='http://localhost:8000/confirmation';
+          } else {
+          $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
+          $host="api.payulatam.com";
+          $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
+          $apiLogin = "tGovZHuhL97hNh7";
+          $merchantId = "559634";
+          $accountId = "562109";
+          $url_response ='https://superfuds.com/confirmation';
+          } */
 
         $referenceCode = 'invoice_' . microtime();
         $currency = "COP";
 
-        $data_order = $this->createOrder();
+
+        $data_order = $this->payObj->createOrder();
 
         $TX_VALUE = round($data_order["header"]["total"]);
         $TX_TAX = 0;
@@ -284,13 +273,24 @@ class PseController extends Controller
                         "TX_TAX_RETURN_BASE" => ["value" => $TX_TAX_RETURN_BASE, "currency" => $currency],
                     ],
                     "buyer" => [
-                        "emailAddress" => $buyer_email
+                        "emailAddress" => $buyer_email,
+                        "fullName" => $in["name_headline"],
+                        "contactPhone" => $in["phone_headline"],
+                        "shippingAddress" => [
+                            "street1" => $client->address_send,
+                            "street2" => $client->address_invoice,
+                            "city" => $client->city->description,
+                            "state" => $client->city->department->description,
+                            "country" => "CO",
+                            "postalCode" => "0000000",
+                            "phone" => $client->phone
+                        ]
                     ]
                 ],
                 "payer" => [
                     "fullName" => $client->business,
                     "emailAddress" => $client->email,
-                    "contactPhone" => $client->phone
+                    "contactPhone" => $client->phone,
                 ],
                 "extraParameters" => [
                     "RESPONSE_URL" => $url_response,
@@ -309,6 +309,8 @@ class PseController extends Controller
             ],
         ];
 
+//        dd($postData);
+
         Log::debug("REQUEST TO PAY PSE: " . print_r($postData, true));
 
 //        dd($postData);
@@ -319,11 +321,9 @@ class PseController extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt(
-            $ch,
-            CURLOPT_HTTPHEADER,
-            array(
+                $ch, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json',
-            'Host: '.$host,
+            'Host: ' . $host,
             'Accept:application/json',
             'Content-Length: ' . strlen($data_string))
         );
@@ -334,7 +334,7 @@ class PseController extends Controller
         $arr = json_decode($result, true);
 
         Log::debug("RESPONSE TO PAY PSE: " . print_r($arr, true));
-        
+
         if ($arr["code"] == 'SUCCESS') {
             if ($arr["transactionResponse"]["pendingReason"] == 'AWAITING_NOTIFICATION') {
                 return Redirect::to($arr["transactionResponse"]["extraParameters"]["BANK_URL"]);
@@ -348,45 +348,96 @@ class PseController extends Controller
         }
     }
 
-    public function confirmation()
-    {
+    public function confirmation() {
         $data = $_GET;
         $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
 
         if ($data["transactionState"] == 4) {
-            $data["message"] = "Pago Realizado Orden Id #".$data["transactionId"];
+            if ($data["polTransactionState"] == 4 && $data["polResponseCode"] == 1) {
+                $data["state"] = "Transacción aprobada";
+            } else if ($data["polTransactionState"] == 6 && $data["polResponseCode"] == 5) {
+                $data["state"] = "Transacción fallida";
+            } else if (($data["polTransactionState"] == 12 || $data["polTransactionState"] == 14) && $data["polResponseCode"] > 25) {
+                $data["state"] = "ransacción pendiente, por favor revisar si el débito fue realizado en el banco.";
+            }
+
+            $data["message"] = "Pago Realizado Orden Id #" . $data["transactionId"];
             $data["order"] = $order;
-            $order->status_id=2;
-            $order->save(); 
-        } else  if ($data["transactionState"] == 7) {
-            $data["message"] = "En un tiempo de aproximado de 4 Horas te llegará la notificación del pago mientras realizamos validaciones de seguridad, gracias por preferirnos, Orden Id # ".$data["transactionId"];
+            $order->status_id = 2;
+
+
+            $data_order = $this->payObj->createOrder();
+
+            $dep = $this->depObj->processDeparture($data_order["header"], $data_order["detail"])->getData();
+
+            $row = \App\Models\Inventory\Departures::find($dep->header->id);
+            $row->paid_out = true;
+            $row->type_request = "pse";
+            $row->save();
+
+            $order->response_payu = json_encode($_GET);
+            $order->status_id = 2;
+            $order->departure_id = $dep->header->id;
+            $order->save();
+
+
+
+            $order->save();
+        } else if ($data["transactionState"] == 7) {
+            $data["message"] = "En un tiempo de aproximado de 4 Horas te llegará la notificación del pago mientras realizamos validaciones de seguridad, gracias por preferirnos, Orden Id # " . $data["transactionId"];
             $data["order"] = $order;
-        }else{
-            $data["message"] = "No se ha podido realizar la transaccion por favor vuelva a intentar, Orden Id #".$data["transactionId"];
+        } else {
+            $data["message"] = "No se ha podido realizar la transaccion por favor vuelva a intentar, Orden Id #" . $data["transactionId"];
             $data["order"] = $order;
         }
-        
-        $categories=$this->categories;  
-        $dietas=$this->dietas;  
-                
 
-        return view("Ecommerce.pse.confirmation", compact("data","categories","dietas"));
+        $categories = $this->categories;
+        $dietas = $this->dietas;
+
+
+        return view("Ecommerce.pse.confirmation", compact("data", "categories", "dietas"));
     }
 
+    public function createOrder() {
+        $row = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
+        $user = Users::find(Auth::user()->id);
 
-    public function finishPurchase(){
+        $client = Stakeholder::find($user->stakeholder_id);
+
+        $param["header"]["warehouse_id"] = 3;
+        $param["header"]["responsible_id"] = 1;
+        $param["header"]["city_id"] = $client->city_id;
+        $param["header"]["created"] = date("Y-m-d H:i");
+        $param["header"]["status_id"] = 1;
+        $param["header"]["client_id"] = $user->stakeholder_id;
+        $param["header"]["destination_id"] = $client->city_id;
+        $param["header"]["address"] = $client->address_send;
+        $param["header"]["phone"] = $client->phone;
+        $param["header"]["shipping_cost"] = 0;
+        $param["header"]["insert_id"] = Auth::user()->id;
+//        $new["type_insert_id"] = 2;
+        $param["header"]["order_id"] = $row->id;
+        $param["detail"] = $this->formatDetailOrder($row);
+        $param["header"]["total"] = $this->total;
+        $param["header"]["tax19"] = $this->tax19;
+        $param["header"]["tax5"] = $this->tax5;
+//        
+        return $param;
+    }
+
+    public function finishPurchase() {
         $data = $_GET;
         return redirect('congratulations')->with("success", 'Compra Realizada! Orden #' . $data["transactionId"]);
     }
 
-    public function voucher()
-    {   
+    public function voucher() {
         $data["data"] = $_GET;
         $pdf = \PDF::loadView('Ecommerce.pse.voucher', [], $data, [
-            'title' => 'Vouche',
-            'margin_top' => -12, "margin_bottom" => 1]);
+                    'title' => 'Vouche',
+                    'margin_top' => -12, "margin_bottom" => 1]);
 
         header('Content-Type: application/pdf');
         return $pdf->stream('voucher.pdf');
     }
+
 }

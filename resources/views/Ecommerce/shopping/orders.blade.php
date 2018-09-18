@@ -21,6 +21,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @if(count($current)>0)
                     <tr>
                         <td>Orden #{{$current->id}}</td>
                         <td>{{date("Y-m-d",strtotime($current->created_at))}}</td>
@@ -33,6 +34,7 @@
                             </button>
                         </td>
                     </tr>
+                    @endif
                 </tbody>
                 <tfoot></tfoot>
             </table>

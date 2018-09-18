@@ -231,19 +231,23 @@
                                 </div>
 
                                 <div class="panel-footer">
-                                    <div class="row">
-                                        <div class="col-4">
+                                    <div class="row row-center">
+                                        <div class="col-10">
                                             <button type="submit" id="btnPayU" class="btn btn-success form-control btn-sm">Pagar Con Tarjeta Credito</button>
                                         </div>
-                                        <div class="col-4">
-                                            @if($term>1)
-                                            <button type="button" class="btn btn-info form-control" id="btnPay">
+                                    </div>
+                                    @if($term>1)
+                                    <div class="row row-center pt-3">
+                                        <div class="col-10">
+                                            <button type="button" class="btn btn-info form-control btn-sm" id="btnPay">
                                                 <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span>({{$term}}) días Credito SuperFuds
                                             </button>
-                                            @endif
                                         </div>
-                                        <div class="col-4">
-                                            <button type="button" class="btn btn-info form-control" id="btnPSE">
+                                    </div>
+                                    @endif
+                                    <div class="row row-center pt-3">
+                                        <div class="col-10">
+                                            <button type="button" class="btn btn-info form-control btn-sm" id="btnPSE">
                                                 <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span>PSE
                                             </button>
                                         </div>

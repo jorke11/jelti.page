@@ -65,7 +65,7 @@
                                             </tr>
                                             <tr>
                                                 <td>Estado</td>
-                                                <td>{{date("d-m-Y")}}</td>
+                                                <td>{{$data["state"]}}</td>
                                             </tr>
                                             <tr>
                                                 <td>Referencia de pedido</td>

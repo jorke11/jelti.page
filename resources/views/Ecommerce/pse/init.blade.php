@@ -38,7 +38,8 @@
             <div class="alert alert-danger">El monto total debe ser Mayor a $10.000 Pesos</div>
         </div>
     </div>
-    <div class="row">
+   
+    <div class="row pt-3">
 
         <div class="col-lg-6">
             <div class="panel panel-default">
@@ -162,18 +163,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!--                                    <div class="row row-space">
-                                                                            <div class="col-lg-6">
-                                                                                <input type="checkbox" id="checkbuyer" name="checkbuyer" checked=""> ¿Deseas que la informacion del pagador sea la misma?
-                                                                            </div>
-                                                                        </div>-->
                                 </div>
 
                                 <div class="panel-footer">
                                     <div class="row">
-                                        <div class="col-4">
+                                        <div class="col-6">
                                             <button type="submit" id="btnPayU" class="btn btn-success form-control btn-sm">Pagar</button>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -201,6 +198,13 @@
 
         </div>
     </div>
+    
+     <div class="row row-space">
+        <div class="col-1 justify-content-center center-image">
+            <img src="/images/logo-pse.png" class="img-responsive" >
+        </div>
+    </div>
+
 </div>
 {!!Form::close()!!}
 
