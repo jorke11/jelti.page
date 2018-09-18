@@ -395,7 +395,7 @@ class PseController extends Controller {
             } else if ($data["polTransactionState"] == 6 && $data["polResponseCode"] == 5) {
                 $data["state"] = "Transacción fallida";
             } else if (($data["polTransactionState"] == 12 || $data["polTransactionState"] == 14) && $data["polResponseCode"] >= 25) {
-                $data["state"] = "ransacción pendiente, por favor revisar si el débito fue realizado en el banco.";
+                $data["state"] = "Transacción pendiente, por favor revisar si el débito fue realizado en el banco.";
             }
 
         $categories = $this->categories;
@@ -439,13 +439,13 @@ class PseController extends Controller {
     public function voucher() {
         $data["data"] = $_GET;
 
-        
         if ($data["data"]["polTransactionState"] == 4 && $data["data"]["polResponseCode"] == 1) {
+            
             $data["data"]["state"] = "Transacción aprobada";
         } else if ($data["data"]["polTransactionState"] == 6 && $data["data"]["polResponseCode"] == 5) {
-            $data["data"]["data"]["state"] = "Transacción fallida";
-        } else if (($data["data"]["polTransactionState"] == 12 || $data["data"]["polTransactionState"] == 14) && $data["data"]["polResponseCode"] > 25) {
-            $data["data"]["data"]["state"] = "ransacción pendiente, por favor revisar si el débito fue realizado en el banco.";
+            $data["data"]["state"] = "Transacción fallida";
+        } else if (($data["data"]["polTransactionState"] == 12 || $data["data"]["polTransactionState"] == 14) && $data["data"]["polResponseCode"] >= 25) {
+            $data["data"]["state"] = "Transacción pendiente, por favor revisar si el débito fue realizado en el banco.";
         }
         
         $pdf = \PDF::loadView('Ecommerce.pse.voucher', [], $data, [
