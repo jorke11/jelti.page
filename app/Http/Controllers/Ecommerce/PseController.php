@@ -352,6 +352,12 @@ class PseController extends Controller {
         $data = $_GET;
         $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
 
+        
+        
+        if($order==null){
+             return redirect('/');
+        }
+        
         if ($data["transactionState"] == 4) {
             if ($data["polTransactionState"] == 4 && $data["polResponseCode"] == 1) {
                 $data["state"] = "Transacción aprobada";
@@ -432,6 +438,16 @@ class PseController extends Controller {
 
     public function voucher() {
         $data["data"] = $_GET;
+
+        
+        if ($data["data"]["polTransactionState"] == 4 && $data["data"]["polResponseCode"] == 1) {
+            $data["data"]["state"] = "Transacción aprobada";
+        } else if ($data["data"]["polTransactionState"] == 6 && $data["data"]["polResponseCode"] == 5) {
+            $data["data"]["data"]["state"] = "Transacción fallida";
+        } else if (($data["data"]["polTransactionState"] == 12 || $data["data"]["polTransactionState"] == 14) && $data["data"]["polResponseCode"] > 25) {
+            $data["data"]["data"]["state"] = "ransacción pendiente, por favor revisar si el débito fue realizado en el banco.";
+        }
+        
         $pdf = \PDF::loadView('Ecommerce.pse.voucher', [], $data, [
                     'title' => 'Vouche',
                     'margin_top' => -12, "margin_bottom" => 1]);

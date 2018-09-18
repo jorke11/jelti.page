@@ -118,7 +118,8 @@
                                 <a 
                                 href="/voucher?referenceCode={{$data["referenceCode"]}}&transactionId={{$data["transactionId"]}}&cus={{$data["cus"]}}
                                 &pseBank={{$data["pseBank"]}}&TX_VALUE={{$data["TX_VALUE"]}}&currency={{$data["currency"]}}
-                                &description={{$data["description"]}}&pseReference1={{$data["pseReference1"]}}" 
+                                &description={{$data["description"]}}&pseReference1={{$data["pseReference1"]}}&polTransactionState={{$data["polTransactionState"]}}
+                                &polResponseCode={{$data["polResponseCode"]}}" 
                                 target="_blank" class="btn btn-info">Imprimir comprobante</a>
                             </div>
                     </div>
