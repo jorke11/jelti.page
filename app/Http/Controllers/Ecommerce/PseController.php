@@ -27,6 +27,7 @@ class PseController extends Controller {
     public $categories;
 
     public function __construct() {
+        $this->middleware("auth");
         $this->client = '';
         $this->test = true;
 
