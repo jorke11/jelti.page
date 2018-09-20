@@ -308,7 +308,7 @@
                    aria-haspopup="true" aria-expanded="false" >DIETAS</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     @foreach($dietas as $val)
-                    <a class="dropdown-item" href='{{url("search/s=".$val->slug)}}'>{{$val->description}}</a>
+                    <a class="dropdown-item" href='{{url("search/c=".$val->slug)}}'>{{$val->description}}</a>
                     @endforeach
                 </div>
             </li>
