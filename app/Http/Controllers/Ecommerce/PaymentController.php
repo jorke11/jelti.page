@@ -658,24 +658,23 @@ class PaymentController extends Controller {
 
                 $deviceSessionId = $in["devicesessionid"];
 
-                /*
-                  Otra key
-                  $apiKey = "maGw8KQ5JlOEv64D79ma1N0l9G";
-                  $apiLogin = "rHpg9EL98w905Nv";
-                 */
-                $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
-                $apiLogin = "pRRXKOl8ikMmt9u";
-                $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
-                $merchantId = "508029";
-                $accountId = "512321";
+                   //data sandbox
+//                $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
+//                $apiLogin = "pRRXKOl8ikMmt9u";
+//                $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
+//                $merchantId = "508029";
+//                $accountId = "512321";
+//                $host = "sandbox.api.payulatam.com";
 
 
                 //data Produccion
-                /* $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
-                  $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
-                  $apiLogin = "tGovZHuhL97hNh7";
-                  $merchantId = "559634";
-                  $accountId = "562109"; */
+                $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
+                $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
+                $apiLogin = "tGovZHuhL97hNh7";
+                $merchantId = "559634";
+                $accountId = "562109";
+                $host = "api.payulatam.com";
+
 
                 $postData["test"] = "true";
 
@@ -822,7 +821,7 @@ class PaymentController extends Controller {
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                     'Content-Type: application/json',
-                    'Host: api.payulatam.com',
+                    'Host: ' . $host,
                     'Accept:application/json',
                     'Content-Length: ' . strlen($data_string))
                 );

@@ -159,7 +159,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label for="tgarjeta">Telefono</label>
-                                                <input type="text" class="form-control input input-payment input-number form-control-sm" id="phone_headline" name="phone_headline" data="numbet" placeholder="Telefono">
+                                                <input type="text" class="form-control input input-payment input-number form-control-sm" id="phone_headline" name="phone_headline" data="numbet" placeholder="Telefono" maxlength="10">
                                             </div>
                                         </div>
                                     </div>

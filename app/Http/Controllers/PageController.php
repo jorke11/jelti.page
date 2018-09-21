@@ -253,7 +253,11 @@ class PageController extends Controller {
 
             $categories = $categories->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->where("status_id", 1)->orderBy("order", "asc")->get();
         } else if (stripos($param, "s=") !== false) {
+             echo preg_replace('/s=/', '', $param);exit;
+             
             $param = str_replace("s=", "", $param);
+            
+            dd($param);
             $stakeholder = \App\Models\Administration\Stakeholder::where("slug", $param)->first();
 
             $products = DB::table("vproducts")->select("vproducts.id", "vproducts.title", "vproducts.short_description", "vproducts.price_sf_with_tax", "vproducts.price_sf", "vproducts.image", "vproducts.thumbnail", "vproducts.category_id", "vproducts.slug", "vproducts.tax", "vproducts.supplier"
