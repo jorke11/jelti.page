@@ -202,6 +202,12 @@ class PseController extends Controller {
 
         $result = curl_exec($ch);
         $arr = json_decode($result, true);
+
+        if ($arr["code"] == 'ERROR') {
+            $error = "Problemas con la plataforma de PSE";
+            return redirect('payment')->with("error", $error);
+        }
+
         return $arr["banks"];
     }
 
@@ -217,7 +223,7 @@ class PseController extends Controller {
         $merchantId = 508029;
         $accountId = 512321;
 //        $url_response = 'http://localhost:8000/confirmation';
-        $url_response='https://superfuds.com/confirmation';
+        $url_response = 'https://superfuds.com/confirmation';
 
         /* if ($this->test) {
 
@@ -352,14 +358,14 @@ class PseController extends Controller {
     public function confirmation() {
         $data = $_GET;
         $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
-        
-        
-        if($order==null){
-             return redirect('/');
+
+
+        if ($order == null) {
+            return redirect('/');
         }
-        
+
         if ($data["transactionState"] == 4) {
-          
+
 
             $data["message"] = "Pago Realizado Orden Id #" . $data["transactionId"];
             $data["order"] = $order;
@@ -390,14 +396,14 @@ class PseController extends Controller {
             $data["message"] = "No se ha podido realizar la transaccion por favor vuelva a intentar, Orden Id #" . $data["transactionId"];
             $data["order"] = $order;
         }
-        
-          if ($data["polTransactionState"] == 4 && $data["polResponseCode"] == 1) {
-                $data["state"] = "Transacción aprobada";
-            } else if ($data["polTransactionState"] == 6 && $data["polResponseCode"] == 5) {
-                $data["state"] = "Transacción fallida";
-            } else if (($data["polTransactionState"] == 12 || $data["polTransactionState"] == 14) && $data["polResponseCode"] >= 25) {
-                $data["state"] = "Transacción pendiente, por favor revisar si el débito fue realizado en el banco.";
-            }
+
+        if ($data["polTransactionState"] == 4 && $data["polResponseCode"] == 1) {
+            $data["state"] = "Transacción aprobada";
+        } else if ($data["polTransactionState"] == 6 && $data["polResponseCode"] == 5) {
+            $data["state"] = "Transacción fallida";
+        } else if (($data["polTransactionState"] == 12 || $data["polTransactionState"] == 14) && $data["polResponseCode"] >= 25) {
+            $data["state"] = "Transacción pendiente, por favor revisar si el débito fue realizado en el banco.";
+        }
 
         $categories = $this->categories;
         $dietas = $this->dietas;
@@ -441,14 +447,14 @@ class PseController extends Controller {
         $data["data"] = $_GET;
 
         if ($data["data"]["polTransactionState"] == 4 && $data["data"]["polResponseCode"] == 1) {
-            
+
             $data["data"]["state"] = "Transacción aprobada";
         } else if ($data["data"]["polTransactionState"] == 6 && $data["data"]["polResponseCode"] == 5) {
             $data["data"]["state"] = "Transacción fallida";
         } else if (($data["data"]["polTransactionState"] == 12 || $data["data"]["polTransactionState"] == 14) && $data["data"]["polResponseCode"] >= 25) {
             $data["data"]["state"] = "Transacción pendiente, por favor revisar si el débito fue realizado en el banco.";
         }
-        
+
         $pdf = \PDF::loadView('Ecommerce.pse.voucher', [], $data, [
                     'title' => 'Vouche',
                     'margin_top' => -12, "margin_bottom" => 1]);

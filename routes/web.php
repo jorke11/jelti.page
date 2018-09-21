@@ -37,7 +37,7 @@ Route::get('/getComment/{id}', 'Ecommerce\ShoppingController@getComment');
 Route::post('addComment', 'Ecommerce\ShoppingController@storeComment');
 Route::get('/getCounter', 'Ecommerce\PaymentController@getOrdersCurrent');
 Route::get('/getCounter/{slug}', 'Ecommerce\PaymentController@getOrdersCurrent');
-Route::get('/productDetail/{id}', 'Ecommerce\ShoppingController@getProduct');
+Route::get('/product-detail/{id}', 'Ecommerce\ShoppingController@getProduct');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/payment', 'Ecommerce\PaymentController@index');

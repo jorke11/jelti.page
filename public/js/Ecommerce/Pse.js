@@ -378,7 +378,7 @@ function Pse() {
     }
 
     this.redirectProduct = function (url) {
-        window.location = PATH + "/productDetail/" + url;
+        window.location = PATH + "/product-detail/" + url;
     }
     this.payCredit = function () {
         window.location = PATH + "/payment-credit";

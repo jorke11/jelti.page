@@ -200,7 +200,7 @@ function detailProduct() {
 
 
     this.redirectProduct = function (url) {
-        window.location = PATH + "/productDetail/" + url;
+        window.location = PATH + "/product-detail/" + url;
     }
 
 

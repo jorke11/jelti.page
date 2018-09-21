@@ -375,7 +375,7 @@
                             onclick="obj.addCard('{{$product->short_description}}',
                             '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->image)}}','{{$product->tax}}')"
                             id="btnAddCart"
-                            disabled>Agregar al carrito</button>
+                            {{(isset($product->quantity_order) && $product->quantity_order > 0 )?'':'disabled'}}>Agregar al carrito</button>
                 </div>
             </div>
             <div class="row justify-content-center" style="margin-top: 3%">
