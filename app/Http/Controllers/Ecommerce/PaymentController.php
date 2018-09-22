@@ -658,15 +658,13 @@ class PaymentController extends Controller {
 
                 $deviceSessionId = $in["devicesessionid"];
 
-                   //data sandbox
+                //data sandbox
 //                $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
 //                $apiLogin = "pRRXKOl8ikMmt9u";
 //                $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
 //                $merchantId = "508029";
 //                $accountId = "512321";
 //                $host = "sandbox.api.payulatam.com";
-
-
                 //data Produccion
                 $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
                 $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
@@ -899,19 +897,16 @@ class PaymentController extends Controller {
         $detail = DB::select($sql);
         $detail = json_decode(json_encode($detail), true);
 
-
         $user = \App\Models\Security\Users::find(Auth::user()->id);
 
-        $cli = \App\Models\Administration\Stakeholder::where("document", $user->document)->first();
-
         $header["warehouse_id"] = 3;
-        $header["responsible_id"] = 1;
-        $header["city_id"] = 1;
+        $header["responsible_id"] = $user->stakeholder->responsible_id;
+        $header["city_id"] = $user->stakeholder->city_id;
         $header["created"] = date("Y-m-d H:i");
-        $header["client_id"] = $cli->id;
-        $header["destination_id"] = 1;
-        $header["address"] = "adress";
-        $header["phone"] = "phone";
+        $header["client_id"] = $user->stakeholder->id;
+        $header["destination_id"] = $user->stakeholder->send_city_id;
+        $header["address"] = $user->stakeholder->address_send;
+        $header["phone"] = $user->stakeholder->phone;
         $header["status_id"] = 1;
         $header["shipping_cost"] = 0;
         $header["type_request"] = "ecommerce";
