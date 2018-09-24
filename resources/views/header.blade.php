@@ -247,13 +247,6 @@
         }
     }
 
-
-
-
-
-
-
-
 </style>
 
 <div class="icon-social d-none d-lg-block pt-10"  style="padding-top:1%">
@@ -355,6 +348,7 @@
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <a class="dropdown-item" href="/myOrders">Historial Pedidos</a>
                     <a class="dropdown-item" href="/myFavourite">Mis favoritos</a>
+                    <a class="dropdown-item" href="/coupon">Cupones</a>
                     <a class="dropdown-item" href="{{ route('logout') }}"
                        onclick="event.preventDefault();
                                document.getElementById('logout-form').submit();">

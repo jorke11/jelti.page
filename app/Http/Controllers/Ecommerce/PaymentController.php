@@ -353,6 +353,47 @@ class PaymentController extends Controller {
         return view("Ecommerce.shopping.orders", compact("product", "categories", "dietas", "list", "current"));
     }
 
+    public function showCoupon() {
+        $categories = $this->categories;
+        $dietas = $this->dietas;
+        $coupon = \App\Models\Administration\Coupon::where("stakeholder_id", Auth::user()->stakeholder_id)->where("status_id", 1)->first();
+        return view("Ecommerce.shopping.coupon", compact("coupon", "categories", "dietas"));
+    }
+
+    public function getCoupon() {
+        $coupon = \App\Models\Administration\Coupon::where("stakeholder_id", Auth::user()->stakeholder_id)->where("status_id", 1)->first();
+        return response()->json($coupon);
+    }
+
+    public function updateCoupon(Request $req, $coupon_id) {
+        $categories = $this->categories;
+        $dietas = $this->dietas;
+
+        $coupon = \App\Models\Administration\Coupon::find($coupon_id);
+
+        $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
+
+        $sql = "SELECT round(sum(d.quantity * d.price_sf * d.units_sf) + sum(d.quantity * d.price_sf * d.units_sf * d.tax)) as tota_with_tax
+                            FROM orders_detail d
+                            JOIN products p ON p.id=d.product_id
+                            WHERE order_id=$order->id
+                            ";
+        $detail = DB::select($sql);
+        $amount = 0;
+        if ($coupon->percentaje) {
+            $amount = round(($coupon->amount / 100) * $detail[0]->tota_with_tax);
+        } else {
+            $amount = $coupon->amount;
+        }
+
+        $order->discount = $amount;
+        $order->save();
+        $coupon->status_id = 2;
+        $coupon->save();
+
+        return response()->json(["status" => true, "msg" => "Cupon Agregado"]);
+    }
+
     public function getInvoice($invoice) {
         $header = Departures::where("invoice", $invoice)->first();
         $detail = $this->formatDetail($header->id);
@@ -887,8 +928,8 @@ class PaymentController extends Controller {
 
     public function paymentCredit() {
         $order = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
-
-        $sql = "SELECT p.title product,d.product_id,d.order_id,sum(d.quantity) quantity,sum(d.quantity * d.price_sf) total,p.image
+        $sql = "SELECT p.title product,d.product_id,d.order_id,sum(d.quantity) quantity,sum(d.quantity * d.price_sf * d.units_sf) total,p.image,
+                        round(sum(d.quantity * d.price_sf * d.units_sf) + sum(d.quantity * d.price_sf * d.units_sf * d.tax)) as tota_with_tax
                             FROM orders_detail d
                             JOIN products p ON p.id=d.product_id
                             WHERE order_id=$order->id
@@ -898,7 +939,7 @@ class PaymentController extends Controller {
         $detail = json_decode(json_encode($detail), true);
 
         $user = \App\Models\Security\Users::find(Auth::user()->id);
-
+        $header["discount"] = $order->discount;
         $header["warehouse_id"] = 3;
         $header["responsible_id"] = $user->stakeholder->responsible_id;
         $header["city_id"] = $user->stakeholder->city_id;

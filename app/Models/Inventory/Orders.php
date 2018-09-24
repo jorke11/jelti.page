@@ -12,7 +12,9 @@ class Orders extends Model {
         "id",
         "insert_id",
         "response_payu",
-        "status_id"];
+        "discount",
+        "status_id"
+    ];
 
     public function detail() {
         return $this->hasMany(OrdersDetail::class, "order_id");

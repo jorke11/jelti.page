@@ -18,6 +18,14 @@ Route::get('/search/{busqueda}', 'PageController@search');
 Route::get('/', 'PageController@index');
 
 Route::get('myOrders', "Ecommerce\PaymentController@getMyOrders");
+Route::get('coupon', "Ecommerce\PaymentController@showCoupon");
+Route::get('getCoupon', "Ecommerce\PaymentController@getCoupon");
+
+Route::put('/applyDiscount/{coupon_id}', "Ecommerce\PaymentController@updateCoupon");
+Route::get('myFavourite', "Ecommerce\PaymentController@getFavourite");
+
+
+
 Route::get('getDetailOrder/{invoice}', "Ecommerce\PaymentController@getInvoice");
 
 Route::post('newVisitan', "PageController@newVisitan");
