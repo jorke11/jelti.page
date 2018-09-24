@@ -25,7 +25,7 @@ class Orders extends Model {
     }
 
     public function departure() {
-        return $this->hasOne(Departures::class, "departure_id");
+        return $this->hasOne(Departures::class, "id", "departure_id");
     }
 
 }
