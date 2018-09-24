@@ -221,8 +221,8 @@ class PseController extends Controller {
         $apiLogin = "pRRXKOl8ikMmt9u";
         $merchantId = 508029;
         $accountId = 512321;
-        $url_response = 'http://localhost:8000/confirmation';
-//        $url_response = 'https://superfuds.com/confirmation';
+//        $url_response = 'http://localhost:8000/confirmation';
+        $url_response = 'https://superfuds.com/confirmation';
 
         /* if ($this->test) {
 
