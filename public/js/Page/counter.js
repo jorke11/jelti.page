@@ -183,7 +183,7 @@ function Counter() {
             $.ajax({
                 url: PATH + '/addProduct/' + slug,
                 method: 'PUT',
-                headers: { 'X-CSRF-TOKEN': token },
+                headers: {'X-CSRF-TOKEN': token},
                 data: row,
                 beforeSend: function () {
                     $("#loading-super").removeClass("d-none");
@@ -191,7 +191,47 @@ function Counter() {
                 },
                 success: function (data) {
                     objCounter.setData(data);
-                    $("#quantity_product_" + product_id).html(data.row.quantity)
+                    $("#quantity_product_" + product_id).val(data.row.quantity)
+                    $("#quantity_selected_" + product_id).html("Cantidad (" + data.row.quantity + ")")
+                    $("#loading-super").addClass("d-none");
+                    $("#btn-plus-product_" + product_id).attr("disabled", true);
+                    $("#quantity").val(data.row.quantity)
+                }, error: function (xhr, ajaxOptions, thrownError) {
+
+                }
+
+            })
+        } else {
+            $("#modalOptions").modal("show");
+        }
+    }
+
+    this.addProductCheck = function (title, slug, product_id, price_sf, img, tax) {
+        var token = $("input[name=_token]").val();
+        var row = {
+            quantity: $("#quantity_product_" + product_id).val(),
+            title: title,
+            product_id: product_id,
+            price_sf: price_sf,
+            img: img,
+            tax: tax,
+            type: 'check'
+        }
+
+
+        if (user_id) {
+            $.ajax({
+                url: PATH + '/addProduct/' + slug,
+                method: 'PUT',
+                headers: {'X-CSRF-TOKEN': token},
+                data: row,
+                beforeSend: function () {
+                    $("#loading-super").removeClass("d-none");
+                    $("#btn-plus-product_" + product_id).attr("disabled", true);
+                },
+                success: function (data) {
+                    objCounter.setData(data);
+                    $("#quantity_product_" + product_id).val(data.row.quantity)
                     $("#quantity_selected_" + product_id).html("Cantidad (" + data.row.quantity + ")")
                     $("#loading-super").addClass("d-none");
                     $("#btn-plus-product_" + product_id).attr("disabled", true);
@@ -216,7 +256,7 @@ function Counter() {
         $.ajax({
             url: PATH + '/deleteProductUnit/' + slug,
             method: 'PUT',
-            headers: { 'X-CSRF-TOKEN': token },
+            headers: {'X-CSRF-TOKEN': token},
             data: row,
             beforeSend: function () {
                 $("#loading-super").removeClass("d-none");
@@ -224,7 +264,7 @@ function Counter() {
             success: function (data) {
                 //                $("#content-detail").empty();
                 if (data.row.quantity > 0) {
-                    $("#quantity_product_" + product_id).html(data.row.quantity)
+                    $("#quantity_product_" + product_id).val(data.row.quantity)
                 } else {
                     $("#buttonAdd_" + product_id).addClass("d-none");
                     $("#btnOption_" + product_id).removeClass("d-none");
@@ -366,7 +406,7 @@ function Counter() {
 
         $.ajax({
             url: '/deleteAllProduct/' + slug,
-            headers: { 'X-CSRF-TOKEN': token },
+            headers: {'X-CSRF-TOKEN': token},
             method: 'PUT',
             dataType: 'JSON',
             success: function (data) {
@@ -380,11 +420,11 @@ function Counter() {
         return text.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
     }
 
-    this.formatNumber = function (n,currency) {
+    this.formatNumber = function (n, currency) {
         if (currency == undefined) {
             currency = "$";
         }
-        
+
         return currency + " " + parseFloat(n).toFixed(0).replace(/./g, function (c, i, a) {
             return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
         });

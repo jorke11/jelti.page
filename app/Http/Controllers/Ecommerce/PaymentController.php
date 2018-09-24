@@ -227,11 +227,7 @@ class PaymentController extends Controller {
             if ($order != null) {
 
                 $pro = Products::find($in["product_id"]);
-
-//            $detPro = OrdersDetail::where("product_id", $pro->id)->where("order_id", $order->id)->first();
                 $detPro = $order->detail->where("product_id", $pro->id)->first();
-
-
                 $det["product_id"] = $pro->id;
                 $det["order_id"] = $order->id;
                 $det["tax"] = $in["tax"];
@@ -240,7 +236,11 @@ class PaymentController extends Controller {
                 $det["price_sf"] = $pro->price_sf;
 
                 if ($detPro != null) {
-                    $detPro->quantity = $detPro->quantity + $in["quantity"];
+                    if (isset($in["type"]) && $in["type"] == 'check') {
+                        $detPro->quantity = $in["quantity"];
+                    } else {
+                        $detPro->quantity = $detPro->quantity + $in["quantity"];
+                    }
                     $detPro->save();
                 } else {
                     $det["quantity"] = $in["quantity"];

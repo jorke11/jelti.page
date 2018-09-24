@@ -126,7 +126,7 @@
             </div>
             <div class="col-lg-8">
                 @if(isset($param) && count($products)>0)
-                    <div class="alert alert-warning">{{count($products)}} Producto{{(count($products)>1)?'s':''}} relacionado con: ({{$param}})</div>
+                <div class="alert alert-warning">{{count($products)}} Producto{{(count($products)>1)?'s':''}} relacionado con: ({{$param}})</div>
                 @endif
             </div>
         </div>
@@ -137,7 +137,7 @@
                     <div class="col-12" style="border:8px rgba(0,0,0,.1) solid;border-radius: 10px; margin-bottom: 20px">
                         <ul class="list-group">
                             <li class="list-group-item" style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;cursor:pointer" 
-                                data-toggle="collapse" onclick="obj.eventCategory(null,'content-filter-categories')"><b>CATEGORIAS</b> ({{count($categories)}})
+                                data-toggle="collapse" onclick="obj.eventCategory(null, 'content-filter-categories')"><b>CATEGORIAS</b> ({{count($categories)}})
                                 <span style="float:right" id="plus-icon" class="d-none">
                                     <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="black"  style="cursor:pointer"
                                          stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -193,7 +193,7 @@
                         </ul>
                         <ul class="list-group">
                             <li class="list-group-item"  style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px"
-                                data-toggle="collapse" onclick="obj.eventCategory('subcat','content-subcategories')"><b>SUBCATEGORIAS</b> ({{count($subcategory)}})
+                                data-toggle="collapse" onclick="obj.eventCategory('subcat', 'content-subcategories')"><b>SUBCATEGORIAS</b> ({{count($subcategory)}})
 
                                 <span style="float:right" id="plus-icon-subcat">
                                     <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="black" stroke="#000000" 
@@ -245,7 +245,7 @@
                         </ul>
                         <ul class="list-group">
                             <li class="list-group-item"  style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;"
-                                data-toggle="collapse" onclick="obj.eventCategory('sup','content-supplier')"><b>PROVEEDORES</b> ({{count($supplier)}})
+                                data-toggle="collapse" onclick="obj.eventCategory('sup', 'content-supplier')"><b>PROVEEDORES</b> ({{count($supplier)}})
                                 <span style="float:right" id="plus-icon-sup">
                                     <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="black" stroke="#000000" 
                                          stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer">
@@ -285,7 +285,7 @@
                         </ul>
                         <ul class="list-group" id="filter-diet">
                             <li class="list-group-item"  style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;"
-                                data-toggle="collapse" onclick="obj.eventCategory('diet','content-dietas')"><b>DIETAS</b> ({{count($dietas)}})
+                                data-toggle="collapse" onclick="obj.eventCategory('diet', 'content-dietas')"><b>DIETAS</b> ({{count($dietas)}})
                                 <span style="float:right" id="plus-icon-diet">
                                     <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="black" stroke="#000000" 
                                          stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer">
@@ -300,7 +300,7 @@
                                 </span></li>
                             <div id="content-dietas" class="collapse">
                                 <?php
-                                   foreach ($dietas as $val) {
+                                foreach ($dietas as $val) {
 //                                    if ($slug_category == $val->slug) {
 //                                        $active = "active";
 //                                    } else {
@@ -377,26 +377,46 @@
                                             @endif
 
                                             <div class="row d-none row-center" id="buttonAdd_{{$value->id}}" onmouseout="objCounter.hideButton(this, {{$value->id}})"
-                                                style="background-color: #5cb19a;color:white;padding-bottom: 3%;padding-top: 3%;border-radius: 10px;
-                                                padding-left: 0;padding-right: 0;">
-                                                <div class="col-lg-3">
-                                                    <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="white"  style="cursor:pointer;"
-                                                         stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                         onclick="objCounter.deleteUnit({{$value->id}},'{{$value->slug}}')">
-                                                    <path d="M2 16 L30 16" />
-                                                    </svg>
+                                                 style="">
+                                                <div class="col-lg-6">
+                                                    <div class="row" style="background-color: #5cb19a;color:white;padding-bottom: 2%;padding-top: 5%;
+                                                         padding-left: 0;padding-right: 0;border-radius: 10px;">
+                                                        <div class="col-lg-4">
+                                                            <svg id="i-minus" viewBox="0 0 32 32" width="25" height="25" fill="white"  style="cursor:pointer;"
+                                                                 stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
+                                                                 onclick="objCounter.deleteUnit({{$value->id}},'{{$value->slug}}')">
+                                                            <path d="M2 16 L30 16" />
+                                                            </svg>
+                                                        </div>
+                                                        <div class="col-lg-4" style="padding-left: 0;padding-right: 0">
+                                                            <input type="text" id="quantity_product_{{$value->id}}" value="{{(isset($value->quantity))?$value->quantity:0}}" size="5" 
+                                                                   style="text-align: center;padding: 0;border-radius: 5px;border: 0px;padding-bottom: 2px;padding-top: 2px;">
+                                                            <!--<span id="quantity_product_{{$value->id}}" style="color:white;font-size: 18px">{{(isset($value->quantity))?$value->quantity:0}}</span>-->
+                                                        </div>
+                                                        <div class="col-lg-4" >
+                                                            <svg id="i-plus" viewBox="0 0 35 35" width="25" height="25" fill="white" stroke="#ffffff" 
+                                                                 stroke-linecap="round" stroke-linejoin="round" stroke-width="4" style="cursor:pointer"
+                                                                 onclick="objCounter.addProduct('{{$value->short_description}}',
+                                                                 '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}'); return false;">
+                                                            <path d="M16 2 L16 30 M2 16 L30 16" />
+                                                            </svg>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="col-lg-3">
-                                                    <span id="quantity_product_{{$value->id}}" style="color:white">{{(isset($value->quantity))?$value->quantity:0}}</span>
-                                                </div>
-                                                <div class="col-lg-3" >
-                                                    <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="white" stroke="#ffffff" 
-                                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer"
-                                                         onclick="objCounter.addProduct('{{$value->short_description}}',
-                                                         '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}'); return false;">
-                                                    <path d="M16 2 L16 30 M2 16 L30 16" />
-                                                    </svg>
-
+                                                <div class="col-lg-2" style="margin-left: 3px">
+                                                    <div class="row" style="background-color: #5cb19a;color:white;padding-bottom: 15%;padding-top: 40%;
+                                                         padding-left: 0;padding-right: 0;border-radius: 10px;">
+                                                        <div class="col-lg-6">
+                                                            <svg id="i-checkmark" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" 
+                                                                 stroke-linejoin="round" stroke-width="4"
+                                                                  style="cursor:pointer"
+                                                                 onclick="objCounter.addProductCheck('{{$value->short_description}}',
+                                                                 '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}'); return false;"
+                                                                 >
+                                                            <path d="M2 20 L12 28 30 4" />
+                                                            </svg>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <button class="btn <?php echo (isset($value->quantity)) ? 'd-none' : '' ?>" 
