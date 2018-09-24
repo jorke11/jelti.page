@@ -15,6 +15,9 @@ class Orders extends Model {
         "discount",
         "status_id"
     ];
+    protected $casts = [
+        'response_payu' => 'array'
+    ];
 
     public function detail() {
         return $this->hasMany(OrdersDetail::class, "order_id");

@@ -93,7 +93,6 @@ class PseController extends Controller {
         $deviceSessionId = $data["deviceSessionId"];
         $deviceSessionId_concat = $data["deviceSessionId_concat"];
 
-
         return view("Ecommerce.pse.init", compact("subtotal", "total", "client", "countries", "month", "years", "term", "categories", "dietas", "banks", "type_client", "type_document", "deviceSessionId", "deviceSessionId_concat"));
     }
 
@@ -222,8 +221,8 @@ class PseController extends Controller {
         $apiLogin = "pRRXKOl8ikMmt9u";
         $merchantId = 508029;
         $accountId = 512321;
-//        $url_response = 'http://localhost:8000/confirmation';
-        $url_response = 'https://superfuds.com/confirmation';
+        $url_response = 'http://localhost:8000/confirmation';
+//        $url_response = 'https://superfuds.com/confirmation';
 
         /* if ($this->test) {
 
@@ -365,19 +364,14 @@ class PseController extends Controller {
         }
 
         if ($data["transactionState"] == 4) {
-
-
             $data["message"] = "Pago Realizado Orden Id #" . $data["transactionId"];
             $data["order"] = $order;
-            $order->status_id = 2;
-
 
             $data_order = $this->payObj->createOrder();
-
             $dep = $this->depObj->processDeparture($data_order["header"], $data_order["detail"])->getData();
-
             $row = \App\Models\Inventory\Departures::find($dep->header->id);
             $row->paid_out = true;
+            $row->status_briefcase_id = 1;
             $row->type_request = "pse";
             $row->save();
 
@@ -385,13 +379,24 @@ class PseController extends Controller {
             $order->status_id = 2;
             $order->departure_id = $dep->header->id;
             $order->save();
-
-
-
-            $order->save();
+            
         } else if ($data["transactionState"] == 7) {
             $data["message"] = "En un tiempo de aproximado de 4 Horas te llegará la notificación del pago mientras realizamos validaciones de seguridad, gracias por preferirnos, Orden Id # " . $data["transactionId"];
             $data["order"] = $order;
+            
+            $data_order = $this->payObj->createOrder();
+            $dep = $this->depObj->processDeparture($data_order["header"], $data_order["detail"])->getData();
+
+            $row = \App\Models\Inventory\Departures::find($dep->header->id);
+            $row->status_briefcase_id = 2;
+            $row->type_request = "pse";
+            $row->save();
+            
+            $order->response_payu = json_encode($_GET);
+            $order->status_id = 3;
+            $order->departure_id = $dep->header->id;
+            $order->save();
+            
         } else {
             $data["message"] = "No se ha podido realizar la transaccion por favor vuelva a intentar, Orden Id #" . $data["transactionId"];
             $data["order"] = $order;
