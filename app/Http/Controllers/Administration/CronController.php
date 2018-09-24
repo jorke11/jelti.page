@@ -36,7 +36,7 @@ class CronController extends Controller {
         $pedding = \App\Models\Inventory\Orders::where("status_id", 3)->get();
 
         foreach ($pedding as $value) {
-            
+
             $postData = [
                 "test" => false,
                 "language" => "en",
@@ -66,10 +66,16 @@ class CronController extends Controller {
 
             $result = curl_exec($ch);
             $arr = json_decode($result, true);
-            
-            var_dump($arr["result"]["payload"][0]["transactions"][0]["transactionResponse"]["state"]);
-            
-            dd($arr);
+
+            if ($arr["result"]["payload"][0]["transactions"][0]["transactionResponse"]["state"] == 'APPROVED') {
+                dd($value->departure());
+                $value->status_id = 2;
+                
+//                $value->save();
+                
+                
+                echo "Aprovado";
+            }
         }
     }
 

@@ -12,6 +12,7 @@ class Orders extends Model {
         "id",
         "insert_id",
         "response_payu",
+        "daparture_id",
         "discount",
         "status_id"
     ];
@@ -21,6 +22,10 @@ class Orders extends Model {
 
     public function detail() {
         return $this->hasMany(OrdersDetail::class, "order_id");
+    }
+
+    public function departure() {
+        return $this->hasOne(Departures::class, "departure_id");
     }
 
 }

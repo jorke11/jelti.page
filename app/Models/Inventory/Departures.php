@@ -42,4 +42,8 @@ class Departures extends Model {
         "status_briefcase_id"
     ];
 
+    public function orders() {
+        return $this->belongsTo(Orders::class);
+    }
+
 }
