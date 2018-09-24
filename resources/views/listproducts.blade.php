@@ -391,7 +391,6 @@
                                                         <div class="col-lg-4" style="padding-left: 0;padding-right: 0">
                                                             <input type="text" id="quantity_product_{{$value->id}}" value="{{(isset($value->quantity))?$value->quantity:0}}" size="5" 
                                                                    style="text-align: center;padding: 0;border-radius: 5px;border: 0px;padding-bottom: 2px;padding-top: 2px;">
-                                                            <!--<span id="quantity_product_{{$value->id}}" style="color:white;font-size: 18px">{{(isset($value->quantity))?$value->quantity:0}}</span>-->
                                                         </div>
                                                         <div class="col-lg-4" >
                                                             <svg id="i-plus" viewBox="0 0 35 35" width="25" height="25" fill="white" stroke="#ffffff" 

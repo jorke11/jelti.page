@@ -509,8 +509,18 @@ function listProduct() {
                                         </p>`
                         }
 
+                        if (value.quantity != null) {
+                            html += `<button class="btn" type="button" 
+                                                    onmouseover=objCounter.showOption(this,${value.id}) id="buttonShow_${value.id}" 
+                                                    style="background-color: #5cb19a;color:white;margin-bottom: 4%">${value.quantity} en carrito</button>
+                            `
+                        }
+
+
+
+
                         html += `
-                                <div class="row row-center ${(value.quantity) ? '' : 'd-none'}" id="buttonAdd_${value.id}">
+                                <div class="row d-none row-center ${(value.quantity) ? '' : 'd-none'}" id="buttonAdd_${value.id}">
                         
                                         <div class="col-lg-6">
                                             <div class="row" style="background-color: #5cb19a;color:white;padding-bottom: 2%;padding-top: 5%;
@@ -538,7 +548,6 @@ function listProduct() {
                                                 </div>
                                             </div>
                                         </div>
-                        
                                         
                                           <div class="col-lg-2" style="margin-left: 3px">
                                                     <div class="row" style="background-color: #5cb19a;color:white;padding-bottom: 15%;padding-top: 40%;
@@ -555,8 +564,6 @@ function listProduct() {
                                                         </div>
                                                     </div>
                                             </div>
-                                        
-                        
                         
                                 </div>
 
