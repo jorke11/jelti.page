@@ -67,7 +67,7 @@ class CronController extends Controller {
             $result = curl_exec($ch);
             $arr = json_decode($result, true);
             
-            var_dump($arr["result"]["payload"]);
+            var_dump($arr["result"]["payload"][0]["additionalValues"]);
             
             dd($arr);
         }
