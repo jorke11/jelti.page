@@ -68,7 +68,7 @@ class CronController extends Controller {
             $arr = json_decode($result, true);
 
             if ($arr["result"]["payload"][0]["transactions"][0]["transactionResponse"]["state"] == 'APPROVED') {
-                dd($value->departure());
+                dd($value->departure);
                 $value->status_id = 2;
                 
 //                $value->save();
