@@ -375,7 +375,7 @@ class PseController extends Controller {
             $row->type_request = "pse";
             $row->save();
 
-            $order->response_payu = json_encode($_GET);
+            $order->response_payu = $_GET;
             $order->status_id = 2;
             $order->departure_id = $dep->header->id;
             $order->save();
@@ -392,7 +392,7 @@ class PseController extends Controller {
             $row->type_request = "pse";
             $row->save();
             
-            $order->response_payu = json_encode($_GET);
+            $order->response_payu = $_GET;
             $order->status_id = 3;
             $order->departure_id = $dep->header->id;
             $order->save();
