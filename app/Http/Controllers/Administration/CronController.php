@@ -69,11 +69,10 @@ class CronController extends Controller {
 
             if ($arr["result"]["payload"][0]["transactions"][0]["transactionResponse"]["state"] == 'APPROVED') {
                 dd($value->departure);
+                $value->departure->status_briefcase_id=1;
+                $value->departure->save();
                 $value->status_id = 2;
-                
-//                $value->save();
-                
-                
+                $value->save();
                 echo "Aprovado";
             }
         }
