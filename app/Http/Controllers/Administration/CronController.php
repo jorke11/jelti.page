@@ -72,7 +72,7 @@ class CronController extends Controller {
                 $value->departure->save();
                 $value->status_id = 2;
                 $value->save();
-                echo "Aprovado";
+                echo "Approved";
             }
         }
     }

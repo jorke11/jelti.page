@@ -122,9 +122,9 @@ class PageController extends Controller {
         $love_clients = array(
             array("url" => "https://superfuds.com/images_blog/referentes/farmatodo-1.jpg", "title" => "farmatodo"),
             array("url" => "https://superfuds.com/images_blog/referentes/segalco-2.jpg", "title" => "Segalco"),
-            array("url" => "https://www.superfuds.com/images_blog/referentes/rappi-3.jpg", "title" => "Rappi"),
-            array("url" => "https://www.superfuds.com/images_blog/referentes/terrafertil-4.jpg", "title" => "Terrafertil"),
-            array("url" => "https://www.superfuds.com/images_blog/referentes/chocolov-6.jpg", "title" => "Chocolov"));
+            array("url" => "https://superfuds.com/images_blog/referentes/rappi-3.jpg", "title" => "Rappi"),
+            array("url" => "https://superfuds.com/images_blog/referentes/terrafertil-4.jpg", "title" => "Terrafertil"),
+            array("url" => "https://superfuds.com/images_blog/referentes/chocolov-6.jpg", "title" => "Chocolov"));
 
         $clients = array(
             array("url" => "https://superfuds.com/images_blog/referentes/farmatodo-1.jpg", "title" => "farmatodo"),
