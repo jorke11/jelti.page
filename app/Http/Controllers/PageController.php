@@ -20,12 +20,12 @@ class PageController extends Controller {
 
     public function __construct() {
         $this->dietas = [
-            (object)["id" => 1, "description" => "Paleo", "slug" => "paleo","image"=>"images/page/dietas/paleo.png","search"=>"paleo"],
-            (object)["id" => 2, "description" => "Vegano", "slug" => "vegano","image"=>"images/page/dietas/vegana.png","search"=>"vegano"],
-            (object)["id" => 3, "description" => "Sin gluten", "slug" => "sin_gluten","image"=>"images/page/dietas/sin_gluten.png","search"=>"sin_gluten"],
-            (object)["id" => 4, "description" => "Organico", "slug" => "organico","image"=>"images/page/dietas/organico.png","search"=>"organico"],
-            (object)["id" => 5, "description" => "Sin grasas Trans", "slug" => "sin_grasas_trans","image"=>"images/page/dietas/singrasastrans.png","search"=>"sin_grasas_trans"],
-            (object)["id" => 6, "description" => "Sin azucar", "slug" => "sin_azucar","image"=>"images/page/dietas/sinazucar.png","search"=>"sin_azucar"],
+            (object) ["id" => 1, "description" => "Paleo", "slug" => "paleo", "image" => "images/page/dietas/paleo.png", "search" => "paleo"],
+            (object) ["id" => 2, "description" => "Vegano", "slug" => "vegano", "image" => "images/page/dietas/vegana.png", "search" => "vegano"],
+            (object) ["id" => 3, "description" => "Sin gluten", "slug" => "sin_gluten", "image" => "images/page/dietas/sin_gluten.png", "search" => "sin_gluten"],
+            (object) ["id" => 4, "description" => "Organico", "slug" => "organico", "image" => "images/page/dietas/organico.png", "search" => "organico"],
+            (object) ["id" => 5, "description" => "Sin grasas Trans", "slug" => "sin_grasas_trans", "image" => "images/page/dietas/singrasastrans.png", "search" => "sin_grasas_trans"],
+            (object) ["id" => 6, "description" => "Sin azucar", "slug" => "sin_azucar", "image" => "images/page/dietas/sinazucar.png", "search" => "sin_azucar"],
         ];
     }
 
@@ -136,14 +136,12 @@ class PageController extends Controller {
 
         $dietas = $this->dietas;
 
-        return view('page', compact("subcategory","categories","dietas", "newproducts", "love_clients", "clients", "most_sales"));
+        return view('page', compact("subcategory", "categories", "dietas", "newproducts", "love_clients", "clients", "most_sales"));
     }
 
-
-    public function getDiets(){
+    public function getDiets() {
         return response()->json($this->dietas);
     }
-
 
     public function getCategories() {
         $categories = DB::table("vcategories")->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->where("status_id", 1)->orderBy("order", "asc")->get();
@@ -154,7 +152,7 @@ class PageController extends Controller {
         $supplier = DB::table("vsupplier")->where("products", ">", 0)->orderBy("business")->get();
         return response()->json($supplier);
     }
-    
+
     public function getDiet() {
         $diet = $this->dietas;
         return response()->json($diet);
@@ -198,8 +196,7 @@ class PageController extends Controller {
             $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
 
             if ($orders != null)
-                $products->select("orders_detail.quantity", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", 
-                "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier","vproducts.price_sf_with_tax")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+                $products->select("orders_detail.quantity", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier", "vproducts.price_sf_with_tax")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
         }
 
 
@@ -226,13 +223,14 @@ class PageController extends Controller {
             $products = DB::table("vproducts")->select("vproducts.id", "vproducts.title", "vproducts.short_description", "vproducts.price_sf", "vproducts.price_sf_with_tax", "vproducts.image", "vproducts.thumbnail", "vproducts.category_id", "vproducts.slug", "vproducts.tax", "vproducts.supplier"
                     )
                     ->whereNotNull("image")
-                    ->whereNotNull("warehouse");
+                    ->whereNotNull("warehouse")
+                    ->where("status_id", 1);
 
             if (Auth::user()) {
                 $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
 
                 if ($orders != null)
-                    $products->select("orders_detail.quantity", "vproducts.category_id","vproducts.title", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf_with_tax", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+                    $products->select("orders_detail.quantity", "vproducts.category_id", "vproducts.title", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf_with_tax", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
             }
 
             foreach ($char as $value) {
@@ -244,7 +242,7 @@ class PageController extends Controller {
             $products = $products->orderBy("title", "desc")->get();
 
             $categories = DB::table("vcategories")->where("status_id", 1)->orderBy("description");
-            
+
 
             foreach ($products as $value) {
 //                dd($value);
@@ -253,10 +251,11 @@ class PageController extends Controller {
 
             $categories = $categories->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->where("status_id", 1)->orderBy("order", "asc")->get();
         } else if (stripos($param, "s=") !== false) {
-             echo preg_replace('/s=/', '', $param);exit;
-             
+            echo preg_replace('/s=/', '', $param);
+            exit;
+
             $param = str_replace("s=", "", $param);
-            
+
             dd($param);
             $stakeholder = \App\Models\Administration\Stakeholder::where("slug", $param)->first();
 
@@ -292,7 +291,7 @@ class PageController extends Controller {
 
 
                 if ($orders != null) {
-                    $products->select("orders_detail.quantity", "vproducts.title", "vproducts.characteristic","vproducts.price_sf_with_tax","vproducts.price_sf_with_tax", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+                    $products->select("orders_detail.quantity", "vproducts.title", "vproducts.characteristic", "vproducts.price_sf_with_tax", "vproducts.price_sf_with_tax", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
                 }
 
 
@@ -377,6 +376,7 @@ class PageController extends Controller {
                                 $q->Orwhere(DB::raw("lower(supplier)"), "like", '%' . $param . '%');
                                 $q->Orwhere(DB::raw("lower(category)"), "like", '%' . $param . '%');
                             })
+                            ->where("status_id", 1)
                             ->orderBy("title", "desc")->get();
 
             $categories = DB::table("vcategories")->where("status_id", 1);
@@ -389,11 +389,11 @@ class PageController extends Controller {
         }
 
         $dietas = $this->dietas;
-        
-        return view('listproducts', compact("breadcrumbs", "categories", "row_category", 'products', "slug_category", "subcategory", "param", "dietas", "supplier","param"));
+
+        return view('listproducts', compact("breadcrumbs", "categories", "row_category", 'products', "slug_category", "subcategory", "param", "dietas", "supplier", "param"));
     }
 
-    public function getListProduct(){
+    public function getListProduct() {
         return response()->json([]);
     }
 
@@ -407,7 +407,7 @@ class PageController extends Controller {
 
     public function getProducts(Request $req, $param = null) {
         $in = $req->all();
-        
+
         $category = DB::table("vcategories")->where("node_id", 0)->get();
         $sub_ids = array();
         $sup_ids = array();
@@ -488,7 +488,7 @@ class PageController extends Controller {
                 $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
 
                 if ($orders != null)
-                    $products->select("orders_detail.quantity", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id","vproducts.price_sf_with_tax", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+                    $products->select("orders_detail.quantity", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.price_sf_with_tax", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
             }
 
             $products = $products->orderBy("supplier", "desc")->orderBy("title", "asc")->get();

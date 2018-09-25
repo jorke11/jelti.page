@@ -16,11 +16,13 @@
         border: 1px solid #5baf98
     }
     .title-products{
-        /*padding: 0;min-height: 60px;*/
         font-size: 8px;
     }
     .star{
-        width: 22px;height: 22px
+          width: 15px;
+            height: 15px;
+            color:#ffa608;
+            fill:#ffa608
     }
 
     .buttonplus-svg{
