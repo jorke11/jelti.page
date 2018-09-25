@@ -58,6 +58,7 @@ clearstatcache();
         {!!Html::style('/vendor/select2/css/select2.min.css')!!}
         {!!Html::script('/vendor/select2/js/select2.js')!!}
         {!!Html::style('/css/edited.css')!!}
+        {!!Html::style('/css/card.css')!!}
         
     </head>
     <!--Start of Tawk.to Script-->
@@ -82,41 +83,6 @@ clearstatcache();
         .carousel-control-next-icon {
             background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
         }
-
-        /* Para 960px */  
-        @media only screen and (max-width: 980px) and (min-width: 821px) {  
-            #slider-main{
-                padding-top: 100px
-            }
-        }  
-
-        /* Para 800px */  
-        @media only screen and (max-width: 820px) and (min-width: 621px) {  
-            #slider-main{
-                padding-top: 98px
-            }
-        }  
-
-        /* Para 600px */  
-        @media only screen and (max-width: 620px) and (min-width: 501px) {  
-            #slider-main{
-                padding-top: 98px
-            }
-        }  
-
-        /* Para 480px */  
-        @media only screen and (max-width: 500px) and (min-width: 341px) {  
-            #slider-main{
-                /*padding-top: 98px*/
-            }
-        }  
-
-        /* Para 320px */  
-        @media only screen and (max-width: 340px) and (min-width: 5px)  {  
-            #slider-main{
-                padding-top: 100px
-            }
-        } 
 
         .go-top {
             position: fixed;
@@ -157,43 +123,6 @@ clearstatcache();
             margin-left: 4%;
             /*border:none;*/
         }
-
-        /* Para 960px */  
-        @media only screen and (max-width: 980px) and (min-width: 821px) {  
-            #slider-main{
-                padding-top: 100px
-            }
-        }  
-
-        /* Para 800px */  
-        @media only screen and (max-width: 820px) and (min-width: 621px) {  
-            #slider-main{
-                padding-top: 98px
-            }
-        }  
-
-        /* Para 600px */  
-        @media only screen and (max-width: 620px) and (min-width: 501px) {  
-            #slider-main{
-                padding-top: 98px
-            }
-        }  
-
-        /* Para 480px */  
-        @media only screen and (max-width: 500px) and (min-width: 341px) {  
-            #slider-main{
-                padding-top: 98px
-            }
-        }  
-
-        /* Para 320px */  
-        @media only screen and (max-width: 340px) and (min-width: 5px)  {  
-            #slider-main{
-                padding-top: 100px
-            }
-        } 
-
-
 
         /* CSS REQUIRED */
         .state-icon {

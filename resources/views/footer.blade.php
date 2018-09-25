@@ -60,19 +60,19 @@
                 </div>
             </div>
             <div class="row row-space justify-content-center">
-                <div class="col-lg-2 col-4">
+                <div class="col-lg-2 col-4 col-md-2">
                     <a href="https://www.facebook.com/superfuds/" target="_blank"><p class="text-center"><img src="/images/page/facebook.svg" class="img-fluid" style="width: 90%"></p></a>
                 </div>
-                <div class="col-lg-2 col-4">
+                <div class="col-lg-2 col-4 col-md-2">
                     <a href="https://www.instagram.com/superfuds/?hl=es-la" target="_blank"><img src="/images/page/instagram.svg" class="img-fluid" style="width: 90%"></a>
                 </div>
-                <div class="col-lg-2 col-4">
+                <div class="col-lg-2 col-4 col-md-2">
                     <a href="https://www.youtube.com/channel/UC4YzleJ0zrgAGHwhV74R_GA/featured" target="_blank"><img src="/images/page/youtube.svg" class="img-fluid" style="width: 90%"></a>
                 </div>
-                <div class="col-lg-2 col-4">
+                <div class="col-lg-2 col-4 col-md-2">
                     <a href="https://co.pinterest.com/superfuds/" target="_blank"><img src="/images/page/pinterest.svg" class="img-fluid" style="width: 90%"></a>
                 </div>
-                <div class="col-lg-2  col-4">
+                <div class="col-lg-2  col-4 col-md-2">
                     <a href="https://plus.google.com/112289524335507891140" target="_blank"><img src="/images/page/google.svg" class="img-fluid" style="width: 90%"></a>
                 </div>
             </div>

@@ -35,7 +35,7 @@
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
-    background-color: rgba(91,175,152,1);
+        background-color: rgba(91,175,152,1);
         /*background-size: 100% 132%;*/
     }
 
@@ -113,10 +113,6 @@
         padding-right: 72%
     }
 
-    #slider-main{
-        position:relative;
-        top: -66px   
-    }
 
     #title-account{
         color:white;
@@ -139,33 +135,6 @@
         font-size: 15px
     }
 
-
-
-
-    @media screen and (max-width: 1500px) {
-
-        #text-search{
-            width: 220px;
-            height: 26px
-        }
-
-        #img-menu{
-
-        }
-
-        .center-image{
-            padding-left: 19%;
-            padding-top: 15px;padding-bottom: 2%   
-        }
-
-        #init-session{
-            padding-right:130px
-        }
-
-        #slider-main{
-            position:relative;top: -45px;
-        }
-    }
 
     @media screen and (max-width: 1400px) {
         #text-search{

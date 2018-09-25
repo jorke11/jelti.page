@@ -15,7 +15,7 @@ class ProductsLike extends Model {
     ];
 
     public function product() {
-        $this->hasOne(Products::class);
+        return $this->hasOne(Products::class,"id","product_id");
     }
 
 }

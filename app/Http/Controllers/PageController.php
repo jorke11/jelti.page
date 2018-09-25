@@ -353,8 +353,6 @@ class PageController extends Controller {
                     $products[$i]->characteristic = null;
                 }
             }
-
-
             $categories = DB::table("vcategories")->where("status_id", 1);
 
             foreach ($products as $value) {

@@ -29,12 +29,12 @@
 <section id="divProduct" style="padding-top:2%" class=" d-lg-block">
     <div class="container-fluid">
         <div class="row" style="padding-bottom: 20px">
-            <div class="col-lg-12">
+            <div class="col-lg-12 col-xs-12">
                 <p class="text-center title-color" style='font-size: 50px;font-family: "dosis" !important'>Conoce Nuestras Dietas</p>
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class='col-lg-3 col-xs-6 col-md-6'>
+            <div class='col-lg-3 col-xs-6 col-md-3 col-6'>
                 <div class="card">
                     <img class="card-img-top" src="{{url("images/page/dietas/paleo.png")}}" alt="Card image cap">
                     <div class="card-body">
@@ -43,7 +43,7 @@
                     </div>
                 </div>
             </div>
-            <div class='col-lg-3 col-xs-6 col-md-6'>
+            <div class='col-lg-3 col-xs-6 col-md-3 col-xs-6 col-6'>
                 <div class="card">
                     <img class="card-img-top" src="{{url("images/page/dietas/vegana.png")}}" alt="Card image cap">
                     <div class="card-body">
@@ -52,7 +52,7 @@
                     </div>
                 </div>
             </div>
-            <div class='col-lg-3 col-xs-6 col-md-6'>
+            <div class='col-lg-3 col-xs-6 col-md-3 col-xs-6 col-6'>
                 <div class="card">
                     <img class="card-img-top" src="{{url("images/page/dietas/sin_gluten.png")}}" alt="Card image cap">
                     <div class="card-body">
@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="row justify-content-center" style="padding-top: 50px">
-            <div class='col-lg-3 col-xs-6 col-md-6'>
+            <div class='col-lg-3 col-xs-6 col-md-3 col-xs-6 col-6'>
                 <div class="card">
                     <img class="card-img-top" src="{{url("images/page/dietas/organico.png")}}" alt="Card image cap">
                     <div class="card-body">
@@ -72,7 +72,7 @@
                     </div>
                 </div>
             </div>
-            <div class='col-lg-3 col-xs-6 col-md-6'>
+            <div class='col-lg-3 col-xs-6 col-md-3 col-xs-6 col-6'>
                 <div class="card">
                     <img class="card-img-top" src="{{url("images/page/dietas/singrasastrans.png")}}" alt="Card image cap">
                     <div class="card-body">
@@ -81,7 +81,7 @@
                     </div>
                 </div>
             </div>
-            <div class='col-lg-3 col-xs-6 col-md-6'>
+            <div class='col-lg-3 col-xs-6 col-md-3 col-xs-6 col-6'>
                 <div class="card">
                     <img class="card-img-top" src="{{url("images/page/dietas/sinazucar.png")}}" alt="Card image cap">
                     <div class="card-body">
@@ -93,141 +93,6 @@
         </div>
     </div>
 </section>
-
-<style>
-    .buttonplus{
-        display:scroll;
-        position:fixed;
-        bottom:170px;
-        margin-left: 7%;
-        margin-bottom: 1%;
-        border-radius: 10px;
-        background-color: rgba(255,255,255,0);
-        border: 1px solid #5baf98
-    }
-    .title-products{
-        padding: 0;min-height: 60px;
-
-    }
-    .star{
-        width: 22px;
-        height: 22px;
-        color:#ffa608;
-        fill:#ffa608
-    }
-
-    .buttonplus-svg{
-        width: 20px;
-        fill:"none"
-    }
-
-
-    @media (min-width: 1100px){
-        .title-new {
-            display: none !important;
-        }
-        .title-products{
-            font-size: 12px;
-            padding: 0;min-height: 60px;
-        }
-
-        .buttonplus{
-            display:scroll;
-            position:fixed;
-            bottom:140px;
-            margin-left: 4.5%;
-            margin-bottom: 2%;
-            border-radius: 10px;
-            background-color: rgba(255,255,255,0);
-            border: 1px solid #5baf98;
-        }
-        .buttonplus-new{
-            display:scroll;
-            position:fixed;
-            bottom:165px;
-            margin-left: 4.5%;
-            margin-bottom: 2%;
-            border-radius: 10px;
-            background-color: rgba(255,255,255,0);
-            border: 1px solid #5baf98;
-        }
-
-        .buttonplus-svg{
-            width: 16px;
-            fill:"none"
-        }
-
-
-        .star{
-            width: 13px;
-            height: 15px;
-
-        }
-    }
-
-    .text-supplier{
-        font-size: 12px;
-        color: #6c757d
-    }
-
-
-    @media (min-width: 1200px){
-        .title-new {
-            display: none !important;
-        }
-        .title-products{
-            font-size: 16px;
-            padding: 0;min-height: 60px;
-        }
-        .text-supplier{
-            font-size: 12px;
-            color: #6c757d
-        }
-        .buttonplus{
-            display:scroll;
-            position:fixed;
-            bottom:165px;
-            margin-left: 6%;
-            margin-bottom: 2%;
-            border-radius: 10px;
-            background-color: rgba(255,255,255,0);
-            border: 1px solid #5baf98;
-
-        }
-
-        .buttonplus-svg{
-            width: 14px;
-            fill:"none"
-        }
-
-        .star{
-            width: 15px;
-            height: 15px;
-            color:#ffa608;
-            padding-left: 1px;
-            fill:#ffa608
-        }
-    }
-
-    @media screen and (max-width: 1100px) {
-        .star{
-            width: 14px;
-            height: 14px;
-        }
-        
-        .title-products{
-            font-size: 16px
-        }
-        .text-supplier{
-            font-size: 14px
-        }
-        
-    }
-
-
-
-</style>
-
 
 <!--Web-->
 <section style="padding-top: 3%;padding-bottom: 2%">   
@@ -254,14 +119,14 @@
 
                                         foreach ($newproducts as $i => $value) {
                                             ?>
-                                            <div class="col-lg-3 col-xs-4 col-md-3">
+                                            <div class="col-lg-3 col-xs-4 col-md-3 col-6">
                                                 <div class="card" >
                                                     <img class="card-img-top" src="https://superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                     <div class="card-body text-center">
                                                         <p class="text-left text-muted " style="margin:0;" >
                                                             <a href="{{url("search/s=".str_slug(strtolower($value->supplier), '-'))}}" class="text-supplier">{{strtoupper($value->supplier)}}</a>
                                                         </p>
-                                                        <h5 class="card-title text-left title-products" style="cursor:pointer;min-height: 60px" onclick="obj.redirectProduct('{{$value->slug}}')">
+                                                        <h5 class="card-title text-left title-products"  onclick="obj.redirectProduct('{{$value->slug}}')">
                                                             <?php echo trim(strtoupper(substr($value->title, 0, 30))); ?></h5>
                                                         <p class="text-left">
                                                             <svg id="i-star" viewBox="0 0 32 32"  class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -299,17 +164,17 @@
 
                                                         <div class="row d-none row-center" id="buttonAdd_{{$value->id}}" style="background-color: #5cb19a;color:white;padding-bottom: 3%;padding-top: 3%;border-radius: 10px;"
                                                              >
-                                                            <div class="col-lg-2 pl-0">
+                                                            <div class="col-2 pl-0">
                                                                 <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="white"  style="cursor:pointer"
                                                                      stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                                      onclick="objCounter.deleteUnit({{$value->id}},'{{$value->slug}}')">
                                                                 <path d="M2 16 L30 16" />
                                                                 </svg>
                                                             </div>
-                                                            <div class="col-lg-4 pl-0">
+                                                            <div class="col-4 pl-0">
                                                                 <span id="quantity_product_{{$value->id}}" style="color:white">{{(isset($value->quantity))?$value->quantity:0}}</span>
                                                             </div>
-                                                            <div class="col-lg-2 pl-0" >
+                                                            <div class="col-2 pl-0" >
                                                                 <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="white" stroke="#ffffff" 
                                                                      stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer"
                                                                      onclick="objCounter.addProduct('{{$value->short_description}}',
@@ -388,7 +253,7 @@
 
                                         foreach ($most_sales as $i => $value) {
                                             ?>
-                                            <div class="col-lg-3 col-xs-4 col-md-3">
+                                            <div class="col-lg-3 col-xs-4 col-md-3 col-6">
                                                 <div class="card" >
                                                     <img class="card-img-top" src="https://superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                     <div class="card-body text-center">
@@ -428,17 +293,17 @@
 
                                                                                                                                                                                                                                                                                                                                          <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                                         <div class="row row-center <?php echo (isset($value->quantity_order)) ? '' : 'd-none' ?>" id="buttonAdd_{{$value->id}}" style="background-color: #5cb19a;padding-bottom: 3%;padding-top: 3%;border-radius: 10px">
-                                                            <div class="col-lg-2 pl-0">
+                                                            <div class="col-2 pl-0">
                                                                 <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="white"  style="cursor:pointer"
                                                                      stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                                      onclick="objCounter.deleteUnit({{$value->id}},'{{$value->slug}}')">
                                                                 <path d="M2 16 L30 16" />
                                                                 </svg>
                                                             </div>
-                                                            <div class="col-lg-4 pl-0 text-center">
+                                                            <div class="col-4 pl-0 text-center">
                                                                 <span id="quantity_product_{{$value->id}}" style="color:white">{{(isset($value->quantity_order))?$value->quantity_order:0}}</span>
                                                             </div>
-                                                            <div class="col-lg-2 pl-0" >
+                                                            <div class="col-2 pl-0" >
                                                                 <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="white" stroke="#ffffff" 
                                                                      stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer"
                                                                      onclick="objCounter.addProduct('{{$value->short_description}}',

@@ -168,6 +168,15 @@ class PaymentController extends Controller {
         return view("congratulations", compact("categories", "dietas"));
     }
 
+    public function getFavourite() {
+        $categories = $this->categories;
+        $dietas = $this->dietas;
+
+        $products = DB::table("vproducts_like")->where("user_id", Auth::user()->id)->get();
+
+        return view("favourite", compact("categories", "dietas", "products"));
+    }
+
     public function getMethodsPayments() {
         $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi ";
         $postData = array(
