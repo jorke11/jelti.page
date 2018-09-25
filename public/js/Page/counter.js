@@ -349,7 +349,7 @@ function Counter() {
                                         <div class="row" card-customer>
                                             <div class="col-3 card-customer">
                                                 <img class="img-fluid"  src="https://superfuds.com/${row.thumbnail}" alt="Card image cap" style="max-width: 160%;cursor:pointer" 
-                                                 onclick="obj.redirectProduct('${row.slug}')">
+                                                 onclick="objCounter.redirectProduct('${row.slug}')">
                                             </div>
                                             <div class="col-9 card-customer">
                                                 <p>${row.product} <br>
@@ -379,7 +379,7 @@ function Counter() {
                                 </div>
                             </div>
                             `;
-                
+
             })
         }
 
@@ -443,6 +443,10 @@ function Counter() {
             $("#minus-icon" + ref).addClass("d-none");
             flag_category = false;
     }
+    }
+
+    this.redirectProduct = function (url) {
+        window.location = PATH + "/product-detail/" + url;
     }
 
 }

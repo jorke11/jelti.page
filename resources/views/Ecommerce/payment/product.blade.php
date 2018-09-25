@@ -707,12 +707,12 @@
                                         ?>
                                         <div class="col-lg-3 col-md-3 col-sm-7">
                                             <div class="card" >
-                                                <img class="card-img-top" src="https://superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
+                                                <img class="card-img-top" src="https://superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="objCounter.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                 <div class="card-body text-center">
                                                      <p class="text-left  " style="margin:0;" >
                                                             <a href="{{url("search/s=".str_slug(strtolower($value->supplier), '-'))}}" class="text-supplier text-muted">{{strtoupper($value->supplier)}}</a>
                                                         </p>
-                                                   <h5 class="card-title text-left title-products" style="cursor:pointer;min-height: 60px" onclick="obj.redirectProduct('{{$value->slug}}')">
+                                                   <h5 class="card-title text-left title-products" style="cursor:pointer;min-height: 60px" onclick="objCounter.redirectProduct('{{$value->slug}}')">
                                                             <?php echo trim(strtoupper(substr($value->title, 0, 30))); ?></h5>
                                                     <p class="text-left">
                                                         <svg id="i-star" viewBox="0 0 32 32" class="star"  stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">

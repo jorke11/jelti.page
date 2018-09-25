@@ -98,9 +98,9 @@
                 ?>
                 <div class="col-lg-3">
                     <div class="thumbnail" style="padding: 0">
-                        <img src="/{{$value->thumbnail}}" alt="Pending" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer">
+                        <img src="/{{$value->thumbnail}}" alt="Pending" onclick="objCounter.redirectProduct('{{$value->slug}}')" style="cursor: pointer">
                         <div class="caption" style="padding: 0">
-                            <h5 class="text-center" style="min-height: 40px"><a href="/productDetail/{{$value->slug}}" style="color:black;font-weight: 400;letter-spacing:2px"><?php echo $value->short_description; ?></a></h5>
+                            <h5 class="text-center" style="min-height: 40px"><a href="/product-detail/{{$value->slug}}" style="color:black;font-weight: 400;letter-spacing:2px"><?php echo $value->short_description; ?></a></h5>
                             @if(!Auth::guest())
                             <p>
                             <h4 class="text-center" style="color:black;font-weight: 400;">$ {{number_format($value->price_sf,0,",",".")}}</h4>

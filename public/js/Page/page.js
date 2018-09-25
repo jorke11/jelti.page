@@ -290,15 +290,6 @@ function Page() {
                 });
     }
 
-
-
-
-
-
-    this.redirectProduct = function (url) {
-        window.location = PATH + "/productDetail/" + url;
-    }
-
     this.openModal = function (modal) {
         $("#" + modal).modal("show");
     }
@@ -362,7 +353,7 @@ function Page() {
                     html += `
                      <div class="col-3 text-center">
                                 <div class="card">
-                                    <img class="card-img-top img-fluid" src="/${value.thumbnail}" alt="Card image cap" onclick="obj.redirectProduct('${value.slug}')">
+                                    <img class="card-img-top img-fluid" src="/${value.thumbnail}" alt="Card image cap" onclick="objCounter.redirectProduct('${value.slug}')">
                                     <div class="card-body">
                                         <h5 class="card-title" style="min-height:60px">${value.short_description}</h5>
                                         <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->

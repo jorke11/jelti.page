@@ -358,11 +358,6 @@ function listProduct() {
                 });
     }
 
-
-    this.redirectProduct = function (url) {
-        window.location = PATH + "/product-detail/" + url;
-    }
-
     this.openModal = function (modal) {
         $("#" + modal).modal("show");
     }
@@ -474,13 +469,13 @@ function listProduct() {
                             <div class="col-3">
                                 <div class="card text-center">
                                     <img class="card-img-right img-fluid" src="https://superfuds.com/${value.thumbnail}" alt="Card image cap" 
-                                            onclick="obj.redirectProduct('${value.slug}')" 
+                                            onclick="objCounter.redirectProduct('${value.slug}')" 
                                             style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                               
                                         <div class="card-body" style="padding-bottom: 1.25em;padding-top:0">
                                             <p class="text-left text-supplier" style="margin:0;"><a href="/search/s=${objCounter.slug(value.supplier)}" class="text-muted ">${(value.supplier).toUpperCase()}</a></p>
                                                 <h5 class="card-title text-left title-products" style="margin:0;min-height: 100px" 
-                                                    onclick="obj.redirectProduct('${value.slug}')">
+                                                    onclick="objCounter.redirectProduct('${value.slug}')">
                                                         ${((value.short_description).toUpperCase()).substring(0, 50)}
                                                 </h5>           
                                         <p class="text-left">

@@ -237,12 +237,12 @@
                                                 foreach ($relations as $i => $value) {
                                                     ?>
                                                     <div class="col-3">
-                                                        <div class="card" onclick="obj.redirectProduct('{{$value->slug}}')">
+                                                        <div class="card" onclick="objCounter.redirectProduct('{{$value->slug}}')">
                                                             <img class="card-img-top" src="/{{$value->thumbnail}}" alt="Card image cap" >
                                                             <div class="card-body text-center">
                                                                 <h5 class="card-title" style="min-height:65px"><?php echo $value->short_description; ?></h5>
                                                                 <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-                                                                <a href="/productDetail/{{$value->slug}}" class="btn btn-primary">Comprar</a>
+                                                                <a href="/product-detail/{{$value->slug}}" class="btn btn-primary">Comprar</a>
                                                             </div>
                                                         </div>
                                                     </div>

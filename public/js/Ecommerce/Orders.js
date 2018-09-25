@@ -21,7 +21,7 @@ function Detail() {
                                                 <div class="col-3">
                                                     <img class="img-fluid"  src="${PATH + "/" + row.thumbnail}" alt="Card image cap" 
                                                     style="max-width: 150%;width:80%;cursor:pointer" 
-                                                     onclick="obj.redirectProduct('${row.slug}')">
+                                                     onclick="objCounter.redirectProduct('${row.slug}')">
                                                 </div>
                                                 <div class="col-9">
                                                     <p>${row.product} <br>
