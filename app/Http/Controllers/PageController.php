@@ -413,7 +413,7 @@ class PageController extends Controller {
         $row_category = array();
         $cat_ids = [];
         if ($param == null) {
-            $products = DB::table("vproducts")->whereNotNull("characteristic")->where(function($q) {
+            $products = DB::table("vproducts")->where("status_id", 1)->whereNotNull("characteristic")->where(function($q) {
                 $q->whereNotNull("image")->whereNotNull("thumbnail");
             });
 
