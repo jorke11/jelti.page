@@ -147,19 +147,19 @@ class PseController extends Controller {
     }
 
     public function getListBanks() {
-        $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
-        $host = "sandbox.api.payulatam.com";
-        $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
-        $apiLogin = "pRRXKOl8ikMmt9u";
+//        $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
+//        $host = "sandbox.api.payulatam.com";
+//        $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
+//        $apiLogin = "pRRXKOl8ikMmt9u";
 
-        /* $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
-          $host = 'api.payulatam.com';
-          $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
-          $apiLogin = "tGovZHuhL97hNh7"; */
+        $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
+        $host = 'api.payulatam.com';
+        $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
+        $apiLogin = "tGovZHuhL97hNh7";
 
+        /*
 
-
-        /* if ($this->test) {
+          /* if ($this->test) {
           $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
           $host = 'sandbox.api.payulatam.com';
           $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
@@ -215,12 +215,21 @@ class PseController extends Controller {
         $client = Stakeholder::where("email", Auth::user()->email)->first();
         $country = $in["country_id"];
 
-        $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
-        $host = "sandbox.api.payulatam.com";
-        $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
-        $apiLogin = "pRRXKOl8ikMmt9u";
-        $merchantId = 508029;
-        $accountId = 512321;
+//        $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
+//        $host = "sandbox.api.payulatam.com";
+//        $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
+//        $apiLogin = "pRRXKOl8ikMmt9u";
+//        $merchantId = 508029;
+//        $accountId = 512321;
+
+        $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
+        $host = "api.payulatam.com";
+        $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
+        $apiLogin = "tGovZHuhL97hNh7";
+        $merchantId = "559634";
+        $accountId = "562109";
+
+
 //        $url_response = 'http://localhost:8000/confirmation';
         $url_response = 'https://superfuds.com/confirmation';
 
@@ -379,11 +388,10 @@ class PseController extends Controller {
             $order->status_id = 2;
             $order->departure_id = $dep->header->id;
             $order->save();
-            
         } else if ($data["transactionState"] == 7) {
             $data["message"] = "En un tiempo de aproximado de 4 Horas te llegará la notificación del pago mientras realizamos validaciones de seguridad, gracias por preferirnos, Orden Id # " . $data["transactionId"];
             $data["order"] = $order;
-            
+
             $data_order = $this->payObj->createOrder();
             $dep = $this->depObj->processDeparture($data_order["header"], $data_order["detail"])->getData();
 
@@ -391,12 +399,11 @@ class PseController extends Controller {
             $row->status_briefcase_id = 2;
             $row->type_request = "pse";
             $row->save();
-            
+
             $order->response_payu = $_GET;
             $order->status_id = 3;
             $order->departure_id = $dep->header->id;
             $order->save();
-            
         } else {
             $data["message"] = "No se ha podido realizar la transaccion por favor vuelva a intentar, Orden Id #" . $data["transactionId"];
             $data["order"] = $order;
