@@ -415,6 +415,8 @@ class PseController extends Controller {
             $data["state"] = "Transacción fallida";
         } else if (($data["polTransactionState"] == 12 || $data["polTransactionState"] == 14) && $data["polResponseCode"] >= 25) {
             $data["state"] = "Transacción pendiente, por favor revisar si el débito fue realizado en el banco.";
+        }else{
+            $data["state"] = "Transacción cancelada.";
         }
 
         $categories = $this->categories;
