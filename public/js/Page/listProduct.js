@@ -517,24 +517,22 @@ function listProduct() {
                         html += `
                                 <div class="row d-none row-center ${(value.quantity) ? '' : 'd-none'}" id="buttonAdd_${value.id}">
                         
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-6">
                                             <div class="row" style="background-color: #5cb19a;color:white;padding-bottom: 2%;padding-top: 5%;
                                                          padding-left: 0;padding-right: 0;border-radius: 10px;">
                         
-                                                 <div class="col-lg-4">
-                                                    <svg id="i-minus" viewBox="0 0 32 32" width="25" height="25" fill="white"  style="cursor:pointer;"
+                                                 <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
+                                                    <svg id="i-minus" viewBox="0 0 32 32" class="btn-minus-card-product" fill="white"  style="cursor:pointer;"
                                                          stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
                                                          onclick="objCounter.deleteUnit(${value.id},'${value.slug}')">
                                                     <path d="M2 16 L30 16" />
                                                     </svg>
                                                 </div>
-                                                <div class="col-lg-4" style="padding-left: 0;padding-right: 0">
-                                                    <input type="text" id="quantity_product_${value.id}" 
-                                                value="${(value.quantity != null) ? value.quantity : 0}" size="5" 
-                                                style="text-align: center;padding: 0;border-radius: 5px;border: 0px;padding-bottom: 2px;padding-top: 2px;">
+                                                <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
+                                                    <input type="text" id="quantity_product_${value.id}" value="${(value.quantity != null) ? value.quantity : 0}" class="input-quantity-product">
                                                 </div>
-                                                <div class="col-lg-4" >
-                                                    <svg id="i-plus" viewBox="0 0 35 35" width="25" height="25" fill="white" stroke="#ffffff" 
+                                                <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
+                                                    <svg id="i-plus" viewBox="0 0 35 35"  class="btn-minus-card-product" fill="white" stroke="#ffffff" 
                                                          stroke-linecap="round" stroke-linejoin="round" stroke-width="4" style="cursor:pointer"
                                                          onclick="objCounter.addProduct('${value.short_description}',
                                                          '${value.slug}','${value.id}','${value.price_sf}','${value.thumbnail}','${value.tax}'); return false;">
@@ -544,9 +542,8 @@ function listProduct() {
                                             </div>
                                         </div>
                                         
-                                          <div class="col-lg-2" style="margin-left: 3px">
-                                                    <div class="row" style="background-color: #5cb19a;color:white;padding-bottom: 15%;padding-top: 40%;
-                                                         padding-left: 0;padding-right: 0;border-radius: 10px;">
+                                          <div class="col-lg-2 col-2" style="margin-left: 3px">
+                                                    <div class="row icon-ok">
                                                         <div class="col-lg-6">
                                                             <svg id="i-checkmark" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" 
                                                                  stroke-linejoin="round" stroke-width="4"
@@ -559,7 +556,6 @@ function listProduct() {
                                                         </div>
                                                     </div>
                                             </div>
-                        
                                 </div>
 
                                 <button class="btn ${(value.quantity == null) ? '' : 'd-none'}" 

@@ -4,104 +4,6 @@
 @section('content')
 {!!Html::style('/css/page.css')!!}
 
-<style>
-    .buttonplus{
-        display:scroll;
-        position:fixed;
-        bottom:170px;
-        margin-left: 6%;
-        margin-bottom: 1%;
-        border-radius: 10px;
-        background-color: rgba(255,255,255,0);
-        border: 1px solid #5baf98
-    }
-    .title-products{
-        font-size: 8px;
-    }
-    .star{
-          width: 15px;
-            height: 15px;
-            color:#ffa608;
-            fill:#ffa608
-    }
-
-    .buttonplus-svg{
-        width: 20px;
-        fill:"none"
-    }
-    .text-supplier{
-        font-size: 9px;
-    }
-
-    .btn-plus{
-        width: 28px;
-        height: 28px;
-        color:#ffffff;
-        fill:#ffffff;
-    }
-    .btn-minus{
-        width: 28px;
-        height: 28px;
-        color:#ffffff;
-        fill:#ffffff;
-    }
-
-
-    @media (min-width: 1100px){
-        .title-new {
-            display: none !important;
-        }
-
-        .buttonplus{
-            display:scroll;
-            position:fixed;
-            bottom:150px;
-            margin-left: 3.5%;
-            margin-bottom: 2%;
-            border-radius: 10px;
-            background-color: rgba(255,255,255,0);
-            border: 1px solid #5baf98;
-        }
-
-        .buttonplus-svg{
-            width: 18px;
-            fill:"none"
-        }
-
-        .plus-card{
-            width: 15px;
-            height: 15px
-        }
-
-        .btn-plus{
-            width: 22px;
-            height: 22px;
-            color:#ffffff;
-            fill:#ffffff;
-        }
-        .btn-minus{
-            width: 24px;
-            height: 24px;
-            color:#ffffff;
-            fill:#ffffff;
-        }
-
-        .star{
-            width: 15px;
-            height: 15px;
-            color:#ffa608;
-            fill:#ffa608
-        }
-        .text-supplier{
-            font-size: 10px;
-        }
-        .title-products{
-            font-size: 20px;
-            padding: 0;min-height: 60px;
-        }
-    }
-</style>
-
 <section id="content-menu">
     <div  class="container-fluid" style="padding-left: 0; padding-right: 0;position:relative;top: -120px">
         <section id="slider-main" class="main-slider">
@@ -138,16 +40,15 @@
                 <div class="row center-block ml-0 mr-0 pl-0 pr-0" id="categories-filter">
                     <div class="col-12" style="border:8px rgba(0,0,0,.1) solid;border-radius: 10px; margin-bottom: 20px">
                         <ul class="list-group">
-                            <li class="list-group-item" style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;cursor:pointer" 
-                                data-toggle="collapse" onclick="obj.eventCategory(null, 'content-filter-categories')"><b>CATEGORIAS</b> ({{count($categories)}})
+                            <li class="list-group-item title-menu-left" data-toggle="collapse" onclick="obj.eventCategory(null, 'content-filter-categories')"><b>CATEGORIAS</b> ({{count($categories)}})
                                 <span style="float:right" id="plus-icon" class="d-none">
-                                    <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="black"  style="cursor:pointer"
+                                    <svg id="i-minus" viewBox="0 0 32 32" class="img-plus-filter" fill="black"
                                          stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                     <path d="M2 16 L30 16" />
                                     </svg>
                                 </span>
                                 <span style="float:right" id="minus-icon">
-                                    <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="black" stroke="#000000" 
+                                    <svg id="i-plus" viewBox="0 0 35 35" class="img-plus-filter" fill="black" stroke="#000000" 
                                          stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer">
                                     <path d="M16 2 L16 30 M2 16 L30 16" />
                                     </svg>
@@ -169,11 +70,11 @@
                                     }
                                     ?>
                                     <li class="list-group-item pb-0 pt-0">
-                                        <div class="row" style="cursor:pointer" >
+                                        <div class="row" style="cursor:pointer">
                                             <div class="col-12">
                                                 <a href="javascript:;" class="list-group-item list-group-item-action" onclick="obj.reloadCategories('{{$val->slug}}', this);">
                                                     <div class="row">
-                                                        <div class="col-lg-10">
+                                                        <div class="col-lg-10 subtitle-menu-left">
                                                             {{ucwords(strtolower($val->description))}} ({{$val->subcategories}})
                                                         </div>
                                                         <div class="col-lg-2">
@@ -194,17 +95,16 @@
                             </div>
                         </ul>
                         <ul class="list-group">
-                            <li class="list-group-item"  style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px"
-                                data-toggle="collapse" onclick="obj.eventCategory('subcat', 'content-subcategories')"><b>SUBCATEGORIAS</b> ({{count($subcategory)}})
+                            <li class="list-group-item title-menu-left"  data-toggle="collapse" onclick="obj.eventCategory('subcat', 'content-subcategories')">SUBCATEGORIAS ({{count($subcategory)}})
 
-                                <span style="float:right" id="plus-icon-subcat">
-                                    <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="black" stroke="#000000" 
-                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer">
+                                <span style="float:right" id="plus-icon-subcat" >
+                                    <svg id="i-plus" viewBox="0 0 35 35" class="img-plus-filter" fill="black" stroke="#000000" stroke-linecap="round" 
+                                         stroke-linejoin="round" stroke-width="2">
                                     <path d="M16 2 L16 30 M2 16 L30 16" />
                                     </svg>
                                 </span>
                                 <span style="float:right" id="minus-icon-subcat" class="d-none">
-                                    <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="black"  style="cursor:pointer"
+                                    <svg id="i-minus" viewBox="0 0 32 32" class="img-plus-filter"  fill="black"  style="cursor:pointer"
                                          stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                     <path d="M2 16 L30 16" />
                                     </svg>
@@ -226,7 +126,7 @@
                                             <div class="col-12">
                                                 <a href="#" class="list-group-item list-group-item-action" >
                                                     <div class="row">
-                                                        <div class="col-lg-10">
+                                                        <div class="col-lg-10 subtitle-menu-left">
                                                             {{ucwords(strtolower($val->description))}} ({{$val->products}})
                                                         </div>
                                                         <div class="col-lg-2">
@@ -246,16 +146,16 @@
                             </div>
                         </ul>
                         <ul class="list-group">
-                            <li class="list-group-item"  style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;"
+                            <li class="list-group-item title-menu-left"  style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;"
                                 data-toggle="collapse" onclick="obj.eventCategory('sup', 'content-supplier')"><b>PROVEEDORES</b> ({{count($supplier)}})
                                 <span style="float:right" id="plus-icon-sup">
-                                    <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="black" stroke="#000000" 
+                                    <svg id="i-plus" viewBox="0 0 35 35" class="img-plus-filter" fill="black" stroke="#000000" 
                                          stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer">
                                     <path d="M16 2 L16 30 M2 16 L30 16" />
                                     </svg>
                                 </span>
                                 <span style="float:right" id="minus-icon-sup" class="d-none">
-                                    <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="black"  style="cursor:pointer"
+                                    <svg id="i-minus" viewBox="0 0 32 32" class="img-plus-filter" fill="black"  style="cursor:pointer"
                                          stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                     <path d="M2 16 L30 16" />
                                     </svg>
@@ -272,7 +172,7 @@
                                     ?>
                                     <li class="list-group-item">
                                         <div class="row" style="cursor:pointer" onclick="obj.reloadCategories('{{$val->id}}'); return false;">
-                                            <div class="col-10">
+                                            <div class="col-10 subtitle-menu-left">
                                                 {{ucwords(strtolower($val->business))}} ({{$val->products}})
                                             </div>
                                             <div class="col-2">
@@ -286,16 +186,16 @@
                             </div>
                         </ul>
                         <ul class="list-group" id="filter-diet">
-                            <li class="list-group-item"  style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;"
+                            <li class="list-group-item title-menu-left"  style=" border-bottom: 3px solid #ccd07b;margin-bottom: 20px;"
                                 data-toggle="collapse" onclick="obj.eventCategory('diet', 'content-dietas')"><b>DIETAS</b> ({{count($dietas)}})
                                 <span style="float:right" id="plus-icon-diet">
-                                    <svg id="i-plus" viewBox="0 0 35 35" width="28" height="28" fill="black" stroke="#000000" 
+                                    <svg id="i-plus" viewBox="0 0 35 35" class="img-plus-filter" fill="black" stroke="#000000" 
                                          stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="cursor:pointer">
                                     <path d="M16 2 L16 30 M2 16 L30 16" />
                                     </svg>
                                 </span>
                                 <span style="float:right" id="minus-icon-diet" class="d-none">
-                                    <svg id="i-minus" viewBox="0 0 32 32" width="28" height="28" fill="black"  style="cursor:pointer"
+                                    <svg id="i-minus" viewBox="0 0 32 32" class="img-plus-filter" fill="black"  style="cursor:pointer"
                                          stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                     <path d="M2 16 L30 16" />
                                     </svg>
@@ -311,7 +211,7 @@
                                     ?>
                                     <li class="list-group-item">
                                         <div class="row" style="cursor:pointer" onclick="obj.reloadCategories('{{$val->id}}'); return false;">
-                                            <div class="col-10">
+                                            <div class="col-10 subtitle-menu-left">
                                                 {{ucwords(strtolower($val->description))}} ({{$val->description}})
                                             </div>
                                             <div class="col-2">
@@ -342,7 +242,7 @@
                                         <div class="card-body" style="padding-bottom: 1.25em;padding-top:0;padding-left: 15px;padding-right: 15px">
                                             <p class="text-left text-muted text-supplier" style="margin:0;">
                                                 <a style="color:#6c757d" href="{{url("/search/s=".str_slug(strtolower($value->supplier), '-'))}}">{{strtoupper($value->supplier)}}</a></p>
-                                            <p class="text-left text-products" style="margin:0;min-height: 55px;cursor:pointer" onclick="objCounter.redirectProduct('{{$value->slug}}')">
+                                            <p class="text-left title-products" onclick="objCounter.redirectProduct('{{$value->slug}}')">
                                                 <?php echo strtoupper(substr(trim($value->short_description), 0, 30)); ?>
                                             </p>
                                             @guest
@@ -378,39 +278,36 @@
                                                     >{{$value->quantity}} en carrito</button>
                                             @endif
 
-                                            <div class="row d-none row-center" id="buttonAdd_{{$value->id}}" onmouseout="objCounter.hideButton(this, {{$value->id}})"
-                                                 style="">
-                                                <div class="col-lg-6">
+                                            <div class="row d-none row-center" id="buttonAdd_{{$value->id}}" onmouseout="objCounter.hideButton(this, {{$value->id}})">
+                                                <div class="col-lg-6 col-6">
                                                     <div class="row" style="background-color: #5cb19a;color:white;padding-bottom: 2%;padding-top: 5%;
                                                          padding-left: 0;padding-right: 0;border-radius: 10px;">
-                                                        <div class="col-lg-4">
-                                                            <svg id="i-minus" viewBox="0 0 32 32" width="25" height="25" fill="white"  style="cursor:pointer;"
+                                                        <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0" onclick="objCounter.deleteUnit({{$value->id}},'{{$value->slug}}')">
+                                                            <svg id="i-minus" viewBox="0 0 32 32" class="btn-minus-card-product" fill="white"  style="cursor:pointer;"
                                                                  stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
-                                                                 onclick="objCounter.deleteUnit({{$value->id}},'{{$value->slug}}')">
+                                                                 >
                                                             <path d="M2 16 L30 16" />
                                                             </svg>
                                                         </div>
-                                                        <div class="col-lg-4" style="padding-left: 0;padding-right: 0">
-                                                            <input type="text" id="quantity_product_{{$value->id}}" value="{{(isset($value->quantity))?$value->quantity:0}}" size="5" 
-                                                                   style="text-align: center;padding: 0;border-radius: 5px;border: 0px;padding-bottom: 2px;padding-top: 2px;">
+                                                        <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
+                                                            <input type="text" id="quantity_product_{{$value->id}} " class="input-quantity-product" value="{{(isset($value->quantity))?$value->quantity:0}}">
                                                         </div>
-                                                        <div class="col-lg-4" >
-                                                            <svg id="i-plus" viewBox="0 0 35 35" width="25" height="25" fill="white" stroke="#ffffff" 
+                                                        <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0" onclick="objCounter.addProduct('{{$value->short_description}}',
+                                                             '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}'); return false;">
+                                                            <svg id="i-plus" viewBox="0 0 35 35" class="btn-minus-card-product" fill="white" stroke="#ffffff" 
                                                                  stroke-linecap="round" stroke-linejoin="round" stroke-width="4" style="cursor:pointer"
-                                                                 onclick="objCounter.addProduct('{{$value->short_description}}',
-                                                                 '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}'); return false;">
+                                                                 >
                                                             <path d="M16 2 L16 30 M2 16 L30 16" />
                                                             </svg>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-2" style="margin-left: 3px">
-                                                    <div class="row" style="background-color: #5cb19a;color:white;padding-bottom: 15%;padding-top: 40%;
-                                                         padding-left: 0;padding-right: 0;border-radius: 10px;">
-                                                        <div class="col-lg-6">
-                                                            <svg id="i-checkmark" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" 
+                                                <div class="col-lg-2 col-2" style="margin-left: 3px;">
+                                                    <div class="row icon-ok">
+                                                        <div class="col-lg-6 col-6">
+                                                            <svg id="i-checkmark" viewBox="0 0 32 32" class="btn-minus-card-product" fill="none" stroke="currentcolor" stroke-linecap="round" 
                                                                  stroke-linejoin="round" stroke-width="4"
-                                                                  style="cursor:pointer"
+                                                                 style="cursor:pointer"
                                                                  onclick="objCounter.addProductCheck('{{$value->short_description}}',
                                                                  '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}'); return false;"
                                                                  >
