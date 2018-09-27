@@ -62,7 +62,32 @@ function Payment() {
 //        db = firebase.firestore();
 
 //        this.getDataFirebase()
+        $("#apply-coupon").click(this.applyCoupon)
+
         this.getData()
+    }
+
+    this.applyCoupon = function () {
+        var param = {}
+        param.coupon = $("#coupon").val()
+
+        $.ajax({
+            url: PATH + '/apply-coupon',
+            method: 'PUT',
+            headers: {'X-CSRF-TOKEN': token},
+            data: param,
+            success: function (data) {
+                console.log(data)
+
+            }, error: function (xhr, ajaxOptions, thrownError) {
+//                console.log(xhr)
+//                console.log(ajaxOptions)
+//                console.log(thrownError)
+            }
+
+        })
+
+        console.log(param)
     }
 
     this.printDetailAll = function () {
@@ -124,7 +149,7 @@ function Payment() {
                                             </div>
                                             <div class="detail[i]" style="padding-top:10%">
                                                 <div class="col" >
-                                                    <p>${detail[i].price_sf}</p>
+                                                    <p>${$.formatNumber(detail[i].price_sf_with_tax)}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -370,7 +395,7 @@ function Payment() {
 //        window.location.href = PATH + "/selectPay"
 //    }
 
-    
+
     this.payCredit = function () {
         window.location = PATH + "/payment-credit";
     }

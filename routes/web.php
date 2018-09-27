@@ -24,6 +24,7 @@ Route::get('getCoupon', "Ecommerce\PaymentController@getCoupon");
 Route::put('/applyDiscount/{coupon_id}', "Ecommerce\PaymentController@updateCoupon");
 Route::get('myFavourite', "Ecommerce\PaymentController@getFavourite");
 Route::get('review-pendding', "Administration\CronController@loadPending");
+Route::put('apply-coupon', "Ecommerce\PaymentController@applyCoupon");
 
 
 

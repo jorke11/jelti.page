@@ -121,7 +121,7 @@ class PaymentController extends Controller {
 
         $dietas = $this->dietas;
 
-        return view("Ecommerce.payment.init", compact("id", "categories", "client", "month", "years", "total", "countries", "subtotal", "deviceSessionId", "deviceSessionId_concat", "term", "dietas"));
+        return view("Ecommerce.payment.init", compact("id", "categories", "client", "month", "years", "total", "countries", "subtotal", "deviceSessionId", "deviceSessionId_concat", "term", "dietas","order"));
     }
 
     public function getProduct($id) {
@@ -463,7 +463,7 @@ class PaymentController extends Controller {
             $sql = "
             SELECT 
                 d.product_id,p.title as product,d.tax,d.price_sf,COALESCE(d.units_sf,1) as units_sf,p.thumbnail,sum(d.quantity) as quantity,
-                sum(d.quantity * d.price_sf) as subtotal,p.slug,p.supplier,p.price_sf_with_tax
+                sum(d.quantity * d.price_sf) as subtotal,sum(d.quantity * p.price_sf_with_tax) as subtotal_with_tax,p.slug,p.supplier,p.price_sf_with_tax
             FROM orders_detail d
             JOIN vproducts p on p.id=d.product_id
             WHERE d.order_id=" . $order["id"] . " $slug
@@ -1010,6 +1010,13 @@ class PaymentController extends Controller {
         $input = $req->all();
         OrdersDetail::where("order_id", $id)->where("product_id", $input["product_id"])->delete();
 
+        return response()->json(["status" => true, "order" => $id]);
+    }
+    public function applyCoupon(Request $req) {
+        $input = $req->all();
+        dd($input);
+        
+        
         return response()->json(["status" => true, "order" => $id]);
     }
 

@@ -165,9 +165,23 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
-                                            <img src="{{url("images/visa.png")}}" class="img-fluid d-xs-none" id="imgCard">
+                                            <img src="{{url("images/visa.png")}}" class="img-fluid d-xs-none" id="imgCard" width="60%">
                                         </div>
                                     </div>
+                                    @if($order->discount==null)
+                                    <div class="row row-space align-items-center">
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="tgarjeta">Cupon</label>
+                                                <input type="text" class="form-control form-control-sm" id="coupon" name="coupon" placeholder="Cupon">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <button class="btn btn-info form-control btn-sm" id="apply-coupon" type="button">Aplicar</button>
+                                        </div>
+                                    </div>
+                                    @endif
+
                                     <div class="row row-space">
                                         <div class="col-lg-6">
                                             <input type="checkbox" id="checkbuyer" name="checkbuyer" checked=""> ¿Deseas que la informacion del pagador sea la misma?
@@ -239,7 +253,7 @@
                                     @if($term>1)
                                     <div class="row row-center pt-3">
                                         <div class="col-10">
-                                            <button type="button" class="btn btn-info form-control btn-sm" id="btnPay">
+                                            <button type="button" class="btn btn-primary form-control btn-sm" id="btnPay">
                                                 <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span>({{$term}}) días Credito SuperFuds
                                             </button>
                                         </div>
@@ -247,7 +261,7 @@
                                     @endif
                                     <div class="row row-center pt-3">
                                         <div class="col-10">
-                                            <button type="button" class="btn btn-info form-control btn-sm" id="btnPSE">
+                                            <button type="button" class="btn btn-primary form-control btn-sm" id="btnPSE">
                                                 <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span>PSE
                                             </button>
                                         </div>
