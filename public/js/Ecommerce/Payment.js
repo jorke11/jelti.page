@@ -136,7 +136,7 @@ function Payment() {
                                                     </div>
                                                     <input type="text" class="form-control input-number" id="quantity_payment_${detail[i].product_id}" value="${detail[i].quantity}" type="number"
                                                     onkeypress="objCounter.addProductEnter(event,'${detail[i].product}','${detail[i].slug}','${detail[i].product_id}',
-                                                                '${detail[i].price_sf}}','${detail[i].thumbnail}','${detail[i].tax}',this)">
+                                                                '${detail[i].price_sf}}','${detail[i].thumbnail}','${detail[i].tax}',this)" style="text-align:center">
                 
                                                     <div class="input-group-append">
                                                         <span class="input-group-text" 
