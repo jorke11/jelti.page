@@ -211,7 +211,7 @@ function Counter() {
 
     this.addProductEnter = function (e, title, slug, product_id, price_sf, img, tax, elem) {
         var code = (e.keyCode ? e.keyCode : e.which);
-
+        
         if (code == 13) {
             var elem_id = $(elem).attr("id");
             this.addProductCheck(title, slug, product_id, price_sf, img, tax, elem_id)

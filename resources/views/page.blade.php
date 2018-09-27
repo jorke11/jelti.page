@@ -173,7 +173,9 @@
                                                                         </svg>
                                                                     </div>
                                                                     <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
-                                                                        <input type="text" id="quantity_product_{{$value->id}}" value="{{(isset($value->quantity))?$value->quantity:0}}" class="input-quantity-product">
+                                                                        <input type="text" id="quantity_new_product_{{$value->id}}" value="{{(isset($value->quantity))?$value->quantity:0}}" class="input-quantity-product"
+                                                                               onkeypress="objCounter.addProductEnter(event,'{{$value->short_description}}',
+                                                                             '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}',this)">
                                                                     </div>
                                                                     <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
                                                                         <svg id="i-plus" viewBox="0 0 35 35" class="btn-minus-card-product" fill="white" stroke="#ffffff" 
@@ -316,7 +318,9 @@
                                                                         </svg>
                                                                     </div>
                                                                     <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
-                                                                        <input type="text" id="quantity_product_{{$value->id}}"class="input-quantity-product" value="{{(isset($value->quantity_order))?$value->quantity_order:0}}">
+                                                                        <input type="text" id="quantity_product_{{$value->id}}"class="input-quantity-product" value="{{(isset($value->quantity_order))?$value->quantity_order:0}}"
+                                                                               onkeypress="objCounter.addProductEnter(event,'{{$value->short_description}}',
+                                                                             '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}',this)">
                                                                     </div>
                                                                     <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
                                                                         <svg id="i-plus" class="btn-minus-card-product" viewBox="0 0 35 35" fill="white" stroke="#ffffff" 
