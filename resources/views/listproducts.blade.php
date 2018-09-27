@@ -309,7 +309,7 @@
                                                                  stroke-linejoin="round" stroke-width="4"
                                                                  style="cursor:pointer"
                                                                  onclick="objCounter.addProductCheck('{{$value->short_description}}',
-                                                                 '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}'); return false;"
+                                                                 '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_product_{{$value->id}}'); return false;"
                                                                  >
                                                             <path d="M2 20 L12 28 30 4" />
                                                             </svg>
@@ -319,7 +319,7 @@
                                             </div>
                                             <button class="btn <?php echo (isset($value->quantity)) ? 'd-none' : '' ?>" 
                                                     id="btnOption_{{$value->id}}" onclick="objCounter.showButton('{{$value->short_description}}',
-                                                    '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','')" 
+                                                    '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_product_{{$value->id}}')" 
                                                     style="background-color: #5cb19a;color:white">Agregar</button>
 
                                         </div>

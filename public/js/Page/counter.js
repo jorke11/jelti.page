@@ -220,6 +220,7 @@ function Counter() {
 
     this.addProductCheck = function (title, slug, product_id, price_sf, img, tax, elem_id) {
         var token = $("input[name=_token]").val();
+        console.log(elem_id)
         var row = {
 //            quantity: $("#quantity_product_" + product_id).val(),
             quantity: $("#" + elem_id).val(),
@@ -230,6 +231,9 @@ function Counter() {
             tax: tax,
             type: 'check'
         }
+        
+        console.log(row);
+        return false;
 
 
         if (user_id) {

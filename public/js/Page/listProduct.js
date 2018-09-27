@@ -549,8 +549,7 @@ function listProduct() {
                                                                  stroke-linejoin="round" stroke-width="4"
                                                                   style="cursor:pointer"
                                                                  onclick="objCounter.addProductCheck('${value.short_description}',
-                                                                 '${value.slug}','${value.id}','${value.price_sf}','${value.thumbnail}','${value.tax}'); return false;"
-                                                                 >
+                                                                 '${value.slug}','${value.id}','${value.price_sf}','${value.thumbnail}','${value.tax}','quantity_product_${value.id}'); return false;">
                                                             <path d="M2 20 L12 28 30 4" />
                                                             </svg>
                                                         </div>
