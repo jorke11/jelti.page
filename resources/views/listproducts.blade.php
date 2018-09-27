@@ -290,7 +290,7 @@
                                                             </svg>
                                                         </div>
                                                         <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
-                                                            <input type="text" id="quantity_product_{{$value->id}} " class="input-quantity-product" value="{{(isset($value->quantity))?$value->quantity:0}}">
+                                                            <input type="text" id="quantity_product_{{$value->id}}" class="input-quantity-product" value="{{(isset($value->quantity))?$value->quantity:0}}">
                                                         </div>
                                                         <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0" onclick="objCounter.addProduct('{{$value->short_description}}',
                                                              '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}'); return false;">
@@ -319,7 +319,7 @@
                                             </div>
                                             <button class="btn <?php echo (isset($value->quantity)) ? 'd-none' : '' ?>" 
                                                     id="btnOption_{{$value->id}}" onclick="objCounter.showButton('{{$value->short_description}}',
-                                                    '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}')" 
+                                                    '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','')" 
                                                     style="background-color: #5cb19a;color:white">Agregar</button>
 
                                         </div>

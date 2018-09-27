@@ -311,12 +311,12 @@ function Counter() {
     }
 
 
-    this.showButton = function (description, slug, id, price, thumbnail, tax) {
+    this.showButton = function (description, slug, id, price, thumbnail, tax,elem_id) {
 
         if (user_id) {
             $("#buttonAdd_" + id).removeClass("d-none");
             $("#btnOption_" + id).addClass("d-none");
-            objCounter.addProduct(description, slug, id, price, thumbnail, tax);
+            objCounter.addProduct(description, slug, id, price, thumbnail, tax,elem_id);
         } else {
             $("#modalOptions").modal("show");
         }
