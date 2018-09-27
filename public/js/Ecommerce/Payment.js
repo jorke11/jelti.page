@@ -133,9 +133,11 @@ function Payment() {
                                                 <div class="input-group mb-3 ">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text" onclick="obj.deleteUnit('${detail[i].product_id}','${detail[i].slug}',${i})" style="background-color: #30c594;color:white;cursor: pointer">-</span>
-                                                        
                                                     </div>
-                                                    <input type="text" class="form-control" id="quantity_payment_${detail[i].product_id}" value="${detail[i].quantity}" type="number">
+                                                    <input type="text" class="form-control input-number" id="quantity_payment_${detail[i].product_id}" value="${detail[i].quantity}" type="number"
+                                                    onkeypress="objCounter.addProductEnter(event,'${detail[i].product}','${detail[i].slug}','${detail[i].product_id}',
+                                                                '${detail[i].price_sf}}','${detail[i].thumbnail}','${detail[i].tax}',this)">
+                
                                                     <div class="input-group-append">
                                                         <span class="input-group-text" 
                                                                 onclick="obj.addProduct('${detail[i].product}',

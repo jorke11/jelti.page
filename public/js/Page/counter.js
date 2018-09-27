@@ -86,8 +86,9 @@ function Counter() {
             return false;
         })
 
-        $(document).keydown(function (e) {
+        $("#text-search").keydown(function (e) {
             if (e.which == 13) {
+                console.log("asd");
                 var search_data = $("#text-search").val();
                 if (search_data != '') {
                     location.href = PATH + "/search/" + search_data
@@ -96,6 +97,8 @@ function Counter() {
                 return false;
             }
         });
+
+
         $(".box-client").addClass("back-green");
         $("#type_stakeholder").val(id);
         $("#register").click(function () {
@@ -206,10 +209,20 @@ function Counter() {
         }
     }
 
-    this.addProductCheck = function (title, slug, product_id, price_sf, img, tax) {
+    this.addProductEnter = function (e, title, slug, product_id, price_sf, img, tax, elem) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+
+        if (code == 13) {
+            var elem_id = $(elem).attr("id");
+            this.addProductCheck(title, slug, product_id, price_sf, img, tax, elem_id)
+        }
+    }
+
+    this.addProductCheck = function (title, slug, product_id, price_sf, img, tax, elem_id) {
         var token = $("input[name=_token]").val();
         var row = {
-            quantity: $("#quantity_product_" + product_id).val(),
+//            quantity: $("#quantity_product_" + product_id).val(),
+            quantity: $("#" + elem_id).val(),
             title: title,
             product_id: product_id,
             price_sf: price_sf,
@@ -236,6 +249,7 @@ function Counter() {
                     $("#loading-super").addClass("d-none");
                     $("#btn-plus-product_" + product_id).attr("disabled", true);
                     $("#quantity").val(data.row.quantity)
+                    $("#" + elem_id).focus()
                 }, error: function (xhr, ajaxOptions, thrownError) {
 
                 }
@@ -262,7 +276,7 @@ function Counter() {
                 $("#loading-super").removeClass("d-none");
             },
             success: function (data) {
-                //                $("#content-detail").empty();
+                //                $("#add").empty();
                 if (data.row.quantity > 0) {
                     $("#quantity_product_" + product_id).val(data.row.quantity)
                 } else {
@@ -288,13 +302,9 @@ function Counter() {
     }
 
     this.hideButton = function (e, product_id) {
-        console.log(e)
         if (e.target != this) {
             return;
         }
-        console.log(e);
-        console.log("ingreso");
-
         //        $("#buttonShow_" + product_id).removeClass("d-none")
         //        $("#buttonAdd_" + product_id).addClass("d-none")
 
@@ -361,7 +371,11 @@ function Counter() {
                                                     <div class="input-group-prepend card-customer">
                                                         <span class="input-group-text card-customer" onclick="objCounter.deleteUnit('${row.product_id}','${row.slug}',${index})" style="background-color: #30c594;color:white;cursor: pointer">-</span>
                                                     </div>
-                                                    <input type="text" class="form-control form-control-sm card-customer" id="quantity_${row.product_id}" name="quantity" value="${row.quantity}" type="number">
+                                                    <input type="text" class="form-control form-control-sm card-customer" 
+                                                        id="quantity_${row.product_id}" name="quantity" value="${row.quantity}" 
+                                                        onkeypress="objCounter.addProductEnter(event,'${row.product}',
+                                                                '${row.slug}','${row.product_id}',
+                                                                '${row.price_sf}}','${row.thumbnail}','${row.tax}',this)">
                                                     <div class="input-group-append">
                                                         <span class="input-group-text card-customer" 
                                                                 onclick="objCounter.addProduct('${row.product}',
