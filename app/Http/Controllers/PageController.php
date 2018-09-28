@@ -179,7 +179,7 @@ class PageController extends Controller {
             }
         }
 
-        $products = DB::table("vproducts")->whereNotNull("image")->whereNotNull("thumbnail")->whereIn("category_id", $ids)
+        $products = DB::table("vproducts")->whereNotNull("image")->where("status_id", 1)->whereNotNull("thumbnail")->whereIn("category_id", $ids)
                 ->whereNotNull("warehouse");
         $dietas = array(
             (object) array("id" => 1, "description" => "Paleo", "slug" => "paleo"),
