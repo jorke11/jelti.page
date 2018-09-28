@@ -20,6 +20,8 @@ Route::get('/', 'PageController@index');
 Route::get('myOrders', "Ecommerce\PaymentController@getMyOrders");
 Route::get('coupon', "Ecommerce\PaymentController@showCoupon");
 Route::get('getCoupon', "Ecommerce\PaymentController@getCoupon");
+Route::get('profile', "Administration\ProfileController@index");
+Route::get('data-user', "Administration\ProfileController@getDataUser");
 
 Route::put('/applyDiscount/{coupon_id}', "Ecommerce\PaymentController@updateCoupon");
 Route::get('myFavourite', "Ecommerce\PaymentController@getFavourite");

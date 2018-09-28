@@ -1,24 +1,4 @@
-<div class="icon-social d-none d-lg-block pt-10"  style="padding-top:1%">
-    <div class="row row-space justify-content-center ">
-        <div class="col-lg-2 col-4 pr-0 pl-0">
-            <a href="https://www.facebook.com/superfuds/" target="_blank">
-                <img src="/images/page/facebook.svg" class="img-fluid img-social">
-            </a>
-        </div>
-        <div class="col-lg-2 col-4 pr-0 pl-0">
-            <a href="https://www.instagram.com/superfuds/?hl=es-la" target="_blank"><img src="/images/page/instagram.svg" class="img-fluid img-social"></a>
-        </div>
-        <div class="col-lg-2 col-4 pr-0 pl-0">
-            <a href="https://www.youtube.com/channel/UC4YzleJ0zrgAGHwhV74R_GA/featured" target="_blank"><img src="/images/page/youtube.svg" class="img-fluid img-social"></a>
-        </div>
-        <div class="col-lg-2 col-4 pr-0 pl-0">
-            <a href="https://co.pinterest.com/superfuds/" target="_blank"><img src="/images/page/pinterest.svg" class="img-fluid img-social" ></a>
-        </div>
-        <div class="col-lg-2  col-4 pr-0 pl-0">
-            <a href="https://plus.google.com/112289524335507891140" target="_blank"><img src="/images/page/google.svg" class="img-fluid img-social"></a>
-        </div>
-    </div>
-</div>
+
 
 @auth
 <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
@@ -93,8 +73,9 @@
 
             <li class="nav-item dropdown active">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="title-account" data-toggle="dropdown" 
-                   aria-haspopup="true" aria-expanded="false" >Mi Cuenta</a>
+                   aria-haspopup="true" aria-expanded="false" >{{Auth::user()->name}}</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    <a class="dropdown-item" href="/profile">Mis Datos</a>
                     <a class="dropdown-item" href="/myOrders">Historial Pedidos</a>
                     <a class="dropdown-item" href="/myFavourite">Mis favoritos</a>
                     <a class="dropdown-item" href="/coupon">Cupones</a>
