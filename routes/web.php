@@ -21,6 +21,7 @@ Route::get('myOrders', "Ecommerce\PaymentController@getMyOrders");
 Route::get('coupon', "Ecommerce\PaymentController@showCoupon");
 Route::get('getCoupon', "Ecommerce\PaymentController@getCoupon");
 Route::get('profile', "Administration\ProfileController@index");
+Route::put('profile/update', "Administration\ProfileController@update");
 Route::get('data-user', "Administration\ProfileController@getDataUser");
 
 Route::put('/applyDiscount/{coupon_id}', "Ecommerce\PaymentController@updateCoupon");
@@ -78,3 +79,5 @@ Route::get('confirmation', 'Ecommerce\PseController@confirmation');
 Route::get('voucher', 'Ecommerce\PseController@voucher');
 Route::get('finish-payment', 'Ecommerce\PseController@finishPurchase');
 
+
+Route::get('/api/getCity', 'Administration\SeekController@getCity');

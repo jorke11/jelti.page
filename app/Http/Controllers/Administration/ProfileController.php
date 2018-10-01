@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
 use DB;
+use App\Models\Administration\Parameters;
 
 class ProfileController extends Controller {
 
@@ -38,8 +39,21 @@ class ProfileController extends Controller {
     }
 
     public function getDataUser() {
-        $cli = DB::table("vclient")->where("id", Auth::user()->stakeholder_id)->first();
-        return response()->json($cli);
+        $res["client"] = DB::table("vclient")->where("id", Auth::user()->stakeholder_id)->first();
+        $res["type_person_id"] = Parameters::select("code as id", "description")->where("group", "typeperson")->get();
+        $res["sector_id"] = Parameters::select("code as id", "description")->where("group", "sector")->get();
+        $res["type_regime_id"] = Parameters::select("code as id", "description")->where("group", "typeregimen")->get();
+        $res["type_document_id"] = Parameters::select("code as id", "description")->where("group", "typedocument")->get();
+        $res["type_stakeholder_id"] = Parameters::select("code as id", "description")->where("group", "typestakeholder")->get();
+        return response()->json($res);
+    }
+
+    public function update(Request $req) {
+        $in = $req->all();
+        $stake = \App\Models\Administration\Stakeholder::find($in["id"]);
+        unset($in["document"]);
+        $stake->fill($in)->save();
+        return back()->with("status", "Información modificada");
     }
 
 }
