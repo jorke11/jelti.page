@@ -26,7 +26,9 @@ function Page() {
 //        this.getDataFireStore();
         this.getData();
 
-
+        $("#btn-register").click(function () {
+            $("#myModal").modal("show");
+        })
 
 
         $('#get-checked-data').on('click', function (event) {

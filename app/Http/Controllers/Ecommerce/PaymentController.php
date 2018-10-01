@@ -724,7 +724,7 @@ class PaymentController extends Controller {
                 $host = "api.payulatam.com";
 
 
-                $postData["test"] = "true";
+                $postData["test"] = "false";
 
                 $referenceCode = 'invoice_' . microtime();
 

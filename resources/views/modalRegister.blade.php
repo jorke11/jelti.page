@@ -16,8 +16,8 @@
                             <div class="row row-space justify-content-center">
                                 <div class="col-12">
                                     <div class="row text-center">
-                                        <div class="col-6 title-green" onclick="obj.stakeholder(1, this)" id="title-business" style="cursor:pointer">Negocio</div>
-                                        <div class="col-6" onclick="obj.stakeholder(2, this)" id="title-supplier" style="cursor:pointer">Proveedor</div>
+                                        <div class="col-6 title-green" onclick="objCounter.stakeholder(1, this)" id="title-business" style="cursor:pointer">Negocio</div>
+                                        <div class="col-6" onclick="objCounter.stakeholder(2, this)" id="title-supplier" style="cursor:pointer">Proveedor</div>
                                         <input type="hidden" id="type_stakeholder" name="type_stakeholder" class="in-page">
                                     </div>
                                 </div>
@@ -35,6 +35,11 @@
                             <div class="row row-space">
                                 <div class="col-lg-12">
                                     <input class="form-control in-page" placeholder="Apellido" type="text" name="last_name" id="last_name" required> 
+                                </div>
+                            </div>
+                            <div class="row row-space">
+                                <div class="col-lg-12">
+                                    <input class="form-control in-page" placeholder="Documento" type="text" name="document_client" id="document_client" required> 
                                 </div>
                             </div>
                             <div class="row row-space">

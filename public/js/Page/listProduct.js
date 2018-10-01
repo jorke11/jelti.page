@@ -367,20 +367,7 @@ function listProduct() {
         $("#formSearch").submit();
     }
 
-    this.stakeholder = function (elem_id, elem) {
-        elem_id = elem_id | 1;
-        if (elem_id == 1) {
-            $(elem).addClass("title-green")
-            $("#title-supplier").removeClass("title-green");
-        } else {
-            $(elem).addClass("title-green")
-            $("#title-business").removeClass("title-green");
-        }
-
-        id = elem_id;
-        $("#type_stakeholder").val(id);
-    }
-
+   
     this.eventCategory = function (ref = null, id) {
         ref = (ref == null) ? '' : "-" + ref;
 
