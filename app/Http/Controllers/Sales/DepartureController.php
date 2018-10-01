@@ -730,7 +730,7 @@ class DepartureController extends Controller {
                 if (count($emDetail) > 0) {
                     $this->mails = array();
 
-                    $userware = Users::find($ware->responsible_id);
+                    $userware = \App\Administrator::find($ware->responsible_id);
                     $this->mails[] = $userware->email;
 
                     foreach ($emDetail as $value) {
@@ -742,7 +742,7 @@ class DepartureController extends Controller {
                     $this->subject = "SuperFuds " . date("d/m") . " " . $client->business . " " . $cit->description . " " . $result;
                     $header["city"] = $cit->description;
 
-                    $user = Users::find($header["responsible_id"]);
+                    $user = \App\Administrator::find($header["responsible_id"]);
 
                     $header["name"] = ucwords($user->name);
                     $header["last_name"] = ucwords($user->last_name);

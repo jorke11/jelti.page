@@ -3,7 +3,7 @@
 <div class="container-fluid">
     <div class="row center-block justify-content-center" style="margin-top: 5%">
         <div class="col-6">
-            <h2 class="text-center" style="font-weight: bold;color:#756d6d">TU COMPRA HA SIDO PROCESADO CORRECTAMENTE.</h2>
+            <h2 class="text-center" style="font-weight: bold;color:#756d6d">TU COMPRA HA SIDO PROCESADA CORRECTAMENTE.</h2>
             <h3 class="text-center" style="font-weight: bold;color:#756d6d">GRACIAS POR TU COMPRA.</h3>
         </div>
     </div>

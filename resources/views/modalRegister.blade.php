@@ -39,7 +39,7 @@
                             </div>
                             <div class="row row-space">
                                 <div class="col-lg-12">
-                                    <input class="form-control in-page" placeholder="Documento" type="text" name="document_client" id="document_client" required> 
+                                    <input class="form-control in-page input-number" placeholder="Documento" type="text" name="document_client" id="document_client" required> 
                                 </div>
                             </div>
                             <div class="row row-space">

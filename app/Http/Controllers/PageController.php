@@ -554,8 +554,6 @@ class PageController extends Controller {
             $new = \App\Models\Seller\Prospect::create($in);
         }
 
-//        unset($in["type_stakeholder"]);
-
         $this->mails[] = "jpinedom@hotmail.com";
 
         if ($in["type_stakeholder"] == 3) {

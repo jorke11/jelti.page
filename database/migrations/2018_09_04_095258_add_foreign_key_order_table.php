@@ -13,7 +13,7 @@ class AddForeignKeyOrderTable extends Migration {
      */
     public function up() {
         Schema::table('orders', function (Blueprint $table) {
-            $table->foreign("insert_id")->references("id")->on("users");
+            $table->foreign("insert_id")->references("id")->on("administrators");
         });
     }
 
