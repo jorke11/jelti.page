@@ -120,8 +120,8 @@
                                         foreach ($newproducts as $i => $value) {
                                             ?>
                                             <div class="col-lg-3 col-xs-4 col-md-3 col-6">
-                                                <div class="card" >
-                                                    <img class="card-img-top card-img-product" src="/{{$value->thumbnail}}" alt="Card image cap" onclick="objCounter.redirectProduct('{{$value->slug}}')">
+                                                <div class="card" id="card_{{$value->id}}">
+                                                        <img class="card-img-top card-img-product" src="/{{$value->thumbnail}}" alt="Card image cap" onclick="objCounter.redirectProduct('{{$value->slug}}')">
                                                     <div class="card-body text-center">
                                                         <p class="text-left text-muted " style="margin:0;" >
                                                             <a href="{{url("search/s=".str_slug(strtolower($value->supplier), '-'))}}" class="text-supplier">{{strtoupper($value->supplier)}}</a>
@@ -175,7 +175,8 @@
                                                                     <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
                                                                         <input type="text" id="quantity_new_product_{{$value->id}}" value="{{(isset($value->quantity))?$value->quantity:0}}" class="input-quantity-product input-number"
                                                                                onkeypress="objCounter.addProductEnter(event,'{{$value->short_description}}',
-                                                                             '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_new_product_{{$value->id}}')">
+                                                                               '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}'
+                                                                                           , 'quantity_new_product_{{$value->id}}')">
                                                                     </div>
                                                                     <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
                                                                         <svg id="i-plus" viewBox="0 0 35 35" class="btn-minus-card-product" fill="white" stroke="#ffffff" 
@@ -193,8 +194,8 @@
                                                                         <svg id="i-checkmark" viewBox="0 0 32 32" class="btn-minus-card-product" fill="none" stroke="currentcolor" stroke-linecap="round" 
                                                                              stroke-linejoin="round" stroke-width="4"
                                                                              style="cursor:pointer"
-                                                                             onclick="objCounter.addProductCheck('{{$value->short_description}}',
-                                                                             '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_new_product_{{$value->id}}'); return false;"
+                                                                             onclick="objCounter.addProduct('{{$value->short_description}}',
+                                                                             '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_new_product_{{$value->id}}', 'check'); return false;"
                                                                              >
                                                                         <path d="M2 20 L12 28 30 4" />
                                                                         </svg>
@@ -305,7 +306,7 @@
                                                         </p>
                                                         @endguest
 
-                                                                                                                                                                                                                                                                                                                                                     <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                                                                                                                                                                                                                                                                                                                         <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                                         <div class="row row-center <?php echo (isset($value->quantity_order)) ? '' : 'd-none' ?>" id="buttonAdd_{{$value->id}}" >
                                                             <div class="col-lg-6">
                                                                 <div class="row" style="background-color: #5cb19a;color:white;padding-bottom: 2%;padding-top: 5%;
@@ -320,7 +321,7 @@
                                                                     <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
                                                                         <input type="text" id="quantity_product_{{$value->id}} "class="input-quantity-product input-number" value="{{(isset($value->quantity_order))?$value->quantity_order:0}}"
                                                                                onkeypress="objCounter.addProductEnter(event,'{{$value->short_description}}',
-                                                                             '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}',this)">
+                                                                               '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}', this)">
                                                                     </div>
                                                                     <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
                                                                         <svg id="i-plus" class="btn-minus-card-product" viewBox="0 0 35 35" fill="white" stroke="#ffffff" 

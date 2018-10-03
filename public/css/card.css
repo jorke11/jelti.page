@@ -213,6 +213,10 @@
     border-radius: 10px;   
 }
 
+.card-selected{
+    border:1px solid #5cb19a !important;
+    transition: opacity 2s linear;
+}
 
 @media screen and (max-width: 2000px) {
     #slider-main{

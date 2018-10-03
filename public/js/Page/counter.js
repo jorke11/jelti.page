@@ -186,15 +186,22 @@ function Counter() {
     }
 
 
-    this.addProduct = function (title, slug, product_id, price_sf, img, tax, elem_id) {
+    this.addProduct = function (title, slug, product_id, price_sf, img, tax, elem_id, type = '') {
         var token = $("input[name=_token]").val();
+        let quantity = $("#" + elem_id).val();
+        if (type == '') {
+            type = '';
+            quantity = 1;
+        }
+
         var row = {
-            quantity: 1,
+            quantity: quantity,
             title: title,
             product_id: product_id,
             price_sf: price_sf,
             img: img,
-            tax: tax
+            tax: tax,
+            type: type
         }
 
 
@@ -210,11 +217,18 @@ function Counter() {
                 },
                 success: function (data) {
                     objCounter.setData(data);
+
                     $("#" + elem_id).val(data.row.quantity)
                     $("#quantity_selected_" + product_id).html("Cantidad (" + data.row.quantity + ")")
                     $("#loading-super").addClass("d-none");
                     $("#btn-plus-product_" + product_id).attr("disabled", true);
                     $("#quantity").val(data.row.quantity)
+                    $("#card_" + product_id).addClass("card-selected");
+
+                    setTimeout(function () {
+                        $("#card_" + product_id).removeClass("card-selected")
+                    }, 600);
+
                 }, error: function (xhr, ajaxOptions, thrownError) {
 
                 }
@@ -222,56 +236,14 @@ function Counter() {
             })
         } else {
             $("#modalOptions").modal("show");
-        }
+    }
     }
 
     this.addProductEnter = function (e, title, slug, product_id, price_sf, img, tax, elem_id) {
         var code = (e.keyCode ? e.keyCode : e.which);
 
         if (code == 13) {
-            this.addProductCheck(title, slug, product_id, price_sf, img, tax, elem_id)
-        }
-    }
-
-    this.addProductCheck = function (title, slug, product_id, price_sf, img, tax, elem_id) {
-        var token = $("input[name=_token]").val();
-        var row = {
-//            quantity: $("#quantity_product_" + product_id).val(),
-            quantity: $("#" + elem_id).val(),
-            title: title,
-            product_id: product_id,
-            price_sf: price_sf,
-            img: img,
-            tax: tax,
-            type: 'check'
-        }
-
-
-        if (user_id) {
-            $.ajax({
-                url: PATH + '/addProduct/' + slug,
-                method: 'PUT',
-                headers: {'X-CSRF-TOKEN': token},
-                data: row,
-                beforeSend: function () {
-                    $("#loading-super").removeClass("d-none");
-                    $("#btn-plus-product_" + product_id).attr("disabled", true);
-                },
-                success: function (data) {
-                    objCounter.setData(data);
-                    $("#quantity_product_" + product_id).val(data.row.quantity)
-                    $("#quantity_selected_" + product_id).html("Cantidad (" + data.row.quantity + ")")
-                    $("#loading-super").addClass("d-none");
-                    $("#btn-plus-product_" + product_id).attr("disabled", true);
-                    $("#quantity").val(data.row.quantity)
-                    $("#" + elem_id).focus()
-                }, error: function (xhr, ajaxOptions, thrownError) {
-
-                }
-
-            })
-        } else {
-            $("#modalOptions").modal("show");
+            this.addProduct(title, slug, product_id, price_sf, img, tax, elem_id, 'check')
         }
     }
 
