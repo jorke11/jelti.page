@@ -857,7 +857,7 @@ class PaymentController extends Controller {
                 );
 
 
-                dd($postData);
+//                dd($postData);
 
                 Log::debug("REQUEST TO PAY: " . print_r($postData, true));
                 $data_string = json_encode($postData);
