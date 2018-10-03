@@ -888,6 +888,7 @@ class PaymentController extends Controller {
                     $row = Departures::find($dep->header->id);
                     $row->paid_out = true;
                     $row->type_request = "ecommerce";
+                    $row->status_briefcase_id = 1;
                     $row->save();
 
                     $order->response_payu = json_encode($result);
@@ -901,6 +902,7 @@ class PaymentController extends Controller {
                     $dep = $this->depObj->processDeparture($data_order["header"], $data_order["detail"])->getData();
                     $row = Departures::find($dep->header->id);
                     $row->paid_out = false;
+                    $row->status_briefcase_id = 2;
                     $row->type_request = "ecommerce";
                     $row->save();
 
