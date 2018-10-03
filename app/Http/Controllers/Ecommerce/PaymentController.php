@@ -622,7 +622,6 @@ class PaymentController extends Controller {
         $param["header"]["phone"] = $client->phone;
         $param["header"]["shipping_cost"] = 0;
         $param["header"]["insert_id"] = Auth::user()->id;
-//        $new["type_insert_id"] = 2;
         $param["header"]["order_id"] = $row->id;
         $param["detail"] = $this->formatDetailOrder($row);
         $param["header"]["total"] = $this->total;

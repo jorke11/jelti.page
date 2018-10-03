@@ -161,7 +161,7 @@ function Counter() {
 
     this.stakeholder = function (elem_id, elem) {
         elem_id = elem_id | 1;
-        
+
         if (elem_id == 1) {
             $(elem).addClass("title-green")
             $("#title-supplier").removeClass("title-green");
@@ -186,7 +186,7 @@ function Counter() {
     }
 
 
-    this.addProduct = function (title, slug, product_id, price_sf, img, tax) {
+    this.addProduct = function (title, slug, product_id, price_sf, img, tax, elem_id) {
         var token = $("input[name=_token]").val();
         var row = {
             quantity: 1,
@@ -196,6 +196,7 @@ function Counter() {
             img: img,
             tax: tax
         }
+
 
         if (user_id) {
             $.ajax({
@@ -209,7 +210,7 @@ function Counter() {
                 },
                 success: function (data) {
                     objCounter.setData(data);
-                    $("#quantity_product_" + product_id).val(data.row.quantity)
+                    $("#" + elem_id).val(data.row.quantity)
                     $("#quantity_selected_" + product_id).html("Cantidad (" + data.row.quantity + ")")
                     $("#loading-super").addClass("d-none");
                     $("#btn-plus-product_" + product_id).attr("disabled", true);
@@ -224,18 +225,16 @@ function Counter() {
         }
     }
 
-    this.addProductEnter = function (e, title, slug, product_id, price_sf, img, tax, elem) {
+    this.addProductEnter = function (e, title, slug, product_id, price_sf, img, tax, elem_id) {
         var code = (e.keyCode ? e.keyCode : e.which);
 
         if (code == 13) {
-            var elem_id = $(elem).attr("id");
             this.addProductCheck(title, slug, product_id, price_sf, img, tax, elem_id)
         }
     }
 
     this.addProductCheck = function (title, slug, product_id, price_sf, img, tax, elem_id) {
         var token = $("input[name=_token]").val();
-        console.log(elem_id)
         var row = {
 //            quantity: $("#quantity_product_" + product_id).val(),
             quantity: $("#" + elem_id).val(),
@@ -246,9 +245,6 @@ function Counter() {
             tax: tax,
             type: 'check'
         }
-
-        console.log(row);
-        return false;
 
 
         if (user_id) {
@@ -377,7 +373,7 @@ function Counter() {
                 
                                         <div class="row" card-customer>
                                             <div class="col-3 card-customer">
-                                                <img class="img-fluid"  src="https://superfuds.com/${row.thumbnail}" alt="Card image cap" style="max-width: 160%;cursor:pointer" 
+                                                <img class="img-fluid"  src="/${row.thumbnail}" alt="Card image cap" style="max-width: 160%;cursor:pointer" 
                                                  onclick="objCounter.redirectProduct('${row.slug}')">
                                             </div>
                                             <div class="col-9 card-customer">
