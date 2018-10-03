@@ -116,81 +116,81 @@ function Page() {
 
     }
 
-    this.getDataFirebase = function () {
-
-        if (user_id != undefined) {
-
-            db.child(user_id).on("value", function (snapshots) {
-                var quantity = 0, html = "";
-                snapshots.forEach(doc => {
-
-                    html += `
-                            <div class="row mb-3">
-                                <div class="col-4">
-                                        <img class="img-fluid"  src="${doc.val().img}" alt="Card image cap" >
-                                </div>
-                                <div class="col-8">
-                                    <p>${doc.val().title} <br>
-                                    Precio <b>${obj.formatCurrency(parseInt(doc.val().price), "$")}</b><br>
-                                    Cantidad <b>${doc.val().quantity}</b></p>
-                                </div>
-                            </div>
-                            `;
-
-                    quantity += doc.val().quantity;
-                });
-
-                $("#badge-quantity").html(quantity)
-                $("#popover-content").html(html);
-            });
-        }
-    }
-
-
-    this.getDataFireStore = function () {
+//    this.getDataFirebase = function () {
+//
+//        if (user_id != undefined) {
+//
+//            db.child(user_id).on("value", function (snapshots) {
+//                var quantity = 0, html = "";
+//                snapshots.forEach(doc => {
+//
+//                    html += `
+//                            <div class="row mb-3">
+//                                <div class="col-4">
+//                                        <img class="img-fluid"  src="${doc.val().img}" alt="Card image cap" >
+//                                </div>
+//                                <div class="col-8">
+//                                    <p>${doc.val().title} <br>
+//                                    Precio <b>${obj.formatCurrency(parseInt(doc.val().price), "$")}</b><br>
+//                                    Cantidad <b>${doc.val().quantity}</b></p>
+//                                </div>
+//                            </div>
+//                            `;
+//
+//                    quantity += doc.val().quantity;
+//                });
+//
+//                $("#badge-quantity").html(quantity)
+//                $("#popover-content").html(html);
+//            });
+//        }
+//    }
 
 
-        if (user_id != undefined) {
-
-            db.collection(user_id)
-//                .where("state", "==", "CA")
-                    .onSnapshot(function (querySnapshot) {
-
-                        $("#popover-content").empty();
-
-                        var data = [], html = '', quantity = 0;
-                        querySnapshot.forEach(function (doc) {
-
-                            html += `
-                            <div class="row mb-3">
-                                <div class="col-4">
-                                        <img class="img-fluid"  src="${doc.data().img}" alt="Card image cap" >
-                                </div>
-                                <div class="col-8">
-                                    <p>${doc.data().title} <br>
-                                    Precio <b>${obj.formatCurrency(parseInt(doc.data().price), "$")}</b><br>
-                                    Cantidad <b>${doc.data().quantity}</b></p>
-                                </div>
-                            </div>
-                            `;
-                            quantity += doc.data().quantity;
-                            data.push({title: doc.data().title, img: doc.data().img});
-                        });
-
-                        html += ` <div class="row">
-                                <div class="col-12">
-                                     <form action="/payment" method="GET">
-                                        <button class="btn btn-outline-success my-2 my-sm-0 btn-sm form-control" type="submit">Checkout</button>
-                                    </form>
-                                <div>   
-                            </div>`
-
-                        $("#badge-quantity").html(quantity)
-                        $("#popover-content").html(html);
-                    });
-        }
-
-    }
+//    this.getDataFireStore = function () {
+//
+//
+//        if (user_id != undefined) {
+//
+//            db.collection(user_id)
+////                .where("state", "==", "CA")
+//                    .onSnapshot(function (querySnapshot) {
+//
+//                        $("#popover-content").empty();
+//
+//                        var data = [], html = '', quantity = 0;
+//                        querySnapshot.forEach(function (doc) {
+//
+//                            html += `
+//                            <div class="row mb-3">
+//                                <div class="col-4">
+//                                        <img class="img-fluid"  src="${doc.data().img}" alt="Card image cap" >
+//                                </div>
+//                                <div class="col-8">
+//                                    <p>${doc.data().title} <br>
+//                                    Precio <b>${obj.formatCurrency(parseInt(doc.data().price), "$")}</b><br>
+//                                    Cantidad <b>${doc.data().quantity}</b></p>
+//                                </div>
+//                            </div>
+//                            `;
+//                            quantity += doc.data().quantity;
+//                            data.push({title: doc.data().title, img: doc.data().img});
+//                        });
+//
+//                        html += ` <div class="row">
+//                                <div class="col-12">
+//                                     <form action="/payment" method="GET">
+//                                        <button class="btn btn-outline-success my-2 my-sm-0 btn-sm form-control" type="submit">Checkout</button>
+//                                    </form>
+//                                <div>   
+//                            </div>`
+//
+//                        $("#badge-quantity").html(quantity)
+//                        $("#popover-content").html(html);
+//                    });
+//        }
+//
+//    }
 
     this.formatCurrency = function (n, currency) {
         return currency + " " + n.toFixed(2).replace(/./g, function (c, i, a) {
