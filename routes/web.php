@@ -28,9 +28,8 @@ Route::put('/applyDiscount/{coupon_id}', "Ecommerce\PaymentController@updateCoup
 Route::get('myFavourite', "Ecommerce\PaymentController@getFavourite");
 Route::get('review-pendding', "Administration\CronController@loadPending");
 Route::put('apply-coupon', "Ecommerce\PaymentController@applyCoupon");
-
-
-
+Route::get("/user/activation/{token}", 'Auth\RegisterController@showActivation');
+Route::post("activation", 'Auth\RegisterController@userActivation', ["use" => "activation"]);
 
 
 Route::get('getDetailOrder/{invoice}', "Ecommerce\PaymentController@getInvoice");

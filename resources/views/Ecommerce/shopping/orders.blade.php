@@ -4,12 +4,12 @@
 
 
     <div class="row" style="padding-top: 5%">
-        <div class="col-6 offset-1">
+        <div class="col-5 offset-1">
             <h2>Pedido Actual</h2>
         </div>
     </div>
     <div class="row" style="padding-bottom: 1%;">
-        <div class="col-6 offset-1">
+        <div class="col-5 offset-1">
             <table class="table table-bordered  table-condensed" id="orderClient">
                 <thead>
                     <tr class="table-info">
@@ -42,13 +42,13 @@
     </div>
 
     <div class="row" style="padding-bottom: 1%;padding-top: 1%">
-        <div class="col-6 offset-1">
+        <div class="col-5 offset-1">
             <h2>Tus pedidos</h2>
         </div>
     </div>
 
     <div class="row" style="padding-bottom: 2%;">
-        <div class="col-6 offset-1">
+        <div class="col-5 offset-1">
             <table class="table table-bordered  table-condensed" id="orderClient">
                 <thead>
                     <tr>

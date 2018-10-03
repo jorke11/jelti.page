@@ -20,24 +20,29 @@
                 <a class="nav-link dropdown-toggle title-menu" href="{{url("/")}}" id="title-categories" data-toggle="dropdown" 
                    aria-haspopup="true" aria-expanded="false" >CATEGORIAS</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    @if(isset($categories))
                     @foreach($categories as $val)
                     <a style="color:black" class="dropdown-item" href="{{url("")}}/products/{{$val->slug}}">{{ucwords(strtolower($val->description))}}</a>
                     @endforeach
+                    @endif
                 </div>
             </li>
             <li class="nav-item dropdown" id="menu-category">
                 <a class="nav-link dropdown-toggle title-menu" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
                    aria-haspopup="true" aria-expanded="false" >DIETAS</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    @if(isset($categories))
                     @foreach($dietas as $val)
                     <a class="dropdown-item" href='{{url("search/c=".$val->slug)}}'>{{$val->description}}</a>
                     @endforeach
+                    @endif
                 </div>
             </li>
+            @guest
             <li class="nav-item dropdown" id="menu-category">
                 <a class="nav-link title-menu" href="#" aria-haspopup="true" aria-expanded="false" id="btn-register" >Registrate</a>
-                
             </li>
+            @endguest
         </ul>
 
         <ul class="navbar-nav mr-auto text-center center-image" style="">

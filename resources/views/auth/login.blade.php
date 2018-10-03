@@ -64,6 +64,17 @@
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-md-offset-2 col-lg-offset-2">
+                                @if (Session::has('success'))
+                                <div class="alert alert-success">
+                                    {{Session::get("success")}}
+                                </div>
+                                @endif
+                                @if (Session::has('warning'))
+                                <div class="alert alert-warning">
+                                    {{Session::get("warning")}}
+                                </div>
+                                @endif
+
                                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                     <label for="email" class=" control-label" style='color:rgba(0,0,0,0.8);font-family:"helvetica";font-weight: 600;font-size: 18px'>Correo</label>
 
@@ -100,10 +111,10 @@
                                         </button>
                                     </div>
                                     <div class="col-md-6" style="padding-right: 0">
-                                        <button type="submit" class="btn" 
-                                                style="background-color: transparent; border: 1px solid #5cb19a;color:rgba(0,0,0,0.8);width: 100%;">
+                                        <a href="/register" class="btn" 
+                                           style="background-color: transparent; border: 1px solid #5cb19a;color:rgba(0,0,0,0.8);width: 100%;">
                                             Registrarse
-                                        </button>
+                                        </a>
 
                                     </div>
                                 </div>

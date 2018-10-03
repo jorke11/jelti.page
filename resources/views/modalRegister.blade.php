@@ -28,18 +28,16 @@
                                 </div>
                             </div>
                             <div class="row row-space">
-                                <div class="col-lg-12">
+                                <div class="col-lg-6">
                                     <input class="form-control in-page" placeholder="Nombre" type="text" name="name" id="name" required>
                                 </div>
-                            </div>
-                            <div class="row row-space">
-                                <div class="col-lg-12">
+                                <div class="col-lg-6">
                                     <input class="form-control in-page" placeholder="Apellido" type="text" name="last_name" id="last_name" required> 
                                 </div>
                             </div>
                             <div class="row row-space">
                                 <div class="col-lg-12">
-                                    <input class="form-control in-page input-number" placeholder="Documento" type="text" name="document_client" id="document_client" required> 
+                                    <input class="form-control in-page input-number" placeholder="Nit" type="text" name="document_client" id="document_client" required> 
                                 </div>
                             </div>
                             <div class="row row-space">
@@ -47,11 +45,13 @@
                                     <input class="form-control in-page" placeholder="Email" type="email" name="email" id="email" required>
                                 </div>
                             </div>
-                            <div class="row row-space">
+                            
+<!--                            <div class="row row-space">
                                 <div class="col-lg-12">
                                     <input class="form-control in-page input-number" placeholder="Telefono" type="text" name="phone" id="phone" required>
                                 </div>
-                            </div>
+                            </div>-->
+
                             <div class="row row-space d-none" id="field_make">
                                 <div class="col-lg-12">
                                     <textarea class="form-control in-page" placeholder="Cuentanos que a que te dedicas?" name="what_make" id="what_make"></textarea>
