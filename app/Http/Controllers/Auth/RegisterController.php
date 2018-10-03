@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Hash;
 use Illuminate\Support\Str;
 
+
 class RegisterController extends Controller {
     /*
       |--------------------------------------------------------------------------
@@ -106,7 +107,7 @@ use RegistersUsers;
         return view("Administration.Profile.activation", compact("token"));
     }
 
-    public function userActivation(Request $req) {
+    protected function userActivation(Request $req) {
         $in = $req->all();
         $check = DB::table("users_activations")->where("token", $in["token"])->first();
 
@@ -121,11 +122,14 @@ use RegistersUsers;
         if (!$validator->failed()) {
             $user->status_id = 1;
             $user->save();
-            DB::table("users_activations")->where("token", $in["token"])->delete();
+//            DB::table("users_activations")->where("token", $in["token"])->delete();
             $user->password = Hash::make($in["password"]);
             $user->save();
+
             
-            $this->guard()->login($user);
+            
+
+            $this->guard("admins")->login($user);
 
             return redirect()->to("home")->with("success", "Bienvenido");
         }

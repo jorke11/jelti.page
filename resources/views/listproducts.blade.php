@@ -236,7 +236,7 @@
                             foreach ($products as $value) {
                                 ?>
                                 <div class="col-lg-3 col-6">
-                                    <div class="card text-center">
+                                    <div class="card text-center" id="card_{{$value->id}}">
                                         <img class="card-img-right img-fluid" src="https://superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="objCounter.redirectProduct('{{$value->slug}}')" 
                                              style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                         <div class="card-body" style="padding-bottom: 1.25em;padding-top:0;padding-left: 15px;padding-right: 15px">
@@ -290,10 +290,13 @@
                                                             </svg>
                                                         </div>
                                                         <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
-                                                            <input type="text" id="quantity_product_{{$value->id}}" class="input-quantity-product" value="{{(isset($value->quantity))?$value->quantity:0}}">
+                                                            <input type="text" id="quantity_list_product_{{$value->id}}" class="input-quantity-product" value="{{(isset($value->quantity))?$value->quantity:0}}"
+                                                                   onkeypress="objCounter.addProductEnter(event,'{{$value->short_description}}',
+                                                                               '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}'
+                                                                                           , 'quantity_list_product_{{$value->id}}')">
                                                         </div>
                                                         <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0" onclick="objCounter.addProduct('{{$value->short_description}}',
-                                                             '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}'); return false;">
+                                                             '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_list_product_{{$value->id}}'); return false;">
                                                             <svg id="i-plus" viewBox="0 0 35 35" class="btn-minus-card-product" fill="white" stroke="#ffffff" 
                                                                  stroke-linecap="round" stroke-linejoin="round" stroke-width="4" style="cursor:pointer"
                                                                  >
@@ -308,8 +311,8 @@
                                                             <svg id="i-checkmark" viewBox="0 0 32 32" class="btn-minus-card-product" fill="none" stroke="currentcolor" stroke-linecap="round" 
                                                                  stroke-linejoin="round" stroke-width="4"
                                                                  style="cursor:pointer"
-                                                                 onclick="objCounter.addProductCheck('{{$value->short_description}}',
-                                                                 '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_product_{{$value->id}}'); return false;"
+                                                                 onclick="objCounter.addProduct('{{$value->short_description}}',
+                                                                 '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_list_product_{{$value->id}}'); return false;"
                                                                  >
                                                             <path d="M2 20 L12 28 30 4" />
                                                             </svg>
@@ -319,7 +322,7 @@
                                             </div>
                                             <button class="btn <?php echo (isset($value->quantity)) ? 'd-none' : '' ?>" 
                                                     id="btnOption_{{$value->id}}" onclick="objCounter.showButton('{{$value->short_description}}',
-                                                    '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_product_{{$value->id}}')" 
+                                                    '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_list_product_{{$value->id}}')" 
                                                     style="background-color: #5cb19a;color:white">Agregar</button>
 
                                         </div>
