@@ -118,7 +118,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="alert alert-warning">
-                                    No Hemos encontrado productos relacionados con tu busqueda({{$param}})
+                                    No Tienes productos seleccionados
                                 </div>
                             </div>
                         </div>
