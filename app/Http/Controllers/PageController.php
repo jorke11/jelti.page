@@ -161,7 +161,6 @@ class PageController extends Controller {
     public function productSearch($slug_category) {
         $row_category = Categories::where("slug", $slug_category)->where("type_category_id", 1)->where("node_id", 0)->first();
 
-//        dd($row_category);
         $supplier = DB::table("vsupplier")->where("products", ">", 0)->orderBy("business")->get();
         $categories = DB::table("vcategories")->where("status_id", 1)->where("type_category_id", 1)
                         ->where(function($query) {
@@ -413,7 +412,9 @@ class PageController extends Controller {
         $row_category = array();
         $cat_ids = [];
         if ($param == null) {
-            $products = DB::table("vproducts")->where("status_id", 1)->whereNotNull("characteristic")->where(function($q) {
+            $products = DB::table("vproducts")->where("status_id", 1)
+//                    ->whereNotNull("characteristic")
+                    ->where(function($q) {
                 $q->whereNotNull("image")->whereNotNull("thumbnail");
             });
 
