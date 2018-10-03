@@ -678,7 +678,7 @@ class PaymentController extends Controller {
         try {
             DB::beginTransaction();
             $in = $req->all();
-
+            
             if ((int) date("m") > (int) $in["month"] || (int) date("Y") > (int) $in["year"]) {
                 return back()->with("error", "Fecha vencimiento de tarjeta no es valida")->with("number", $in["number"])
                                 ->with("name_card", $in["name_card"]);
@@ -839,7 +839,7 @@ class PaymentController extends Controller {
                         "securityCode" => $in["crc"],
 //                "expirationDate" => "2019/02",
                         "expirationDate" => $in["expirate"],
-                        "name" => $in["name"]
+                        "name" => $in["name_card"]
                     ],
                     "extraParameters" => [
                         "INSTALLMENTS_NUMBER" => $in["dues"]
@@ -857,7 +857,7 @@ class PaymentController extends Controller {
                 );
 
 
-//                dd($postData);
+                dd($postData);
 
                 Log::debug("REQUEST TO PAY: " . print_r($postData, true));
                 $data_string = json_encode($postData);
@@ -923,10 +923,10 @@ class PaymentController extends Controller {
                     } else {
                         $error = $arr["error"];
                     }
-                    return back()->with("error", $error)->with("number", $in["number"])->with("name", $in["name"]);
+                    return back()->with("error", $error)->with("number", $in["number"])->with("name", $in["name_card"]);
                 }
             } else {
-                return back()->with("error", $error)->with("number", $in["number"])->with("name", $in["name"]);
+                return back()->with("error", $error)->with("number", $in["number"])->with("name", $in["name_card"]);
             }
         } catch (Exception $e) {
             DB::rollback();
