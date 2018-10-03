@@ -6,7 +6,7 @@
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-light main-menu img-fluid img-header " id="main-menu-id" style="height: 150px;padding-bottom:3%">
     <a class="navbar-brand d-lg-none" href="/">
-        <img alt="Brand" src="/images/page/logosuperf.svg" class="img-fluid" width="30%">
+        <img alt="Brand" src="/images/page/logosuperf.svg" class="img-fluid" width="30%" alt="Logo superfuds">
     </a>
 
     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" 
@@ -112,7 +112,7 @@
 </nav>
 
 <a class="go-top" href="#">
-    <img src='{{url("images/boton-subir.png")}}'>
+    <img src='{{url("images/boton-subir.png")}}' alt="btn subir">
 </a>
 
 <div class="d-none" id="popover-content" >

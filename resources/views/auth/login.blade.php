@@ -35,7 +35,7 @@
                                 <div class="row row-center">
                                     <div class="col-12 col-sm-12 ">
                                         <a href="/" >
-                                            <img  src="{{ url('images/page/logosuperf.svg') }}" style="width: 50%" class="center-block">
+                                            <img  src="{{ url('images/page/logosuperf.svg') }}" style="width: 50%" class="center-block" alt="Logo Superfuds">
                                         </a>
                                     </div>
                                 </div>
@@ -48,17 +48,17 @@
                                 <div class="row">
                                     <div class="col-4 col-md-4">
                                         <a href="https://www.facebook.com/superfuds/">
-                                            <img  src="/images/page/facebook.svg" class="center-block">
+                                            <img  src="/images/page/facebook.svg" class="center-block" alt="Logo Facebook">
                                         </a>
                                     </div>
                                     <div class="col-4 col-md-4">
                                         <a href="https://co.pinterest.com/superfuds/">
-                                            <img  src="/images/page/pinterest.svg" class="center-block">
+                                            <img  src="/images/page/pinterest.svg" class="center-block" alt="Logo Pinteres">
                                         </a>
                                     </div>
                                     <div class="col-4 col-md-4">
                                         <a href="https://www.instagram.com/superfuds/?hl=es-la">
-                                            <img  src="/images/page/instagram.png" class="center-block">
+                                            <img  src="/images/page/instagram.png" class="center-block" alt="Logo Instagram">
                                         </a>
                                     </div>
                                 </div>

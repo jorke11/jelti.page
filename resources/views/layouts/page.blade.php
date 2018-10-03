@@ -189,7 +189,7 @@ clearstatcache();
 
         <div class="container-fluid" style="padding-left: 0; padding-right: 0">
             <div id="loading-super" class="d-none" >
-                <img src="{!!asset('images/Gif_final.gif')!!}" width='60%' >
+                <img src="{!!asset('images/Gif_final.gif')!!}" width='60%' alt="git loading">
             </div>
             @include("header")
 
