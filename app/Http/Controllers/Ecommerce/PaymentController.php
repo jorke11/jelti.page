@@ -681,11 +681,16 @@ class PaymentController extends Controller {
             Log::debug("INIT TRANSACCTION");
             $in = $req->all();
 
-            if ((int) date("m") > (int) $in["month"] || (int) date("Y") > (int) $in["year"]) {
-                Log::debug("ERROR DATE AND MONTH");
-                return back()->with("error", "Fecha vencimiento de tarjeta no es valida")->with("number", $in["number"])
-                                ->with("name_card", $in["name_card"]);
+            if ((int) date("Y") >= (int) $in["year"]) {
+                if ((int) date("m") > (int) $in["month"]) {
+                    return back()->with("error", "Fecha vencimiento de tarjeta no es valida")->with("number", $in["number"])
+                                    ->with("name_card", $in["name_card"]);
+                }
             }
+//            if ((int) date("m") > (int) $in["month"] || (int) date("Y") > (int) $in["year"]) {
+//                return back()->with("error", "Fecha vencimiento de tarjeta no es valida")->with("number", $in["number"])
+//                                ->with("name_card", $in["name_card"]);
+//            }
 
 
             $country = $in["country_id"];
@@ -701,18 +706,14 @@ class PaymentController extends Controller {
             $type_card = $this->identifyCard($in["number"], $in["crc"], $in["expirate"]);
 
             $error = '';
-            
-             Log::debug("validate card");
-            
+
+
             if ($type_card["status"] == false) {
-                Log::debug("ERROR " . $type_card["msg"]);
                 $error = $type_card["msg"];
             }
 
-            Log::debug("Before init error");
 
             if ($error == '') {
-                Log::debug("INIT PAYMENT");
                 $deviceSessionId = $in["devicesessionid"];
 
                 //data sandbox
@@ -723,14 +724,14 @@ class PaymentController extends Controller {
 //                $accountId = "512321";
 //                $host = "sandbox.api.payulatam.com";
                 //data Produccion
-                
+
                 $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
                 $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
                 $apiLogin = "tGovZHuhL97hNh7";
                 $merchantId = "559634";
                 $accountId = "562109";
                 $host = "api.payulatam.com";
-                
+
                 $postData["test"] = "false";
 
                 $referenceCode = 'invoice_' . microtime();
@@ -752,8 +753,6 @@ class PaymentController extends Controller {
 
                 $signature = md5($apiKey . "~" . $merchantId . "~" . $referenceCode . "~" . $TX_VALUE . "~" . $currency);
 
-                Log::debug("INIT DATA CLIENT ");
-                Log::debug("DATA CLIENT ".json_decode($client));
                 $buyer_full_name = $client->business;
                 $buyer_email = $client->email;
                 $buyer_document = $client->document;
@@ -938,7 +937,7 @@ class PaymentController extends Controller {
                     return back()->with("error", $error)->with("number", $in["number"])->with("name", $in["name_card"]);
                 }
             } else {
-                Log::debug("With error number");
+                
                 return back()->with("error", $error)->with("number", $in["number"])->with("name", $in["name_card"]);
             }
         } catch (Exception $e) {
