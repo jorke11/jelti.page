@@ -937,7 +937,7 @@ class PaymentController extends Controller {
                     return back()->with("error", $error)->with("number", $in["number"])->with("name", $in["name_card"]);
                 }
             } else {
-                
+
                 return back()->with("error", $error)->with("number", $in["number"])->with("name", $in["name_card"]);
             }
         } catch (Exception $e) {
@@ -969,6 +969,7 @@ class PaymentController extends Controller {
         $header["address"] = $user->stakeholder->address_send;
         $header["phone"] = $user->stakeholder->phone;
         $header["status_id"] = 1;
+        $header["status_briefcase_id"] = 2;
         $header["shipping_cost"] = 0;
         $header["type_request"] = "ecommerce";
 

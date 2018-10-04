@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 use Hash;
 use Illuminate\Support\Str;
 
-
 class RegisterController extends Controller {
     /*
       |--------------------------------------------------------------------------
@@ -83,18 +82,31 @@ use RegistersUsers;
             $valida_mail = DB::table("users")->where("email", $input["email"])->first();
 
             if (is_null($valida_mail)) {
-                $input["role_id"] = 2;
-                $input["status_id"] = 0;
-                $input["password"] = str_random(6);
-                $user = $this->create($input)->toArray();
-                $user["link"] = str_random(30);
-                $user["tmp_password"] = $input["password"];
-                DB::table("users_activations")->insert(["user_id" => $user["id"], "token" => $user["link"]]);
-                Mail::send("Notifications.activation", $user, function($message) use ($user) {
-                    $message->to($user["email"]);
-                    $message->subject("Superfuds - Codigo Activación");
-                });
-                return redirect()->to("login")->with("success", "Se ha enviado el codigo con la activación, por favor revisa tu email");
+                $valida_doc = DB::table("stakeholder")->where("document", $input["document"])->first();
+
+                if (is_null($valida_doc)) {
+
+                    $input["role_id"] = 2;
+                    $input["status_id"] = 0;
+                    $input["password"] = str_random(6);
+                    $user = $this->create($input)->toArray();
+                    $user["link"] = str_random(30);
+                    $user["tmp_password"] = $input["password"];
+                    DB::table("users_activations")->insert(["user_id" => $user["id"], "token" => $user["link"]]);
+                    
+                    $new["business_name"]="";
+                    DB::table("stakeholder")->insert();
+                    
+                    
+                    
+                    Mail::send("Notifications.activation", $user, function($message) use ($user) {
+                        $message->to($user["email"]);
+                        $message->subject("Superfuds - Codigo Activación");
+                    });
+                    return redirect()->to("login")->with("success", "Se ha enviado el codigo con la activación, por favor revisa tu email");
+                } else {
+                    return back()->with("error_email", "¡Documento ya existe en nuestro sistema!");
+                }
             } else {
                 return back()->with("error_email", "¡Email ya existe en nuestro sistema!");
             }
@@ -126,8 +138,8 @@ use RegistersUsers;
             $user->password = Hash::make($in["password"]);
             $user->save();
 
-            
-            
+
+
 
             $this->guard("admins")->login($user);
 
