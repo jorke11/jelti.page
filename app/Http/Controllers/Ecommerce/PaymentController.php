@@ -682,6 +682,7 @@ class PaymentController extends Controller {
             $in = $req->all();
 
             if ((int) date("m") > (int) $in["month"] || (int) date("Y") > (int) $in["year"]) {
+                Log::debug("ERROR DATE AND MONTH");
                 return back()->with("error", "Fecha vencimiento de tarjeta no es valida")->with("number", $in["number"])
                                 ->with("name_card", $in["name_card"]);
             }
