@@ -32,12 +32,14 @@ use Cookie;
 //use Google\Cloud\Firestore\DocumentSnapshot;
 //use Google\Cloud\Firestore\QuerySnapshot;
 use App\Traits\Invoice;
+use App\Traits\InformationClient;
 use App\Http\Controllers\Inventory\StockController;
 
 class PaymentController extends Controller {
 
     use ValidateCreditCard;
     use Invoice;
+    use InformationClient;
 
     public $depObj;
     public $merchantId;
@@ -97,7 +99,6 @@ class PaymentController extends Controller {
             return back()->with("error", "No tienes Items Seleccionados");
         }
 
-
         $month = $this->getMonts();
         $years = $this->getYears();
 
@@ -115,6 +116,11 @@ class PaymentController extends Controller {
 
         $categories = $this->categories;
         $client = Stakeholder::where("document", Auth::user()->document)->first();
+        $errors = $this->informationRequired($client);
+
+        if (count($errors) > 0) {
+            return redirect()->to("/profile")->with("error", $errors);
+        }
 
         $deviceSessionId = md5(session_id() . microtime());
         $deviceSessionId_concat = $deviceSessionId . "80200";
@@ -537,7 +543,7 @@ class PaymentController extends Controller {
         $deviceSessionId = md5(session_id() . microtime());
 
         $data["categories"] = $this->categories;
-        
+
         $data["id"] = 0;
         $data["term"] = 2;
 //        $data["term"] = $data["client"]->term;

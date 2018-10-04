@@ -11,6 +11,7 @@ use Mail;
 use Illuminate\Http\Request;
 use Hash;
 use Illuminate\Support\Str;
+use App\Traits\InformationClient;
 
 class RegisterController extends Controller {
     /*
@@ -25,6 +26,7 @@ class RegisterController extends Controller {
      */
 
 use RegistersUsers;
+    use InformationClient;
 
     /**
      * Where to redirect users after registration.
@@ -96,9 +98,11 @@ use RegistersUsers;
 
                     //id yeni ruiz
                     $new["responsible_id"] = 184;
-                    
+
                     $new["login_web"] = true;
                     $new["document"] = $input["document"];
+                    $new["verification"] = $this->numberVerification($input["document"]);
+                    $new["type_document"] = 1;
                     $new["business"] = $input["business_name"];
                     $new["business_name"] = $input["name"] . " " . $input["last_name"];
                     $new["user_insert"] = $user["id"];
@@ -107,7 +111,10 @@ use RegistersUsers;
                     $new["term"] = 1;
                     $new["email"] = $input["email"];
 
-                    DB::table("stakeholder")->insert($new);
+                    $stake = DB::table("stakeholder")->insert($new);
+
+                    $user->stakeholder_id = $stake->id;
+                    $user->save();
 
                     Mail::send("Notifications.activation", $user, function($message) use ($user) {
                         $message->to($user["email"]);
@@ -144,12 +151,9 @@ use RegistersUsers;
         if (!$validator->failed()) {
             $user->status_id = 1;
             $user->save();
-//            DB::table("users_activations")->where("token", $in["token"])->delete();
+            DB::table("users_activations")->where("token", $in["token"])->delete();
             $user->password = Hash::make($in["password"]);
             $user->save();
-
-
-
 
             $this->guard("admins")->login($user);
 

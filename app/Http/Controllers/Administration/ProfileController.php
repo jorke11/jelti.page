@@ -7,8 +7,11 @@ use App\Http\Controllers\Controller;
 use Auth;
 use DB;
 use App\Models\Administration\Parameters;
+use \App\Traits\InformationClient;
 
 class ProfileController extends Controller {
+
+    use InformationClient;
 
     public $dietas;
     public $categories;
@@ -40,6 +43,12 @@ class ProfileController extends Controller {
 
     public function getDataUser() {
         $res["client"] = DB::table("vclient")->where("id", Auth::user()->stakeholder_id)->first();
+        $fields_pending = $this->informationRequired(\App\Models\Administration\Stakeholder::find(Auth::user()->stakeholder_id));
+
+        $res["client_pending"] = [
+            "fields" => $fields_pending,
+            'avg' => 100 - round((count($fields_pending) / 7) * 100)
+        ];
         $res["type_person_id"] = Parameters::select("code as id", "description")->where("group", "typeperson")->get();
         $res["sector_id"] = Parameters::select("code as id", "description")->where("group", "sector")->get();
         $res["type_regime_id"] = Parameters::select("code as id", "description")->where("group", "typeregimen")->get();
@@ -52,6 +61,7 @@ class ProfileController extends Controller {
         $in = $req->all();
         $stake = \App\Models\Administration\Stakeholder::find($in["id"]);
         unset($in["document"]);
+        $in["send_city_id"] = $in["city_id"];
         $stake->fill($in)->save();
         return back()->with("status", "Información modificada");
     }

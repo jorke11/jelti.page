@@ -109,7 +109,7 @@ class SeekController extends Controller {
                             ->orWhere("business_name", "ILIKE", "%" . $this->in["q"] . "%")
                             ->orWhere("document", "ILIKE", "%" . $this->in["q"] . "%");
                 });
-                $query->where("type_stakeholder", 1);
+                $query->where(DB::raw("type_stakeholder::text"), '%1%');
 //                        ->whereNull("exclude_report");
             }
 
@@ -134,7 +134,7 @@ class SeekController extends Controller {
                     ->get();
         }
 
-        $result = $query->where("type_stakeholder", 2)
+        $result = $query->where(DB::raw("type_stakeholder::text"), '%2%')
 //                ->where("status_id", 1)
                 ->get();
 //        $result = $query->where("type_stakeholder", 2)->get();
@@ -346,7 +346,7 @@ class SeekController extends Controller {
 //        $query->whereNull("type_product_id");
 
         $result = $query->get();
-        
+
         return response()->json(['items' => $result, "pages" => count($result)]);
     }
 

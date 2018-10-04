@@ -33,7 +33,6 @@ class Stakeholder extends Model {
         "type_regime_id",
         "type_person_id",
         "type_document",
-        "type_stakeholder",
         "business_name",
         "business",
         "lead_time",
