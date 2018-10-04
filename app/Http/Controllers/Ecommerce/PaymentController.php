@@ -121,7 +121,7 @@ class PaymentController extends Controller {
 
         $dietas = $this->dietas;
 
-        return view("Ecommerce.payment.init", compact("id", "categories", "client", "month", "years", "total", "countries", "subtotal", "deviceSessionId", "deviceSessionId_concat", "term", "dietas","order"));
+        return view("Ecommerce.payment.init", compact("id", "categories", "client", "month", "years", "total", "countries", "subtotal", "deviceSessionId", "deviceSessionId_concat", "term", "dietas", "order"));
     }
 
     public function getProduct($id) {
@@ -675,10 +675,12 @@ class PaymentController extends Controller {
 
     public function payment(Request $req) {
 //        dd($_SERVER["HTTP_USER_AGENT"]);
+        Log::debug("METHOD PAYMENT");
         try {
             DB::beginTransaction();
+            Log::debug("INIT TRANSACCTION");
             $in = $req->all();
-            
+
             if ((int) date("m") > (int) $in["month"] || (int) date("Y") > (int) $in["year"]) {
                 return back()->with("error", "Fecha vencimiento de tarjeta no es valida")->with("number", $in["number"])
                                 ->with("name_card", $in["name_card"]);
@@ -700,11 +702,14 @@ class PaymentController extends Controller {
             $error = '';
 
             if ($type_card["status"] == false) {
+                Log::debug("ERROR " . $type_card["msg"]);
                 $error = $type_card["msg"];
             }
 
-            if ($error == '') {
 
+
+            if ($error == '') {
+                Log::debug("INIT PAYMENT");
                 $deviceSessionId = $in["devicesessionid"];
 
                 //data sandbox
@@ -744,6 +749,8 @@ class PaymentController extends Controller {
 
                 $signature = md5($apiKey . "~" . $merchantId . "~" . $referenceCode . "~" . $TX_VALUE . "~" . $currency);
 
+                
+                Log::debug("DATA CLIENT ".$client);
                 $buyer_full_name = $client->business;
                 $buyer_email = $client->email;
                 $buyer_document = $client->document;
@@ -1013,11 +1020,12 @@ class PaymentController extends Controller {
 
         return response()->json(["status" => true, "order" => $id]);
     }
+
     public function applyCoupon(Request $req) {
         $input = $req->all();
         dd($input);
-        
-        
+
+
         return response()->json(["status" => true, "order" => $id]);
     }
 
