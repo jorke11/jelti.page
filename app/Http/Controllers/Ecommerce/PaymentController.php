@@ -700,13 +700,15 @@ class PaymentController extends Controller {
             $type_card = $this->identifyCard($in["number"], $in["crc"], $in["expirate"]);
 
             $error = '';
-
+            
+             Log::debug("validate card");
+            
             if ($type_card["status"] == false) {
                 Log::debug("ERROR " . $type_card["msg"]);
                 $error = $type_card["msg"];
             }
 
-
+            Log::debug("Before init error");
 
             if ($error == '') {
                 Log::debug("INIT PAYMENT");
@@ -727,7 +729,7 @@ class PaymentController extends Controller {
                 $merchantId = "559634";
                 $accountId = "562109";
                 $host = "api.payulatam.com";
-
+                
                 $postData["test"] = "false";
 
                 $referenceCode = 'invoice_' . microtime();
@@ -935,6 +937,7 @@ class PaymentController extends Controller {
                     return back()->with("error", $error)->with("number", $in["number"])->with("name", $in["name_card"]);
                 }
             } else {
+                Log::debug("With error number");
                 return back()->with("error", $error)->with("number", $in["number"])->with("name", $in["name_card"]);
             }
         } catch (Exception $e) {
