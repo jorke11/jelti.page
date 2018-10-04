@@ -537,9 +537,11 @@ class PaymentController extends Controller {
         $deviceSessionId = md5(session_id() . microtime());
 
         $data["categories"] = $this->categories;
-
+        
         $data["id"] = 0;
-        $data["term"] = $data["client"]->term;
+        $data["term"] = 2;
+//        $data["term"] = $data["client"]->term;
+
         $data["total"] = "$ 0";
         $data["subtotal"] = "$ 0";
 
@@ -550,7 +552,8 @@ class PaymentController extends Controller {
         if ($detail) {
 
             $data["id"] = $order->id;
-            $data["term"] = $data["client"]->term;
+//            $data["term"] = $data["client"]->term;
+            $data["term"] = 2;
             $data["total"] = "$" . number_format($this->total, 0, ",", ".");
             $data["subtotal"] = "$" . number_format($this->subtotal, 0, ",", ".");
         }

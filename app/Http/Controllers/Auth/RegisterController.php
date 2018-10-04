@@ -93,12 +93,22 @@ use RegistersUsers;
                     $user["link"] = str_random(30);
                     $user["tmp_password"] = $input["password"];
                     DB::table("users_activations")->insert(["user_id" => $user["id"], "token" => $user["link"]]);
+
+                    //id yeni ruiz
+                    $new["responsible_id"] = 184;
                     
-                    $new["business_name"]="";
-                    DB::table("stakeholder")->insert();
-                    
-                    
-                    
+                    $new["login_web"] = true;
+                    $new["document"] = $input["document"];
+                    $new["business"] = $input["business_name"];
+                    $new["business_name"] = $input["name"] . " " . $input["last_name"];
+                    $new["user_insert"] = $user["id"];
+                    $new["status_id"] = 2;
+                    $new["type_stakeholder_id"] = json_encode([1]);
+                    $new["term"] = 1;
+                    $new["email"] = $input["email"];
+
+                    DB::table("stakeholder")->insert($new);
+
                     Mail::send("Notifications.activation", $user, function($message) use ($user) {
                         $message->to($user["email"]);
                         $message->subject("Superfuds - Codigo Activación");
