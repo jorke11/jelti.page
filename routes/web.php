@@ -23,6 +23,7 @@ Route::get('getCoupon', "Ecommerce\PaymentController@getCoupon");
 Route::get('profile', "Administration\ProfileController@index");
 Route::put('profile/update', "Administration\ProfileController@update");
 Route::get('data-user', "Administration\ProfileController@getDataUser");
+Route::get('type-document', "Administration\ProfileController@getTypeDocument");
 
 Route::put('/applyDiscount/{coupon_id}', "Ecommerce\PaymentController@updateCoupon");
 Route::get('myFavourite', "Ecommerce\PaymentController@getFavourite");

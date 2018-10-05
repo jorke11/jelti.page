@@ -1,10 +1,25 @@
 function Profile() {
-    var client = {};
+    var client = {}, type_document = [];
     this.init = function () {
         $("#btn-edit").click(function () {
             $("#form-info").addClass("d-none")
             $("#form-input").removeClass("d-none")
             $(".form-profile").setFields({data: client})
+
+        })
+
+        $("#btn-show-upload").click(function () {
+            $.ajax({
+                url: 'type-document',
+                method: 'GET',
+                success: function (data) {
+                    $("#typedocument_id").fillSelect(data)
+                    $("#myModalUpload").modal("show");
+                }
+            })
+
+
+
 
         })
 
@@ -21,12 +36,12 @@ function Profile() {
 
                 if (data.client_pending.avg == 100) {
                     $("#progress-info").addClass("d-none");
-                }else{
+                } else {
                     $("#progress-info").removeClass("d-none");
                 }
 
                 $("#info-complete").html(data.client_pending.avg + "%").css("width", data.client_pending.avg + "%");
-                
+
 
 
                 $(".form-label").each(function () {
@@ -37,6 +52,8 @@ function Profile() {
                         }
                     })
                 });
+
+                type_document = data.type_document_id;
 
                 $("#sector_id").fillSelect(data.sector_id);
                 $("#type_document_id").fillSelect(data.type_document_id);

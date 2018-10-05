@@ -101,7 +101,7 @@
                                     </tr>
                                     <tr>
                                         <?php
-                                        if ($data["transactionState"] != 4 || $data["transactionState"] != 7) {
+                                        if ($data["transactionState"] != 4 && $data["transactionState"] != 7) {
                                             ?>
                                             <td><a href="/pse" class="btn btn-info">Reintentar Transacción</a></td>
                                             <?php

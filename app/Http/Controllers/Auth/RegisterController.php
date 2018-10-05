@@ -68,6 +68,7 @@ use RegistersUsers;
         return User::create([
                     'name' => $data['name'],
                     'email' => $data['email'],
+                    'document' => $data['document'],
                     'password' => bcrypt($data['password']),
                     'role_id' => $data['role_id'],
                     'status_id' => $data['status_id'],
@@ -111,10 +112,11 @@ use RegistersUsers;
                     $new["term"] = 1;
                     $new["email"] = $input["email"];
 
-                    $stake = DB::table("stakeholder")->insert($new);
-
-                    $user->stakeholder_id = $stake->id;
-                    $user->save();
+                    DB::table("stakeholder")->insert($new);
+                    $stake = \App\Models\Administration\Stakeholder::where("document", $input["document"])->first();
+                    $users = \App\Models\Security\Users::find($user["id"]);
+                    $users->stakeholder_id = $stake->id;
+                    $users->save();
 
                     Mail::send("Notifications.activation", $user, function($message) use ($user) {
                         $message->to($user["email"]);

@@ -365,6 +365,9 @@ class PseController extends Controller {
 
     public function confirmation() {
         $data = $_GET;
+        
+        
+        
         $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
 
 

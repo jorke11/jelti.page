@@ -9,6 +9,20 @@
         </div>
     </div>
     @endif
+    @if(Session::has("error"))
+    <div class="row row-center" >
+        <div class="col-5">
+            <div class="alert alert-warning">{{Session::get("error")}}</div>
+        </div>
+    </div>
+    @endif
+    @if(Session::has("error_profile"))
+    <div class="row row-center" >
+        <div class="col-5">
+            <div class="alert alert-warning">{{Session::get("error_profile")}}</div>
+        </div>
+    </div>
+    @endif
 
     <div class="row">
         <div class="col-6" style="padding-left: 3%">
@@ -232,7 +246,12 @@
         <div class="col-6">
             <div class="row">
                 <div class="col-12">
-                    <h2>Documentos</h2>
+                    <h2>Documentos 
+                        <button class="btn btn-info btn-sm" id="btn-show-upload">
+                            <svg id="i-upload" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                            <path d="M9 22 C0 23 1 12 9 13 6 2 23 2 22 10 32 7 32 23 23 22 M11 18 L16 14 21 18 M16 14 L16 29" />
+                            </svg>
+                        </button></h2>
                     <ul class="list-group">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             Cras justo odio
@@ -253,5 +272,6 @@
         </div>
     </div>
 </div>
+@include("Administration.Profile.modalUpload")
 {!!Html::script('js/Ecommerce/Profile.js')!!}
 @endsection

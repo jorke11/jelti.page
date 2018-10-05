@@ -56,7 +56,11 @@ class ProfileController extends Controller {
         $res["type_stakeholder_id"] = Parameters::select("code as id", "description")->where("group", "typestakeholder")->get();
         return response()->json($res);
     }
-
+    public function getTypeDocument() {
+        $res = Parameters::select("code as id", "description")->where("group", "type_document_upload")->get();
+        return response()->json($res);
+    }
+    
     public function update(Request $req) {
         $in = $req->all();
         $stake = \App\Models\Administration\Stakeholder::find($in["id"]);

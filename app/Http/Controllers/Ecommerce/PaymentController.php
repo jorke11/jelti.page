@@ -115,11 +115,14 @@ class PaymentController extends Controller {
         $deviceSessionId_concat = $data["deviceSessionId_concat"];
 
         $categories = $this->categories;
+        
+        
         $client = Stakeholder::where("document", Auth::user()->document)->first();
+        
         $errors = $this->informationRequired($client);
 
         if (count($errors) > 0) {
-            return redirect()->to("/profile")->with("error", $errors);
+            return redirect()->to("/profile")->with("error_profile","Para completar la compra Necesitamos que completes la informacion con *");
         }
 
         $deviceSessionId = md5(session_id() . microtime());
