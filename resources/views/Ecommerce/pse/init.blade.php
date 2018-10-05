@@ -105,7 +105,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label for="tgarjeta">Banco *</label>
-                                                <select id="bank" name="bank" class="form-control form-control-sm" >
+                                                <select id="bank" name="bank" class="form-control form-control-sm" required="">
                                                     @foreach($banks as $val)
                                                     <option value="{{$val["pseCode"]}}">{{$val["description"]}}</option>
                                                     @endforeach
@@ -116,7 +116,7 @@
                                             <div class="form-group">
                                                 <label for="tgarjeta">Nombre del títular *</label>
                                                 <input type="text" class="form-control form-control-sm input input-payment input-alpha" id="name_headline" name="name_headline" placeholder="Nombre del títular" required autocomplete="off" maxlength="150"
-                                                       value="{{Session::get('name')}}">
+                                                       value="{{Session::get('name_headline')}}">
                                             </div>
                                         </div>
                                     </div>
@@ -148,7 +148,8 @@
                                                 <div class="col-7">
                                                     <div class="form-group">
                                                         <label for="tgarjeta">Documento de Identificación</label>
-                                                        <input type="text" class="form-control input input-payment input-number form-control-sm" id="document" name="document" placeholder="Documento de Identificación">
+                                                        <input type="text" class="form-control input input-payment input-number form-control-sm" id="document" name="document" placeholder="Documento de Identificación"
+                                                               value="{{Session::get('document')}}">
                                                     </div>
                                                 </div>
                                             </div>
