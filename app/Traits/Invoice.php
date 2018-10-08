@@ -253,11 +253,11 @@ trait Invoice {
         }
     }
 
-//    public function logClient($client_id, $comment) {
-//        $in["user_id"] = Auth::user()->id;
-//        $in["stakeholder_id"] = $client_id;
-//        $in["description"] = $comment;
-//        Comment::create($in);
-//    }
+    public function logClient($client_id, $comment) {
+        $in["user_id"] = Auth::user()->id;
+        $in["stakeholder_id"] = $client_id;
+        $in["description"] = $comment;
+        Comment::create($in);
+    }
 
 }
