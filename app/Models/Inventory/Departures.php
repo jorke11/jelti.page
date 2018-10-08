@@ -46,4 +46,32 @@ class Departures extends Model {
         return $this->belongsTo(Orders::class);
     }
 
+    public function detail() {
+        return $this->hasMany(DeparturesDetail::class, "departure_id");
+    }
+
+    public function warehouse() {
+        return $this->hasOne(\App\Models\Administration\Warehouses::class, "id", "warehouse_id");
+    }
+
+    public function cityOrigin() {
+        return $this->hasOne(\App\Models\Administration\Cities::class, "id", "city_id");
+    }
+
+    public function cityDelivery() {
+        return $this->hasOne(\App\Models\Administration\Cities::class, "id", "destination_id");
+    }
+
+    public function commercial() {
+        return $this->hasOne(\App\Administrator::class, "id", "responsible_id");
+    }
+
+    public function client() {
+        return $this->hasOne(\App\Models\Administration\Stakeholder::class, "id", "client_id");
+    }
+
+    public function branch_office() {
+        return $this->hasOne(\App\Models\Administration\Branch::class, "id", "branch_id");
+    }
+
 }

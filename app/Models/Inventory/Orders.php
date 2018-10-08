@@ -14,7 +14,10 @@ class Orders extends Model {
         "response_payu",
         "daparture_id",
         "discount",
-        "status_id"
+        "status_id",
+        "referencecode",
+        "last_executed",
+        "amounted_consulted"
     ];
     protected $casts = [
         'response_payu' => 'array'

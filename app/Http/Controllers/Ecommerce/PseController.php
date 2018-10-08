@@ -10,6 +10,7 @@ use App\Models\Security\Users;
 use App\Models\Administration\Categories;
 use Auth;
 use App\Traits\Invoice;
+use App\Traits\Payment;
 use Log;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\Sales\DepartureController;
@@ -19,6 +20,7 @@ use DB;
 class PseController extends Controller {
 
     use Invoice;
+    use Payment;
 
     public $depObj;
     public $oayObj;
@@ -212,6 +214,16 @@ class PseController extends Controller {
 
     public function payment(Request $req) {
         $in = $req->all();
+
+        if ($in["bank"] == 0) {
+            return back()->with("error", "Selecciona el Banco")
+                            ->with("name_headline", $in["name_headline"])
+                            ->with("type_document", $in["type_document"])
+                            ->with("document", $in["document"])
+                            ->with("phone_headline", $in["phone_headline"])
+                            ->with("type_client", $in["type_client"]);
+        }
+
         $client = Stakeholder::where("email", Auth::user()->email)->first();
         $country = $in["country_id"];
 
@@ -221,6 +233,7 @@ class PseController extends Controller {
 //        $apiLogin = "pRRXKOl8ikMmt9u";
 //        $merchantId = 508029;
 //        $accountId = 512321;
+//        $url_response = 'http://localhost:8000/confirmation';
 
         $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
         $host = "api.payulatam.com";
@@ -228,35 +241,13 @@ class PseController extends Controller {
         $apiLogin = "tGovZHuhL97hNh7";
         $merchantId = "559634";
         $accountId = "562109";
-
-
-//        $url_response = 'http://localhost:8000/confirmation';
         $url_response = 'https://superfuds.com/confirmation';
 
-        /* if ($this->test) {
+        
+        $data_order = $this->createOrder();
+        $referenceCode = 'order_id_' . $data_order["header"]["order_id"];
 
-          $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
-          $host="sandbox.api.payulatam.com";
-          $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
-          $apiLogin = "pRRXKOl8ikMmt9u";
-          $merchantId = 508029;
-          $accountId = 512321;
-          $url_response='http://localhost:8000/confirmation';
-          } else {
-          $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
-          $host="api.payulatam.com";
-          $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
-          $apiLogin = "tGovZHuhL97hNh7";
-          $merchantId = "559634";
-          $accountId = "562109";
-          $url_response ='https://superfuds.com/confirmation';
-          } */
-
-        $referenceCode = 'invoice_' . microtime();
         $currency = "COP";
-
-
-        $data_order = $this->payObj->createOrder();
 
         $TX_VALUE = round($data_order["header"]["total"]);
         $TX_TAX = 0;
@@ -352,6 +343,10 @@ class PseController extends Controller {
 
         if ($arr["code"] == 'SUCCESS') {
             if ($arr["transactionResponse"]["pendingReason"] == 'AWAITING_NOTIFICATION') {
+                $order = Orders::find($data_order["header"]["order_id"]);
+                $order->referencecode = $referenceCode;
+                $order->status_id = 3;
+                $order->save();
                 return Redirect::to($arr["transactionResponse"]["extraParameters"]["BANK_URL"]);
             } else {
                 echo "No paso de response";
@@ -365,9 +360,6 @@ class PseController extends Controller {
 
     public function confirmation() {
         $data = $_GET;
-        
-        
-        
         $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
 
 
@@ -418,7 +410,7 @@ class PseController extends Controller {
             $data["state"] = "Transacción fallida";
         } else if (($data["polTransactionState"] == 12 || $data["polTransactionState"] == 14) && $data["polResponseCode"] >= 25) {
             $data["state"] = "Transacción pendiente, por favor revisar si el débito fue realizado en el banco.";
-        }else{
+        } else {
             $data["state"] = "Transacción cancelada.";
         }
 
@@ -428,32 +420,32 @@ class PseController extends Controller {
         return view("Ecommerce.pse.confirmation", compact("data", "categories", "dietas"));
     }
 
-    public function createOrder() {
-        $row = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
-        $user = Users::find(Auth::user()->id);
-
-        $client = Stakeholder::find($user->stakeholder_id);
-
-        $param["header"]["warehouse_id"] = 3;
-        $param["header"]["responsible_id"] = 1;
-        $param["header"]["city_id"] = $client->city_id;
-        $param["header"]["created"] = date("Y-m-d H:i");
-        $param["header"]["status_id"] = 1;
-        $param["header"]["client_id"] = $user->stakeholder_id;
-        $param["header"]["destination_id"] = $client->city_id;
-        $param["header"]["address"] = $client->address_send;
-        $param["header"]["phone"] = $client->phone;
-        $param["header"]["shipping_cost"] = 0;
-        $param["header"]["insert_id"] = Auth::user()->id;
-//        $new["type_insert_id"] = 2;
-        $param["header"]["order_id"] = $row->id;
-        $param["detail"] = $this->formatDetailOrder($row);
-        $param["header"]["total"] = $this->total;
-        $param["header"]["tax19"] = $this->tax19;
-        $param["header"]["tax5"] = $this->tax5;
-//        
-        return $param;
-    }
+//    public function createOrder() {
+//        $row = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
+//        $user = Users::find(Auth::user()->id);
+//
+//        $client = Stakeholder::find($user->stakeholder_id);
+//
+//        $param["header"]["warehouse_id"] = 3;
+//        $param["header"]["responsible_id"] = 1;
+//        $param["header"]["city_id"] = $client->city_id;
+//        $param["header"]["created"] = date("Y-m-d H:i");
+//        $param["header"]["status_id"] = 1;
+//        $param["header"]["client_id"] = $user->stakeholder_id;
+//        $param["header"]["destination_id"] = $client->city_id;
+//        $param["header"]["address"] = $client->address_send;
+//        $param["header"]["phone"] = $client->phone;
+//        $param["header"]["shipping_cost"] = 0;
+//        $param["header"]["insert_id"] = Auth::user()->id;
+////        $new["type_insert_id"] = 2;
+//        $param["header"]["order_id"] = $row->id;
+//        $param["detail"] = $this->formatDetailOrder($row);
+//        $param["header"]["total"] = $this->total;
+//        $param["header"]["tax19"] = $this->tax19;
+//        $param["header"]["tax5"] = $this->tax5;
+////        
+//        return $param;
+//    }
 
     public function finishPurchase() {
         $data = $_GET;
