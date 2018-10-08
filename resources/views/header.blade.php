@@ -82,7 +82,7 @@
 
             <li class="nav-item dropdown active">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="title-account" data-toggle="dropdown" 
-                   aria-haspopup="true" aria-expanded="false" >{{Auth::user()->name}}</a>
+                   aria-haspopup="true" aria-expanded="false" >{{substring(Auth::user()->name,0,12)}}</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <a class="dropdown-item" href="/profile">Mis Datos</a>
                     <a class="dropdown-item" href="/myOrders">Historial Pedidos</a>
