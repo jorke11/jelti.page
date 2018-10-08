@@ -201,7 +201,7 @@ class ShoppingController extends Controller {
                 $slug_cat = $category_f->slug;
                 $description = $category_f->description;
             }
-
+            
             $breadcrumbs = "<a href='/'>Home</a> / <a href='/products/" . str_slug($description) . "'>" . ucwords(strtolower($description)) . "</a> / $slug";
 
             $product = DB::table("vproducts")->where("vproducts.id", $product->id);
