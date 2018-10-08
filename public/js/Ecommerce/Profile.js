@@ -1,6 +1,9 @@
 function Profile() {
-    var client = {}, type_document = [];
+    var client = {}, type_document = [], token;
     this.init = function () {
+
+        token = $("input[name=_token]").val();
+
         $("#btn-edit").click(function () {
             $("#form-info").addClass("d-none")
             $("#form-input").removeClass("d-none")
@@ -13,17 +16,69 @@ function Profile() {
                 url: 'type-document',
                 method: 'GET',
                 success: function (data) {
-                    $("#typedocument_id").fillSelect(data)
+                    $("#document_id").fillSelect(data)
+                    $("#frmUpload #stakeholdel_id").val($("#frmProfile #id").val())
                     $("#myModalUpload").modal("show");
+
                 }
             })
+        });
 
-
-
-
+        $("#btn-upload").click(function () {
+            var formData = new FormData($("#frmUpload")[0]);
+            $.ajax({
+                url: 'upload-document',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                cache: false,
+                contentType: false,
+                dataType: 'JSON',
+                beforeSend: function () {
+                    $(".cargando").removeClass("hidden");
+                },
+                success: function (data) {
+                    objProfile.listDocument(data);
+                    $("#myModalUpload").modal("hide");
+                }, error: function (xhr, ajaxOptions, thrownError) {
+                    //clearInterval(intervalo);
+                    console.log(thrownError)
+                    alert("Problemas con el archivo, informar a sistemas");
+                }
+            });
         })
 
         this.getInfo()
+    }
+
+    this.listDocument = function (data) {
+        $("#table-documents tbody").empty();
+        var html = '';
+        data.forEach(val => {
+            html += ` 
+            <tr>
+                    <td>${val.description}</td>
+                    <td>
+                        <a href="images/stakeholder/${val.path}" target="_blank" class="btn btn-info btn-sm mt-10" >Ver</a>
+                        <a href="#" class="btn btn-danger ml-4 btn-sm" onclick=objProfile.deleteDocument('${val.document_id}')>Eliminar</a>
+                    </td>
+            </tr>
+                    `;
+
+        })
+        $("#table-documents tbody").html(html);
+    }
+
+    this.deleteDocument = function (id) {
+        $.ajax({
+            url: `/quit-document/${id}`,
+            headers: {'X-CSRF-TOKEN': token},
+            method: 'DELETE',
+            success: function (data) {
+                objProfile.listDocument(data);
+            }
+        })
+
     }
 
     this.getInfo = function () {
@@ -56,9 +111,11 @@ function Profile() {
                 type_document = data.type_document_id;
 
                 $("#sector_id").fillSelect(data.sector_id);
-                $("#type_document_id").fillSelect(data.type_document_id);
+                $("#document_id").fillSelect(data.type_document_id);
                 $("#type_person_id").fillSelect(data.type_person_id);
                 $("#type_regime_id").fillSelect(data.type_regime_id);
+
+                objProfile.listDocument(data.documents)
             }
         })
 

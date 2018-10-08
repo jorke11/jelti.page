@@ -5,6 +5,7 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     {!! Form::open(['id'=>'frmUpload','files'=>true]) !!}
+                    <input type="hidden" name="stakeholder_id" id="stakeholder_id" >
                     <div class="row">
                         <div class="col-12">
                             <div class="row row-space">
@@ -15,15 +16,14 @@
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Tipo de documento *</label>
-                                    <select id="typedocument_id" class="form-control">
-
+                                    <select id="document_id" class="form-control" name="document_id">
                                     </select>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Archivo</label>
-                                    <input type="file" name="file" id="file" >
+                                    <input type="file" name="document_file" id="document_file" >
                                 </div>
                             </div>
 

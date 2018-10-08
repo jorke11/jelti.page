@@ -24,6 +24,8 @@ Route::get('profile', "Administration\ProfileController@index");
 Route::put('profile/update', "Administration\ProfileController@update");
 Route::get('data-user', "Administration\ProfileController@getDataUser");
 Route::get('type-document', "Administration\ProfileController@getTypeDocument");
+Route::post('upload-document', "Administration\ProfileController@uploadDocument");
+Route::delete('/quit-document/{document_id}', "Administration\ProfileController@deleteDocument");
 
 Route::put('/applyDiscount/{coupon_id}', "Ecommerce\PaymentController@updateCoupon");
 Route::get('myFavourite', "Ecommerce\PaymentController@getFavourite");

@@ -8,6 +8,7 @@ use Auth;
 use DB;
 use App\Models\Administration\Parameters;
 use \App\Traits\InformationClient;
+use App\Models\Administration\StakeholderDocument;
 
 class ProfileController extends Controller {
 
@@ -52,15 +53,18 @@ class ProfileController extends Controller {
         $res["type_person_id"] = Parameters::select("code as id", "description")->where("group", "typeperson")->get();
         $res["sector_id"] = Parameters::select("code as id", "description")->where("group", "sector")->get();
         $res["type_regime_id"] = Parameters::select("code as id", "description")->where("group", "typeregimen")->get();
-        $res["type_document_id"] = Parameters::select("code as id", "description")->where("group", "typedocument")->get();
+        $res["type_document_id"] = $this->listDocuments();
         $res["type_stakeholder_id"] = Parameters::select("code as id", "description")->where("group", "typestakeholder")->get();
+        $res["documents"] = $this->listDocuments();
+
         return response()->json($res);
     }
+
     public function getTypeDocument() {
-        $res = Parameters::select("code as id", "description")->where("group", "type_document_upload")->get();
+        $res = $this->pendientDocuments();
         return response()->json($res);
     }
-    
+
     public function update(Request $req) {
         $in = $req->all();
         $stake = \App\Models\Administration\Stakeholder::find($in["id"]);
@@ -68,6 +72,46 @@ class ProfileController extends Controller {
         $in["send_city_id"] = $in["city_id"];
         $stake->fill($in)->save();
         return back()->with("status", "Información modificada");
+    }
+
+    public function uploadDocument(Request $req) {
+        $data = $req->all();
+        $file = array_get($data, 'document_file');
+
+
+
+//        $name = $file[0]->getClientOriginalName();
+        $name = $file->getClientOriginalName();
+//        $file[0]->move("images/stakeholder/" . $data["stakeholder_id"], $name);
+        $file->move("images/stakeholder/" . Auth::user()->stakeholder_id, $name);
+
+
+        $stakeholder = new StakeholderDocument();
+        $stakeholder->stakeholder_id = Auth::user()->stakeholder_id;
+        $stakeholder->document_id = $data["document_id"];
+        $stakeholder->path = Auth::user()->stakeholder_id . "/" . $name;
+        $stakeholder->name = $name;
+        $stakeholder->save();
+        return $this->listDocuments();
+    }
+
+    public function deleteDocument($id) {
+        $row = StakeholderDocument::find($id);
+
+        if (file_exists(public_path("images/stakeholder/" . $row->path))) {
+            unlink(public_path("images/stakeholder/" . $row->path));
+        }
+
+        $row->delete();
+        return $this->listDocuments();
+    }
+
+    public function listDocuments() {
+        return DB::table("vstakeholder_document")->where("stakeholder_id", Auth::user()->stakeholder_id)->whereNotNull("stakeholder_id")->get();
+    }
+
+    public function pendientDocuments() {
+        return DB::table("vstakeholder_document")->whereNull("stakeholder_id")->get();
     }
 
 }
