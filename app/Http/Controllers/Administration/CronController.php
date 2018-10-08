@@ -78,7 +78,7 @@ class CronController extends Controller {
 
                 $result = curl_exec($ch);
                 $arr = json_decode($result, true);
-
+                Log::debug("RESPONSE PSE: " . print_r($arr, true));
                 if ($arr["code"] == 'SUCCESS') {
                     if ($arr["result"]["payload"][0]["transactions"][0]["transactionResponse"]["state"] == 'APPROVED') {
                         $data_order = $this->createOrder($value->insert_id, $value->id);
