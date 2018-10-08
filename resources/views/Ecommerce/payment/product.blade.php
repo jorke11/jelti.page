@@ -329,7 +329,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            ${{number_format($product->price_sf,0,",",".")}}
+                            ${{number_format($product->price_sf_with_tax,0,",",".")}}
                         </div>
                         <div class="col-lg-5 text-right">
                             Gramos pendiente

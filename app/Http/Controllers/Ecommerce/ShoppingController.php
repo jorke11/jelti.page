@@ -179,7 +179,8 @@ class ShoppingController extends Controller {
 
             $text = '';
 
-            if (count($like_product) > 0) {
+            
+            if ($like_product!=null) {
                 $like = $line = 'red';
             } else {
                 $like = 'none';
@@ -187,7 +188,7 @@ class ShoppingController extends Controller {
                 $text = "Añadir a favoritos";
             }
 
-            $like = (count($like_product) > 0) ? 'red' : 'none';
+            $like = ($like_product!=null) ? 'red' : 'none';
 //            dd($product->category->node_id);
             $category_f = Categories::find($product->category->node_id);
 
