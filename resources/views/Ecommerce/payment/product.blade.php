@@ -346,7 +346,7 @@
                                   style="background-color: rgba(91,175,152,1);color:white;cursor: pointer">-</span>
 
                         </div>
-                        <input type="text" class="form-control" id="quantity" name="quantity" value="{{(isset($product->quantity_order)?$product->quantity_order:0)}}" type="number">
+                        <input type="text" class="form-control" id="quantity" style="text-align: center;" name="quantity" value="{{(isset($product->quantity_order)?$product->quantity_order:0)}}" type="number">
                         <div class="input-group-append">
                             <span class="input-group-text" 
                                   onclick="objCounter.addProduct('{{$product->short_description}}',
