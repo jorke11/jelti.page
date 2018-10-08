@@ -358,13 +358,6 @@
 
             </div>
                 
-                <?php
-                
-//                echo "<pre>";
-//                print_r($product);
-                ?>
-
-
 
             <div class="row justify-content-center">
                 <div class="col-7 col-md-10">
