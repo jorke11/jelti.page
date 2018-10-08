@@ -96,6 +96,11 @@ class CronController extends Controller {
                         $value->departure_id = $dep->header->id;
                         $value->save();
                         echo "Approved";
+                    } else {
+                        $value->last_executed = date("Y-m-d H:i");
+                        $value->amounted_consulted = $value->amounted_consulted + 1;
+                        $value->save();
+                        echo "Sin pago";
                     }
                 } else {
                     $value->last_executed = date("Y-m-d H:i");
