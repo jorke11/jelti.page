@@ -30,7 +30,7 @@ trait Payment {
         $client = \App\Models\Administration\Stakeholder::find($user->stakeholder_id);
 
         $param["header"]["warehouse_id"] = 3;
-        $param["header"]["responsible_id"] = 1;
+        $param["header"]["responsible_id"] = ($client->responsible_id == null) ? 1 : $client->responsible_id;
         $param["header"]["city_id"] = $client->city_id;
         $param["header"]["created"] = date("Y-m-d H:i");
         $param["header"]["status_id"] = 1;
