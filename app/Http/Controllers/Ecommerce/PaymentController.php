@@ -32,7 +32,7 @@ use Cookie;
 //use Google\Cloud\Firestore\DocumentSnapshot;
 //use Google\Cloud\Firestore\QuerySnapshot;
 use App\Traits\Invoice;
-use App\Traits\Payment;
+//use App\Traits\Payment;
 use App\Traits\InformationClient;
 use App\Http\Controllers\Inventory\StockController;
 
@@ -41,7 +41,6 @@ class PaymentController extends Controller {
     use ValidateCreditCard;
     use Invoice;
     use InformationClient;
-    use Payment;
 
     public $depObj;
     public $merchantId;
@@ -619,31 +618,31 @@ class PaymentController extends Controller {
         return response()->json(["success" => true]);
     }
 
-//    public function createOrder() {
-//        $row = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
-//        $user = Users::find(Auth::user()->id);
-//
-//        $client = Stakeholder::find($user->stakeholder_id);
-//
-//        $param["header"]["warehouse_id"] = 3;
-//        $param["header"]["responsible_id"] = 1;
-//        $param["header"]["city_id"] = $client->city_id;
-//        $param["header"]["created"] = date("Y-m-d H:i");
-//        $param["header"]["status_id"] = 1;
-//        $param["header"]["client_id"] = $user->stakeholder_id;
-//        $param["header"]["destination_id"] = $client->city_id;
-//        $param["header"]["address"] = $client->address_send;
-//        $param["header"]["phone"] = $client->phone;
-//        $param["header"]["shipping_cost"] = 0;
-//        $param["header"]["insert_id"] = Auth::user()->id;
-//        $param["header"]["order_id"] = $row->id;
-//        $param["detail"] = $this->formatDetailOrder($row);
-//        $param["header"]["total"] = $this->total;
-//        $param["header"]["tax19"] = $this->tax19;
-//        $param["header"]["tax5"] = $this->tax5;
-////        
-//        return $param;
-//    }
+    public function createOrder() {
+        $row = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
+        $user = Users::find(Auth::user()->id);
+
+        $client = Stakeholder::find($user->stakeholder_id);
+
+        $param["header"]["warehouse_id"] = 3;
+        $param["header"]["responsible_id"] = ($client->responsible_id == null) ? 1 : $client->responsible_id;
+        $param["header"]["city_id"] = $client->city_id;
+        $param["header"]["created"] = date("Y-m-d H:i");
+        $param["header"]["status_id"] = 1;
+        $param["header"]["client_id"] = $user->stakeholder_id;
+        $param["header"]["destination_id"] = $client->city_id;
+        $param["header"]["address"] = $client->address_send;
+        $param["header"]["phone"] = $client->phone;
+        $param["header"]["shipping_cost"] = 0;
+        $param["header"]["insert_id"] = Auth::user()->id;
+        $param["header"]["order_id"] = $row->id;
+        $param["detail"] = $this->formatDetailOrder($row);
+        $param["header"]["total"] = $this->total;
+        $param["header"]["tax19"] = $this->tax19;
+        $param["header"]["tax5"] = $this->tax5;
+//        
+        return $param;
+    }
 
     public function getBanks() {
         $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi ";

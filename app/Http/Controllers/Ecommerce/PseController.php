@@ -10,7 +10,6 @@ use App\Models\Security\Users;
 use App\Models\Administration\Categories;
 use Auth;
 use App\Traits\Invoice;
-use App\Traits\Payment;
 use Log;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\Sales\DepartureController;
@@ -20,7 +19,6 @@ use DB;
 class PseController extends Controller {
 
     use Invoice;
-    use Payment;
 
     public $depObj;
     public $oayObj;
@@ -243,7 +241,7 @@ class PseController extends Controller {
         $accountId = "562109";
         $url_response = 'https://superfuds.com/confirmation';
 
-        
+
         $data_order = $this->createOrder();
         $referenceCode = 'order_id_' . $data_order["header"]["order_id"];
 
@@ -420,32 +418,32 @@ class PseController extends Controller {
         return view("Ecommerce.pse.confirmation", compact("data", "categories", "dietas"));
     }
 
-//    public function createOrder() {
-//        $row = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
-//        $user = Users::find(Auth::user()->id);
-//
-//        $client = Stakeholder::find($user->stakeholder_id);
-//
-//        $param["header"]["warehouse_id"] = 3;
-//        $param["header"]["responsible_id"] = 1;
-//        $param["header"]["city_id"] = $client->city_id;
-//        $param["header"]["created"] = date("Y-m-d H:i");
-//        $param["header"]["status_id"] = 1;
-//        $param["header"]["client_id"] = $user->stakeholder_id;
-//        $param["header"]["destination_id"] = $client->city_id;
-//        $param["header"]["address"] = $client->address_send;
-//        $param["header"]["phone"] = $client->phone;
-//        $param["header"]["shipping_cost"] = 0;
-//        $param["header"]["insert_id"] = Auth::user()->id;
-////        $new["type_insert_id"] = 2;
-//        $param["header"]["order_id"] = $row->id;
-//        $param["detail"] = $this->formatDetailOrder($row);
-//        $param["header"]["total"] = $this->total;
-//        $param["header"]["tax19"] = $this->tax19;
-//        $param["header"]["tax5"] = $this->tax5;
-////        
-//        return $param;
-//    }
+    public function createOrder() {
+        $row = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
+        $user = Users::find(Auth::user()->id);
+
+        $client = Stakeholder::find($user->stakeholder_id);
+
+        $param["header"]["warehouse_id"] = 3;
+        $param["header"]["responsible_id"] = ($client->responsible_id == null) ? 1 : $client->responsible_id;
+        $param["header"]["city_id"] = $client->city_id;
+        $param["header"]["created"] = date("Y-m-d H:i");
+        $param["header"]["status_id"] = 1;
+        $param["header"]["client_id"] = $user->stakeholder_id;
+        $param["header"]["destination_id"] = $client->city_id;
+        $param["header"]["address"] = $client->address_send;
+        $param["header"]["phone"] = $client->phone;
+        $param["header"]["shipping_cost"] = 0;
+        $param["header"]["insert_id"] = Auth::user()->id;
+//        $new["type_insert_id"] = 2;
+        $param["header"]["order_id"] = $row->id;
+        $param["detail"] = $this->formatDetailOrder($row);
+        $param["header"]["total"] = $this->total;
+        $param["header"]["tax19"] = $this->tax19;
+        $param["header"]["tax5"] = $this->tax5;
+//        
+        return $param;
+    }
 
     public function finishPurchase() {
         $data = $_GET;
