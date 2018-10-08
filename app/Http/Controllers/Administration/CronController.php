@@ -100,7 +100,7 @@ class CronController extends Controller {
                         $value->last_executed = date("Y-m-d H:i");
                         $value->amounted_consulted = $value->amounted_consulted + 1;
                         $value->save();
-                        echo "Sin pago";
+                        echo $value->referencecode . " - Sin confirmacion";
                     }
                 } else {
                     $value->last_executed = date("Y-m-d H:i");
