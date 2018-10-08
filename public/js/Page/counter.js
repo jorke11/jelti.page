@@ -193,7 +193,7 @@ function Counter() {
             type = '';
             quantity = 1;
         }
-        
+
 
         var row = {
             quantity: quantity,
@@ -404,6 +404,10 @@ function Counter() {
                 </div>`
 
         $("#content-cart").html(html);
+
+        $('.input-number').on('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
     }
 
     this.deleteItem = function (slug, index) {
