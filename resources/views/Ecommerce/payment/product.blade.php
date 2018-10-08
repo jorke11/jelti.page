@@ -314,7 +314,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12" style="font-size: 33px;">
-                            {{ucwords($product->title)}}
+                            {{strtoupper($product->title)}}
                         </div>
                     </div>
                     <div class="row">

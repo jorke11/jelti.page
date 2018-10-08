@@ -48,6 +48,15 @@ function Profile() {
             });
         })
 
+        $("#copy-info").click(function () {
+            if ($(this).is(":checked")) {
+                $("#address_invoice").val($("#address_send").val());
+            } else {
+                $("#invoice_city_id").val($("#city_id").val()).change()
+                $("#address_invoice").val("");
+            }
+        })
+
         this.getInfo()
     }
 
@@ -111,7 +120,7 @@ function Profile() {
                 type_document = data.type_document_id;
 
                 $("#sector_id").fillSelect(data.sector_id);
-                $("#document_id").fillSelect(data.type_document_id);
+                $("#type_document_id").fillSelect(data.type_document_id);
                 $("#type_person_id").fillSelect(data.type_person_id);
                 $("#type_regime_id").fillSelect(data.type_regime_id);
 

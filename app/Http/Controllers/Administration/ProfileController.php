@@ -38,7 +38,7 @@ class ProfileController extends Controller {
     public function index() {
         $dietas = $this->dietas;
         $categories = $this->categories;
-
+        
         return view("Administration.Profile.init", compact("dietas", "categories"));
     }
 
@@ -53,7 +53,7 @@ class ProfileController extends Controller {
         $res["type_person_id"] = Parameters::select("code as id", "description")->where("group", "typeperson")->get();
         $res["sector_id"] = Parameters::select("code as id", "description")->where("group", "sector")->get();
         $res["type_regime_id"] = Parameters::select("code as id", "description")->where("group", "typeregimen")->get();
-        $res["type_document_id"] = $this->listDocuments();
+        $res["type_document_id"] = Parameters::select("code as id", "description")->where("group", "typedocument")->get();
         $res["type_stakeholder_id"] = Parameters::select("code as id", "description")->where("group", "typestakeholder")->get();
         $res["documents"] = $this->listDocuments();
 
