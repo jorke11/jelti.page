@@ -107,11 +107,16 @@ class ProfileController extends Controller {
     }
 
     public function listDocuments() {
-        return DB::table("vstakeholder_document")->where("stakeholder_id", Auth::user()->stakeholder_id)->whereNotNull("stakeholder_id")->get();
+        return Parameters::select("parameters.code as id", "parameters.description", "stakeholder_document.stakeholder_id", "stakeholder_document.path", "stakeholder_document.id as document_id")->
+                leftjoin("stakeholder_document", "stakeholder_document.document_id", DB::raw("parameters.code and stakeholder_document.stakeholder_id =" . Auth::user()->stakeholder_id))
+                ->where("parameters.group", "=", "type_document_upload")->whereNotNull("stakeholder_id")->get();
+        
     }
 
     public function pendientDocuments() {
-        return DB::table("vstakeholder_document")->whereNull("stakeholder_id")->get();
+        return Parameters::select("parameters.code as id", "parameters.description", "stakeholder_document.stakeholder_id", "stakeholder_document.path", "stakeholder_document.id as document_id")->
+                        leftjoin("stakeholder_document", "stakeholder_document.document_id", DB::raw("parameters.code and stakeholder_document.stakeholder_id =" . Auth::user()->stakeholder_id))
+                        ->where("parameters.group", "=", "type_document_upload")->whereNull("stakeholder_id")->get();
     }
 
 }

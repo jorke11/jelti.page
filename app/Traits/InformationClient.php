@@ -57,7 +57,7 @@ trait InformationClient {
     }
 
     public function informationRequired($client) {
-//        dd(Auth::us);
+//        dd($client);
         $error = [];
         if (is_null($client->type_regime_id)) {
             $error["type_regime_id"] = false;

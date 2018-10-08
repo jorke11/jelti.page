@@ -314,12 +314,12 @@
                                                                     <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
                                                                         <svg id="i-minus" class="btn-minus-card-product" viewBox="0 0 32 32"  fill="white"  style="cursor:pointer;"
                                                                              stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
-                                                                             onclick="objCounter.deleteUnit({{$value->id}},'{{$value->slug}}','quantity_product_{{$value->id}}')">
+                                                                             onclick="objCounter.deleteUnit({{$value->id}},'{{$value->slug}}','quantity_most_product_{{$value->id}}')">
                                                                         <path d="M2 16 L30 16" />
                                                                         </svg>
                                                                     </div>
                                                                     <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
-                                                                        <input type="text" id="quantity_product_{{$value->id}} "class="input-quantity-product input-number" value="{{(isset($value->quantity_order))?$value->quantity_order:0}}"
+                                                                        <input type="text" id="quantity_most_product_{{$value->id}}" class="input-quantity-product input-number" value="{{(isset($value->quantity_order))?$value->quantity_order:0}}"
                                                                                onkeypress="objCounter.addProductEnter(event,'{{$value->short_description}}',
                                                                                '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}', this)">
                                                                     </div>
@@ -327,7 +327,7 @@
                                                                         <svg id="i-plus" class="btn-minus-card-product" viewBox="0 0 35 35" fill="white" stroke="#ffffff" 
                                                                              stroke-linecap="round" stroke-linejoin="round" stroke-width="4" style="cursor:pointer"
                                                                              onclick="objCounter.addProduct('{{$value->short_description}}',
-                                                                             '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_product_{{$value->id}}'); return false;">
+                                                                             '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_most_product_{{$value->id}}'); return false;">
                                                                         <path d="M16 2 L16 30 M2 16 L30 16" />
                                                                         </svg>
                                                                     </div>

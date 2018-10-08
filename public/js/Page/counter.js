@@ -193,6 +193,7 @@ function Counter() {
             type = '';
             quantity = 1;
         }
+        
 
         var row = {
             quantity: quantity,
@@ -249,6 +250,7 @@ function Counter() {
 
     this.deleteUnit = function (product_id, slug, index) {
         $("#quantity_" + product_id).val(parseInt($("#quantity_" + product_id).val()) - 1)
+
         var row = {
             quantity: $("#quantity_" + product_id).val(),
             product_id: product_id
@@ -265,7 +267,7 @@ function Counter() {
             success: function (data) {
                 //                $("#add").empty();
                 if (data.row.quantity > 0) {
-                    $("#quantity_product_" + product_id).val(data.row.quantity)
+                    $("#" + index).val(data.row.quantity)
                 } else {
                     $("#buttonAdd_" + product_id).addClass("d-none");
                     $("#btnOption_" + product_id).removeClass("d-none");
@@ -349,7 +351,7 @@ function Counter() {
                                                  onclick="objCounter.redirectProduct('${row.slug}')">
                                             </div>
                                             <div class="col-9 card-customer">
-                                                <p>${row.product} <br>
+                                                <p>${row.product}<br>
                                                 Precio <b>${$.formatNumber(parseInt(row.price_sf_with_tax))}</b><br>
                                                 Total <b>${$.formatNumber(parseInt(row.subtotal_with_tax))}</b><br>
                                                 
