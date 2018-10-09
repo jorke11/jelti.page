@@ -3,7 +3,7 @@
         <td>Hola {{$name}} </td>
     </tr>
     <tr>
-        <td>Te damás la mas cordial bienvida a nuestra plataforma de Compras</td>
+        <td>Te damos la mas cordial bienvenida a nuestra plataforma de Compras Superfuds</td>
     </tr>
     <tr>
         <td>Para Activar tu cuenta click en</td><td>{{url("user/activation",$link)}}</td>
