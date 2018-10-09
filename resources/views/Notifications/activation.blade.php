@@ -1,15 +1,12 @@
 <table>
     <tr>
-        <td>Bienvenido,{{$name}}</td>
+        <td>Bienvenido, {{$name}}</td>
     </tr>
     <tr>
-        <td>Para Activar tu cuenta : {{url("user/activation",$link)}}</td>
+        <td>Para Activar tu cuenta click en -> </td><td>{{url("user/activation",$link)}}</td>
     </tr>
     <tr>
-        <td>Usuario:{{$email}}</td>
-    </tr>
-    <tr>
-        <td>Clave Temporal:{{$tmp_password}}</td>
+        <td>Usuario</td><td>{{$email}}</td>
     </tr>
 </table>
 

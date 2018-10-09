@@ -94,7 +94,7 @@ use RegistersUsers;
                     $input["password"] = str_random(6);
                     $user = $this->create($input)->toArray();
                     $user["link"] = str_random(30);
-                    $user["tmp_password"] = $input["password"];
+
                     DB::table("users_activations")->insert(["user_id" => $user["id"], "token" => $user["link"]]);
 
                     //id yeni ruiz
@@ -167,12 +167,10 @@ use RegistersUsers;
     }
 
     protected function validatorActivation(array $data) {
-
         return Validator::make($data, [
-                    'tmp_password' => 'required|string|max:255',
-                    'password' => 'required|string|min:6|confirmed',
-                    'password_confirmation' => 'required|string|min:6',
-        ]);
+                    'password' => 'required|string|min:6',
+                    'password_confirmation' => 'required|string|min:6|confirmed',
+                ])->validate();
     }
 
 }
