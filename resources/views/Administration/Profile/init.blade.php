@@ -261,7 +261,8 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Telefono *</label>
-                                        <input type="text" class="form-control form-profile input-number" value="" id="phone" name="phone" required=""/>
+                                        <input type="tel" class="form-control form-profile input-number" value="" id="phone" name="phone" required=""
+                                                pattern="[0-9]"/>
                                     </div>
                                 </div>
                             </div>

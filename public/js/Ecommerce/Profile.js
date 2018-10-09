@@ -72,7 +72,12 @@ function Profile() {
         })
 
         $("#tab-user").click(function () {
-
+            $("#step1").removeClass("d-none");
+            $("#btn-next").removeClass("d-none");
+            $("#step2").addClass("d-none");
+            $("#btn-end").addClass("d-none");
+            $("#circle-user").addClass("active").removeClass("disabled");
+            $("#circle-doc").addClass("disabled").removeClass("active");
         })
 
 

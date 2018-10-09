@@ -38,7 +38,7 @@ class ProfileController extends Controller {
     public function index() {
         $dietas = $this->dietas;
         $categories = $this->categories;
-        
+
         return view("Administration.Profile.init", compact("dietas", "categories"));
     }
 
@@ -70,6 +70,7 @@ class ProfileController extends Controller {
         $stake = \App\Models\Administration\Stakeholder::find($in["id"]);
         unset($in["document"]);
         $in["send_city_id"] = $in["city_id"];
+        $in["address"] = $in["address_send"];
         $stake->fill($in)->save();
         return back()->with("status", "Información modificada");
     }
@@ -77,8 +78,6 @@ class ProfileController extends Controller {
     public function uploadDocument(Request $req) {
         $data = $req->all();
         $file = array_get($data, 'document_file');
-
-
 
 //        $name = $file[0]->getClientOriginalName();
         $name = $file->getClientOriginalName();
@@ -108,9 +107,8 @@ class ProfileController extends Controller {
 
     public function listDocuments() {
         return Parameters::select("parameters.code as id", "parameters.description", "stakeholder_document.stakeholder_id", "stakeholder_document.path", "stakeholder_document.id as document_id")->
-                leftjoin("stakeholder_document", "stakeholder_document.document_id", DB::raw("parameters.code and stakeholder_document.stakeholder_id =" . Auth::user()->stakeholder_id))
-                ->where("parameters.group", "=", "type_document_upload")->whereNotNull("stakeholder_id")->get();
-        
+                        leftjoin("stakeholder_document", "stakeholder_document.document_id", DB::raw("parameters.code and stakeholder_document.stakeholder_id =" . Auth::user()->stakeholder_id))
+                        ->where("parameters.group", "=", "type_document_upload")->whereNotNull("stakeholder_id")->get();
     }
 
     public function pendientDocuments() {
