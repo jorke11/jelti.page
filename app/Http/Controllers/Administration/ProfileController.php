@@ -38,7 +38,7 @@ class ProfileController extends Controller {
     public function index() {
         $dietas = $this->dietas;
         $categories = $this->categories;
-        $redirect = ($_GET["p"] == 1) ? 1 : 0;
+        $redirect = (isset($_GET["p"]) && $_GET["p"] == 1) ? 1 : 0;
 
         return view("Administration.Profile.init", compact("dietas", "categories", "redirect"));
     }
