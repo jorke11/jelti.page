@@ -148,22 +148,20 @@ use RegistersUsers;
 
         $user = \App\Models\Security\Users::find($check->user_id);
 
-        $validator = $this->validatorActivation($in);
+        $this->validatorActivation($in);
 
-        if (!$validator->fails()) {
-            $user->status_id = 1;
-            $user->save();
-            DB::table("users_activations")->where("token", $in["token"])->delete();
-            $user->password = Hash::make($in["password"]);
-            $user->save();
+        $user->status_id = 1;
+        $user->save();
+        DB::table("users_activations")->where("token", $in["token"])->delete();
+        $user->password = Hash::make($in["password"]);
+        $user->save();
+        $this->guard("admins")->login($user);
 
-            $this->guard("admins")->login($user);
-
-            return redirect()->to("home")->with("success", "Bienvenido");
-        }
+        return redirect()->to("home")->with("success", "Bienvenido");
 
 
-        return back()->with("error", $validator->errors());
+
+//        return back()->with("error", $validator->errors());
     }
 
     protected function validatorActivation(array $data) {
