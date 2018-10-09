@@ -435,7 +435,8 @@ jQuery.fn.fillSelect = function (data) {
     this.each(function () {
         var elem = $(this);
         let html = '';
-        elem.empty()
+        elem.empty();
+        html = `<option value='0'>Selecciona</option>`;
         data.forEach((val, index) => {
             html += `<option value='${val.id}'>${val.description}</option>`;
         });

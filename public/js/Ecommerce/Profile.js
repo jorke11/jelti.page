@@ -57,7 +57,27 @@ function Profile() {
             }
         })
 
-        this.getInfo()
+        $("#btn-next").click(function () {
+            var validate = $(".form-profile").validate();
+
+            if (validate.length == 0) {
+                $("#step1").addClass("d-none");
+                $("#btn-next").addClass("d-none");
+                $("#btn-end").removeClass("d-none");
+                $("#step2").removeClass("d-none");
+                $("#circle-user").removeClass("active").addClass("disabled");
+                $("#circle-doc").removeClass("disabled").addClass("active");
+            }
+
+        })
+
+        $("#tab-user").click(function () {
+
+        })
+
+
+
+        this.getInfo();
     }
 
     this.listDocument = function (data) {
@@ -125,6 +145,8 @@ function Profile() {
                 $("#type_regime_id").fillSelect(data.type_regime_id);
 
                 objProfile.listDocument(data.documents)
+
+                $(".form-profile").setFields({data: client})
             }
         })
 
