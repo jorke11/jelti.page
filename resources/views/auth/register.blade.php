@@ -7,6 +7,7 @@
         <div class="alert alert-danger">{{Session::get("error_email")}}, <a href="/password/reset">¿Recordar Clave?</a></div>
         @endif
     </div>
+    
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
@@ -80,6 +81,19 @@
                                 @if ($errors->has('email'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('email') }}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('phone_contact') ? ' has-error' : '' }}">
+                            <label for="email" class="col-md-4 control-label">Celular</label>
+
+                            <div class="col-md-6">
+                                <input id="phone_contact" type="tel" class="form-control" name="phone_contact" value="{{ old('phone_contact') }}" required>
+
+                                @if ($errors->has('phone_contact'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('phone_contact') }}</strong>
                                 </span>
                                 @endif
                             </div>

@@ -53,9 +53,12 @@ use RegistersUsers;
     protected function validator(array $data) {
         return Validator::make($data, [
                     'name' => 'required|string|max:255',
+                    'last_name' => 'required|string|max:255',
+                    'document' => 'required|string|max:255|min:6',
                     'email' => 'required|string|email|max:255|unique:users',
-                    'password' => 'required|string|min:6|confirmed',
-        ]);
+                    'phone_contact' => 'required|string|min:10'
+                ])->validate();
+//        ]);
     }
 
     /**
@@ -77,61 +80,78 @@ use RegistersUsers;
 
     public function register(Request $req) {
         $input = $req->all();
-        $validator = $this->validator($input);
+        $input["document"] = (isset($input["document_client"])) ? $input["document_client"] : $input["document"];
+        $input["phone_contact"] = (isset($input["phone"])) ? $input["phone"] : $input["phone_contact"];
+        $val = $this->validator($input);
 
+
+        $input["phone"] = (isset($input["phone_contact"])) ? $input["phone_contact"] : $input["phone"];
         $input["business"] = $input["name"] . " " . $input["last_name"];
 
-        if (!$validator->failed()) {
-            $valida_mail = DB::table("users")->where("email", $input["email"])->first();
+        $valida_mail = DB::table("users")->where("email", $input["email"])->first();
 
-            if (is_null($valida_mail)) {
-                $valida_doc = DB::table("stakeholder")->where("document", $input["document"])->first();
 
-                if (is_null($valida_doc)) {
 
-                    $input["role_id"] = 2;
-                    $input["status_id"] = 0;
-                    $input["password"] = str_random(6);
-                    $user = $this->create($input)->toArray();
-                    $user["link"] = str_random(30);
+        if (is_null($valida_mail)) {
+            $valida_doc = DB::table("stakeholder")->where("document", $input["document"])->first();
 
-                    DB::table("users_activations")->insert(["user_id" => $user["id"], "token" => $user["link"]]);
+            if (is_null($valida_doc)) {
 
-                    //id yeni ruiz
-                    $new["responsible_id"] = 184;
+                $input["role_id"] = 2;
+                $input["status_id"] = 0;
+                $input["password"] = str_random(6);
+                $user = $this->create($input)->toArray();
+                $user["link"] = str_random(30);
+                $user["phone_contact"] = $input["phone_contact"];
 
-                    $new["login_web"] = true;
-                    $new["document"] = $input["document"];
-                    $new["verification"] = $this->numberVerification($input["document"]);
-                    $new["type_document"] = 1;
-                    $new["business"] = $input["business_name"];
-                    $new["business_name"] = $input["name"] . " " . $input["last_name"];
-                    $new["user_insert"] = $user["id"];
-                    $new["status_id"] = 2;
-                    $new["type_stakeholder_id"] = json_encode([1]);
-                    $new["term"] = 1;
-                    $new["email"] = $input["email"];
+                DB::table("users_activations")->insert(["user_id" => $user["id"], "token" => $user["link"]]);
 
-                    DB::table("stakeholder")->insert($new);
-                    $stake = \App\Models\Administration\Stakeholder::where("document", $input["document"])->first();
-                    $users = \App\Models\Security\Users::find($user["id"]);
-                    $users->stakeholder_id = $stake->id;
-                    $users->save();
+                //id yeni ruiz
+                $new["responsible_id"] = 184;
 
-                    Mail::send("Notifications.activation", $user, function($message) use ($user) {
-                        $message->to($user["email"]);
-                        $message->subject("Superfuds - Codigo Activación");
-                    });
-                    return redirect()->to("login")->with("success", "Se ha enviado el codigo con la activación, por favor revisa tu email");
-                } else {
-                    return back()->with("error_email", "¡Documento ya existe en nuestro sistema!");
+                $new["login_web"] = true;
+                $new["document"] = $input["document"];
+                $new["verification"] = $this->numberVerification($input["document"]);
+                $new["type_document"] = 1;
+                $new["business"] = isset($input["business_name"]) ? $input["business_name"] : '';
+                $new["business_name"] = $input["name"] . " " . $input["last_name"];
+                $new["user_insert"] = $user["id"];
+                $new["status_id"] = 2;
+                $new["type_stakeholder_id"] = json_encode([1]);
+                $new["term"] = 1;
+                $new["phone"] = trim($input["phone_contact"]);
+                $new["email"] = $input["email"];
+
+                DB::table("stakeholder")->insert($new);
+                $stake = \App\Models\Administration\Stakeholder::where("document", $input["document"])->first();
+                $users = \App\Models\Security\Users::find($user["id"]);
+                $users->stakeholder_id = $stake->id;
+                $users->save();
+
+                $email = \App\Models\Administration\Email::where("description", "page")->first();
+
+                if ($email != null) {
+                    $emDetail = \App\Models\Administration\EmailDetail::where("email_id", $email->id)->get();
+
+                    if ($emDetail != null) {
+                        foreach ($emDetail as $value) {
+                            $this->mails[] = $value->description;
+                        }
+                    }
                 }
-            } else {
-                return back()->with("error_email", "¡Email ya existe en nuestro sistema!");
-            }
-        }
 
-        return back()->with("error", $validator->errors());
+                Mail::send("Notifications.activation", $user, function($message) use ($user) {
+                    $message->to($user["email"]);
+                    $message->bcc($this->mails);
+                    $message->subject("Superfuds - Codigo Activación");
+                });
+                return redirect()->to("login")->with("success", "Se ha enviado el codigo con la activación, por favor revisa tu email");
+            } else {
+                return back()->with("error_email", "¡Documento ya existe en nuestro sistema!");
+            }
+        } else {
+            return back()->with("error_email", "¡Email ya existe en nuestro sistema!");
+        }
     }
 
     public function showActivation($token) {

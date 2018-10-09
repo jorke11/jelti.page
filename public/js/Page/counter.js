@@ -101,6 +101,7 @@ function Counter() {
 
         $(".box-client").addClass("back-green");
         $("#type_stakeholder").val(id);
+
         $("#register").click(function () {
             var elem = $(this);
             elem.attr("disabled", true);
@@ -117,21 +118,28 @@ function Counter() {
                 return false;
             }
 
+            var url = "newVisitan";
+            if ($("#type_stakeholder").val() == 1) {
+                $("#frmLandingPage").submit();
+                return false;
+            }
 
-            var form = $("#frm");
+            var form = $("#frmLandingPage");
+
             if (valida.length == 0) {
                 $.ajax({
-                    url: 'newVisitan',
+                    url: url,
                     method: 'POST',
+                    headers: {'X-CSRF-TOKEN': token},
                     data: form.serialize(),
                     success: function (data) {
                         if (data.status == true) {
                             toastr.success("Pronto te estaremos contactando");
                             $(".in-page").cleanFields();
-                            $("#myModal").modal("hide");
+//                            $("#myModal").modal("hide");
                         }
                     }, error: function (xhr, ajaxOptions, thrownError) {
-                        toastr.error(xhr.responseJSON.msg);
+                        toastr.error(xhr.responseJSON.message);
                         elem.attr("disabled", false);
                     }
 
