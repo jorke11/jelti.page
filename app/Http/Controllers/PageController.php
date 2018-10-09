@@ -135,7 +135,11 @@ class PageController extends Controller {
 
         $dietas = $this->dietas;
 
-        return view('page', compact("subcategory", "categories", "dietas", "newproducts", "love_clients", "clients", "most_sales"));
+        $suppliers = $this->getSuppliers()->getData();
+
+//        dd($suppliers);
+        
+        return view('page', compact("subcategory", "categories", "dietas", "newproducts", "love_clients", "clients", "most_sales","suppliers"));
     }
 
     public function getDiets() {

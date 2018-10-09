@@ -15,7 +15,7 @@
     </button>
 
     <div class="navbar-collapse collapse" id="navbarsExampleDefault" style="">
-        <ul class="navbar-nav mr-auto" id="menu-header">
+        <ul class="navbar-nav" id="menu-header">
             <li class="nav-item dropdown active" id="menu-diet">
                 <a class="nav-link dropdown-toggle title-menu" href="{{url("/")}}" id="title-categories" data-toggle="dropdown" 
                    aria-haspopup="true" aria-expanded="false" >CATEGORIAS</a>
@@ -31,13 +31,24 @@
                 <a class="nav-link dropdown-toggle title-menu" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
                    aria-haspopup="true" aria-expanded="false" >DIETAS</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    @if(isset($categories))
+                    @if(isset($dietas))
                     @foreach($dietas as $val)
                     <a class="dropdown-item" href='{{url("search/c=".$val->slug)}}'>{{$val->description}}</a>
                     @endforeach
                     @endif
                 </div>
             </li>
+<!--            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle title-menu" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
+                   aria-haspopup="true" aria-expanded="false" >PROVEEDORES</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    @if(isset($suppliers))
+                    @foreach($suppliers as $val)
+                    <a class="dropdown-item" href='{{url("search/s=".$val->slug)}}'>{{$val->business}}</a>
+                    @endforeach
+                    @endif
+                </div>
+            </li>-->
             @guest
             <li class="nav-item dropdown" id="menu-category">
                 <a class="nav-link title-menu" href="#" aria-haspopup="true" aria-expanded="false" id="btn-register" >Registrate</a>
