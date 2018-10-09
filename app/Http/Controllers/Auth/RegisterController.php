@@ -168,8 +168,7 @@ use RegistersUsers;
 
     protected function validatorActivation(array $data) {
         return Validator::make($data, [
-                    'password' => 'required|string|min:6',
-                    'password_confirmation' => 'required|string|min:6|confirmed',
+                    'password' => 'required|string|min:6|confirmed',
                 ])->validate();
     }
 
