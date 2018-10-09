@@ -123,7 +123,7 @@ class PaymentController extends Controller {
         $errors = $this->informationRequired($client);
 
         if (count($errors) > 0) {
-            return redirect()->to("/profile")->with("error_profile", "Para completar la compra Necesitamos que completes la informacion con *");
+            return redirect()->to("/profile?p=1")->with("error_profile", "Para completar la compra Necesitamos que completes la informacion con *");
         }
 
         $deviceSessionId = md5(session_id() . microtime());

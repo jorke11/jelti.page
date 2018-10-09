@@ -80,7 +80,9 @@ function Profile() {
             $("#circle-doc").addClass("disabled").removeClass("active");
         })
 
-
+//        $("#frmProfile").submit(function(){
+//            $("#step1").removeClass("d-none");
+//        })
 
         this.getInfo();
     }

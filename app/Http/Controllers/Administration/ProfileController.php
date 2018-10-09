@@ -38,8 +38,9 @@ class ProfileController extends Controller {
     public function index() {
         $dietas = $this->dietas;
         $categories = $this->categories;
+        $redirect = ($_GET["p"] == 1) ? 1 : 0;
 
-        return view("Administration.Profile.init", compact("dietas", "categories"));
+        return view("Administration.Profile.init", compact("dietas", "categories", "redirect"));
     }
 
     public function getDataUser() {
@@ -68,10 +69,16 @@ class ProfileController extends Controller {
     public function update(Request $req) {
         $in = $req->all();
         $stake = \App\Models\Administration\Stakeholder::find($in["id"]);
+        $redirect = $in["redirect"];
+        unset($in["redirect"]);
         unset($in["document"]);
         $in["send_city_id"] = $in["city_id"];
         $in["address"] = $in["address_send"];
         $stake->fill($in)->save();
+
+        if ($redirect) {
+            return redirect()->to("payment");
+        }
         return back()->with("status", "Información modificada");
     }
 

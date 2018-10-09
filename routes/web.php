@@ -21,6 +21,7 @@ Route::get('myOrders', "Ecommerce\PaymentController@getMyOrders");
 Route::get('coupon', "Ecommerce\PaymentController@showCoupon");
 Route::get('getCoupon', "Ecommerce\PaymentController@getCoupon");
 Route::get('profile', "Administration\ProfileController@index");
+//Route::get('profile', "Administration\ProfileController@index");
 Route::put('profile/update', "Administration\ProfileController@update");
 Route::get('data-user', "Administration\ProfileController@getDataUser");
 Route::get('type-document', "Administration\ProfileController@getTypeDocument");

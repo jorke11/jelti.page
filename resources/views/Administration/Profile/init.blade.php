@@ -207,11 +207,10 @@
                         </div>
                     </div>
 
-                    {!! Form::open(['id'=>'frmProfile','url' => 'profile/update','method'=>"PUT"]) !!}
+                    {!! Form::open(['id'=>'frmProfile','url' => 'profile/update','method'=>"PUT","novalidate"]) !!}
                     <input type="hidden" value="" id="id" name="id" class="form-profile">
+                    <input type="hidden" value="{{$redirect}}" id="id" name="redirect">
                     <h5 class="card-title text-center">Información personal</h5>
-
-
 
                     <div class="row" id="step1">
                         <div class="col-12">
@@ -227,7 +226,7 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Tipo de Documento *</label>
-                                        <select name="sector_id" id="type_document_id" name="type_document_id" class="form-control form-profile"></select>
+                                        <select name="sector_id" id="type_document_id" name="type_document_id" class="form-control form-profile" disabled></select>
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -300,7 +299,7 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Copiar dirección de envio a facturación</label>
-                                        <input type="checkbox" id="copy-info">
+                                        <input type="checkbox" id="copy-info" name="copy-info">
                                     </div>
                                 </div>
                             </div>
@@ -346,9 +345,7 @@
                         </div>
 
                     </div>
-                    <button class="card-link btn btn-info d-none" style="float:right" id="btn-end">Finalizar</button>
-
-
+                    <button class="card-link btn btn-info d-none" style="float:right" id="btn-end" type="submit">Finalizar</button>
 
                     {!!Form::close()!!}
                 </div>
