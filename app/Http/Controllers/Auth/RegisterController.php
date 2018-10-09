@@ -150,7 +150,7 @@ use RegistersUsers;
 
         $validator = $this->validatorActivation($in);
 
-        if (!$validator->failed()) {
+        if (!$validator->fails()) {
             $user->status_id = 1;
             $user->save();
             DB::table("users_activations")->where("token", $in["token"])->delete();
