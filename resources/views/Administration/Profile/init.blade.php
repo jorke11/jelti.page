@@ -209,7 +209,7 @@
 
                     {!! Form::open(['id'=>'frmProfile','url' => 'profile/update','method'=>"PUT","novalidate"]) !!}
                     <input type="hidden" value="" id="id" name="id" class="form-profile">
-                    <input type="hidden" value="{{$redirect}}" id="id" name="redirect">
+                    <input type="hidden" value="{{$redirect}}" name="redirect">
                     <h5 class="card-title text-center">Información personal</h5>
 
                     <div class="row" id="step1">
@@ -326,7 +326,7 @@
                     <div class="row d-none"id="step2">
                         <div class="col-12">
                             <h2>Documentos 
-                                <button class="btn btn-info btn-sm" id="btn-show-upload">
+                                <button class="btn btn-info btn-sm" id="btn-show-upload" type="button">
                                     <svg id="i-upload" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                     <path d="M9 22 C0 23 1 12 9 13 6 2 23 2 22 10 32 7 32 23 23 22 M11 18 L16 14 21 18 M16 14 L16 29" />
                                     </svg>
