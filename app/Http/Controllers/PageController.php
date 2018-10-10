@@ -137,9 +137,23 @@ class PageController extends Controller {
 
         $suppliers = $this->getSuppliers()->getData();
 
-//        dd($suppliers);
-        
-        return view('page', compact("subcategory", "categories", "dietas", "newproducts", "love_clients", "clients", "most_sales","suppliers"));
+        $newproducts = $this->splitArray($newproducts, 4);
+
+
+        return view('page', compact("subcategory", "categories", "dietas", "newproducts", "love_clients", "clients", "most_sales", "suppliers"));
+    }
+
+    function splitArray($arr, $number) {
+        $res = [];
+        $cont = 0;
+        foreach ($arr as $i => $val) {
+            $res[$cont][] = $val;
+            if (($i + 1) % $number == 0) {
+                $cont++;
+            }
+        }
+
+        return $res;
     }
 
     public function getDiets() {
