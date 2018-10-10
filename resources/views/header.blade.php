@@ -51,7 +51,7 @@
             </li>-->
             @guest
             <li class="nav-item dropdown" id="menu-category">
-                <a class="nav-link title-menu" href="#" aria-haspopup="true" aria-expanded="false" id="btn-register" >Registrate</a>
+                <a class="nav-link title-menu" href="#" aria-haspopup="true" aria-expanded="false" id="btn-register" >REGISTRATE</a>
             </li>
             @endguest
         </ul>
