@@ -71,7 +71,7 @@ class PageController extends Controller {
                         ->where(function($query) {
                             $query->whereNull("node_id")
                             ->OrWhere("node_id", 0)->orderBy("description");
-                        })->orderBy("created_at","desc")->orderBy("description")->get();
+                        })->orderBy("description")->get();
 
         $init = date('Y-m-d', strtotime('-3 month', strtotime(date('Y-m-d'))));
 
@@ -93,6 +93,7 @@ class PageController extends Controller {
                 ->orderBy("vproducts.created_at")
                 ->orderBy("category_id")
                 ->orderBy("reference")
+                ->orderBy("created_at","desc")
                 ->get();
 
         $subcategory = Characteristic::where("status_id", 1)->where("type_subcategory_id", 1)->whereNotNull("img")->orderBy("order", "asc")->get();
