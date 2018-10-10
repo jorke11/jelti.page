@@ -38,6 +38,10 @@ function Counter() {
 
         })
 
+        $("#btn-register").click(function () {
+            $("#myModal").modal("show");
+        })
+
         $("#btn-login").click(function () {
             var form = $("#frm-login");
             $.ajax({
