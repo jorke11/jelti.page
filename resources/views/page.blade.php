@@ -263,7 +263,7 @@
                                                             <a href="{{url("search/s=".str_slug(strtolower($value->supplier), '-'))}}" class="text-supplier">{{strtoupper($value->supplier)}}</a>
                                                         </p>
                                                         <h5 class="card-title text-left title-products" onclick="objCounter.redirectProduct('{{$value->slug}}')">
-                                                            {{$value->title}}
+                                                            {{$value->title_ec}}
                                                         </h5>
                                                         <p class="text-left">
                                                             <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">

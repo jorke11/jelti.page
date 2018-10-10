@@ -84,6 +84,11 @@
                                 <div class="row row-space">
                                     <div class="col-lg-12">
                                         <input class="form-control in-page input-number" placeholder="Telefono" type="text" name="phone" id="phone" required value="{{ old('phone') }}">
+                                        @if ($errors->has('phone_contact'))
+                                        <span class="help-block">
+                                            <strong>{{ $errors->first('phone_contact') }}</strong>
+                                        </span>
+                                        @endif
                                     </div>
                                 </div>
 
@@ -94,7 +99,7 @@
                                 </div>
                                 <div class="row row-space">
                                     <div class="col-lg-12">
-                                        <input type="checkbox" name="agree" id="agree" class="in-page" required value="{{ old('agree') }}"><span style="color:#5c5c5b"> Acepto términos de servicio | Leer mas</span>
+                                        <input type="checkbox" name="agree" id="agree" class="in-page" required checked="{{ old('agree') }}"><span style="color:#5c5c5b"> Acepto términos de servicio | Leer mas</span>
                                     </div>
                                 </div>
                                 <div class="row">

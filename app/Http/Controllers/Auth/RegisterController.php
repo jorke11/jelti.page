@@ -85,7 +85,7 @@ use RegistersUsers;
         $input["phone_contact"] = (isset($input["phone"])) ? $input["phone"] : $input["phone_contact"];
 
         $val = $this->validator($input);
-
+    
 
         $input["phone"] = (isset($input["phone_contact"])) ? $input["phone_contact"] : $input["phone"];
         $input["business"] = $input["name"] . " " . $input["last_name"];
