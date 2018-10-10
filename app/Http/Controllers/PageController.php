@@ -85,7 +85,7 @@ class PageController extends Controller {
 
 
         if ($orders != null) {
-            $newproducts->select("orders_detail.quantity", "vproducts.title", "vproducts.characteristic", "vproducts.price_sf_with_tax", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+            $newproducts->select("orders_detail.quantity", "vproducts.title", "vproducts.title_ec","vproducts.characteristic", "vproducts.price_sf_with_tax", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
         }
 
 
@@ -139,7 +139,7 @@ class PageController extends Controller {
 
         $newproducts = $this->splitArray($newproducts, 4);
 
-
+        
         return view('page', compact("subcategory", "categories", "dietas", "newproducts", "love_clients", "clients", "most_sales", "suppliers"));
     }
 

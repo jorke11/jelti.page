@@ -189,7 +189,6 @@ class ShoppingController extends Controller {
             }
 
             $like = ($like_product!=null) ? 'red' : 'none';
-//            dd($product->category->node_id);
             $category_f = Categories::find($product->category->node_id);
 
 
@@ -212,8 +211,6 @@ class ShoppingController extends Controller {
             }
             $product = $product->first();
 
-
-//dd($product);
 
             return view("Ecommerce.payment.product", compact("breadcrumbs", "product", "detail", "relations", "supplier", "available", "categories", "dietas", "like", "line", "text"));
         } else {

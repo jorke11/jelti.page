@@ -173,11 +173,11 @@
                                         <div class="col-lg-3">
                                             <div class="form-group">
                                                 <label for="tgarjeta">Cupon</label>
-                                                <input type="text" class="form-control form-control-sm" id="coupon" name="coupon" placeholder="Cupon">
+                                                <input type="text"  class="form-control form-control-sm" id="coupon" name="coupon" placeholder="Cupon">
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
-                                            <button class="btn btn-info form-control btn-sm" id="apply-coupon" type="button">Aplicar</button>
+                                            <button class="btn btn-info form-control btn-sm" style="margin-top:12px" id="apply-coupon" type="button">Aplicar</button>
                                         </div>
                                     </div>
                                     @endif

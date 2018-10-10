@@ -4,18 +4,16 @@ namespace App\Models\Administration;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Coupon extends Model {
+class CouponClient extends Model {
 
-    protected $table = "coupons";
+    protected $table = "coupons_client";
     protected $primaryKey = "id";
     protected $fillable = [
         "id",
         "stakeholder_id",
-        "amount",
-        "description",
+        "coupon_id",
+        "order_id",
         "status_id",
     ];
-    
-    
 
 }

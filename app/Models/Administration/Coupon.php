@@ -15,7 +15,13 @@ class Coupon extends Model {
         "description",
         "status_id",
     ];
-    
-    
+
+    public function client() {
+        return $this->hasMany(CouponClient::class, "stakeholder_id");
+    }
+
+    public function detail() {
+        return $this->hasMany(CouponClient::class, "coupon_id");
+    }
 
 }

@@ -64,6 +64,7 @@ function Payment() {
 //        this.getDataFirebase()
         $("#apply-coupon").click(this.applyCoupon)
 
+
         this.getData()
     }
 
@@ -71,21 +72,27 @@ function Payment() {
         var param = {}
         param.coupon = $("#coupon").val()
 
-        $.ajax({
-            url: PATH + '/apply-coupon',
-            method: 'PUT',
-            headers: {'X-CSRF-TOKEN': token},
-            data: param,
-            success: function (data) {
-                console.log(data)
+        if (param.coupon != '') {
+            $.ajax({
+                url: PATH + '/apply-coupon',
+                method: 'PUT',
+                headers: {'X-CSRF-TOKEN': token},
+                data: param,
+                success: function (data) {
+                    let {message} = data;
+                    if (data.status == true) {
+                        toastr.success(message);
+                        $("#coupon").empty();
+                    }
 
-            }, error: function (xhr, ajaxOptions, thrownError) {
-//                console.log(xhr)
-//                console.log(ajaxOptions)
-//                console.log(thrownError)
-            }
 
-        })
+                }, error: function (xhr, ajaxOptions, thrownError) {
+                    let {message} = xhr.responseJSON;
+                    toastr.error(message)
+                }
+
+            })
+        }
 
         console.log(param)
     }

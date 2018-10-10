@@ -1036,10 +1036,38 @@ class PaymentController extends Controller {
 
     public function applyCoupon(Request $req) {
         $input = $req->all();
-        dd($input);
+
+        $coupon = \App\Models\Administration\Coupon::where("name_promo", $input["coupon"])
+                ->where("init_date", "<=", date("Y-m-d"))
+                ->where("expiration_date", ">=", date("Y-m-d"))
+                ->first();
 
 
-        return response()->json(["status" => true, "order" => $id]);
+        if ($coupon != null) {
+            $detail = $coupon->detail->where("stakeholder_id", Auth::user()->stakeholder_id)->where("status_id", 1)->first();
+
+            if (!empty($detail)) {
+                return response()->json(["status" => false, "message" => "Ya aplicaste este Cupon"], 409);
+            }
+
+
+            $has_coupon = \App\Models\Administration\CouponClient::where("stakeholder_id", Auth::user()->stakeholder_id)
+                            ->where("status_id", 1)->first();
+
+            $name_coupon = \App\Models\Administration\Coupon::find($has_coupon->coupon_id);
+
+            if ($has_coupon == null) {
+                $row = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
+                $new["order_id"] = $row->id;
+                $new["stakeholder_id"] = Auth::user()->stakeholder_id;
+                $coupon->detail()->create($new);
+                return response()->json(["status" => true, "message" => "Cupon aplicado, se vera reflejado al final de tu compra"]);
+            } else {
+                return response()->json(["status" => false, "message" => "Ya tienes cupon " . $name_coupon->name_promo . " agregado al pedido"], 409);
+            }
+        } else {
+            return response()->json(["status" => false, "message" => "Cupon no existe"], 409);
+        }
     }
 
 }
