@@ -32,6 +32,7 @@
                                 </div>
                                 <div class="row row-space">
                                     <div class="col-lg-12 ">
+                                        <label for="business" class="control-label">Compañia</label>
                                         <input class="form-control in-page" placeholder="Compañia" type="text" id="business" name="business" value="{{ old('business') }}">
                                         @if ($errors->has('business'))
                                         <span class="help-block">
@@ -42,6 +43,7 @@
                                 </div>
                                 <div class="row row-space">
                                     <div class="col-lg-6">
+                                        <label for="business" class="control-label">Nombre</label>
                                         <input class="form-control in-page" placeholder="Nombre" type="text" name="name" id="name" required value="{{ old('name') }}">
                                         @if ($errors->has('name'))
                                         <span class="help-block">
@@ -50,6 +52,7 @@
                                         @endif
                                     </div>
                                     <div class="col-lg-6">
+                                        <label for="business" class="control-label">Apellido</label>
                                         <input class="form-control in-page" placeholder="Apellido" type="text" name="last_name" id="last_name" value="{{ old('last_name') }}" required> 
                                         @if ($errors->has('last_name'))
                                         <span class="help-block">
@@ -60,6 +63,7 @@
                                 </div>
                                 <div class="row row-space">
                                     <div class="col-lg-12">
+                                        <label for="business" class="control-label">Nit</label>
                                         <input class="form-control in-page input-number" placeholder="Nit" type="text" name="document_client" id="document_client" value="{{ old('document_client') }}" required> 
                                         <span class="help-block has-error">
                                             @if ($errors->has('document'))
@@ -72,6 +76,7 @@
                                 </div>
                                 <div class="row row-space">
                                     <div class="col-lg-12">
+                                        <label for="business" class="control-label">Email</label>
                                         <input class="form-control in-page" placeholder="Email" type="email" name="email" id="email" required value="{{ old('email') }}">
                                         @if ($errors->has('email'))
                                         <span class="help-block">
@@ -83,7 +88,8 @@
 
                                 <div class="row row-space">
                                     <div class="col-lg-12">
-                                        <input class="form-control in-page input-number" placeholder="Telefono" type="text" name="phone" id="phone" required value="{{ old('phone') }}">
+                                        <label for="business" class="control-label">Celular de contacto</label>
+                                        <input class="form-control in-page input-number" placeholder="Celular" type="text" name="phone" id="phone" required value="{{ old('phone') }}">
                                         @if ($errors->has('phone_contact'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('phone_contact') }}</strong>
