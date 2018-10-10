@@ -85,16 +85,12 @@ class PageController extends Controller {
 
 
         if ($orders != null) {
-            $newproducts->select("orders_detail.quantity", "vproducts.title", "vproducts.title_ec","vproducts.characteristic", "vproducts.price_sf_with_tax", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+            $newproducts->select("orders_detail.quantity", "vproducts.title", "vproducts.title_ec", "vproducts.characteristic", "vproducts.price_sf_with_tax", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
         }
 
 
         $newproducts = $newproducts
-                ->orderBy("vproducts.created_at","desc")
-                ->orderBy("supplier", "asc")
-                ->orderBy("category_id")
-                ->orderBy("reference")
-                
+                ->orderBy("vproducts.created_at", "desc")
                 ->get();
 
         $subcategory = Characteristic::where("status_id", 1)->where("type_subcategory_id", 1)->whereNotNull("img")->orderBy("order", "asc")->get();
@@ -141,7 +137,7 @@ class PageController extends Controller {
 
         $newproducts = $this->splitArray($newproducts, 4);
 
-        
+
         return view('page', compact("subcategory", "categories", "dietas", "newproducts", "love_clients", "clients", "most_sales", "suppliers"));
     }
 
