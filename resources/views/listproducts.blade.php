@@ -28,11 +28,11 @@
             <div class="col-lg-3 offset-1 ">
                 <span><?php echo $breadcrumbs ?></span>
             </div>
-            <div class="col-lg-8">
+<!--            <div class="col-lg-8">
                 @if(isset($param) && count($products)>0)
                 <div class="alert alert-warning">{{count($products)}} Producto{{(count($products)>1)?'s':''}} relacionado con: ({{isset($param)?$param:''}})</div>
                 @endif
-            </div>
+            </div>-->
         </div>
 
         <div class="row center-block" style="margin-right: 0;padding-top:1%">
