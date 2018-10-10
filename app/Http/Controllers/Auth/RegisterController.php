@@ -52,8 +52,8 @@ use RegistersUsers;
      */
     protected function validator(array $data) {
         return Validator::make($data, [
-                    'name' => 'required|string|max:255',
-                    'last_name' => 'required|string|max:255',
+                    'name' => 'required|string|regex:/^[a-zA-Z]+$/u|max:255',
+                    'last_name' => 'required|string|regex:/^[a-zA-Z]+$/u|max:255',
                     'document' => 'required|string|max:255|min:6',
                     'email' => 'required|string|email|max:255|unique:users',
                     'phone_contact' => 'required|string|min:10'
