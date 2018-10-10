@@ -90,8 +90,6 @@ use RegistersUsers;
 
         $valida_mail = DB::table("users")->where("email", $input["email"])->first();
 
-
-
         if (is_null($valida_mail)) {
             $valida_doc = DB::table("stakeholder")->where("document", $input["document"])->first();
 

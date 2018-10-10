@@ -263,7 +263,7 @@
                                                             <a href="{{url("search/s=".str_slug(strtolower($value->supplier), '-'))}}" class="text-supplier">{{strtoupper($value->supplier)}}</a>
                                                         </p>
                                                         <h5 class="card-title text-left title-products" onclick="objCounter.redirectProduct('{{$value->slug}}')">
-                                                            <?php echo strtoupper(substr($value->title, 0, 30)); ?>
+                                                            {{$value->title}}
                                                         </h5>
                                                         <p class="text-left">
                                                             <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -292,7 +292,7 @@
                                                         </p>
                                                         @endguest
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                     <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                         <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
                                                         <div class="row row-center <?php echo (isset($value->quantity_order)) ? '' : 'd-none' ?>" id="buttonAdd_{{$value->id}}" >
                                                             <div class="col-lg-6">
                                                                 <div class="row" style="background-color: #5cb19a;color:white;padding-bottom: 2%;padding-top: 5%;

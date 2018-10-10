@@ -26,7 +26,7 @@ $(function () {
                                     <div class="row">
 
                                         <div class="col-6" id="title-business" style="cursor:pointer">
-                                            <form class="form-horizontal" role="form" method="POST" action="{{ url('/loginModal') }}">
+                                            <form class="form-horizontal" role="form" method="POST" action="{{ url('/loginModal') }}" id="frm-login">
                                                 {{ csrf_field() }}
                                                 <div class="row text-center" style="padding-bottom: 3%">
                                                     <div class="col-lg-12 title-green">Inicia Sesión</div>
@@ -37,11 +37,11 @@ $(function () {
                                                             <label for="exampleInputEmail1">Correo</label>
                                                             <input type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus 
                                                                    style="border: 1px solid #ccc">
-                                                            @if ($errors->has('email'))
-                                                            <span class="help-block">
-                                                                <strong>{{ $errors->first('email') }}</strong>
+
+                                                            <span class="help-block d-none" id="error_email">
+                                                                <strong></strong>
                                                             </span>
-                                                            @endif
+
                                                         </div>
 
                                                     </div>
@@ -61,7 +61,7 @@ $(function () {
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-12">
-                                                        <button class="btn btn-success btn-login form-control" type="submit">Ingresar</button>
+                                                        <button class="btn btn-success btn-login form-control" type="button" id="btn-login">Ingresar</button>
                                                     </div>
                                                 </div>
                                             </form>

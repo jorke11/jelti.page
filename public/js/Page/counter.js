@@ -38,6 +38,26 @@ function Counter() {
 
         })
 
+        $("#btn-login").click(function () {
+            var form = $("#frm-login");
+            $.ajax({
+                url: '/loginModal',
+                method: 'POST',
+                headers: {'X-CSRF-TOKEN': token},
+                data: form.serialize(),
+                success: function (data) {
+                    location.href = "/";
+                }, error: function (xhr, ajaxOptions, thrownError) {
+                    let {errors, message} = xhr.responseJSON;
+                    toastr.error(message);
+
+
+                    $("#frm-login #error_email").removeClass("d-none").html(`<strong>${errors.email[0]}</strong>`)
+                }
+
+            })
+        })
+
 
         //        $(window).scroll(function () {
         //

@@ -1,5 +1,3 @@
-
-
 @if($errors->any()))
 <script>
     $(function () {
@@ -7,7 +5,6 @@
     })
 </script>
 @endif
-
 
 <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" style="background-color: rgba(255,255,255,.8) !important;padding-top: 7%;">
     <div class="modal-dialog" role="document">
