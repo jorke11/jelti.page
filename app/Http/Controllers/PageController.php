@@ -89,11 +89,12 @@ class PageController extends Controller {
         }
 
 
-        $newproducts = $newproducts->orderBy("supplier", "asc")
+        $newproducts = $newproducts
                 ->orderBy("vproducts.created_at")
+                ->orderBy("supplier", "asc")
                 ->orderBy("category_id")
                 ->orderBy("reference")
-                ->orderBy("created_at","desc")
+                
                 ->get();
 
         $subcategory = Characteristic::where("status_id", 1)->where("type_subcategory_id", 1)->whereNotNull("img")->orderBy("order", "asc")->get();
