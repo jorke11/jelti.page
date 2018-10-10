@@ -80,12 +80,12 @@ use RegistersUsers;
 
     public function register(Request $req) {
         $input = $req->all();
-        
-        $input["document"] = (isset($input["document_client"]) || $input["document_client"]==null) ? $input["document_client"] : $input["document"];
-        $input["phone_contact"] = (isset($input["phone"])) ? $input["phone"] : $input["phone_contact"];
+
+        $input["document"] = (isset($input["document_client"]) || $input["document_client"] == null) ? $input["document_client"] : $input["document"];
+        $input["phone_contact"] = (isset($input["phone"]) || $input["phone"] == '') ? $input["phone"] : $input["phone_contact"];
 
         $val = $this->validator($input);
-    
+
 
         $input["phone"] = (isset($input["phone_contact"])) ? $input["phone_contact"] : $input["phone"];
         $input["business"] = $input["name"] . " " . $input["last_name"];
