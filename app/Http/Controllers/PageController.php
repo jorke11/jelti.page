@@ -71,7 +71,7 @@ class PageController extends Controller {
                         ->where(function($query) {
                             $query->whereNull("node_id")
                             ->OrWhere("node_id", 0)->orderBy("description");
-                        })->orderBy("created_at")->orderBy("description")->get();
+                        })->orderBy("created_at","desc")->orderBy("description")->get();
 
         $init = date('Y-m-d', strtotime('-3 month', strtotime(date('Y-m-d'))));
 
