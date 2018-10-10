@@ -30,7 +30,7 @@
             </div>
             <div class="col-lg-8">
                 @if(isset($param) && count($products)>0)
-                <div class="alert alert-warning">{{count($products)}} Producto{{(count($products)>1)?'s':''}} relacionado con: ({{$param}})</div>
+                <div class="alert alert-warning">{{count($products)}} Producto{{(count($products)>1)?'s':''}} relacionado con: ({{isset($param)?$param:''}})</div>
                 @endif
             </div>
         </div>
