@@ -51,13 +51,23 @@ use RegistersUsers;
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data) {
-        return Validator::make($data, [
-                    'name' => 'required|string|regex:/^[a-zA-Z]+$/u|max:255',
-                    'last_name' => 'required|string|regex:/^[a-zA-Z]+$/u|max:255',
+        $validator = Validator::make($data, [
+                    'name' => 'required|string|alpha|max:255',
+                    'last_name' => 'required|string|alpha|max:255',
                     'document' => 'required|string|max:255|min:6',
                     'email' => 'required|string|email|max:255|unique:users',
                     'phone_contact' => 'required|string|min:10'
-                ])->validate();
+        ]);
+
+        $niceNames = [
+            "name" => "Nombres",
+            "last_name" => "apellidos",
+            "document" => "Documento",
+            "phone_contact" => "Celular de Contacto",
+        ];
+
+
+        $validator->setAttributeNames($niceNames)->validate();
 //        ]);
     }
 
