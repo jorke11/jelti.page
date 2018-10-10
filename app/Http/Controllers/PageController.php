@@ -90,7 +90,7 @@ class PageController extends Controller {
 
 
         $newproducts = $newproducts
-                ->orderBy("vproducts.created_at")
+                ->orderBy("vproducts.created_at","desc")
                 ->orderBy("supplier", "asc")
                 ->orderBy("category_id")
                 ->orderBy("reference")
