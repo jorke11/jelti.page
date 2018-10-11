@@ -1,4 +1,4 @@
-@if($errors->any()))
+@if($errors->any() && Session::has("type_stakeholder")==1)
 <script>
     $(function () {
         $("#myModal").modal("show")
@@ -13,6 +13,7 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <form class="form-horizontal" method="POST" action="{{ route('register') }}" id='frmLandingPage'>
+                         
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-12">
