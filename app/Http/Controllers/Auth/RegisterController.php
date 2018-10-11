@@ -59,7 +59,7 @@ use RegistersUsers;
                     'phone_contact' => 'required|string|min:10',
                     'verification' => ["required", "integer", "digits:1", function($attribute, $value, $fail) use ($data) {
                             $number = $this->numberVerification($data["document"]);
-                            
+
                             if ($value != $number) {
                                 $fail("El Digito de Verificación no es valido.");
                             }
@@ -178,7 +178,13 @@ use RegistersUsers;
                 return back()->with("error_email", "¡Email ya existe en nuestro sistema!");
             }
         } else {
-            return back()->with("type_stakeholder", $input["type_stakeholder"])->withErrors($val)->withInput();
+            $back = back()->withErrors($val)->withInput();
+            if (isset($input["type_stakeholder"])) {
+                $back->with("type_stakeholder", $input["type_stakeholder"]);
+            }
+
+
+            return $back;
         }
     }
 
