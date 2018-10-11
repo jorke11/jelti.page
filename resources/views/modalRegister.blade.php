@@ -13,7 +13,6 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <form class="form-horizontal" method="POST" action="{{ route('register') }}" id='frmLandingPage'>
-                         {{$errors}}
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-12">
