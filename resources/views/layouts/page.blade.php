@@ -31,11 +31,11 @@ clearstatcache();
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="shortcut icon" href="{{ asset('assets/images/icon.png') }}">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-        
+
         <!-- Fonts -->
 
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-        <meta name="keywords" content="organico,saludable">
+        <meta name="keywords" content="organico,saludable,distribuidor,distribución,mayorista,al por mayor,colombia,bogotá,medellín,cartagena,sin gluten,libre de">
         <meta name="description" content="Superfuds. Hemos creado una forma mas eficiente para que los proveedores y los compradores de productos saludables y ecológicos se conecten! Unete a esta revolución de vida saludable">
         <!-- Styles -->
 
@@ -51,12 +51,12 @@ clearstatcache();
 
         {!!Html::style('/css/page.css')!!}
         <script src="/vendor/plugins.js" async></script>
-        
+
         {!!Html::style('/vendor/select2/css/select2.min.css')!!}
         {!!Html::script('/vendor/select2/js/select2.js')!!}
         {!!Html::style('/css/edited.css')!!}
         {!!Html::style('/css/card.css')!!}
-        
+
     </head>
 
     <style>
