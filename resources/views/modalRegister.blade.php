@@ -13,7 +13,7 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <form class="form-horizontal" method="POST" action="{{ route('register') }}" id='frmLandingPage'>
-                         
+                         {{$errors}}
                         {{ csrf_field() }}
                         <div class="row">
                             <div class="col-12">
@@ -63,13 +63,25 @@
                                     </div>
                                 </div>
                                 <div class="row row-space">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-8">
                                         <label for="business" class="control-label">Nit</label>
                                         <input class="form-control in-page input-number" placeholder="Nit" type="text" name="document_client" id="document_client" value="{{ old('document_client') }}" required> 
                                         <span class="help-block has-error">
                                             @if ($errors->has('document'))
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('document') }}</strong>
+                                            </span>
+                                            @endif
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="col-lg-4">
+                                        <label for="business" class="control-label">Verifcación</label>
+                                        <input class="form-control in-page input-number" placeholder="Vericación" type="text" name="verification" id="verification" value="{{ old('verification') }}" required maxlength="1"> 
+                                        <span class="help-block has-error">
+                                            @if ($errors->has('verification'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('verification') }}</strong>
                                             </span>
                                             @endif
                                         </span>

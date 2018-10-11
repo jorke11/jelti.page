@@ -56,14 +56,26 @@ use RegistersUsers;
                     'last_name' => 'required|string|alpha|max:255',
                     'document' => 'required|string|max:255|min:6',
                     'email' => 'required|string|email|max:255|unique:users',
-                    'phone_contact' => 'required|string|min:10'
+                    'phone_contact' => 'required|string|min:10',
+                    'verification' => ["required", "integer", "digits:1", function($attribute, $value, $fail) use ($data) {
+                            $number = $this->numberVerification($data["document"]);
+                            
+                            if ($value != $number) {
+                                $fail("El Digito de Verificación no es valido.");
+                            }
+                        }],
         ]);
+
+//        $validator::extend('verification', function ($attribute, $value, $parameters) {
+//            // ...
+//        }, 'my custom validation rule message');
 
         $niceNames = [
             "name" => "Nombres",
             "last_name" => "apellidos",
             "document" => "Documento",
             "phone_contact" => "Celular de Contacto",
+            "verification" => "Digito de Verificación",
         ];
 
 
@@ -97,6 +109,7 @@ use RegistersUsers;
         $input["phone_contact"] = (isset($input["phone"]) || $input["phone"] == '') ? $input["phone"] : $input["phone_contact"];
 
         $val = $this->validator($input);
+
 
         if (!$val->fails()) {
             $input["phone"] = (isset($input["phone_contact"])) ? $input["phone_contact"] : $input["phone"];
