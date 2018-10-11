@@ -36,7 +36,7 @@ clearstatcache();
 
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
         <meta name="keywords" content="organico,saludable">
-        <meta name="description" content="Superfuds.">
+        <meta name="description" content="Superfuds. Hemos creado una forma mas eficiente para que los proveedores y los compradores de productos saludables y ecológicos se conecten! Unete a esta revolución de vida saludable">
         <!-- Styles -->
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
