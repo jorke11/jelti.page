@@ -1,6 +1,9 @@
 <template>
     <div>
+<<<<<<< HEAD
             {{categories}}
+=======
+>>>>>>> master
      <list-filter-item
           v-for="(row,index) in categories" 
           :data="row"

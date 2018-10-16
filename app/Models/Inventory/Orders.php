@@ -12,10 +12,23 @@ class Orders extends Model {
         "id",
         "insert_id",
         "response_payu",
-        "status_id"];
+        "daparture_id",
+        "discount",
+        "status_id",
+        "referencecode",
+        "last_executed",
+        "amounted_consulted"
+    ];
+    protected $casts = [
+        'response_payu' => 'array'
+    ];
 
     public function detail() {
         return $this->hasMany(OrdersDetail::class, "order_id");
+    }
+
+    public function departure() {
+        return $this->hasOne(Departures::class, "id", "departure_id");
     }
 
 }

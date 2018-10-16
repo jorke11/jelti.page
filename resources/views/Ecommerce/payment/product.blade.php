@@ -261,6 +261,8 @@
     }
 </style>
 
+
+
 <input id="slug_product" value="{{$product->slug}}" type="hidden">
 <div class="container-fluid">
 
@@ -300,10 +302,9 @@
                 </a>
             </div>
         </div>
-        
-
 
         <input type="hidden" id="slug" value="{{$product->slug}}">
+
         <div class="col-3">
             <div class="row">
                 <div class="col-lg-12">
@@ -314,7 +315,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12" style="font-size: 33px;">
-                            {{ucwords($product->title)}}
+                            {{strtoupper($product->title)}}
                         </div>
                     </div>
                     <div class="row">
@@ -329,7 +330,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            ${{number_format($product->price_sf,0,",",".")}}
+                            ${{number_format($product->price_sf_with_tax,0,",",".")}}
                         </div>
                         <div class="col-lg-5 text-right">
                             Gramos pendiente
@@ -346,7 +347,7 @@
                                   style="background-color: rgba(91,175,152,1);color:white;cursor: pointer">-</span>
 
                         </div>
-                        <input type="text" class="form-control" id="quantity" name="quantity" value="{{(isset($product->quantity_order)?$product->quantity_order:0)}}" type="number">
+                        <input type="text" class="form-control" id="quantity" style="text-align: center;" name="quantity" value="{{(isset($product->quantity_order)?$product->quantity_order:0)}}" type="number">
                         <div class="input-group-append">
                             <span class="input-group-text" 
                                   onclick="objCounter.addProduct('{{$product->short_description}}',
@@ -357,13 +358,6 @@
                 </div>
 
             </div>
-                
-                <?php
-                
-//                echo "<pre>";
-//                print_r($product);
-                ?>
-
 
 
             <div class="row justify-content-center">
@@ -375,7 +369,7 @@
                             onclick="obj.addCard('{{$product->short_description}}',
                             '{{$product->slug}}','{{$product->id}}','{{$product->price_sf}}','{{url($product->image)}}','{{$product->tax}}')"
                             id="btnAddCart"
-                            disabled>Agregar al carrito</button>
+                            {{(isset($product->quantity_order) && $product->quantity_order > 0 )?'':'disabled'}}>Agregar al carrito</button>
                 </div>
             </div>
             <div class="row justify-content-center" style="margin-top: 3%">
@@ -655,6 +649,8 @@
         </div>
     </div>
 
+
+
     <div class="row">
         <div class="col-12">
             <div class="row" style="padding-bottom: 1%">
@@ -702,18 +698,18 @@
                                 <div class="row text-center">
                                     <?php
                                     $cont = 0;
-
+                                    dd($relations);
                                     foreach ($relations as $i => $value) {
                                         ?>
                                         <div class="col-lg-3 col-md-3 col-sm-7">
                                             <div class="card" >
-                                                <img class="card-img-top" src="https://superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
+                                                <img class="card-img-top" src="https://superfuds.com/{{$value->thumbnail}}" alt="Card image cap" onclick="objCounter.redirectProduct('{{$value->slug}}')" style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                                 <div class="card-body text-center">
-                                                     <p class="text-left  " style="margin:0;" >
-                                                            <a href="{{url("search/s=".str_slug(strtolower($value->supplier), '-'))}}" class="text-supplier text-muted">{{strtoupper($value->supplier)}}</a>
-                                                        </p>
-                                                   <h5 class="card-title text-left title-products" style="cursor:pointer;min-height: 60px" onclick="obj.redirectProduct('{{$value->slug}}')">
-                                                            <?php echo trim(strtoupper(substr($value->title, 0, 30))); ?></h5>
+                                                    <p class="text-left  " style="margin:0;" >
+                                                        <a href="{{url("search/s=".str_slug(strtolower($value->supplier), '-'))}}" class="text-supplier text-muted">{{strtoupper($value->supplier)}}</a>
+                                                    </p>
+                                                    <h5 class="card-title text-left title-products" style="cursor:pointer;min-height: 60px" onclick="objCounter.redirectProduct('{{$value->slug}}')">
+                                                        {{$value->title_ec}}</h5>
                                                     <p class="text-left">
                                                         <svg id="i-star" viewBox="0 0 32 32" class="star"  stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                         <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />

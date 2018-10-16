@@ -38,6 +38,29 @@ function Counter() {
 
         })
 
+        $("#btn-login").click(function () {
+            var form = $("#frm-login");
+            $.ajax({
+                url: '/loginModal',
+                method: 'POST',
+                headers: {'X-CSRF-TOKEN': token},
+                data: form.serialize(),
+                success: function (data) {
+                    location.href = "/";
+                }, error: function (xhr, ajaxOptions, thrownError) {
+                    let {errors, message} = xhr.responseJSON;
+                    toastr.error(message);
+
+
+                    $("#frm-login #error_email").removeClass("d-none").html(`<strong>${errors.email[0]}</strong>`)
+                }
+
+            })
+        })
+
+        $("#btn-register").click(function () {
+            $("#myModal").modal("show");
+        })
 
         //        $(window).scroll(function () {
         //
@@ -86,8 +109,9 @@ function Counter() {
             return false;
         })
 
-        $(document).keydown(function (e) {
+        $("#text-search").keydown(function (e) {
             if (e.which == 13) {
+                console.log("asd");
                 var search_data = $("#text-search").val();
                 if (search_data != '') {
                     location.href = PATH + "/search/" + search_data
@@ -96,8 +120,11 @@ function Counter() {
                 return false;
             }
         });
+
+
         $(".box-client").addClass("back-green");
         $("#type_stakeholder").val(id);
+
         $("#register").click(function () {
             var elem = $(this);
             elem.attr("disabled", true);
@@ -114,21 +141,28 @@ function Counter() {
                 return false;
             }
 
+            var url = "newVisitan";
+            if ($("#type_stakeholder").val() == 1) {
+                $("#frmLandingPage").submit();
+                return false;
+            }
 
-            var form = $("#frm");
+            var form = $("#frmLandingPage");
+
             if (valida.length == 0) {
                 $.ajax({
-                    url: 'newVisitan',
+                    url: url,
                     method: 'POST',
+                    headers: {'X-CSRF-TOKEN': token},
                     data: form.serialize(),
                     success: function (data) {
                         if (data.status == true) {
                             toastr.success("Pronto te estaremos contactando");
                             $(".in-page").cleanFields();
-                            $("#myModal").modal("hide");
+//                            $("#myModal").modal("hide");
                         }
                     }, error: function (xhr, ajaxOptions, thrownError) {
-                        toastr.error(xhr.responseJSON.msg);
+                        toastr.error(xhr.responseJSON.message);
                         elem.attr("disabled", false);
                     }
 
@@ -156,6 +190,21 @@ function Counter() {
         });
     }
 
+    this.stakeholder = function (elem_id, elem) {
+        elem_id = elem_id | 1;
+
+        if (elem_id == 1) {
+            $(elem).addClass("title-green")
+            $("#title-supplier").removeClass("title-green");
+        } else {
+            $(elem).addClass("title-green")
+            $("#title-business").removeClass("title-green");
+        }
+
+        id = elem_id;
+        $("#type_stakeholder").val(id);
+    }
+
 
 
     this.optionsModal = function (opt) {
@@ -168,22 +217,31 @@ function Counter() {
     }
 
 
-    this.addProduct = function (title, slug, product_id, price_sf, img, tax) {
+    this.addProduct = function (title, slug, product_id, price_sf, img, tax, elem_id, type = '') {
         var token = $("input[name=_token]").val();
+        let quantity = $("#" + elem_id).val();
+        if (type == '') {
+            type = '';
+            quantity = 1;
+        }
+
+
         var row = {
-            quantity: 1,
+            quantity: quantity,
             title: title,
             product_id: product_id,
             price_sf: price_sf,
             img: img,
-            tax: tax
+            tax: tax,
+            type: type
         }
+
 
         if (user_id) {
             $.ajax({
                 url: PATH + '/addProduct/' + slug,
                 method: 'PUT',
-                headers: { 'X-CSRF-TOKEN': token },
+                headers: {'X-CSRF-TOKEN': token},
                 data: row,
                 beforeSend: function () {
                     $("#loading-super").removeClass("d-none");
@@ -191,11 +249,18 @@ function Counter() {
                 },
                 success: function (data) {
                     objCounter.setData(data);
-                    $("#quantity_product_" + product_id).html(data.row.quantity)
+
+                    $("#" + elem_id).val(data.row.quantity)
                     $("#quantity_selected_" + product_id).html("Cantidad (" + data.row.quantity + ")")
                     $("#loading-super").addClass("d-none");
                     $("#btn-plus-product_" + product_id).attr("disabled", true);
                     $("#quantity").val(data.row.quantity)
+                    $("#card_" + product_id).addClass("card-selected");
+
+                    setTimeout(function () {
+                        $("#card_" + product_id).removeClass("card-selected")
+                    }, 600);
+
                 }, error: function (xhr, ajaxOptions, thrownError) {
 
                 }
@@ -203,11 +268,20 @@ function Counter() {
             })
         } else {
             $("#modalOptions").modal("show");
+    }
+    }
+
+    this.addProductEnter = function (e, title, slug, product_id, price_sf, img, tax, elem_id) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+
+        if (code == 13) {
+            this.addProduct(title, slug, product_id, price_sf, img, tax, elem_id, 'check')
         }
     }
 
     this.deleteUnit = function (product_id, slug, index) {
         $("#quantity_" + product_id).val(parseInt($("#quantity_" + product_id).val()) - 1)
+
         var row = {
             quantity: $("#quantity_" + product_id).val(),
             product_id: product_id
@@ -216,15 +290,15 @@ function Counter() {
         $.ajax({
             url: PATH + '/deleteProductUnit/' + slug,
             method: 'PUT',
-            headers: { 'X-CSRF-TOKEN': token },
+            headers: {'X-CSRF-TOKEN': token},
             data: row,
             beforeSend: function () {
                 $("#loading-super").removeClass("d-none");
             },
             success: function (data) {
-                //                $("#content-detail").empty();
+                //                $("#add").empty();
                 if (data.row.quantity > 0) {
-                    $("#quantity_product_" + product_id).html(data.row.quantity)
+                    $("#" + index).val(data.row.quantity)
                 } else {
                     $("#buttonAdd_" + product_id).addClass("d-none");
                     $("#btnOption_" + product_id).removeClass("d-none");
@@ -248,25 +322,21 @@ function Counter() {
     }
 
     this.hideButton = function (e, product_id) {
-        console.log(e)
         if (e.target != this) {
             return;
         }
-        console.log(e);
-        console.log("ingreso");
-
         //        $("#buttonShow_" + product_id).removeClass("d-none")
         //        $("#buttonAdd_" + product_id).addClass("d-none")
 
     }
 
 
-    this.showButton = function (description, slug, id, price, thumbnail, tax) {
+    this.showButton = function (description, slug, id, price, thumbnail, tax, elem_id) {
 
         if (user_id) {
             $("#buttonAdd_" + id).removeClass("d-none");
             $("#btnOption_" + id).addClass("d-none");
-            objCounter.addProduct(description, slug, id, price, thumbnail, tax);
+            objCounter.addProduct(description, slug, id, price, thumbnail, tax, elem_id);
         } else {
             $("#modalOptions").modal("show");
         }
@@ -308,25 +378,31 @@ function Counter() {
                 
                                         <div class="row" card-customer>
                                             <div class="col-3 card-customer">
-                                                <img class="img-fluid"  src="https://superfuds.com/${row.thumbnail}" alt="Card image cap" style="max-width: 160%;cursor:pointer" 
-                                                 onclick="obj.redirectProduct('${row.slug}')">
+                                                <img class="img-fluid"  src="/${row.thumbnail}" alt="Card image cap" style="max-width: 160%;cursor:pointer" 
+                                                 onclick="objCounter.redirectProduct('${row.slug}')">
                                             </div>
                                             <div class="col-9 card-customer">
-                                                <p>${row.product} <br>
-                                                Precio <b>${parseInt(row.price_sf_with_tax)}</b><br>
-                                                Total <b>${parseInt(row.subtotal)}</b><br>
+                                                <p>${row.product}<br>
+                                                Precio <b>${$.formatNumber(parseInt(row.price_sf_with_tax))}</b><br>
+                                                Total <b>${$.formatNumber(parseInt(row.subtotal_with_tax))}</b><br>
                                                 
                                                  <div class="row card-customer" style="width:70%;z-index:1000">
                                                 <div class="input-group mb-2 offset-1 card-customer">
                                                     <div class="input-group-prepend card-customer">
-                                                        <span class="input-group-text card-customer" onclick="objCounter.deleteUnit('${row.product_id}','${row.slug}',${index})" style="background-color: #30c594;color:white;cursor: pointer">-</span>
+                                                        <span class="input-group-text card-customer" 
+                                                        onclick="objCounter.deleteUnit('${row.product_id}','${row.slug}',${index},'quantity_${row.product_id}')" 
+                                                    style="background-color: #30c594;color:white;cursor: pointer">-</span>
                                                     </div>
-                                                    <input type="text" class="form-control form-control-sm card-customer" id="quantity_${row.product_id}" name="quantity" value="${row.quantity}" type="number">
+                                                    <input type="text" class="form-control form-control-sm card-customer input-number" 
+                                                        id="quantity_${row.product_id}" name="quantity" value="${row.quantity}" 
+                                                        onkeypress="objCounter.addProductEnter(event,'${row.product}',
+                                                                '${row.slug}','${row.product_id}',
+                                                                '${row.price_sf}}','${row.thumbnail}','${row.tax}','quantity_${row.product_id}')" style="text-align:center">
                                                     <div class="input-group-append">
                                                         <span class="input-group-text card-customer" 
                                                                 onclick="objCounter.addProduct('${row.product}',
                                                                 '${row.slug}','${row.product_id}',
-                                                                '${row.price_sf}}','${row.thumbnail}','${row.tax}')"
+                                                                '${row.price_sf}}','${row.thumbnail}','${row.tax}','quantity_${row.product_id}')"
                                                             style="background-color: #30c594;color:white;cursor: pointer">+</span>
                                                         
                                                     </div>
@@ -339,14 +415,14 @@ function Counter() {
                                 </div>
                             </div>
                             `;
-                //                }
+
             })
         }
 
         html += ` 
                 <div class="row">
                     <div class="col-12 text-center">
-                         Total ${data.total}  Item total:${data.detail.length}
+                         Total ${$.formatNumber(data.total)}  Item total:${data.detail.length}
                     <div>   
                 <div>   
                 
@@ -359,6 +435,10 @@ function Counter() {
                 </div>`
 
         $("#content-cart").html(html);
+
+        $('.input-number').on('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
     }
 
     this.deleteItem = function (slug, index) {
@@ -366,7 +446,7 @@ function Counter() {
 
         $.ajax({
             url: '/deleteAllProduct/' + slug,
-            headers: { 'X-CSRF-TOKEN': token },
+            headers: {'X-CSRF-TOKEN': token},
             method: 'PUT',
             dataType: 'JSON',
             success: function (data) {
@@ -380,11 +460,11 @@ function Counter() {
         return text.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
     }
 
-    this.formatNumber = function (n,currency) {
+    this.formatNumber = function (n, currency) {
         if (currency == undefined) {
             currency = "$";
         }
-        
+
         return currency + " " + parseFloat(n).toFixed(0).replace(/./g, function (c, i, a) {
             return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "," + c : c;
         });
@@ -403,6 +483,10 @@ function Counter() {
             $("#minus-icon" + ref).addClass("d-none");
             flag_category = false;
     }
+    }
+
+    this.redirectProduct = function (url) {
+        window.location = PATH + "/product-detail/" + url;
     }
 
 }

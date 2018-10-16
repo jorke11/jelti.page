@@ -2,7 +2,7 @@
 <template>
     <div>
         <div v-for="diet in diets" :key="diet.id" >
-            <li class="list-group-item"><a class="link-white" v-bind:href="'search/c='+diet.slug+''">{{diet.description.toUpperCase()}}</a></li>
+            <li class="list-group-item"><a class="link-white" v-bind:href="'/search/c='+diet.slug+''">{{diet.description.toUpperCase()}}</a></li>
         </div>
     </div>
 </template>

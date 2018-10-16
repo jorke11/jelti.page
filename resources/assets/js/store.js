@@ -5,7 +5,10 @@ export default {
         newProducts:[],
         listProducts:[],
         listSupplier:[],
+<<<<<<< HEAD
         subcategories:[],
+=======
+>>>>>>> master
         appPath:"http://localhost:8000/"
     },
     
@@ -22,9 +25,12 @@ export default {
         listSupplier(state){
             return state.listSupplier
         },
+<<<<<<< HEAD
         listSubcategories(state){
             return state.subcategories
         },
+=======
+>>>>>>> master
         AppPath(state){
             return state.appPath
         },
@@ -45,9 +51,12 @@ export default {
         },
         updateListSupplier(state,payload){
             return state.listSupplier = payload
+<<<<<<< HEAD
         },
         updateSubcategory(state,payload){
             return state.subcategories = payload
+=======
+>>>>>>> master
         }
         
     },
@@ -77,11 +86,14 @@ export default {
             axios.get("/suppliers").then(response => {
                 context.commit("updateListSupplier",response.data)
             });
+<<<<<<< HEAD
         },
         getSubcategories(context){
             axios.get("/subcategory").then(response => {
                 context.commit("updateSubcategory",response.data)
             });
+=======
+>>>>>>> master
         }
     }
 }

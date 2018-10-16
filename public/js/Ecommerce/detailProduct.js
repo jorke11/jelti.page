@@ -198,12 +198,6 @@ function detailProduct() {
         }
     }
 
-
-    this.redirectProduct = function (url) {
-        window.location = PATH + "/productDetail/" + url;
-    }
-
-
     this.addProductFirestore = function (title, slug, product_id, price, img, tax) {
         var doc_id = '';
         db.collection(user_id).where("product_id", "==", product_id)

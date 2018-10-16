@@ -126,14 +126,14 @@ function Pse() {
                                     <div class="row">
                                         <div class="col-2">
                                             <img src="https://superfuds.com/${detail[i].thumbnail}" style="width:95%;cursor:pointer" class="img-fluid" 
-                                            onclick="obj.redirectProduct('${detail[i].slug}')"/>
+                                            onclick="objCounter.redirectProduct('${detail[i].slug}')"/>
                                         </div>
                                         <div class="col-7">
                                             <div class="row">
                                                 <div class="col">
                                                     <div>
                                                         <span ><a href="/search/s=${slug}"style="color:#827b7b">${detail[i].supplier}</a></span><br>
-                                                        <span style="font-size:20px;cursor:pointer" onclick="obj.redirectProduct('${detail[i].slug}')">${detail[i].product}</span>
+                                                        <span style="font-size:20px;cursor:pointer" onclick="objCounter.redirectProduct('${detail[i].slug}')">${detail[i].product}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -377,9 +377,7 @@ function Pse() {
 
     }
 
-    this.redirectProduct = function (url) {
-        window.location = PATH + "/productDetail/" + url;
-    }
+    
     this.payCredit = function () {
         window.location = PATH + "/payment-credit";
     }

@@ -32,9 +32,7 @@ class Stakeholder extends Model {
         "web_site",
         "type_regime_id",
         "type_person_id",
-        "type_stakeholder",
         "type_document",
-        "type_stakeholder",
         "business_name",
         "business",
         "lead_time",
@@ -44,7 +42,11 @@ class Stakeholder extends Model {
         "sector_id",
         "password",
         "login_web",
-        "exclude_report"
+        "exclude_report",
+        "type_stakeholder_id"
+    ];
+    protected $casts = [
+        'type_stakeholder_id' => 'json'
     ];
 
     public function Product() {

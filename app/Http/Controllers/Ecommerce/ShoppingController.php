@@ -18,8 +18,11 @@ use DB;
 use App\Http\Controllers\Inventory\StockController;
 use App\Models\Administration\ProductsComment;
 use App\Models\Administration\ProductsCommentLike;
+use App\Traits\Utils;
 
 class ShoppingController extends Controller {
+
+    use Utils;
 
     public $stock;
     public $total;
@@ -138,7 +141,9 @@ class ShoppingController extends Controller {
         if ($product != null) {
 
             $detail = $product->images;
+
             $relations = DB::table("vproducts")->where("category_id", $product->category_id)->whereNotNull("image");
+
 
             if (Auth::user()) {
                 $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
@@ -146,7 +151,7 @@ class ShoppingController extends Controller {
                 if ($orders != null) {
 
 
-                    $relations->select("orders_detail.quantity as quantity_order", "vproducts.category_id","vproducts.title", "vproducts.description", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")
+                    $relations->select("orders_detail.quantity as quantity_order", "vproducts.category_id", "vproducts.title", "vproducts.description", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")
                             ->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
 
                     $product->select("orders_detail.quantity as quantity_order", "vproducts.category_id", "vproducts.description", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")
@@ -179,7 +184,8 @@ class ShoppingController extends Controller {
 
             $text = '';
 
-            if (count($like_product) > 0) {
+
+            if ($like_product != null) {
                 $like = $line = 'red';
             } else {
                 $like = 'none';
@@ -187,8 +193,7 @@ class ShoppingController extends Controller {
                 $text = "Añadir a favoritos";
             }
 
-            $like = (count($like_product) > 0) ? 'red' : 'none';
-//            dd($product->category->node_id);
+            $like = ($like_product != null) ? 'red' : 'none';
             $category_f = Categories::find($product->category->node_id);
 
 
@@ -211,9 +216,10 @@ class ShoppingController extends Controller {
             }
             $product = $product->first();
 
+            
 
-//dd($product);
-
+            $relations = $this->splitArray($relations, 4);
+            dd($relations);
             return view("Ecommerce.payment.product", compact("breadcrumbs", "product", "detail", "relations", "supplier", "available", "categories", "dietas", "like", "line", "text"));
         } else {
             return response(view('errors.503'), 404);

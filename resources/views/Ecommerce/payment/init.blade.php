@@ -165,9 +165,23 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
-                                            <img src="{{url("images/visa.png")}}" class="img-fluid d-xs-none" id="imgCard">
+                                            <img src="{{url("images/visa.png")}}" class="img-fluid d-xs-none" id="imgCard" width="60%">
                                         </div>
                                     </div>
+                                    @if($order->discount==null)
+                                    <div class="row row-space align-items-center">
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="tgarjeta">Cupon</label>
+                                                <input type="text"  class="form-control form-control-sm" id="coupon" name="coupon" placeholder="Cupon">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <button class="btn btn-info form-control btn-sm" style="margin-top:12px" id="apply-coupon" type="button">Aplicar</button>
+                                        </div>
+                                    </div>
+                                    @endif
+
                                     <div class="row row-space">
                                         <div class="col-lg-6">
                                             <input type="checkbox" id="checkbuyer" name="checkbuyer" checked=""> ¿Deseas que la informacion del pagador sea la misma?
@@ -231,23 +245,25 @@
                                 </div>
 
                                 <div class="panel-footer">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <button type="submit" id="btnPayU" class="btn btn-success form-control btn-sm">Pagar</button>
+                                    <div class="row row-center">
+                                        <div class="col-10">
+                                            <button type="submit" id="btnPayU" class="btn btn-success form-control btn-sm">Pagar Con Tarjeta Credito</button>
                                         </div>
-                                        <div class="col-4">
-                                            @if($term>1)
-                                            <button type="button" class="btn btn-info form-control" id="btnPay">
+                                    </div>
+                                    @if($term>1)
+                                    <div class="row row-center pt-3">
+                                        <div class="col-10">
+                                            <button type="button" class="btn btn-primary form-control btn-sm" id="btnPay">
                                                 <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span>({{$term}}) días Credito SuperFuds
                                             </button>
-                                            @endif
                                         </div>
-                                        <div class="col-4">
-                                            @if($term>1)
-                                            <button type="button" class="btn btn-info form-control" id="btnPSE">
+                                    </div>
+                                    @endif
+                                    <div class="row row-center pt-3">
+                                        <div class="col-10">
+                                            <button type="button" class="btn btn-primary form-control btn-sm" id="btnPSE">
                                                 <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span>PSE
                                             </button>
-                                            @endif
                                         </div>
                                     </div>
                                 </div>

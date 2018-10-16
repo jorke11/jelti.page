@@ -35,7 +35,7 @@
                                 <div class="row row-center">
                                     <div class="col-12 col-sm-12 ">
                                         <a href="/" >
-                                            <img  src="{{ url('images/page/logosuperf.svg') }}" style="width: 50%" class="center-block">
+                                            <img  src="{{ url('images/page/logosuperf.svg') }}" style="width: 50%" class="center-block" alt="Logo Superfuds">
                                         </a>
                                     </div>
                                 </div>
@@ -48,22 +48,33 @@
                                 <div class="row">
                                     <div class="col-4 col-md-4">
                                         <a href="https://www.facebook.com/superfuds/">
-                                            <img  src="/images/page/facebook.svg" class="center-block">
+                                            <img  src="/images/page/facebook.svg" class="center-block" alt="Logo Facebook">
                                         </a>
                                     </div>
                                     <div class="col-4 col-md-4">
                                         <a href="https://co.pinterest.com/superfuds/">
-                                            <img  src="/images/page/pinterest.svg" class="center-block">
+                                            <img  src="/images/page/pinterest.svg" class="center-block" alt="Logo Pinteres">
                                         </a>
                                     </div>
                                     <div class="col-4 col-md-4">
                                         <a href="https://www.instagram.com/superfuds/?hl=es-la">
-                                            <img  src="/images/page/instagram.png" class="center-block">
+                                            <img  src="/images/page/instagram.png" class="center-block" alt="Logo Instagram">
                                         </a>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-md-offset-2 col-lg-offset-2">
+                                @if (Session::has('success'))
+                                <div class="alert alert-success">
+                                    {{Session::get("success")}}
+                                </div>
+                                @endif
+                                @if (Session::has('warning'))
+                                <div class="alert alert-warning">
+                                    {{Session::get("warning")}}
+                                </div>
+                                @endif
+
                                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                     <label for="email" class=" control-label" style='color:rgba(0,0,0,0.8);font-family:"helvetica";font-weight: 600;font-size: 18px'>Correo</label>
 
@@ -100,10 +111,10 @@
                                         </button>
                                     </div>
                                     <div class="col-md-6" style="padding-right: 0">
-                                        <button type="submit" class="btn" 
-                                                style="background-color: transparent; border: 1px solid #5cb19a;color:rgba(0,0,0,0.8);width: 100%;">
+                                        <a href="/register" class="btn" 
+                                           style="background-color: transparent; border: 1px solid #5cb19a;color:rgba(0,0,0,0.8);width: 100%;">
                                             Registrarse
-                                        </button>
+                                        </a>
 
                                     </div>
                                 </div>

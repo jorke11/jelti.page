@@ -62,7 +62,39 @@ function Payment() {
 //        db = firebase.firestore();
 
 //        this.getDataFirebase()
+        $("#apply-coupon").click(this.applyCoupon)
+
+
         this.getData()
+    }
+
+    this.applyCoupon = function () {
+        var param = {}
+        param.coupon = $("#coupon").val()
+
+        if (param.coupon != '') {
+            $.ajax({
+                url: PATH + '/apply-coupon',
+                method: 'PUT',
+                headers: {'X-CSRF-TOKEN': token},
+                data: param,
+                success: function (data) {
+                    let {message} = data;
+                    if (data.status == true) {
+                        toastr.success(message);
+                        $("#coupon").empty();
+                    }
+
+
+                }, error: function (xhr, ajaxOptions, thrownError) {
+                    let {message} = xhr.responseJSON;
+                    toastr.error(message)
+                }
+
+            })
+        }
+
+        console.log(param)
     }
 
     this.printDetailAll = function () {
@@ -111,20 +143,20 @@ function Payment() {
                                     <div class="row">
                                         <div class="col-2">
                                             <img src="https://superfuds.com/${detail[i].thumbnail}" style="width:95%;cursor:pointer" class="img-fluid" 
-                                            onclick="obj.redirectProduct('${detail[i].slug}')"/>
+                                            onclick="objCounter.redirectProduct('${detail[i].slug}')"/>
                                         </div>
                                         <div class="col-7">
                                             <div class="row">
                                                 <div class="col">
                                                     <div>
                                                         <span ><a href="/search/s=${slug}"style="color:#827b7b">${detail[i].supplier}</a></span><br>
-                                                        <span style="font-size:20px;cursor:pointer" onclick="obj.redirectProduct('${detail[i].slug}')">${detail[i].product}</span>
+                                                        <span style="font-size:20px;cursor:pointer" onclick="objCounter.redirectProduct('${detail[i].slug}')">${detail[i].product}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="detail[i]" style="padding-top:10%">
                                                 <div class="col" >
-                                                    <p>${detail[i].price_sf}</p>
+                                                    <p>${$.formatNumber(detail[i].price_sf_with_tax)}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -133,9 +165,11 @@ function Payment() {
                                                 <div class="input-group mb-3 ">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text" onclick="obj.deleteUnit('${detail[i].product_id}','${detail[i].slug}',${i})" style="background-color: #30c594;color:white;cursor: pointer">-</span>
-                                                        
                                                     </div>
-                                                    <input type="text" class="form-control" id="quantity_payment_${detail[i].product_id}" value="${detail[i].quantity}" type="number">
+                                                    <input type="text" class="form-control input-number" id="quantity_payment_${detail[i].product_id}" value="${detail[i].quantity}" type="number"
+                                                    onkeypress="objCounter.addProductEnter(event,'${detail[i].product}','${detail[i].slug}','${detail[i].product_id}',
+                                                                '${detail[i].price_sf}}','${detail[i].thumbnail}','${detail[i].tax}',this)" style="text-align:center">
+                
                                                     <div class="input-group-append">
                                                         <span class="input-group-text" 
                                                                 onclick="obj.addProduct('${detail[i].product}',
@@ -368,9 +402,7 @@ function Payment() {
 //        window.location.href = PATH + "/selectPay"
 //    }
 
-    this.redirectProduct = function (url) {
-        window.location = PATH + "/productDetail/" + url;
-    }
+
     this.payCredit = function () {
         window.location = PATH + "/payment-credit";
     }

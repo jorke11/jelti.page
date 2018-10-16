@@ -104,9 +104,9 @@
                             <div class="col-md-3 col-sm-2 col-xs-2">
                                 <div class="thumbnail" style="border: 0;padding: 0">
 
-                                    <img src="{{url("/") ."/".$value->thumbnail}}" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer">
+                                    <img src="{{url("/") ."/".$value->thumbnail}}" onclick="objCounter.redirectProduct('{{$value->slug}}')" style="cursor: pointer">
                                     <div class="caption" style="padding: 0">
-                                        <h5 class="text-center" style="min-height: 50px"><a href="/productDetail/{{$value->slug}}" style="color:black;font-weight: 400;letter-spacing:2px"><?php echo $value->short_description; ?></a></h5>
+                                        <h5 class="text-center" style="min-height: 50px"><a href="/product-detail/{{$value->slug}}" style="color:black;font-weight: 400;letter-spacing:2px"><?php echo $value->short_description; ?></a></h5>
                                         @if(!Auth::guest())
                                         <p>
                                         <h4 class="text-center" style="color:black;font-weight: 400;">$ {{number_format($value->price_sf,0,",",".")}}</h4>
@@ -170,9 +170,9 @@
                             <div class="col-sm-2 col-xs-6">
                                 <div class="thumbnail" style="border: 0;padding: 0">
 
-                                    <img src="{{url("/") ."/".$value->thumbnail}}" onclick="obj.redirectProduct('{{$value->slug}}')" style="cursor: pointer">
+                                    <img src="{{url("/") ."/".$value->thumbnail}}" onclick="objCounter.redirectProduct('{{$value->slug}}')" style="cursor: pointer">
                                     <div class="caption" style="padding: 0">
-                                        <h5 class="text-center" style="min-height: 50px"><a href="/productDetail/{{$value->slug}}" style="color:black;font-weight: 400;letter-spacing:2px"><?php echo $value->short_description; ?></a></h5>
+                                        <h5 class="text-center" style="min-height: 50px"><a href="/product-detail/{{$value->slug}}" style="color:black;font-weight: 400;letter-spacing:2px"><?php echo $value->short_description; ?></a></h5>
                                         @if(!Auth::guest())
                                         <p>
                                         <h4 class="text-center" style="color:black;font-weight: 400;">$ {{number_format($value->price_sf,0,",",".")}}</h4>

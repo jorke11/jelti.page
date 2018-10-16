@@ -42,7 +42,11 @@
 
                                 </li>
                                 <div id="content-subcategories" class="collapse">
+<<<<<<< HEAD
                                    <menu-subcategory-filter @update="updateFilter(index, ...arguments)"/>
+=======
+                                   
+>>>>>>> master
                                 </div>
                             </ul>
                             <ul class="list-group">
@@ -80,7 +84,11 @@
                                         </svg>
                                     </span></li>
                                 <div id="content-dietas" class="collapse">
+<<<<<<< HEAD
                                     <menu-diet-filter @update="updateFilter(index, ...arguments)"/>
+=======
+                                    <filter-diet @update="updateFilter(index, ...arguments)"/>
+>>>>>>> master
                                 </div>
                             </ul>
                         </div>
@@ -90,9 +98,14 @@
 <script>
 export default {
     props:["total_categories"],
+<<<<<<< HEAD
   mounted() {
       
   },
+=======
+  computed: {},
+  mounted() {},
+>>>>>>> master
   methods: {
     updateFilter(index, row) {
      /*  let diets = this.$store.getters.listSupplier

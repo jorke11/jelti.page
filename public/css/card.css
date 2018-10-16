@@ -1,0 +1,463 @@
+.title-products{
+    padding: 0;min-height: 60px;
+    cursor:pointer;
+    min-height: 60px
+}
+
+#slider-main{
+    position:relative;
+    top: -28px   
+}
+
+.text-supplier{
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.star{
+    width: 22px;
+    height: 22px;
+    color:#ffa608;
+    fill:#ffa608
+}
+
+.img-card-product{
+    width:60%;
+    cursor: pointer;
+    position: relative;
+    margin-left: 20%;
+    padding-top: 15px
+}
+
+.title-menu-left{
+    border-bottom: 3px solid #ccd07b !important;
+    margin-bottom: 20px;
+    font-weight: bold;
+    cursor: pointer
+}
+.subtitle-menu-left{
+    font-size: 13px
+}
+
+.img-plus-filter{
+    width:28px;
+    height:28px;
+    cursor: pointer;
+}
+
+.btn-minus-card-product{
+    width:25px; 
+    height:25px
+}
+
+.row-form-add-product{
+    background-color: #5cb19a;
+    color:white;
+    padding-bottom: 2%;
+    padding-top: 5%;
+    padding-left: 0;
+    padding-right: 0;
+    border-radius: 10px;
+}
+.row-form-add-product > div{
+    padding-left: 0;padding-right: 0
+}
+
+.card-img-product{
+    cursor: pointer;
+    width:60%;
+    position: relative;
+    margin-left: 20%;
+    padding-top: 15px;
+}
+
+
+#text-search{
+    width: 320px;
+    height: 26px
+}
+
+#title-account{
+    color:white;
+    font-size: 19px;
+    padding-left: 15px;
+    padding-right:15px;
+    padding-top: 15px    
+}
+
+.title-green {
+    color: #28a745;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+
+
+#img-cart{
+    width:45%
+}
+
+.title-diet{
+    font-family: "dosis" !important
+}
+
+.link-white{
+    color:white !important;
+    font-size: 15px
+}
+
+.icon-social {
+    position: absolute;
+    top: 0.1em;
+    /*right: 90%;*/
+    /*right: 10px;*/
+    text-decoration: none;
+    text-align: right;
+    color: #fff;
+    padding-top: 0.1em;
+    z-index: 2000;
+}
+
+.img-social {
+    width: 50%
+}
+
+.center-image{
+    padding-left: 28%;
+    padding-top: 15px;padding-bottom: 2%   
+}
+
+.title-menu{
+    color: white !important;
+    font-size: 21px
+}
+
+.title-menu:hover{
+    color: white;
+    font-weight: bold
+}
+
+.main-menu{
+    padding-top: 70px;
+    position: relative;
+    transition: all 1s ease;
+    background-repeat: no-repeat;
+    background-position-y: -55px;
+
+}
+
+.img-header{
+
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-color: rgba(91,175,152,1);
+}
+
+.main-menu-out{
+    padding-top: 0px;
+    transition: all 1.5s ease;
+    background-color: rgba(91,175,152,1) !important
+}
+
+#img-logo{
+    width:70%
+}
+
+
+.go-top {
+    position: fixed;
+    bottom: 4em;
+    right: 2em;
+    text-decoration: none;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.3);
+    font-size: 12px;
+    padding: 1em;
+    display: none;
+    z-index: 1000;
+    border-radius: 50% 50% 50% 50%;
+}
+
+.go-top:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+    color:white;
+}
+
+.popover-body{
+    padding: 20px;
+    overflow-y: scroll;
+    height: 550px
+}
+.popover{
+    max-width: 380px;
+}
+
+.input-quantity-product{
+    text-align: center;
+    padding: 0;
+    border-radius: 5px;
+    border: 0px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    width: 35px
+}
+
+.icon-ok{
+    background-color: #5cb19a;
+    color:white;
+    padding-bottom: 30%;
+    padding-top: 40%;
+    padding-left: 0;
+    padding-right: 35px;
+    border-radius: 10px;   
+}
+
+.card-selected{
+    border:1px solid #5cb19a !important;
+    transition: opacity 2s linear;
+}
+
+@media screen and (max-width: 2000px) {
+    #slider-main{
+        position:relative;
+        top: -55px   
+    }
+}
+
+@media screen and (max-width: 1500px) {
+
+    #text-search{
+        width: 220px;
+        height: 26px
+    }
+
+    .title-diet-header{
+        font-size: 20px
+    }
+    .title-products{
+        font-size: 14px;
+        padding: 0;min-height: 60px;
+    }
+
+
+    .center-image{
+        padding-left: 19%;
+        padding-top: 15px;padding-bottom: 2%   
+    }
+
+    #init-session{
+        padding-right:130px
+    }
+
+    #slider-main{
+        position:relative;
+        top: -60px   
+    }
+
+}
+
+
+@media screen and (max-width: 1400px) {
+    #text-search{
+        width: 200px;
+        height: 26px
+    }
+
+    #init-session{
+        padding-right: 50%
+    }
+
+    .center-image{
+        padding-left: 23%;
+        padding-top: 15px;padding-bottom: 2%   
+    }
+}
+
+
+@media screen and (max-width: 1300px) {
+    #text-search{
+        width: 240px;
+        height: 26px
+    }
+
+    .center-image{
+        padding-left: 20%;
+        padding-top: 15px;padding-bottom: 2%   
+    }
+
+    #img-menu{
+        display: none;
+    }
+
+    #init-session{
+        padding-right: 0
+    }
+    #title-account{
+        font-size: 16px
+    }
+    #img-cart{
+        width:35%
+    }
+
+    #text-search{
+        width: 180px;
+        height: 26px
+    }
+}
+
+
+
+@media screen and (max-width: 1200px) {
+    .title-new {
+        display: none !important;
+    }
+    .title-products{
+        font-size: 15px;
+        padding: 0;min-height: 60px;
+    }
+    .text-supplier{
+        font-size: 11px;
+        color: #6c757d
+    }
+
+    .star{
+        width: 18px;
+        height: 18px;
+        color:#ffa608;
+        padding-left: 1px;
+        fill:#ffa608
+    }
+
+    .center-image{
+        padding-left: 23%;
+        padding-top: 15px;
+        padding-bottom: 2%   
+    }
+    #text-search{
+        width: 140px;
+        height: 26px
+    }
+    #title-account{
+        font-size: 14px
+    }
+
+    .title-menu{
+        color:white;
+        font-size: 16px
+    }
+
+    #style-input-search{
+        padding-left: 0px;
+        padding-right: 0px
+    }
+}
+
+@media screen and (max-width: 1100px) {
+    .title-new {
+        display: none !important;
+    }
+    .title-products{
+        font-size: 11px;
+        padding: 0;
+        min-height: 40px;
+    }
+
+    .img-plus-filter{
+        width:18px;
+        height:18px;
+
+    }
+
+    .title-menu-left{
+        font-size: 14px !important
+    }
+
+    .title-diet{
+        font-size: 25px;
+    }
+    .link-white{
+        font-size: 14px;
+    }
+
+    .star{
+        width: 13px;
+        height: 15px;
+    }
+
+    .btn-minus-card-product{
+        width:13px; 
+        height:13px
+    }
+
+    .input-quantity-product{
+        text-align: center;
+        padding: 0;
+        border-radius: 5px;
+        border: 0px;
+        padding-bottom: 2px;
+        padding-top: 2px;
+        width: 25px
+    }
+
+    #img-logo{
+        width:35%
+    }
+}
+@media screen and (max-width: 900px) {
+    .title-new {
+        display: none !important;
+    }
+
+    .title-products{
+        font-size: 12px;
+        padding: 0;min-height: 60px;
+    }
+
+    .star{
+        width: 13px;
+        height: 15px;
+    }
+
+    .title-menu-left{
+        font-size: 17px
+    }
+
+    #slider-main{
+        padding-top: 100px
+    }
+
+}
+
+@media screen and (max-width: 800px) {
+    .title-new {
+        display: none !important;
+    }
+
+    .title-menu-left{
+        font-size: 17px
+    }
+
+    .title-products{
+        font-size: 12px;
+        padding: 0;min-height: 60px;
+    }
+
+    .star{
+        width: 13px;
+        height: 15px;
+    }
+
+    #slider-main{
+        padding-top: 50px
+    }
+
+}
+
+@media screen and (max-width: 400px) {
+    #slider-main{
+        position:relative;
+        top: -62px   
+    }
+}

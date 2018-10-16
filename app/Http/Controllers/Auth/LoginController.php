@@ -37,9 +37,6 @@ use AuthenticatesUsers;
     }
 
     public function loginModal(Request $request) {
-
-
-
         $this->validateLogin($request);
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
@@ -62,6 +59,11 @@ use AuthenticatesUsers;
         $error = ["status" => false, "msg" => "Problemas con el usuario o clave"];
 
         return $this->sendFailedLoginResponse($request);
+    }
+
+    protected function credentials(Request $request) {
+        $request["status_id"] = 1;
+        return $request->only($this->username(), 'password', 'status_id');
     }
 
 }

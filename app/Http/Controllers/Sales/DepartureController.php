@@ -609,9 +609,7 @@ class DepartureController extends Controller {
     public function processDeparture($header, $detail, $id = null) {
         try {
             DB::beginTransaction();
-            $header["insert_id"] = Auth::user()->id;
-
-//            dd($detail);
+            $header["insert_id"] = (isset($header["insert_id"])) ? $header["insert_id"] : Auth::user()->id;
 
             if (isset($header["branch_id"]) && $header["branch_id"] != 0) {
 
@@ -730,7 +728,7 @@ class DepartureController extends Controller {
                 if (count($emDetail) > 0) {
                     $this->mails = array();
 
-                    $userware = Users::find($ware->responsible_id);
+                    $userware = \App\Administrator::find($ware->responsible_id);
                     $this->mails[] = $userware->email;
 
                     foreach ($emDetail as $value) {
@@ -742,7 +740,7 @@ class DepartureController extends Controller {
                     $this->subject = "SuperFuds " . date("d/m") . " " . $client->business . " " . $cit->description . " " . $result;
                     $header["city"] = $cit->description;
 
-                    $user = Users::find($header["responsible_id"]);
+                    $user = \App\Administrator::find($header["responsible_id"]);
 
                     $header["name"] = ucwords($user->name);
                     $header["last_name"] = ucwords($user->last_name);

@@ -430,6 +430,21 @@ jQuery.fn.capital = function (str) {
     });
 }
 
+jQuery.fn.fillSelect = function (data) {
+
+    this.each(function () {
+        var elem = $(this);
+        let html = '';
+        elem.empty();
+        html = `<option value='0'>Selecciona</option>`;
+        data.forEach((val, index) => {
+            html += `<option value='${val.id}'>${val.description}</option>`;
+        });
+
+        elem.html(html)
+    })
+}
+
 $.formatNumber = function (n, currency) {
 
     if (currency == undefined) {

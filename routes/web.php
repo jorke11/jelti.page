@@ -18,6 +18,24 @@ Route::get('/search/{busqueda}', 'PageController@search');
 Route::get('/', 'PageController@index');
 
 Route::get('myOrders', "Ecommerce\PaymentController@getMyOrders");
+Route::get('coupon', "Ecommerce\PaymentController@showCoupon");
+Route::get('getCoupon', "Ecommerce\PaymentController@getCoupon");
+Route::get('profile', "Administration\ProfileController@index");
+//Route::get('profile', "Administration\ProfileController@index");
+Route::put('profile/update', "Administration\ProfileController@update");
+Route::get('data-user', "Administration\ProfileController@getDataUser");
+Route::get('type-document', "Administration\ProfileController@getTypeDocument");
+Route::post('upload-document', "Administration\ProfileController@uploadDocument");
+Route::delete('/quit-document/{document_id}', "Administration\ProfileController@deleteDocument");
+
+Route::put('/applyDiscount/{coupon_id}', "Ecommerce\PaymentController@updateCoupon");
+Route::get('myFavourite', "Ecommerce\PaymentController@getFavourite");
+Route::get('review-pendding', "Administration\CronController@loadPending");
+Route::put('apply-coupon', "Ecommerce\PaymentController@applyCoupon");
+Route::get("/user/activation/{token}", 'Auth\RegisterController@showActivation');
+Route::post("activation", 'Auth\RegisterController@userActivation', ["use" => "activation"]);
+
+
 Route::get('getDetailOrder/{invoice}', "Ecommerce\PaymentController@getInvoice");
 
 Route::post('newVisitan', "PageController@newVisitan");
@@ -38,7 +56,7 @@ Route::get('/getComment/{id}', 'Ecommerce\ShoppingController@getComment');
 Route::post('addComment', 'Ecommerce\ShoppingController@storeComment');
 Route::get('/getCounter', 'Ecommerce\PaymentController@getOrdersCurrent');
 Route::get('/getCounter/{slug}', 'Ecommerce\PaymentController@getOrdersCurrent');
-Route::get('/productDetail/{id}', 'Ecommerce\ShoppingController@getProduct');
+Route::get('/product-detail/{id}', 'Ecommerce\ShoppingController@getProduct');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/payment', 'Ecommerce\PaymentController@index');
@@ -65,3 +83,5 @@ Route::get('confirmation', 'Ecommerce\PseController@confirmation');
 Route::get('voucher', 'Ecommerce\PseController@voucher');
 Route::get('finish-payment', 'Ecommerce\PseController@finishPurchase');
 
+
+Route::get('/api/getCity', 'Administration\SeekController@getCity');

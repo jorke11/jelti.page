@@ -31,28 +31,19 @@ clearstatcache();
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="shortcut icon" href="{{ asset('assets/images/icon.png') }}">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-        
+
         <!-- Fonts -->
 
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-        <meta name="keywords" content="organico,saludable">
-        <meta name="description" content="Superfuds.">
+        <meta name="keywords" content="organico,saludable,distribuidor,distribución,mayorista,al por mayor,colombia,bogotá,medellín,cartagena,sin gluten,libre de">
+        <meta name="description" content="Superfuds. Hemos creado una forma mas eficiente para que los proveedores y los compradores de productos saludables y ecológicos se conecten! Unete a esta revolución de vida saludable">
         <!-- Styles -->
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-
         <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-
-        <!-- Add the slick-theme.css if you want default styling -->
-        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick-theme.css"/>
-        <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
-
 
         {!!Html::script('/vendor/toastr/toastr.min.js')!!}
         {!!Html::style('/vendor/toastr/toastr.min.css')!!}
@@ -60,25 +51,13 @@ clearstatcache();
 
         {!!Html::style('/css/page.css')!!}
         <script src="/vendor/plugins.js" async></script>
-        
+
         {!!Html::style('/vendor/select2/css/select2.min.css')!!}
         {!!Html::script('/vendor/select2/js/select2.js')!!}
         {!!Html::style('/css/edited.css')!!}
-        
+        {!!Html::style('/css/card.css')!!}
+
     </head>
-    <!--Start of Tawk.to Script-->
-<!--    <script type="text/javascript">
-            var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-            (function () {
-                var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-                s1.async = true;
-                s1.src = 'https://embed.tawk.to/5a2ea31bd0795768aaf8e9a6/default';
-                s1.charset = 'UTF-8';
-                s1.setAttribute('crossorigin', '*');
-                s0.parentNode.insertBefore(s1, s0);
-            })();
-    </script>-->
-    <!--End of Tawk.to Script-->
 
     <style>
         .carousel-control-prev-icon {
@@ -88,41 +67,6 @@ clearstatcache();
         .carousel-control-next-icon {
             background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
         }
-
-        /* Para 960px */  
-        @media only screen and (max-width: 980px) and (min-width: 821px) {  
-            #slider-main{
-                padding-top: 100px
-            }
-        }  
-
-        /* Para 800px */  
-        @media only screen and (max-width: 820px) and (min-width: 621px) {  
-            #slider-main{
-                padding-top: 98px
-            }
-        }  
-
-        /* Para 600px */  
-        @media only screen and (max-width: 620px) and (min-width: 501px) {  
-            #slider-main{
-                padding-top: 98px
-            }
-        }  
-
-        /* Para 480px */  
-        @media only screen and (max-width: 500px) and (min-width: 341px) {  
-            #slider-main{
-                /*padding-top: 98px*/
-            }
-        }  
-
-        /* Para 320px */  
-        @media only screen and (max-width: 340px) and (min-width: 5px)  {  
-            #slider-main{
-                padding-top: 100px
-            }
-        } 
 
         .go-top {
             position: fixed;
@@ -163,43 +107,6 @@ clearstatcache();
             margin-left: 4%;
             /*border:none;*/
         }
-
-        /* Para 960px */  
-        @media only screen and (max-width: 980px) and (min-width: 821px) {  
-            #slider-main{
-                padding-top: 100px
-            }
-        }  
-
-        /* Para 800px */  
-        @media only screen and (max-width: 820px) and (min-width: 621px) {  
-            #slider-main{
-                padding-top: 98px
-            }
-        }  
-
-        /* Para 600px */  
-        @media only screen and (max-width: 620px) and (min-width: 501px) {  
-            #slider-main{
-                padding-top: 98px
-            }
-        }  
-
-        /* Para 480px */  
-        @media only screen and (max-width: 500px) and (min-width: 341px) {  
-            #slider-main{
-                padding-top: 98px
-            }
-        }  
-
-        /* Para 320px */  
-        @media only screen and (max-width: 340px) and (min-width: 5px)  {  
-            #slider-main{
-                padding-top: 100px
-            }
-        } 
-
-
 
         /* CSS REQUIRED */
         .state-icon {
@@ -266,7 +173,7 @@ clearstatcache();
 
         <div class="container-fluid" style="padding-left: 0; padding-right: 0">
             <div id="loading-super" class="d-none" >
-                <img src="{!!asset('images/Gif_final.gif')!!}" width='60%' >
+                <img src="{!!asset('images/Gif_final.gif')!!}" width='60%' alt="git loading">
             </div>
             @include("header")
 
@@ -312,4 +219,4 @@ if ($exibirModal === true) : // Si nuestra variable de control "$exibirModal" es
 {!!Html::script('js/Page/counter.js')!!}
 
 <link href="{{ asset('/css/fonts.css') }}" rel="stylesheet" type="text/css">
-<script src="{{asset("js/app.js")}}"></script>
+<!--<script src="{{asset("js/app.js")}}"></script>-->

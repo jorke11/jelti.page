@@ -35,10 +35,16 @@ Vue.component('card-product', require('./components/CardProduct.vue'));
 //Vue.component('filter-subcategory', require('./components/MenuCategoryFilter.vue'));
 //let newProducts = Vue.component('new-products', require('./components/NewProduct.vue'));
 let filterList = Vue.component('main-list-filter', require('./components/MainListFilter.vue'));
+<<<<<<< HEAD
 let menuDietFilter = Vue.component('menu-diet-filter', require('./components/MenuDietFilter.vue'));
 let filterSupplier = Vue.component('menu-supplier-filter', require('./components/MenuSupplierFilter.vue'));
 let filterCategory = Vue.component('menu-category-filter', require('./components/MenuCategoryFilter.vue'));
 let menuSubcategoryFilter = Vue.component('menu-subcategory-filter', require('./components/MenuSubcategoryFilter.vue'));
+=======
+let filterDiet = Vue.component('filter-diet', require('./components/MenuDietFilter.vue'));
+let filterSupplier = Vue.component('menu-supplier-filter', require('./components/MenuSupplierFilter.vue'));
+let filterCategory = Vue.component('menu-category-filter', require('./components/MenuCategoryFilter.vue'));
+>>>>>>> master
 
 new Vue({
     el: '#menu-header',
@@ -73,13 +79,24 @@ if (document.getElementById("list-products")) {
 if (document.getElementById("general-filters")) {
     const app = new Vue({
         el: '#general-filters',
+<<<<<<< HEAD
+=======
+        data:{
+            total_category:0
+        },
+>>>>>>> master
         store,
         component:{
             filterList,
             filterSupplier,
+<<<<<<< HEAD
             menuDietFilter,
             filterCategory,
             menuSubcategoryFilter
+=======
+            filterDiet,
+            filterCategory,
+>>>>>>> master
             
         }
     });

@@ -23,6 +23,7 @@ use App\Traits\ValidateCreditCard;
 use App\Models\Administration\Categories;
 use App\Models\Administration\ProductsImage;
 use Cookie;
+use Illuminate\Support\Facades\Validator;
 //Firebase
 //use Kreait\Firebase\Factory;
 //use Kreait\Firebase\ServiceAccount;
@@ -32,12 +33,15 @@ use Cookie;
 //use Google\Cloud\Firestore\DocumentSnapshot;
 //use Google\Cloud\Firestore\QuerySnapshot;
 use App\Traits\Invoice;
+//use App\Traits\Payment;
+use App\Traits\InformationClient;
 use App\Http\Controllers\Inventory\StockController;
 
 class PaymentController extends Controller {
 
     use ValidateCreditCard;
     use Invoice;
+    use InformationClient;
 
     public $depObj;
     public $merchantId;
@@ -97,7 +101,6 @@ class PaymentController extends Controller {
             return back()->with("error", "No tienes Items Seleccionados");
         }
 
-
         $month = $this->getMonts();
         $years = $this->getYears();
 
@@ -114,14 +117,22 @@ class PaymentController extends Controller {
         $deviceSessionId_concat = $data["deviceSessionId_concat"];
 
         $categories = $this->categories;
+
+
         $client = Stakeholder::where("document", Auth::user()->document)->first();
+
+        $errors = $this->informationRequired($client);
+
+        if (count($errors) > 0) {
+            return redirect()->to("/profile?p=1")->with("error_profile", "Para completar la compra Necesitamos que completes la informacion con *");
+        }
 
         $deviceSessionId = md5(session_id() . microtime());
         $deviceSessionId_concat = $deviceSessionId . "80200";
 
         $dietas = $this->dietas;
 
-        return view("Ecommerce.payment.init", compact("id", "categories", "client", "month", "years", "total", "countries", "subtotal", "deviceSessionId", "deviceSessionId_concat", "term", "dietas"));
+        return view("Ecommerce.payment.init", compact("id", "categories", "client", "month", "years", "total", "countries", "subtotal", "deviceSessionId", "deviceSessionId_concat", "term", "dietas", "order"));
     }
 
     public function getProduct($id) {
@@ -168,6 +179,15 @@ class PaymentController extends Controller {
         return view("congratulations", compact("categories", "dietas"));
     }
 
+    public function getFavourite() {
+        $categories = $this->categories;
+        $dietas = $this->dietas;
+
+        $products = DB::table("vproducts_like")->where("user_id", Auth::user()->id)->get();
+
+        return view("favourite", compact("categories", "dietas", "products"));
+    }
+
     public function getMethodsPayments() {
         $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi ";
         $postData = array(
@@ -206,8 +226,6 @@ class PaymentController extends Controller {
         return $banks;
     }
 
-    
-
     public function generatekey() {
         $key = md5($this->ApiKey . "~" . $this->merchantId . "~" . $this->referenceCode . "~" . $this->currency);
         return response()->json(["key" => $key]);
@@ -229,11 +247,7 @@ class PaymentController extends Controller {
             if ($order != null) {
 
                 $pro = Products::find($in["product_id"]);
-
-//            $detPro = OrdersDetail::where("product_id", $pro->id)->where("order_id", $order->id)->first();
                 $detPro = $order->detail->where("product_id", $pro->id)->first();
-
-
                 $det["product_id"] = $pro->id;
                 $det["order_id"] = $order->id;
                 $det["tax"] = $in["tax"];
@@ -242,7 +256,11 @@ class PaymentController extends Controller {
                 $det["price_sf"] = $pro->price_sf;
 
                 if ($detPro != null) {
-                    $detPro->quantity = $detPro->quantity + $in["quantity"];
+                    if (isset($in["type"]) && $in["type"] == 'check') {
+                        $detPro->quantity = $in["quantity"];
+                    } else {
+                        $detPro->quantity = $detPro->quantity + $in["quantity"];
+                    }
                     $detPro->save();
                 } else {
                     $det["quantity"] = $in["quantity"];
@@ -339,9 +357,61 @@ class PaymentController extends Controller {
 
         $client = Stakeholder::find(Auth::user()->stakeholder_id);
 
-        $list = DB::table("vdepartures")->where("client_id", $client->id)->whereIn("status_id", [2, 7])->get();
+        $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
+        $current = array();
+        if ($order) {
+            $current = OrdersDetail::select("orders.created_at", DB::raw("round(sum(vproducts.price_sf * orders_detail.quantity * orders_detail.units_sf)) subtotal"), DB::raw("round(sum(vproducts.price_sf_with_tax * orders_detail.quantity * orders_detail.units_sf)) total"))
+                    ->join("orders", "orders.id", "orders_detail.order_id")
+                    ->join("vproducts", "vproducts.id", "orders_detail.product_id")
+                    ->where("order_id", $order->id)
+                    ->groupBy("orders.created_at")
+                    ->first();
+        }
 
-        return view("Ecommerce.shopping.orders", compact("product", "categories", "dietas", "list"));
+        $list = DB::table("vdepartures")->where("client_id", $client->id)->whereIn("status_id", [2, 7])->orderBy("invoice", "desc")->get();
+
+        return view("Ecommerce.shopping.orders", compact("product", "categories", "dietas", "list", "current"));
+    }
+
+    public function showCoupon() {
+        $categories = $this->categories;
+        $dietas = $this->dietas;
+        $coupon = \App\Models\Administration\Coupon::where("stakeholder_id", Auth::user()->stakeholder_id)->where("status_id", 1)->first();
+        return view("Ecommerce.shopping.coupon", compact("coupon", "categories", "dietas"));
+    }
+
+    public function getCoupon() {
+        $coupon = \App\Models\Administration\Coupon::where("stakeholder_id", Auth::user()->stakeholder_id)->where("status_id", 1)->first();
+        return response()->json($coupon);
+    }
+
+    public function updateCoupon(Request $req, $coupon_id) {
+        $categories = $this->categories;
+        $dietas = $this->dietas;
+
+        $coupon = \App\Models\Administration\Coupon::find($coupon_id);
+
+        $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
+
+        $sql = "SELECT round(sum(d.quantity * d.price_sf * d.units_sf) + sum(d.quantity * d.price_sf * d.units_sf * d.tax)) as tota_with_tax
+                            FROM orders_detail d
+                            JOIN products p ON p.id=d.product_id
+                            WHERE order_id=$order->id
+                            ";
+        $detail = DB::select($sql);
+        $amount = 0;
+        if ($coupon->percentaje) {
+            $amount = round(($coupon->amount / 100) * $detail[0]->tota_with_tax);
+        } else {
+            $amount = $coupon->amount;
+        }
+
+        $order->discount = $amount;
+        $order->save();
+        $coupon->status_id = 2;
+        $coupon->save();
+
+        return response()->json(["status" => true, "msg" => "Cupon Agregado"]);
     }
 
     public function getInvoice($invoice) {
@@ -404,7 +474,7 @@ class PaymentController extends Controller {
             $sql = "
             SELECT 
                 d.product_id,p.title as product,d.tax,d.price_sf,COALESCE(d.units_sf,1) as units_sf,p.thumbnail,sum(d.quantity) as quantity,
-                sum(d.quantity * d.price_sf) as subtotal,p.slug,p.supplier,p.price_sf_with_tax
+                sum(d.quantity * d.price_sf) as subtotal,sum(d.quantity * p.price_sf_with_tax) as subtotal_with_tax,p.slug,p.supplier,p.price_sf_with_tax
             FROM orders_detail d
             JOIN vproducts p on p.id=d.product_id
             WHERE d.order_id=" . $order["id"] . " $slug
@@ -480,7 +550,9 @@ class PaymentController extends Controller {
         $data["categories"] = $this->categories;
 
         $data["id"] = 0;
-        $data["term"] = $data["client"]->term;
+        $data["term"] = 2;
+//        $data["term"] = $data["client"]->term;
+
         $data["total"] = "$ 0";
         $data["subtotal"] = "$ 0";
 
@@ -491,7 +563,8 @@ class PaymentController extends Controller {
         if ($detail) {
 
             $data["id"] = $order->id;
-            $data["term"] = $data["client"]->term;
+//            $data["term"] = $data["client"]->term;
+            $data["term"] = 2;
             $data["total"] = "$" . number_format($this->total, 0, ",", ".");
             $data["subtotal"] = "$" . number_format($this->subtotal, 0, ",", ".");
         }
@@ -553,7 +626,7 @@ class PaymentController extends Controller {
         $client = Stakeholder::find($user->stakeholder_id);
 
         $param["header"]["warehouse_id"] = 3;
-        $param["header"]["responsible_id"] = 1;
+        $param["header"]["responsible_id"] = ($client->responsible_id == null) ? 1 : $client->responsible_id;
         $param["header"]["city_id"] = $client->city_id;
         $param["header"]["created"] = date("Y-m-d H:i");
         $param["header"]["status_id"] = 1;
@@ -563,7 +636,6 @@ class PaymentController extends Controller {
         $param["header"]["phone"] = $client->phone;
         $param["header"]["shipping_cost"] = 0;
         $param["header"]["insert_id"] = Auth::user()->id;
-//        $new["type_insert_id"] = 2;
         $param["header"]["order_id"] = $row->id;
         $param["detail"] = $this->formatDetailOrder($row);
         $param["header"]["total"] = $this->total;
@@ -573,18 +645,17 @@ class PaymentController extends Controller {
         return $param;
     }
 
-
     public function getBanks() {
         $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi ";
         $host = "sandbox.api.payulatam.com";
-        $apiLogin="pRRXKOl8ikMmt9u";
+        $apiLogin = "pRRXKOl8ikMmt9u";
         $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
 
         $postData = array(
             "test" => "false",
             "language" => "es",
             "command" => "GET_PAYMENT_METHODS",
-            "merchant" => array("apiLogin" => $apiLogin, "apiKey" =>$apiKey));
+            "merchant" => array("apiLogin" => $apiLogin, "apiKey" => $apiKey));
 
 
         $data_string = json_encode($postData);
@@ -595,7 +666,7 @@ class PaymentController extends Controller {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json;',
-            'Host: '.$host,
+            'Host: ' . $host,
             'Accept:application/json',
             'Content-Length: ' . strlen($data_string))
         );
@@ -616,61 +687,84 @@ class PaymentController extends Controller {
         return $banks;
     }
 
+    protected function validator(array $data) {
+
+        $validator = Validator::make($data, [
+                    'crc' => 'required|integer|digits_between:3,4',
+                    'number' => 'required|integer|digits_between:10,15',
+                    'order_id' => 'required|integer',
+                    'month' => 'required|integer|digits:2',
+                    'year' => 'required|integer|digits:4',
+        ]);
+
+//        $validator::extend('verification', function ($attribute, $value, $parameters) {
+//            // ...
+//        }, 'my custom validation rule message');
+//        $niceNames = [
+//            "name" => "Nombres",
+//            "last_name" => "apellidos",
+//            "document" => "Documento",
+//            "phone_contact" => "Celular de Contacto",
+//            "verification" => "Digito de Verificación",
+//        ];
+//        $validator->setAttributeNames($niceNames)->validate();
+//        $validator->setAttributeNames($niceNames);
+        return $validator;
+//        ]);
+    }
 
     public function payment(Request $req) {
 //        dd($_SERVER["HTTP_USER_AGENT"]);
+        Log::debug("METHOD PAYMENT");
+
         try {
             DB::beginTransaction();
+            Log::debug("INIT TRANSACCTION");
             $in = $req->all();
+//            dd($in);
+//            dd($this->validator($in)->errors());
 
-            if ((int) date("m") > (int) $in["month"] || (int) date("Y") > (int) $in["year"]) {
-                return back()->with("error", "Fecha vencimiento de tarjeta no es valida")->with("number", $in["number"])
-                ->with("name_card", $in["name_card"]);
+            if ((int) date("Y") >= (int) $in["year"]) {
+                if ((int) date("m") > (int) $in["month"]) {
+                    return back()->with("error", "Fecha vencimiento de tarjeta no es valida")->with("number", $in["number"])
+                                    ->with("name_card", $in["name_card"]);
+                }
             }
-
+//            if ((int) date("m") > (int) $in["month"] || (int) date("Y") > (int) $in["year"]) {
+//                return back()->with("error", "Fecha vencimiento de tarjeta no es valida")->with("number", $in["number"])
+//                                ->with("name_card", $in["name_card"]);
+//            }
 
             $country = $in["country_id"];
             $in["expirate"] = $in["year"] . "/" . $in["month"];
 
-            $data_order = $this->createOrder();
+            $data_order = $this->createOrder(Auth::user()->id);
 
             $client = Stakeholder::where("email", Auth::user()->email)->first();
             $city = $client->city;
 
             $department = $city->department;
-
             $type_card = $this->identifyCard($in["number"], $in["crc"], $in["expirate"]);
-
             $error = '';
+
 
             if ($type_card["status"] == false) {
                 $error = $type_card["msg"];
             }
 
-            if ($error == '') {
 
+            if ($error == '') {
                 $deviceSessionId = $in["devicesessionid"];
 
-                /* 
-                    Otra key
-                    $apiKey = "maGw8KQ5JlOEv64D79ma1N0l9G";
-                    $apiLogin = "rHpg9EL98w905Nv";
-                 */
-                $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
-                $apiLogin= "pRRXKOl8ikMmt9u";
-                $apiKey="4Vj8eK4rloUd272L48hsrarnUA";
-                $merchantId = "508029";
-                $accountId = "512321"; 
 
+                $url = env("URL_PAYU");
+                $apiKey = env("APIKEY");
+                $apiLogin = env("APILOGIN");
+                $merchantId = env("MERCHANTID");
+                $accountId = env("ACCOUNTID");
+                $host = env("HOST_PAYU");
 
-                //data Produccion
-                /* $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
-                $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
-                $apiLogin = "tGovZHuhL97hNh7";
-                $merchantId = "559634";
-                $accountId = "562109"; */
-
-                $postData["test"] = "true";
+                $postData["test"] = "false";
 
                 $referenceCode = 'invoice_' . microtime();
 
@@ -786,7 +880,7 @@ class PaymentController extends Controller {
                         "securityCode" => $in["crc"],
 //                "expirationDate" => "2019/02",
                         "expirationDate" => $in["expirate"],
-                        "name" => $in["name"]
+                        "name" => $in["name_card"]
                     ],
                     "extraParameters" => [
                         "INSTALLMENTS_NUMBER" => $in["dues"]
@@ -804,7 +898,6 @@ class PaymentController extends Controller {
                 );
 
 
-//                dd($postData);
 
                 Log::debug("REQUEST TO PAY: " . print_r($postData, true));
                 $data_string = json_encode($postData);
@@ -815,7 +908,7 @@ class PaymentController extends Controller {
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                     'Content-Type: application/json',
-                    'Host: api.payulatam.com',
+                    'Host: ' . $host,
                     'Accept:application/json',
                     'Content-Length: ' . strlen($data_string))
                 );
@@ -835,10 +928,12 @@ class PaymentController extends Controller {
                     $row = Departures::find($dep->header->id);
                     $row->paid_out = true;
                     $row->type_request = "ecommerce";
+                    $row->status_briefcase_id = 1;
                     $row->save();
 
                     $order->response_payu = json_encode($result);
                     $order->status_id = 2;
+                    $order->departure_id = $row->id;
                     $order->save();
 
                     DB::commit();
@@ -847,6 +942,7 @@ class PaymentController extends Controller {
                     $dep = $this->depObj->processDeparture($data_order["header"], $data_order["detail"])->getData();
                     $row = Departures::find($dep->header->id);
                     $row->paid_out = false;
+                    $row->status_briefcase_id = 2;
                     $row->type_request = "ecommerce";
                     $row->save();
 
@@ -869,10 +965,11 @@ class PaymentController extends Controller {
                     } else {
                         $error = $arr["error"];
                     }
-                    return back()->with("error", $error)->with("number", $in["number"])->with("name", $in["name"]);
+                    return back()->with("error", $error)->with("number", $in["number"])->with("name", $in["name_card"]);
                 }
             } else {
-                return back()->with("error", $error)->with("number", $in["number"])->with("name", $in["name"]);
+
+                return back()->with("error", $error)->with("number", $in["number"])->with("name", $in["name_card"]);
             }
         } catch (Exception $e) {
             DB::rollback();
@@ -882,8 +979,8 @@ class PaymentController extends Controller {
 
     public function paymentCredit() {
         $order = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
-
-        $sql = "SELECT p.title product,d.product_id,d.order_id,sum(d.quantity) quantity,sum(d.quantity * d.price_sf) total,p.image
+        $sql = "SELECT p.title product,d.product_id,d.order_id,sum(d.quantity) quantity,sum(d.quantity * d.price_sf * d.units_sf) total,p.image,
+                        round(sum(d.quantity * d.price_sf * d.units_sf) + sum(d.quantity * d.price_sf * d.units_sf * d.tax)) as tota_with_tax
                             FROM orders_detail d
                             JOIN products p ON p.id=d.product_id
                             WHERE order_id=$order->id
@@ -892,20 +989,18 @@ class PaymentController extends Controller {
         $detail = DB::select($sql);
         $detail = json_decode(json_encode($detail), true);
 
-
         $user = \App\Models\Security\Users::find(Auth::user()->id);
-
-        $cli = \App\Models\Administration\Stakeholder::where("document", $user->document)->first();
-
+        $header["discount"] = $order->discount;
         $header["warehouse_id"] = 3;
-        $header["responsible_id"] = 1;
-        $header["city_id"] = 1;
+        $header["responsible_id"] = $user->stakeholder->responsible_id;
+        $header["city_id"] = $user->stakeholder->city_id;
         $header["created"] = date("Y-m-d H:i");
-        $header["client_id"] = $cli->id;
-        $header["destination_id"] = 1;
-        $header["address"] = "adress";
-        $header["phone"] = "phone";
+        $header["client_id"] = $user->stakeholder->id;
+        $header["destination_id"] = $user->stakeholder->send_city_id;
+        $header["address"] = $user->stakeholder->address_send;
+        $header["phone"] = $user->stakeholder->phone;
         $header["status_id"] = 1;
+        $header["status_briefcase_id"] = 2;
         $header["shipping_cost"] = 0;
         $header["type_request"] = "ecommerce";
 
@@ -959,6 +1054,42 @@ class PaymentController extends Controller {
         OrdersDetail::where("order_id", $id)->where("product_id", $input["product_id"])->delete();
 
         return response()->json(["status" => true, "order" => $id]);
+    }
+
+    public function applyCoupon(Request $req) {
+        $input = $req->all();
+
+        $coupon = \App\Models\Administration\Coupon::where("name_promo", $input["coupon"])
+                ->where("init_date", "<=", date("Y-m-d"))
+                ->where("expiration_date", ">=", date("Y-m-d"))
+                ->first();
+
+
+        if ($coupon != null) {
+            $detail = $coupon->detail->where("stakeholder_id", Auth::user()->stakeholder_id)->where("status_id", 1)->first();
+
+            if (!empty($detail)) {
+                return response()->json(["status" => false, "message" => "Ya aplicaste este Cupon"], 409);
+            }
+
+
+            $has_coupon = \App\Models\Administration\CouponClient::where("stakeholder_id", Auth::user()->stakeholder_id)
+                            ->where("status_id", 1)->first();
+
+            $name_coupon = \App\Models\Administration\Coupon::find($has_coupon->coupon_id);
+
+            if ($has_coupon == null) {
+                $row = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
+                $new["order_id"] = $row->id;
+                $new["stakeholder_id"] = Auth::user()->stakeholder_id;
+                $coupon->detail()->create($new);
+                return response()->json(["status" => true, "message" => "Cupon aplicado, se vera reflejado al final de tu compra"]);
+            } else {
+                return response()->json(["status" => false, "message" => "Ya tienes cupon " . $name_coupon->name_promo . " agregado al pedido"], 409);
+            }
+        } else {
+            return response()->json(["status" => false, "message" => "Cupon no existe"], 409);
+        }
     }
 
 }

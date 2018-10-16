@@ -125,7 +125,7 @@
         @endif
 
         <div id="loading-super" class="hidden" >
-            <img src="{!!asset('images/Gif_final.gif')!!}" width='60%' >
+            <img src="{!!asset('images/Gif_final.gif')!!}" width='60%' alt='git loading'>
             @if(Auth::user()!=null)
             <input id="role_id" type="hidden" value="{{Auth::user()->role_id}}">
             @endif

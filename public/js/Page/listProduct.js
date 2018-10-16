@@ -260,14 +260,14 @@ function listProduct() {
         if (user_id != undefined) {
 
             db.collection(user_id)
-                //                .where("state", "==", "CA")
-                .onSnapshot(function (querySnapshot) {
+                    //                .where("state", "==", "CA")
+                    .onSnapshot(function (querySnapshot) {
 
-                    $("#popover-content").empty();
-                    var data = [], html = '', quantity = 0;
-                    querySnapshot.forEach(function (doc) {
+                        $("#popover-content").empty();
+                        var data = [], html = '', quantity = 0;
+                        querySnapshot.forEach(function (doc) {
 
-                        html += `
+                            html += `
                             <div class="row mb-3">
                                 <div class="col-4">
                                         <img class="img-fluid"  src="${doc.data().img}" alt="Card image cap" >
@@ -279,10 +279,10 @@ function listProduct() {
                                 </div>
                             </div>
                             `;
-                        quantity += doc.data().quantity;
-                        data.push({ title: doc.data().title, img: doc.data().img });
-                    });
-                    html += ` <div class="row">
+                            quantity += doc.data().quantity;
+                            data.push({title: doc.data().title, img: doc.data().img});
+                        });
+                        html += ` <div class="row">
                             <div class="col-12">
                                 <form action="/payment" method="GET">
                                     <button class="btn btn-outline-success my-2 my-sm-0 btn-sm form-control" type="submit">Checkout</button>
@@ -290,9 +290,9 @@ function listProduct() {
                                 <div>   
                                 </div>`
 
-                    $("#badge-quantity").html(quantity)
-                    $("#popover-content").html(html);
-                });
+                        $("#badge-quantity").html(quantity)
+                        $("#popover-content").html(html);
+                    });
         }
 
     }
@@ -321,46 +321,41 @@ function listProduct() {
     this.addProductStore = function (title, slug, product_id, price, img, tax) {
         var doc_id = '';
         db.collection(user_id).where("product_id", "==", product_id)
-            .get()
-            .then(function (querySnapshot) {
-                var cont = false;
-                querySnapshot.forEach(function (doc) {
-                    if (doc.exists) {
-                        cont = true;
-                        db.collection(user_id).doc(doc.id).set({
-                            quantity: doc.data().quantity + 1,
+                .get()
+                .then(function (querySnapshot) {
+                    var cont = false;
+                    querySnapshot.forEach(function (doc) {
+                        if (doc.exists) {
+                            cont = true;
+                            db.collection(user_id).doc(doc.id).set({
+                                quantity: doc.data().quantity + 1,
+                                title: title,
+                                product_id: product_id,
+                                price: price,
+                                img: img,
+                                tax: tax
+                            })
+                        }
+                    })
+
+                    if (cont == false) {
+                        db.collection(user_id).add({
                             title: title,
                             product_id: product_id,
                             price: price,
+                            quantity: 1,
                             img: img,
                             tax: tax
-                        })
+                        }).then(function (docRef) {
+                            console.log("Document written with ID: ", docRef.id);
+                        }).catch(function (error) {
+                            console.error("Error adding document: ", error);
+                        });
                     }
                 })
-
-                if (cont == false) {
-                    db.collection(user_id).add({
-                        title: title,
-                        product_id: product_id,
-                        price: price,
-                        quantity: 1,
-                        img: img,
-                        tax: tax
-                    }).then(function (docRef) {
-                        console.log("Document written with ID: ", docRef.id);
-                    }).catch(function (error) {
-                        console.error("Error adding document: ", error);
-                    });
-                }
-            })
-            .catch(function (error) {
-                console.log("Error getting documents: ", error);
-            });
-    }
-
-
-    this.redirectProduct = function (url) {
-        window.location = PATH + "/productDetail/" + url;
+                .catch(function (error) {
+                    console.log("Error getting documents: ", error);
+                });
     }
 
     this.openModal = function (modal) {
@@ -372,20 +367,7 @@ function listProduct() {
         $("#formSearch").submit();
     }
 
-    this.stakeholder = function (elem_id, elem) {
-        elem_id = elem_id | 1;
-        if (elem_id == 1) {
-            $(elem).addClass("title-green")
-            $("#title-supplier").removeClass("title-green");
-        } else {
-            $(elem).addClass("title-green")
-            $("#title-business").removeClass("title-green");
-        }
-
-        id = elem_id;
-        $("#type_stakeholder").val(id);
-    }
-
+   
     this.eventCategory = function (ref = null, id) {
         ref = (ref == null) ? '' : "-" + ref;
 
@@ -399,7 +381,7 @@ function listProduct() {
             $("#plus-icon" + ref).removeClass("d-none");
             $("#minus-icon" + ref).addClass("d-none");
             flag_category = false;
-        }
+    }
     }
 
     this.reloadCategories = function (slug, e) {
@@ -472,70 +454,94 @@ function listProduct() {
                     $.each(data.products, function (i, value) {
                         html += `
                             <div class="col-3">
-                                            <div class="card text-center">
-                                                <img class="card-img-right img-fluid" src="https://superfuds.com/${value.thumbnail}" alt="Card image cap" 
-                                                onclick="obj.redirectProduct('${value.slug}')" 
-                                                     style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
+                                <div class="card text-center">
+                                    <img class="card-img-right img-fluid" src="/${value.thumbnail}" alt="Card image cap" 
+                                            onclick="objCounter.redirectProduct('${value.slug}')" 
+                                            style="cursor: pointer;width:60%;position: relative;margin-left: 20%;padding-top: 15px">
                                               
-                                                <div class="card-body" style="padding-bottom: 1.25em;padding-top:0">
-
-                                                    <p class="text-left text-supplier" style="margin:0;"><a href="/search/s=${objCounter.slug(value.supplier)}" class="text-muted ">${(value.supplier).toUpperCase()}</a></p>
-
-                                                    <h5 class="card-title text-left title-products" style="margin:0;min-height: 100px" 
-                                                        onclick="obj.redirectProduct('${value.slug}')">
-                                                            ${((value.short_description).toUpperCase()).substring(0, 50)}
-                                                    </h5>           
-                        
-                        
-                                                    <p class="text-left">
-                                                        <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                        <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
-                                                        </svg>
-                                                        <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                        <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
-                                                        </svg>
-                                                        <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                        <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
-                                                        </svg>
-                                                        <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                        <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
-                                                        </svg>
-                                                        <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                        <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
-                                                        </svg>
-                                                    </p>
+                                        <div class="card-body" style="padding-bottom: 1.25em;padding-top:0">
+                                            <p class="text-left text-supplier" style="margin:0;"><a href="/search/s=${objCounter.slug(value.supplier)}" class="text-muted ">${(value.supplier).toUpperCase()}</a></p>
+                                                <h5 class="card-title text-left title-products" style="margin:0;min-height: 100px" 
+                                                    onclick="objCounter.redirectProduct('${value.slug}')">
+                                                        ${((value.short_description).toUpperCase()).substring(0, 50)}
+                                                </h5>           
+                                        <p class="text-left">
+                                            <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
+                                            </svg>
+                                            <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
+                                            </svg>
+                                            <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
+                                            </svg>
+                                            <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
+                                            </svg>
+                                            <svg id="i-star" viewBox="0 0 32 32" width="22" height="22" color="#ffa608" fill="#ffa608" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
+                                            </svg>
+                                        </p>
                         `
                         if (user_id == undefined) {
                             html += `<p></p>`
                         } else {
                             html += `<p>
-                                                        ${objCounter.formatNumber(value.price_sf_with_tax, "$")}
-                                                        </p>`
+                                            ${objCounter.formatNumber(value.price_sf_with_tax, "$")}
+                                        </p>`
                         }
 
+                        if (value.quantity != null) {
+                            html += `<button class="btn" type="button" 
+                                                    onmouseover=objCounter.showOption(this,${value.id}) id="buttonShow_${value.id}" 
+                                                    style="background-color: #5cb19a;color:white;margin-bottom: 4%">${value.quantity} en carrito</button>
+                            `
+                        }
+
+
+
+
                         html += `
-                                <div class="row ${(value.quantity) ? '' : 'd-none'}" id="buttonAdd_${value.id}" 
-                                     style="background-color: #5cb19a;padding-top: 5%;border-radius: 10px">
-                                    <div class="col">
-                                        <svg id="i-minus"  class="btn-minus" viewBox="0 0 32 32"  style="cursor:pointer"
-                                             stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                                             onclick="objCounter.deleteUnit(${value.id},'${value.slug}')">
-                                        <path d="M2 16 L30 16" />
-                                        </svg>
-
-                                    </div>
-                                    <div class="col" >
-                                        <span id="quantity_product_${value.id}" style="color:white">${(value.quantity != null) ? value.quantity : 0}</span>
-                                    </div>
-                                    <div class="col" >
-                                        <svg id="i-plus" class="btn-plus" viewBox="0 0 35 35" stroke-linecap="round"  stroke="#ffffff"
-                                             stroke-linejoin="round" stroke-width="3" style="cursor:pointer"
-                                             onclick="objCounter.addProduct('${value.short_description}',
+                                <div class="row d-none row-center ${(value.quantity) ? '' : 'd-none'}" id="buttonAdd_${value.id}">
+                        
+                                        <div class="col-lg-6 col-6">
+                                            <div class="row" style="background-color: #5cb19a;color:white;padding-bottom: 2%;padding-top: 5%;
+                                                         padding-left: 0;padding-right: 0;border-radius: 10px;">
+                        
+                                                 <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
+                                                    <svg id="i-minus" viewBox="0 0 32 32" class="btn-minus-card-product" fill="white"  style="cursor:pointer;"
+                                                         stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
+                                                         onclick="objCounter.deleteUnit(${value.id},'${value.slug}')">
+                                                    <path d="M2 16 L30 16" />
+                                                    </svg>
+                                                </div>
+                                                <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
+                                                    <input type="text" id="quantity_product_${value.id}" value="${(value.quantity != null) ? value.quantity : 0}" class="input-quantity-product">
+                                                </div>
+                                                <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
+                                                    <svg id="i-plus" viewBox="0 0 35 35"  class="btn-minus-card-product" fill="white" stroke="#ffffff" 
+                                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="4" style="cursor:pointer"
+                                                         onclick="objCounter.addProduct('${value.short_description}',
                                                          '${value.slug}','${value.id}','${value.price_sf}','${value.thumbnail}','${value.tax}'); return false;">
-                                        <path d="M16 2 L16 30 M2 16 L30 16" />
-                                        </svg>
-
-                                    </div>
+                                                        <path d="M16 2 L16 30 M2 16 L30 16" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                          <div class="col-lg-2 col-2" style="margin-left: 3px">
+                                                    <div class="row icon-ok">
+                                                        <div class="col-lg-6">
+                                                            <svg id="i-checkmark" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" 
+                                                                 stroke-linejoin="round" stroke-width="4"
+                                                                  style="cursor:pointer"
+                                                                 onclick="objCounter.addProductCheck('${value.short_description}',
+                                                                 '${value.slug}','${value.id}','${value.price_sf}','${value.thumbnail}','${value.tax}','quantity_product_${value.id}'); return false;">
+                                                            <path d="M2 20 L12 28 30 4" />
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                            </div>
                                 </div>
 
                                 <button class="btn ${(value.quantity == null) ? '' : 'd-none'}" 

@@ -12,7 +12,7 @@ return [
       |
      */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Superfuds'),
     /*
       |--------------------------------------------------------------------------
       | Application Environment
@@ -45,7 +45,7 @@ return [
       | your application so that it is used when running Artisan tasks.
       |
      */
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://superfuds.com'),
     /*
       |--------------------------------------------------------------------------
       | Application Timezone
@@ -67,7 +67,7 @@ return [
       | to any of the locales which will be supported by the application.
       |
      */
-    'locale' => 'en',
+    'locale' => 'es',
     /*
       |--------------------------------------------------------------------------
       | Application Fallback Locale
@@ -78,7 +78,7 @@ return [
       | the language folders that are provided through your application.
       |
      */
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'es',
     /*
       |--------------------------------------------------------------------------
       | Encryption Key
@@ -145,6 +145,7 @@ return [
          * Package Service Providers...
          */
         Barryvdh\DomPDF\ServiceProvider::class,
+        Barryvdh\Cors\ServiceProvider::class,
 
         /*
          * Application Service Providers...
