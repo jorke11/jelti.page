@@ -147,29 +147,12 @@ class PseController extends Controller {
     }
 
     public function getListBanks() {
-//        $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
-//        $host = "sandbox.api.payulatam.com";
-//        $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
-//        $apiLogin = "pRRXKOl8ikMmt9u";
-
-        $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
-        $host = 'api.payulatam.com';
-        $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
-        $apiLogin = "tGovZHuhL97hNh7";
-
-        /*
-
-          /* if ($this->test) {
-          $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
-          $host = 'sandbox.api.payulatam.com';
-          $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
-          $apiLogin = "pRRXKOl8ikMmt9u";
-          } else {
-          $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
-          $host = 'api.payulatam.com';
-          $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
-          $apiLogin = "tGovZHuhL97hNh7";
-          } */
+        $url = env("URL_PAYU");
+        $apiKey = env("APIKEY");
+        $apiLogin = env("APILOGIN");
+        $merchantId = env("MERCHANTID");
+        $accountId = env("ACCOUNTID");
+        $host = env("HOST_PAYU");
 
         $postData = array(
             "test" => false,

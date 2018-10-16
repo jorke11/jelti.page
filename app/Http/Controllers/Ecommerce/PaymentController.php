@@ -23,6 +23,7 @@ use App\Traits\ValidateCreditCard;
 use App\Models\Administration\Categories;
 use App\Models\Administration\ProductsImage;
 use Cookie;
+use Illuminate\Support\Facades\Validator;
 //Firebase
 //use Kreait\Firebase\Factory;
 //use Kreait\Firebase\ServiceAccount;
@@ -686,13 +687,42 @@ class PaymentController extends Controller {
         return $banks;
     }
 
+    protected function validator(array $data) {
+
+        $validator = Validator::make($data, [
+                    'crc' => 'required|integer|digits_between:3,4',
+                    'number' => 'required|integer|digits_between:10,15',
+                    'order_id' => 'required|integer',
+                    'month' => 'required|integer|digits:2',
+                    'year' => 'required|integer|digits:4',
+        ]);
+
+//        $validator::extend('verification', function ($attribute, $value, $parameters) {
+//            // ...
+//        }, 'my custom validation rule message');
+//        $niceNames = [
+//            "name" => "Nombres",
+//            "last_name" => "apellidos",
+//            "document" => "Documento",
+//            "phone_contact" => "Celular de Contacto",
+//            "verification" => "Digito de Verificación",
+//        ];
+//        $validator->setAttributeNames($niceNames)->validate();
+//        $validator->setAttributeNames($niceNames);
+        return $validator;
+//        ]);
+    }
+
     public function payment(Request $req) {
 //        dd($_SERVER["HTTP_USER_AGENT"]);
         Log::debug("METHOD PAYMENT");
+
         try {
             DB::beginTransaction();
             Log::debug("INIT TRANSACCTION");
             $in = $req->all();
+//            dd($in);
+//            dd($this->validator($in)->errors());
 
             if ((int) date("Y") >= (int) $in["year"]) {
                 if ((int) date("m") > (int) $in["month"]) {
@@ -726,20 +756,13 @@ class PaymentController extends Controller {
             if ($error == '') {
                 $deviceSessionId = $in["devicesessionid"];
 
-                //data sandbox
-//                $url = "https://sandbox.api.payulatam.com/payments-api/4.0/service.cgi";
-//                $apiLogin = "pRRXKOl8ikMmt9u";
-//                $apiKey = "4Vj8eK4rloUd272L48hsrarnUA";
-//                $merchantId = "508029";
-//                $accountId = "512321";
-//                $host = "sandbox.api.payulatam.com";
-                //data Produccion
-                $url = "https://api.payulatam.com/payments-api/4.0/service.cgi";
-                $apiKey = "ADme595Qf4r43tjnDuO4H33C9F";
-                $apiLogin = "tGovZHuhL97hNh7";
-                $merchantId = "559634";
-                $accountId = "562109";
-                $host = "api.payulatam.com";
+
+                $url = env("URL_PAYU");
+                $apiKey = env("APIKEY");
+                $apiLogin = env("APILOGIN");
+                $merchantId = env("MERCHANTID");
+                $accountId = env("ACCOUNTID");
+                $host = env("HOST_PAYU");
 
                 $postData["test"] = "false";
 
@@ -875,7 +898,6 @@ class PaymentController extends Controller {
                 );
 
 
-//                dd($postData);
 
                 Log::debug("REQUEST TO PAY: " . print_r($postData, true));
                 $data_string = json_encode($postData);
