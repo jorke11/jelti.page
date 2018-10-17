@@ -95,6 +95,11 @@ class PaymentController extends Controller {
     public function index() {
 
         $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
+        $stakeholder = Stakeholder::find(Auth::user()->stakeholder_id);
+        $amount = 50000;
+        if (in_array(1, $stakeholder->type_stakeholder_id)) {
+            $amount = 300000;
+        }
 
 
         if ($order == null) {
@@ -132,7 +137,7 @@ class PaymentController extends Controller {
 
         $dietas = $this->dietas;
 
-        return view("Ecommerce.payment.init", compact("id", "categories", "client", "month", "years", "total", "countries", "subtotal", "deviceSessionId", "deviceSessionId_concat", "term", "dietas", "order"));
+        return view("Ecommerce.payment.init", compact("id", "categories", "client", "month", "years", "total", "countries", "subtotal", "deviceSessionId", "deviceSessionId_concat", "term", "dietas", "order", "amount"));
     }
 
     public function getProduct($id) {
@@ -236,6 +241,14 @@ class PaymentController extends Controller {
 
         if (Auth::user() != null) {
 
+            $amount = 50000;
+
+            $stakeholder = Stakeholder::find(Auth::user()->stakeholder_id);
+
+            if (in_array(1, $stakeholder->type_stakeholder_id)) {
+                $amount = 300000;
+            }
+
             $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
 
             if ($order == null) {
@@ -271,7 +284,7 @@ class PaymentController extends Controller {
 
             $res = $this->getOrdersCurrent($slug);
 
-            return response()->json(["success" => true, "quantity" => $res["quantity"], "detail" => $res["detail"], "row" => $res["row"], "total" => $res["total"]]);
+            return response()->json(["success" => true, "quantity" => $res["quantity"], "detail" => $res["detail"], "row" => $res["row"], "total" => $res["total"], "amount" => $amount]);
         } else {
             return response()->json(["success" => false, msg => "Sesion Perdido"], 409);
         }
@@ -302,6 +315,14 @@ class PaymentController extends Controller {
     public function deleteProductUnit(Request $req, $slug) {
         $in = $req->all();
 
+        $amount = 50000;
+
+        $stakeholder = Stakeholder::find(Auth::user()->stakeholder_id);
+
+        if (in_array(1, $stakeholder->type_stakeholder_id)) {
+            $amount = 300000;
+        }
+
 
         $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
 
@@ -317,12 +338,12 @@ class PaymentController extends Controller {
                 if ($quantiy == 0) {
                     $detPro->delete();
                     $res = $this->getOrdersCurrent($slug);
-                    return response()->json(["success" => true, "quantity" => $res["quantity"], "detail" => $res["detail"], "row" => $res["row"], "total" => $res["total"]]);
+                    return response()->json(["success" => true, "quantity" => $res["quantity"], "detail" => $res["detail"], "row" => $res["row"], "total" => $res["total"], "amount" => $amount]);
                 } else {
                     $detPro->quantity = $detPro->quantity - 1;
                     $detPro->save();
                     $res = $this->getOrdersCurrent($slug);
-                    return response()->json(["success" => true, "quantity" => $res["quantity"], "detail" => $res["detail"], "row" => $res["row"], "total" => $res["total"]]);
+                    return response()->json(["success" => true, "quantity" => $res["quantity"], "detail" => $res["detail"], "row" => $res["row"], "total" => $res["total"], "amount" => $amount]);
                 }
             } else {
                 return response()->json(["success" => false], 409);
@@ -426,6 +447,14 @@ class PaymentController extends Controller {
     }
 
     public function getOrdersCurrent($slug = null) {
+        $amount = 50000;
+
+        $stakeholder = Stakeholder::find(Auth::user()->stakeholder_id);
+
+        if (in_array(1, $stakeholder->type_stakeholder_id)) {
+            $amount = 300000;
+        }
+
         $detail = [];
         if (Auth::user() != null) {
             $detail = $this->getDataCountOrders();
@@ -459,7 +488,7 @@ class PaymentController extends Controller {
             
         }
 
-        return ["quantity" => $quantity, "total" => round($total), "subtotal" => $subtotal, "tax5" => $tax5, "tax19" => $tax19, "detail" => $detail, "row" => $row];
+        return ["quantity" => $quantity, "total" => round($total), "subtotal" => $subtotal, "tax5" => $tax5, "tax19" => $tax19, "detail" => $detail, "row" => $row, "amount" => $amount];
     }
 
     public function getDataCountOrders($slug = null) {

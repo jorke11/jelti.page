@@ -217,7 +217,7 @@ function Payment() {
                     obj.printDetail()
                 }
 
-                if (parseInt(data.total) > 300000) {
+                if (parseInt(data.total) > data.amount) {
                     $("#message-mount").addClass("d-none")
                     $("#btnPayU").attr("disabled", false)
                 } else {
@@ -265,12 +265,16 @@ function Payment() {
                     $("#badge-quantity").attr("font-size", '70%').css("background-color", "#f8f9fa");
 
                     $("#quantity_product_" + product_id).html(data.row.quantity)
-                    if (parseInt(data.total) > 300000) {
+                    if (parseInt(data.total) > data.amount) {
                         $("#message-mount").addClass("d-none")
                         $("#btnPayU").attr("disabled", false)
+                        $("#btnPay").attr("disabled", false)
+                        $("#btnPSE").attr("disabled", false)
                     } else {
                         $("#message-mount").removeClass("d-none")
                         $("#btnPayU").attr("disabled", true)
+                        $("#btnPay").attr("disabled", true)
+                        $("#btnPSE").attr("disabled", true)
                     }
                 }, error: function (xhr, ajaxOptions, thrownError) {
 
@@ -371,16 +375,19 @@ function Payment() {
 
         var html = '';
         detail = data.detail
+        const {amount} = data;
 
         this.printDetail(3)
 
-        if (data.total < 300000) {
+        if (data.total < amount) {
             $("#btnPay").attr("disabled", true)
             $("#btnPayU").attr("disabled", true)
+            $("#btnPSE").attr("disabled", true)
             $("#message-mount").removeClass("d-none");
         } else {
             $("#btnPay").attr("disabled", false)
             $("#btnPayU").attr("disabled", false)
+            $("#btnPSE").attr("disabled", false)
             $("#message-mount").addClass("d-none");
         }
 
@@ -460,7 +467,7 @@ function Payment() {
                 toastr.success("Item Eliminado");
                 obj.setListDetail(data);
 
-                if (parseInt(data.total) > 10000) {
+                if (parseInt(data.total) > data.amount) {
                     $("#message-mount").addClass("d-none")
                     $("#btnPayU").attr("disabled", false)
                 } else {
