@@ -113,7 +113,6 @@
                         <div id="carouselExampleIndicators3" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner">
                                 @foreach($newproducts as $i => $val)
-
                                 <div class="carousel-item {{($i==0)?'active':''}}" style="padding: 2%;">
                                     <div class="row text-center">
                                         @foreach($val as $value)
