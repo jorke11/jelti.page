@@ -4,3 +4,4 @@ require('./bootstrap');
 
 require("./components/CardDiet")
 require("./components/MenuHeader")
+require("./components/SliderProducts")

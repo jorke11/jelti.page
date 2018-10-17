@@ -2,13 +2,15 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
 import MenuHeaderCategory from './MenuHeaderCategory';
+import MenuHeaderDiet from './MenuHeaderDiet';
 
 export default class MenuHeader extends Component {
 
     constructor() {
         super();
         this.state = {
-            categories: []
+            categories: [],
+            diets: []
         }
     }
 
@@ -22,14 +24,23 @@ export default class MenuHeader extends Component {
         }).catch(err => {
             console.log(err)
         });
+
+        axios.get("/card-diets").then(response => {
+            $this.setState({
+                diets: response.data
+            })
+        });
+
+
     }
 
     render() {
-        const {categories} = this.state
+        const {categories, diets} = this.state
         return(
-                <div>
+                <ul className="navbar-nav" id="menu-header">
                     <MenuHeaderCategory categories={categories}/>
-                </div>
+                    <MenuHeaderDiet diets={diets}/>
+                </ul>
                 );
     }
 }

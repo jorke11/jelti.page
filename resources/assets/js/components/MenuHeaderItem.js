@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import '../../sass/carddiet.scss';
 
-const MenuHeaderItem = () => {
+
+const MenuHeaderItem = ({description, link}) => {
     return(
-            <div>Detail</div>
+            <a className="dropdown-item color-card-item" href={link}>{description}</a>
             )
 };
-
 export default MenuHeaderItem;

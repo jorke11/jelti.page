@@ -16,39 +16,6 @@
 
     <div class="navbar-collapse collapse" id="navbarsExampleDefault" style="">
         <ul class="navbar-nav" id="menu-header">
-            <li class="nav-item dropdown active" id="menu-diet">
-                <a class="nav-link dropdown-toggle title-menu" href="{{url("/")}}" id="title-categories" data-toggle="dropdown" 
-                   aria-haspopup="true" aria-expanded="false" >CATEGORIAS</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    @if(isset($categories))
-                    @foreach($categories as $val)
-                    <a style="color:black" class="dropdown-item" href="{{url("")}}/products/{{$val->slug}}">{{ucwords(strtolower($val->description))}}</a>
-                    @endforeach
-                    @endif
-                </div>
-            </li>
-            <li class="nav-item dropdown" id="menu-category">
-                <a class="nav-link dropdown-toggle title-menu" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
-                   aria-haspopup="true" aria-expanded="false" >DIETAS</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    @if(isset($dietas))
-                    @foreach($dietas as $val)
-                    <a class="dropdown-item" href='{{url("search/c=".$val->slug)}}'>{{$val->description}}</a>
-                    @endforeach
-                    @endif
-                </div>
-            </li>
-<!--            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle title-menu" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
-                   aria-haspopup="true" aria-expanded="false" >PROVEEDORES</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    @if(isset($suppliers))
-                    @foreach($suppliers as $val)
-                    <a class="dropdown-item" href='{{url("search/s=".$val->slug)}}'>{{$val->business}}</a>
-                    @endforeach
-                    @endif
-                </div>
-            </li>-->
             @guest
             <li class="nav-item dropdown" id="menu-category">
                 <a class="nav-link title-menu" href="#" aria-haspopup="true" aria-expanded="false" id="btn-register" >REGISTRATE</a>
@@ -63,7 +30,6 @@
         </ul>
 
         <form class="form-inline  my-2 my-lg-1"  id="frmSearch">
-
             <div class="col-auto" id="style-input-search" >
                 <label class="sr-only" for="inlineFormInputGroup">Username</label>
                 <div class="input-group mb-2" style="padding-top:10px">

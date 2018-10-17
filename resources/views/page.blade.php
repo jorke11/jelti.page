@@ -28,11 +28,11 @@
 
 <section id="divDiets" style="padding-top:2%" class="d-lg-block"></section>
 
-
+<section id="slider-new-products"></section>
 <!--Web-->
-<section style="padding-top: 3%;padding-bottom: 2%">   
+<section style="padding-top: 3%;padding-bottom: 2%" >   
     <div class="container-fluid test">
-        <div class="row row-center text-center " >
+        <div class="row row-center text-center ">
             <div class="col-8">
                 <h1 class="text-center">Lo Más Nuevo <br>en SuperFüds</h1>
                 <p class="text-center"><a href="/search/all=new" class="link-green">Ver todos</a></p>
@@ -77,11 +77,9 @@
                                                         <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                         </svg>
                                                     </p>
-
                                                     @guest
                                                     <p>
                                                     </p>
-
                                                     @else
                                                     <p class="text-left">
                                                         $ {{number_format($value->price_sf_with_tax,0,",",'.')}}
