@@ -26,13 +26,8 @@
     </div>
 </section>
 
-<section id="divDiets" style="padding-top:2%" class="d-lg-block">
-    
-</section>
+<section id="divDiets" style="padding-top:2%" class="d-lg-block"></section>
 
-<div id="example">
-    
-</div>
 
 <!--Web-->
 <section style="padding-top: 3%;padding-bottom: 2%">   

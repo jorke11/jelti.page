@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import CardDietDetail from './CardDietDetail';
 
+import '../../sass/carddiet.scss';
+
 export default class CardDiet extends Component {
 
     constructor() {
@@ -25,26 +27,31 @@ export default class CardDiet extends Component {
 
         return (
                 <div className="container-fluid">
-                    <div className="row" style="padding-bottom: 20px">
+                
+                    <div className="row row-card">
                         <div className="col-lg-12 col-xs-12">
-                            <p className="text-center title-color" style='font-size: 50px;font-family: "dosis" !important'>Conoce Nuestras Dietas</p>
+                            <p className="text-center title-color">Conoce Nuestras Dietas</p>
                         </div>
                     </div>
                 
                     <div className="row justify-content-center">
-                        {
-                            data.map((row, i) => (
-                                        <div className='col-lg-4 col-xs-6 col-md-6 asdsad'>
+                        <div className="col-10">
+                            <div className="row">
+                                {
+                                    data.map((row, i) => (
+                                        <div className='col-lg-4 col-xs-6 col-md-6 ' key={i}>
                                             <CardDietDetail 
+                                                key={i}
                                                 description={row.description}
                                                 image={row.image}
-                                                key={row.id}
                                                 />
                                         </div>
 
-                                        )
-                            )
-                        }
+                                                )
+                                    )
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
                 );
