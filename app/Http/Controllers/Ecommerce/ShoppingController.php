@@ -218,7 +218,7 @@ class ShoppingController extends Controller {
 
             
 
-            $relations = $this->splitArray($relations, 4);
+//            $relations = $this->splitArray($relations, 4);
             
             return view("Ecommerce.payment.product", compact("breadcrumbs", "product", "detail", "relations", "supplier", "available", "categories", "dietas", "like", "line", "text"));
         } else {
