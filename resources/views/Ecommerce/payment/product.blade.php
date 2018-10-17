@@ -698,7 +698,7 @@
                                 <div class="row text-center">
                                     <?php
                                     $cont = 0;
-                                    dd($relations);
+                                    
                                     foreach ($relations as $i => $value) {
                                         ?>
                                         <div class="col-lg-3 col-md-3 col-sm-7">
