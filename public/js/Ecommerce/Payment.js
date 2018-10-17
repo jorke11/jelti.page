@@ -217,7 +217,7 @@ function Payment() {
                     obj.printDetail()
                 }
 
-                if (parseInt(data.total) > 10000) {
+                if (parseInt(data.total) > 300000) {
                     $("#message-mount").addClass("d-none")
                     $("#btnPayU").attr("disabled", false)
                 } else {
@@ -265,7 +265,7 @@ function Payment() {
                     $("#badge-quantity").attr("font-size", '70%').css("background-color", "#f8f9fa");
 
                     $("#quantity_product_" + product_id).html(data.row.quantity)
-                    if (parseInt(data.total) > 10000) {
+                    if (parseInt(data.total) > 300000) {
                         $("#message-mount").addClass("d-none")
                         $("#btnPayU").attr("disabled", false)
                     } else {
@@ -374,7 +374,7 @@ function Payment() {
 
         this.printDetail(3)
 
-        if (data.total < 10000) {
+        if (data.total < 300000) {
             $("#btnPay").attr("disabled", true)
             $("#btnPayU").attr("disabled", true)
             $("#message-mount").removeClass("d-none");
