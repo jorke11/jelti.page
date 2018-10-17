@@ -219,4 +219,4 @@ if ($exibirModal === true) : // Si nuestra variable de control "$exibirModal" es
 {!!Html::script('js/Page/counter.js')!!}
 
 <link href="{{ asset('/css/fonts.css') }}" rel="stylesheet" type="text/css">
-<!--<script src="{{asset("js/app.js")}}"></script>-->
+<script src="{{asset("js/app.js")}}"></script>
