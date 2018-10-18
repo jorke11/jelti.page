@@ -217,9 +217,10 @@ function Counter() {
     }
 
 
-    this.addProduct = function (title, slug, product_id, price_sf, img, tax, elem_id, type = '') {
+    this.addProduct = function (product_id, slug, elem_id, type = '') {
         var token = $("input[name=_token]").val();
         let quantity = $("#" + elem_id).val();
+
         if (type == '') {
             type = '';
             quantity = 1;
@@ -228,11 +229,7 @@ function Counter() {
 
         var row = {
             quantity: quantity,
-            title: title,
             product_id: product_id,
-            price_sf: price_sf,
-            img: img,
-            tax: tax,
             type: type
         }
 
@@ -249,7 +246,7 @@ function Counter() {
                 },
                 success: function (data) {
                     objCounter.setData(data);
-
+                    
                     $("#" + elem_id).val(data.row.quantity)
                     $("#quantity_selected_" + product_id).html("Cantidad (" + data.row.quantity + ")")
                     $("#loading-super").addClass("d-none");
@@ -271,11 +268,12 @@ function Counter() {
     }
     }
 
-    this.addProductEnter = function (e, title, slug, product_id, price_sf, img, tax, elem_id) {
+    this.addProductEnter = function (e, product_id, slug, elem_id) {
         var code = (e.keyCode ? e.keyCode : e.which);
 
         if (code == 13) {
-            this.addProduct(title, slug, product_id, price_sf, img, tax, elem_id, 'check')
+            elem_id = $(elem_id).attr("id");
+            this.addProduct(product_id, slug, elem_id, 'check')
         }
     }
 
@@ -331,12 +329,12 @@ function Counter() {
     }
 
 
-    this.showButton = function (description, slug, id, price, thumbnail, tax, elem_id) {
+    this.showButton = function (id, slug, elem_id) {
 
         if (user_id) {
             $("#buttonAdd_" + id).removeClass("d-none");
             $("#btnOption_" + id).addClass("d-none");
-            objCounter.addProduct(description, slug, id, price, thumbnail, tax, elem_id);
+            objCounter.addProduct(id, slug, elem_id);
         } else {
             $("#modalOptions").modal("show");
         }

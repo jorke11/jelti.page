@@ -66,8 +66,6 @@ class PageController extends Controller {
         $most_sales = DB::select($sql);
 
 
-//        $supplier = DB::select("vsupplier");
-//        dd($supplier);
 
         $categories = Categories::where("status_id", 1)
                         ->where("type_category_id", 1)
@@ -143,6 +141,44 @@ class PageController extends Controller {
         $newproducts = $this->splitArray($newproducts, 4);
 
         return view('page', compact("subcategory", "categories", "dietas", "newproducts", "love_clients", "clients", "most_sales", "suppliers"));
+    }
+
+    public function getBestSeller() {
+        $end = date("Y-m-d");
+        $join = '';
+        $group = '';
+        $orders = null;
+        $field = '';
+        if (Auth::user()) {
+            $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
+
+            if ($orders != null) {
+                $join = "LEFT JOIN orders_detail ON orders_detail.product_id=p.id and orders_detail.order_id = " . $orders->id;
+                $field = ",orders_detail.quantity as quantity_order,p.price_sf_with_tax";
+                $group = ",orders_detail.quantity";
+            }
+        }
+
+
+        $sql = "
+            SELECT p.id,p.title as product,UPPER(sup.business) as supplier, 
+            sum(CASE WHEN d.real_quantity IS NULL THEN 0 ELSE d.real_quantity end * CASE WHEN d.packaging=0 THEN 1 WHEN d.packaging IS NULL THEN 1 ELSE d.packaging END) quantity, 
+            sum(d.value * CASE WHEN d.real_quantity IS NULL THEN 0 ELSE d.real_quantity end * d.units_sf) as subtotal,p.thumbnail,p.slug,p.short_description,
+            p.price_sf,p.tax,p.title,p.title_ec
+            $field
+            FROM departures_detail d 
+            JOIN departures s ON s.id=d.departure_id and s.status_id IN(2,7) 
+            JOIN vproducts p ON p.id=d.product_id JOIN stakeholder sup ON sup.id=p.supplier_id and p.thumbnail is not null
+            $join
+            WHERE s.dispatched BETWEEN '" . date("Y") . "-01-01 00:00' AND '" . $end . " 23:59' AND s.client_id NOT IN(258,264,24) AND p.category_id<>-1
+            GROUP by 1,2,3,p.thumbnail,p.slug,p.title_ec,p.short_description,p.price_sf,price_sf_with_tax,p.tax$group ORDER BY 4 DESC limit 50
+            ";
+        $best_saller = DB::select($sql);
+
+        $best_saller = $this->splitArray($best_saller, 4);
+
+
+        return response()->json($best_saller);
     }
 
     public function getDiets() {
@@ -316,10 +352,9 @@ class PageController extends Controller {
                         ->get();
             } else {
                 $number = 50;
-                if (strpos("top", $param) !== true) {
+                if (strpos($param, "top") !== false) {
                     list($most, $top) = explode("&", $param);
                     list($title, $number) = explode("=", $top);
-                    
                 }
 
                 if (Auth::user()) {

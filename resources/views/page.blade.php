@@ -15,7 +15,7 @@
                 <a href="/search/all=new"><img class="d-block w-100" src="images/bannernuevoensf.png" alt="First slide"></a>
             </div>
             <div class="carousel-item">
-                <a href="/search/all=most&top=10"><img class="d-block w-100" src="images/bannertop10.png" alt="First slide"></a>
+                <a href="/search/all=best&top=10"><img class="d-block w-100" src="images/bannertop10.png" alt="First slide"></a>
             </div>
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -239,7 +239,7 @@
         <div class="row row-center text-center" >
             <div class="col-8 ">
                 <h1 class="text-center">Los Más <br>Vendidos</h1>
-                <p class="text-center"><a href="/search/all=most" class="link-green">Ver todos</a></p>
+                <p class="text-center"><a href="/search/all=best" class="link-green">Ver todos</a></p>
             </div>
         </div>
         <div class="row row-center test" >
@@ -248,105 +248,7 @@
                 <div class="row">
                     <div class="col-10 offset-1">
                         <div id="most_sales" class="carousel slide" data-ride="carousel">
-
-                            <div class="carousel-inner" >
-                                @foreach($most_sales as $i => $val)
-                                <div class="carousel-item {{($i==0)?'active':''}}" style="padding: 2%;">
-                                    <div class="row text-center">
-                                        @foreach($val as $value)
-                                        <div class="col-lg-3 col-xs-4 col-md-3 col-6">
-                                            <div class="card" >
-                                                <img class="card-img-top card-img-product" src="/{{$value->thumbnail}}" alt="Card image cap" onclick="objCounter.redirectProduct('{{$value->slug}}')">
-                                                <div class="card-body text-center">
-
-                                                    <p class="text-left text-muted " style="margin:0;" >
-                                                        <a href="{{url("search/s=".str_slug(strtolower($value->supplier), '-'))}}" class="text-supplier">{{strtoupper($value->supplier)}}</a>
-                                                    </p>
-                                                    <h5 class="card-title text-left title-products" onclick="objCounter.redirectProduct('{{$value->slug}}')">
-                                                        {{$value->title_ec}}
-                                                    </h5>
-                                                    <p class="text-left">
-                                                        <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                        <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
-                                                        </svg>
-                                                        <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                        <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
-                                                        </svg>
-                                                        <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                        <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
-                                                        </svg>
-                                                        <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                        <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
-                                                        </svg>
-                                                        <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                                                        <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
-                                                        </svg>
-                                                    </p>
-
-                                                    @guest
-                                                    <p>
-                                                    </p>
-                                                    @else
-                                                    <p class="text-left">
-                                                        $ {{number_format($value->price_sf_with_tax,0,",",'.')}}
-                                                    </p>
-                                                    @endguest
-
-                                                                                                                                                                                                                                                                                                                                                                                                                                                         <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-                                                    <div class="row row-center <?php echo (isset($value->quantity_order)) ? '' : 'd-none' ?>" id="buttonAdd_{{$value->id}}" >
-                                                        <div class="col-lg-6">
-                                                            <div class="row" style="background-color: #5cb19a;color:white;padding-bottom: 2%;padding-top: 5%;
-                                                                 padding-left: 0;padding-right: 0;border-radius: 10px;">
-                                                                <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
-                                                                    <svg id="i-minus" class="btn-minus-card-product" viewBox="0 0 32 32"  fill="white"  style="cursor:pointer;"
-                                                                         stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
-                                                                         onclick="objCounter.deleteUnit({{$value->id}},'{{$value->slug}}','quantity_most_product_{{$value->id}}')">
-                                                                    <path d="M2 16 L30 16" />
-                                                                    </svg>
-                                                                </div>
-                                                                <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
-                                                                    <input type="text" id="quantity_most_product_{{$value->id}}" class="input-quantity-product input-number" value="{{(isset($value->quantity_order))?$value->quantity_order:0}}"
-                                                                           onkeypress="objCounter.addProductEnter(event,'{{$value->short_description}}',
-                                                                           '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}', this)">
-                                                                </div>
-                                                                <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
-                                                                    <svg id="i-plus" class="btn-minus-card-product" viewBox="0 0 35 35" fill="white" stroke="#ffffff" 
-                                                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="4" style="cursor:pointer"
-                                                                         onclick="objCounter.addProduct('{{$value->short_description}}',
-                                                                         '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_most_product_{{$value->id}}'); return false;">
-                                                                    <path d="M16 2 L16 30 M2 16 L30 16" />
-                                                                    </svg>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-2" style="margin-left: 3px">
-                                                            <div class="row icon-ok" style="background-color: #5cb19a;color:white;padding-bottom: 15%;padding-top: 40%;
-                                                                 padding-left: 0;padding-right: 0;border-radius: 10px;">
-                                                                <div class="col-lg-6">
-                                                                    <svg id="i-checkmark" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" 
-                                                                         stroke-linejoin="round" stroke-width="4"
-                                                                         style="cursor:pointer"
-                                                                         onclick="objCounter.addProductCheck('{{$value->short_description}}',
-                                                                         '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_product_{{$value->id}}'); return false;"
-                                                                         >
-                                                                    <path d="M2 20 L12 28 30 4" />
-                                                                    </svg>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <button style="background-color: #5cb19a;color:white" class="btn <?php echo (isset($value->quantity_order)) ? 'd-none' : '' ?>" 
-                                                            id="btnOption_{{$value->id}}" onclick="objCounter.showButton('{{$value->short_description}}',
-                                                            '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_product_{{$value->id}}')">Agregar</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                                @endforeach
-                            </div>
+                            <div class="carousel-inner" id="content-best-seller"></div>
 
                             <a class="carousel-control-prev" href="#most_sales" role="button" data-slide="prev" style="left:-15%;">
                                 <span class="carousel-control-prev-icon" aria-hidden="true" style="color:red"></span>
@@ -363,7 +265,6 @@
         </div>
     </div>
 </section>
-
 
 <section style="padding-top: 3%;padding-bottom: 2%" >
     <div class="container-fluid">

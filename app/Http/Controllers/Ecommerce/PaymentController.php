@@ -263,7 +263,7 @@ class PaymentController extends Controller {
                 $detPro = $order->detail->where("product_id", $pro->id)->first();
                 $det["product_id"] = $pro->id;
                 $det["order_id"] = $order->id;
-                $det["tax"] = $in["tax"];
+                $det["tax"] = $pro->tax;
                 $det["units_sf"] = $pro->units_sf;
                 $det["packaging"] = $pro->packaging;
                 $det["price_sf"] = $pro->price_sf;
