@@ -237,7 +237,7 @@ class PageController extends Controller {
                     ->whereNotNull("image")
                     ->whereNotNull("warehouse")
                     ->where("status_id", 1)
-                    ->where("check_catalog", "<>", false);
+                    ->where("check_catalog", true);
 
             if (Auth::user()) {
                 $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
@@ -274,7 +274,7 @@ class PageController extends Controller {
                     ->whereNotNull("image")
                     ->whereNotNull("warehouse")
                     ->where("supplier_id", $stakeholder->id)
-                    ->where("check_catalog", "<>", false)
+                    ->where("check_catalog", true)
                     ->get();
 
 
@@ -299,7 +299,7 @@ class PageController extends Controller {
                         ->whereNotNull("image")
                         ->whereNotNull("vproducts.thumbnail")
                         ->whereBetween("vproducts.created_at", [$init, date("Y-m-d H:i:s")])
-                        ->where("check_catalog", false);
+                        ->where("check_catalog", true);
 
 
 
@@ -312,7 +312,7 @@ class PageController extends Controller {
                         ->orderBy("vproducts.created_at")
                         ->orderBy("category_id")
                         ->orderBy("reference")
-                        ->where("check_catalog", "<>", false)
+                        ->where("check_catalog", true)
                         ->get();
             } else {
                 if (Auth::user()) {
@@ -388,7 +388,7 @@ class PageController extends Controller {
                                 $q->Orwhere(DB::raw("lower(category)"), "like", '%' . $param . '%');
                             })
                             ->where("status_id", 1)
-                            ->where("check_catalog", "<>", false)
+                            ->where("check_catalog", true)
                             ->orderBy("title", "desc")->get();
 
             $categories = DB::table("vcategories")->where("status_id", 1);
@@ -429,9 +429,9 @@ class PageController extends Controller {
         if ($param == null) {
             $products = DB::table("vproducts")->where("status_id", 1)
 //                    ->whereNotNull("characteristic")
-                    ->where(function($q) {
-                $q->whereNotNull("image")->whereNotNull("thumbnail");
-            })->where("check_catalog", "<>", false);
+                            ->where(function($q) {
+                                $q->whereNotNull("image")->whereNotNull("thumbnail");
+                            })->where("check_catalog", true);
 
             if (isset($in["categories"])) {
 
