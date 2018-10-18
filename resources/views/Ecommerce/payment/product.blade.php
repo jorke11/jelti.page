@@ -757,8 +757,6 @@
                                                         id="btnOption_{{$value->id}}" onclick="objCounter.showButton('{{$value->short_description}}',
                                                         '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}')"
                                                         style="background-color: #5cb19a;color:white">Agregar</button>
-                                                                                                                                                <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
-
                                             </div>
                                         </div>
                                     </div>

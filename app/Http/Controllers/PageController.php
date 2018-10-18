@@ -236,7 +236,8 @@ class PageController extends Controller {
                     )
                     ->whereNotNull("image")
                     ->whereNotNull("warehouse")
-                    ->where("status_id", 1);
+                    ->where("status_id", 1)
+                    ->where("check_catalog", "<>", false);
 
             if (Auth::user()) {
                 $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
@@ -269,10 +270,12 @@ class PageController extends Controller {
             $stakeholder = \App\Models\Administration\Stakeholder::where("slug", $param)->first();
 
             $products = DB::table("vproducts")->select("vproducts.id", "vproducts.title", "vproducts.short_description", "vproducts.price_sf_with_tax", "vproducts.price_sf", "vproducts.image", "vproducts.thumbnail", "vproducts.category_id", "vproducts.slug", "vproducts.tax", "vproducts.supplier"
-                            )
-                            ->whereNotNull("image")
-                            ->whereNotNull("warehouse")
-                            ->where("supplier_id", $stakeholder->id)->get();
+                    )
+                    ->whereNotNull("image")
+                    ->whereNotNull("warehouse")
+                    ->where("supplier_id", $stakeholder->id)
+                    ->where("check_catalog", "<>", false)
+                    ->get();
 
 
             $categories = DB::table("vcategories")->where("status_id", 1);
@@ -295,7 +298,8 @@ class PageController extends Controller {
                         ->where("category_id", "<>", 19)
                         ->whereNotNull("image")
                         ->whereNotNull("vproducts.thumbnail")
-                        ->whereBetween("vproducts.created_at", [$init, date("Y-m-d H:i:s")]);
+                        ->whereBetween("vproducts.created_at", [$init, date("Y-m-d H:i:s")])
+                        ->where("check_catalog", false);
 
 
 
@@ -308,6 +312,7 @@ class PageController extends Controller {
                         ->orderBy("vproducts.created_at")
                         ->orderBy("category_id")
                         ->orderBy("reference")
+                        ->where("check_catalog", "<>", false)
                         ->get();
             } else {
                 if (Auth::user()) {
@@ -383,6 +388,7 @@ class PageController extends Controller {
                                 $q->Orwhere(DB::raw("lower(category)"), "like", '%' . $param . '%');
                             })
                             ->where("status_id", 1)
+                            ->where("check_catalog", "<>", false)
                             ->orderBy("title", "desc")->get();
 
             $categories = DB::table("vcategories")->where("status_id", 1);
@@ -425,7 +431,7 @@ class PageController extends Controller {
 //                    ->whereNotNull("characteristic")
                     ->where(function($q) {
                 $q->whereNotNull("image")->whereNotNull("thumbnail");
-            });
+            })->where("check_catalog", "<>", false);
 
             if (isset($in["categories"])) {
 
