@@ -55,7 +55,7 @@ clearstatcache();
         {!!Html::style('/vendor/select2/css/select2.min.css')!!}
         {!!Html::script('/vendor/select2/js/select2.js')!!}
         {!!Html::style('/css/edited.css')!!}
-        {!!Html::style('/css/card.css')!!}
+        {!!Html::style('/css/card.css?1')!!}
 
     </head>
 
