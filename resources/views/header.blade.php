@@ -2,7 +2,7 @@
 <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
 @endauth
 
-<nav class="navbar navbar-expand-lg fixed-top navbar-light main-menu img-fluid img-header " id="main-menu-id" style="height: 150px;padding-bottom:3%">
+<nav class="navbar navbar-expand-lg fixed-top navbar-light main-menu img-fluid img-header " id="main-menu-id" >
     <a class="navbar-brand d-lg-none" href="/">
         <img alt="Brand" src="/images/page/logosuperf.svg" class="img-fluid" width="30%" alt="Logo superfuds">
     </a>

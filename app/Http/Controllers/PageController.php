@@ -315,6 +315,13 @@ class PageController extends Controller {
                         ->where("check_catalog", true)
                         ->get();
             } else {
+                $number = 50;
+                if (strpos("top", $param) !== true) {
+                    list($most, $top) = explode("&", $param);
+                    list($title, $number) = explode("=", $top);
+                    
+                }
+
                 if (Auth::user()) {
                     $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
 
@@ -340,7 +347,7 @@ class PageController extends Controller {
             JOIN vproducts p ON p.id=d.product_id JOIN stakeholder sup ON sup.id=p.supplier_id and p.thumbnail is not null
             $join
             WHERE s.dispatched BETWEEN '" . date("Y") . "-01-01 00:00' AND '" . $end . " 23:59' AND s.client_id NOT IN(258,264,24) AND p.category_id<>-1
-            GROUP by 1,2,3,p.thumbnail,p.characteristic::text,p.category_id,p.slug,p.short_description,p.price_sf,p.price_sf_with_tax,p.tax$group ORDER BY 4 DESC limit 50
+            GROUP by 1,2,3,p.thumbnail,p.characteristic::text,p.category_id,p.slug,p.short_description,p.price_sf,p.price_sf_with_tax,p.tax$group ORDER BY 4 DESC limit $number
             ";
                 $products = DB::select($sql);
             }

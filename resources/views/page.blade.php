@@ -9,10 +9,13 @@
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img class="d-block w-100" src="images/banner1.png" alt="Second slide">
+                <img class="d-block w-100" src="images/bannerpromo.png" alt="Second slide">
             </div>
             <div class="carousel-item">
-                <img class="d-block w-100" src="images/banner2.png" alt="First slide">
+                <a href="/search/all=new"><img class="d-block w-100" src="images/bannernuevoensf.png" alt="First slide"></a>
+            </div>
+            <div class="carousel-item">
+                <a href="/search/all=most&top=10"><img class="d-block w-100" src="images/bannertop10.png" alt="First slide"></a>
             </div>
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -385,7 +388,7 @@
 <section>
     <div class="container-fluid">
         <div class="row row-center" >
-            <div class="col-lg-8" style="background-color: #2FC8AE;padding-bottom: .9%"><h2 class="color-font text-center" style="color:#fffbf2">Lo que Aman nuestros <b>Clientes</b> y <b>Proveedores</b></h2></div>
+            <div class="col-lg-8" id="title-card-client"><h2 class="color-font text-center">Lo que Aman nuestros <b>Clientes</b> y <b>Proveedores</b></h2></div>
         </div>
         <div class="row row-center">
             <div class="col-lg-8 " style="padding: 0">
