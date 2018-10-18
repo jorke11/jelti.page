@@ -49,7 +49,7 @@ clearstatcache();
         {!!Html::style('/vendor/toastr/toastr.min.css')!!}
         {!!Html::script('/vendor/bootstrap-typeahead.js')!!}
 
-        {!!Html::style('/css/page.css')!!}
+        {!!Html::style('/css/page.css?1')!!}
         <script src="/vendor/plugins.js" async></script>
 
         {!!Html::style('/vendor/select2/css/select2.min.css')!!}
