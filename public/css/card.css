@@ -138,7 +138,7 @@
 }
 
 .main-menu{
-    padding-top: 70px;
+    padding-top: 50px;
     position: relative;
     transition: all 1s ease;
     background-repeat: no-repeat;
@@ -152,7 +152,10 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    background-color: rgba(91,175,152,1);
+    /*background-color: rgba(91,175,152,1);*/
+    background-color: #000;
+    height: 70px;
+    padding-bottom:2%
 }
 
 .main-menu-out{
@@ -162,7 +165,7 @@
 }
 
 #img-logo{
-    width:70%
+    width:50%
 }
 
 
@@ -218,11 +221,50 @@
     border:1px solid #5cb19a !important;
     transition: opacity 2s linear;
 }
+#title-card-client{
+    background-color: #000
+}
+
+
+#categories-footer .list-group-item {
+    background-color: rgba(255,255,255,0);
+    color:rgba(255,255,255,1);
+    padding: .60rem 1.25rem;
+    border: 0px;
+    font-size: 20px
+}
+.footer-template{
+    /*        padding-top: 100px;
+            position: relative;
+            transition: all 1s ease;*/
+    background-repeat: no-repeat;
+    /*background-position-y: -20px;*/
+    background-image: url("/images/fondofooter_greenbk.png");
+    background-color: #6dcbb !important
+        background-color: #6dcbb !important;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+
+    background-size: 100% 100%;
+    /*width: 100%;*/
+}
+
+.titles-footer{
+    color:white;
+}
+
+#content-image{
+    position:relative;
+    top:-120px
+}
+
 
 @media screen and (max-width: 2000px) {
     #slider-main{
         position:relative;
-        top: -55px   
+        padding-top: 1%
+            /*top: -55px*/   
     }
 }
 

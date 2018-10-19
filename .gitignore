@@ -14,3 +14,4 @@ yarn-error.log
 nbproject/
 public/images/*
 composer.lock
+package-lock.json

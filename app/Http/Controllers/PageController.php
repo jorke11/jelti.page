@@ -12,9 +12,12 @@ use App\Models\Administration\Email;
 use App\Models\Administration\EmailDetail;
 use Mail;
 use App\Models\Inventory\Orders;
+use App\Traits\Utils;
 use Auth;
 
 class PageController extends Controller {
+
+    use Utils;
 
     public $dietas;
 
@@ -28,7 +31,7 @@ class PageController extends Controller {
             (object) ["id" => 6, "description" => "Sin azucar", "slug" => "sin_azucar", "image" => "images/page/dietas/sinazucar.png", "search" => "sin_azucar"],
         ];
     }
-
+    
     public function index() {
 
         $end = date("Y-m-d");
@@ -63,8 +66,6 @@ class PageController extends Controller {
         $most_sales = DB::select($sql);
 
 
-//        $supplier = DB::select("vsupplier");
-//        dd($supplier);
 
         $categories = Categories::where("status_id", 1)
                         ->where("type_category_id", 1)
@@ -130,28 +131,54 @@ class PageController extends Controller {
             array("url" => "https://superfuds.com/images_blog/referentes/terrafertil-4.jpg", "title" => "Terrafertil"),
             array("url" => "https://superfuds.com/images_blog/referentes/chocolov-6.jpg", "title" => "Chocolov"));
 
-
         $dietas = $this->dietas;
+
 
         $suppliers = $this->getSuppliers()->getData();
 
-        $newproducts = $this->splitArray($newproducts, 4);
+        $most_sales = $this->splitArray($most_sales, 4);
 
+        $newproducts = $this->splitArray($newproducts, 4);
 
         return view('page', compact("subcategory", "categories", "dietas", "newproducts", "love_clients", "clients", "most_sales", "suppliers"));
     }
 
-    function splitArray($arr, $number) {
-        $res = [];
-        $cont = 0;
-        foreach ($arr as $i => $val) {
-            $res[$cont][] = $val;
-            if (($i + 1) % $number == 0) {
-                $cont++;
+    public function getBestSeller() {
+        $end = date("Y-m-d");
+        $join = '';
+        $group = '';
+        $orders = null;
+        $field = '';
+        if (Auth::user()) {
+            $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
+
+            if ($orders != null) {
+                $join = "LEFT JOIN orders_detail ON orders_detail.product_id=p.id and orders_detail.order_id = " . $orders->id;
+                $field = ",orders_detail.quantity as quantity_order,p.price_sf_with_tax";
+                $group = ",orders_detail.quantity";
             }
         }
 
-        return $res;
+
+        $sql = "
+            SELECT p.id,p.title as product,UPPER(sup.business) as supplier, 
+            sum(CASE WHEN d.real_quantity IS NULL THEN 0 ELSE d.real_quantity end * CASE WHEN d.packaging=0 THEN 1 WHEN d.packaging IS NULL THEN 1 ELSE d.packaging END) quantity, 
+            sum(d.value * CASE WHEN d.real_quantity IS NULL THEN 0 ELSE d.real_quantity end * d.units_sf) as subtotal,p.thumbnail,p.slug,p.short_description,
+            p.price_sf,p.tax,p.title,p.title_ec
+            $field
+            FROM departures_detail d 
+            JOIN departures s ON s.id=d.departure_id and s.status_id IN(2,7) 
+            JOIN vproducts p ON p.id=d.product_id JOIN stakeholder sup ON sup.id=p.supplier_id and p.thumbnail is not null
+            $join
+            WHERE s.dispatched BETWEEN '" . date("Y") . "-01-01 00:00' AND '" . $end . " 23:59' AND s.client_id NOT IN(258,264,24) AND p.category_id<>-1
+            GROUP by 1,2,3,p.thumbnail,p.slug,p.title_ec,p.short_description,p.price_sf,price_sf_with_tax,p.tax$group ORDER BY 4 DESC limit 50
+            ";
+        $best_saller = DB::select($sql);
+
+        $best_saller = $this->splitArray($best_saller, 4);
+
+
+        return response()->json($best_saller);
     }
 
     public function getDiets() {
@@ -159,18 +186,25 @@ class PageController extends Controller {
     }
 
     public function getCategories() {
-        $categories = DB::table("vcategories")->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->where("status_id", 1)->orderBy("order", "asc")->get();
+        $categories = DB::table("vcategories")->select("id", "slug", "description", "subcategories", DB::raw("false as checked"))->where("type_category_id", 1)->whereNull("node_id")->OrWhere("node_id", 0)->where("status_id", 1)->orderBy("order", "asc")->get();
         return response()->json($categories);
     }
 
     public function getSuppliers() {
-        $supplier = DB::table("vsupplier")->where("products", ">", 0)->orderBy("business")->get();
+        $supplier = DB::table("vsupplier")->select("id as slug", "business as description", "products as subcategories", DB::raw("false as checked"))->where("products", ">", 0)->orderBy("business")->get();
         return response()->json($supplier);
     }
 
     public function getDiet() {
         $diet = $this->dietas;
         return response()->json($diet);
+    }
+
+    public function getSubcagories() {
+        // $subcategory = Characteristic::select("id","description")->where("status_id", 1)->where("type_subcategory_id", 1)->whereNotNull("img")->orderBy("order", "asc")->get();
+        $subcategory = DB::table("vsubcategories")->select("id", "description", DB::raw("0 as subcategories"), DB::raw("false as checked"))->where("status_id", 1)->orderBy("order", "asc")->get();
+
+        return response()->json($subcategory);
     }
 
     public function productSearch($slug_category) {
@@ -238,7 +272,8 @@ class PageController extends Controller {
                     )
                     ->whereNotNull("image")
                     ->whereNotNull("warehouse")
-                    ->where("status_id", 1);
+                    ->where("status_id", 1)
+                    ->where("check_catalog", true);
 
             if (Auth::user()) {
                 $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
@@ -271,10 +306,12 @@ class PageController extends Controller {
             $stakeholder = \App\Models\Administration\Stakeholder::where("slug", $param)->first();
 
             $products = DB::table("vproducts")->select("vproducts.id", "vproducts.title", "vproducts.short_description", "vproducts.price_sf_with_tax", "vproducts.price_sf", "vproducts.image", "vproducts.thumbnail", "vproducts.category_id", "vproducts.slug", "vproducts.tax", "vproducts.supplier"
-                            )
-                            ->whereNotNull("image")
-                            ->whereNotNull("warehouse")
-                            ->where("supplier_id", $stakeholder->id)->get();
+                    )
+                    ->whereNotNull("image")
+                    ->whereNotNull("warehouse")
+                    ->where("supplier_id", $stakeholder->id)
+                    ->where("check_catalog", true)
+                    ->get();
 
 
             $categories = DB::table("vcategories")->where("status_id", 1);
@@ -297,7 +334,8 @@ class PageController extends Controller {
                         ->where("category_id", "<>", 19)
                         ->whereNotNull("image")
                         ->whereNotNull("vproducts.thumbnail")
-                        ->whereBetween("vproducts.created_at", [$init, date("Y-m-d H:i:s")]);
+                        ->whereBetween("vproducts.created_at", [$init, date("Y-m-d H:i:s")])
+                        ->where("check_catalog", true);
 
 
 
@@ -310,8 +348,15 @@ class PageController extends Controller {
                         ->orderBy("vproducts.created_at")
                         ->orderBy("category_id")
                         ->orderBy("reference")
+                        ->where("check_catalog", true)
                         ->get();
             } else {
+                $number = 50;
+                if (strpos($param, "top") !== false) {
+                    list($most, $top) = explode("&", $param);
+                    list($title, $number) = explode("=", $top);
+                }
+
                 if (Auth::user()) {
                     $orders = Orders::where("status_id", 1)->where("insert_id", Auth::user()->id)->first();
 
@@ -337,7 +382,7 @@ class PageController extends Controller {
             JOIN vproducts p ON p.id=d.product_id JOIN stakeholder sup ON sup.id=p.supplier_id and p.thumbnail is not null
             $join
             WHERE s.dispatched BETWEEN '" . date("Y") . "-01-01 00:00' AND '" . $end . " 23:59' AND s.client_id NOT IN(258,264,24) AND p.category_id<>-1
-            GROUP by 1,2,3,p.thumbnail,p.characteristic::text,p.category_id,p.slug,p.short_description,p.price_sf,p.price_sf_with_tax,p.tax$group ORDER BY 4 DESC limit 50
+            GROUP by 1,2,3,p.thumbnail,p.characteristic::text,p.category_id,p.slug,p.short_description,p.price_sf,p.price_sf_with_tax,p.tax$group ORDER BY 4 DESC limit $number
             ";
                 $products = DB::select($sql);
             }
@@ -367,7 +412,6 @@ class PageController extends Controller {
             $categories = DB::table("vcategories")->where("status_id", 1);
 
             foreach ($products as $value) {
-//                dd($value);
                 $categories->where("id", $value->category_id);
             }
 
@@ -386,6 +430,7 @@ class PageController extends Controller {
                                 $q->Orwhere(DB::raw("lower(category)"), "like", '%' . $param . '%');
                             })
                             ->where("status_id", 1)
+                            ->where("check_catalog", true)
                             ->orderBy("title", "desc")->get();
 
             $categories = DB::table("vcategories")->where("status_id", 1);
@@ -426,9 +471,9 @@ class PageController extends Controller {
         if ($param == null) {
             $products = DB::table("vproducts")->where("status_id", 1)
 //                    ->whereNotNull("characteristic")
-                    ->where(function($q) {
-                $q->whereNotNull("image")->whereNotNull("thumbnail");
-            });
+                            ->where(function($q) {
+                                $q->whereNotNull("image")->whereNotNull("thumbnail");
+                            })->where("check_catalog", true);
 
             if (isset($in["categories"])) {
 

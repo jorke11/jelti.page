@@ -142,7 +142,7 @@ function Payment() {
                                     </div>
                                     <div class="row">
                                         <div class="col-2">
-                                            <img src="https://superfuds.com/${detail[i].thumbnail}" style="width:95%;cursor:pointer" class="img-fluid" 
+                                            <img src="/${detail[i].thumbnail}" style="width:95%;cursor:pointer" class="img-fluid" 
                                             onclick="objCounter.redirectProduct('${detail[i].slug}')"/>
                                         </div>
                                         <div class="col-7">
@@ -167,14 +167,11 @@ function Payment() {
                                                         <span class="input-group-text" onclick="obj.deleteUnit('${detail[i].product_id}','${detail[i].slug}',${i})" style="background-color: #30c594;color:white;cursor: pointer">-</span>
                                                     </div>
                                                     <input type="text" class="form-control input-number" id="quantity_payment_${detail[i].product_id}" value="${detail[i].quantity}" type="number"
-                                                    onkeypress="objCounter.addProductEnter(event,'${detail[i].product}','${detail[i].slug}','${detail[i].product_id}',
-                                                                '${detail[i].price_sf}}','${detail[i].thumbnail}','${detail[i].tax}',this)" style="text-align:center">
+                                                    onkeypress="objCounter.addProductEnter(event,'${detail[i].product_id}','${detail[i].slug}',this)" style="text-align:center">
                 
                                                     <div class="input-group-append">
                                                         <span class="input-group-text" 
-                                                                onclick="obj.addProduct('${detail[i].product}',
-                                                                '${detail[i].slug}','${detail[i].product_id}',
-                                                                '${detail[i].price_sf}}','${detail[i].thumbnail}','${detail[i].tax}')"
+                                                                onclick="obj.addProduct('${detail[i].product_id}','${detail[i].slug}','quantity_payment_${detail[i].product_id}')"
                                                             style="background-color: #30c594;color:white;cursor: pointer">+</span>
                                                     </div>
                                                 </div>
@@ -185,6 +182,7 @@ function Payment() {
                             </div>
                           
                         `;
+
             }
 
         }
@@ -193,7 +191,8 @@ function Payment() {
     }
 
     this.deleteUnit = function (product_id, slug, index) {
-        $("#quantity_payment_" + product_id).val(parseInt($("#quantity_" + product_id).val()) - 1)
+        
+        $("#quantity_payment_" + product_id).val(parseInt($("#quantity_payment_" + product_id).val()) - 1)
         var row = {
             quantity: $("#quantity_payment_" + product_id).val(),
             product_id: product_id
@@ -217,7 +216,7 @@ function Payment() {
                     obj.printDetail()
                 }
 
-                if (parseInt(data.total) > 10000) {
+                if (parseInt(data.total) > data.amount) {
                     $("#message-mount").addClass("d-none")
                     $("#btnPayU").attr("disabled", false)
                 } else {
@@ -237,16 +236,13 @@ function Payment() {
 
     }
 
-    this.addProduct = function (title, slug, product_id, price_sf, img, tax) {
+    this.addProduct = function (product_id, slug, elem_id) {
 
         var row = {
             quantity: 1,
-            title: title,
-            product_id: product_id,
-            price_sf: price_sf,
-            img: img,
-            tax: tax
+            product_id: product_id
         }
+
         if (user_id) {
             $.ajax({
                 url: PATH + '/addProduct/' + slug,
@@ -265,12 +261,16 @@ function Payment() {
                     $("#badge-quantity").attr("font-size", '70%').css("background-color", "#f8f9fa");
 
                     $("#quantity_product_" + product_id).html(data.row.quantity)
-                    if (parseInt(data.total) > 10000) {
+                    if (parseInt(data.total) > data.amount) {
                         $("#message-mount").addClass("d-none")
                         $("#btnPayU").attr("disabled", false)
+                        $("#btnPay").attr("disabled", false)
+                        $("#btnPSE").attr("disabled", false)
                     } else {
                         $("#message-mount").removeClass("d-none")
                         $("#btnPayU").attr("disabled", true)
+                        $("#btnPay").attr("disabled", true)
+                        $("#btnPSE").attr("disabled", true)
                     }
                 }, error: function (xhr, ajaxOptions, thrownError) {
 
@@ -371,16 +371,19 @@ function Payment() {
 
         var html = '';
         detail = data.detail
+        const {amount} = data;
 
         this.printDetail(3)
 
-        if (data.total < 10000) {
+        if (data.total < amount) {
             $("#btnPay").attr("disabled", true)
             $("#btnPayU").attr("disabled", true)
+            $("#btnPSE").attr("disabled", true)
             $("#message-mount").removeClass("d-none");
         } else {
             $("#btnPay").attr("disabled", false)
             $("#btnPayU").attr("disabled", false)
+            $("#btnPSE").attr("disabled", false)
             $("#message-mount").addClass("d-none");
         }
 
@@ -447,7 +450,6 @@ function Payment() {
     this.deleteItem = function (slug, index) {
 
         var token = $("input[name=_token]").val();
-
         $.ajax({
             url: 'deleteAllProduct/' + slug,
             headers: {'X-CSRF-TOKEN': token},
@@ -460,7 +462,7 @@ function Payment() {
                 toastr.success("Item Eliminado");
                 obj.setListDetail(data);
 
-                if (parseInt(data.total) > 10000) {
+                if (parseInt(data.total) > data.amount) {
                     $("#message-mount").addClass("d-none")
                     $("#btnPayU").attr("disabled", false)
                 } else {

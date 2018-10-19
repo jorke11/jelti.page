@@ -1,34 +1,4 @@
-<style>
-    #categories-footer .list-group-item {
-        background-color: rgba(255,255,255,0);
-        color:rgba(255,255,255,1);
-        padding: .60rem 1.25rem;
-        border: 0px;
-        font-size: 20px
-    }
-    .footer-template{
-        /*        padding-top: 100px;
-                position: relative;
-                transition: all 1s ease;*/
-        background-repeat: no-repeat;
-        /*background-position-y: -20px;*/
-        background-image: url("/images/fondofooter_green.png");
-        background-color: #6dcbb !important
-            background-color: #6dcbb !important;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-
-        background-size: 100% 100%;
-        /*width: 100%;*/
-    }
-
-    .titles-footer{
-        color:white;
-    }
-</style>
 <div class="container-fluid footer-template" >
-    <!--<div class="row" style="background-color: rgba(0,0,0,.8);">-->
     <div class="row" id="options-footer">
         <div class="col-5" style="padding-top: 2%;padding-bottom: 2%"  id="categories-footer">
             <div class="row">

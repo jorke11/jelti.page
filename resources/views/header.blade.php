@@ -1,10 +1,8 @@
-
-
 @auth
 <input type="hidden" id="user_id" value="{{Auth::user()->id}}">
 @endauth
 
-<nav class="navbar navbar-expand-lg fixed-top navbar-light main-menu img-fluid img-header " id="main-menu-id" style="height: 150px;padding-bottom:3%">
+<nav class="navbar navbar-expand-lg fixed-top navbar-light main-menu img-fluid img-header " id="main-menu-id" >
     <a class="navbar-brand d-lg-none" href="/">
         <img alt="Brand" src="/images/page/logosuperf.svg" class="img-fluid" width="30%" alt="Logo superfuds">
     </a>
@@ -16,6 +14,32 @@
 
     <div class="navbar-collapse collapse" id="navbarsExampleDefault" style="">
         <ul class="navbar-nav" id="menu-header">
+<<<<<<< HEAD
+=======
+            <li class="nav-item dropdown active" id="menu-diet">
+                <a class="nav-link dropdown-toggle title-menu" href="{{url("/")}}" id="title-categories" data-toggle="dropdown" 
+                   aria-haspopup="true" aria-expanded="false" >CATEGORIAS</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    @if(isset($categories))
+                    @foreach($categories as $val)
+                    <a style="color:black" class="dropdown-item" href="{{url("")}}/products/{{$val->slug}}">{{ucwords(strtolower($val->description))}}</a>
+                    @endforeach
+                    @endif
+                </div>
+            </li>
+            <li class="nav-item dropdown" id="menu-category">
+                <a class="nav-link dropdown-toggle title-menu" href="http://example.com" id="dropdown01" data-toggle="dropdown" 
+                   aria-haspopup="true" aria-expanded="false" >DIETAS</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    @if(isset($dietas))
+                    @foreach($dietas as $val)
+                    <a class="dropdown-item" href='{{url("search/c=".$val->slug)}}'>{{$val->description}}</a>
+                    @endforeach
+                    @endif
+                </div>
+            </li>
+
+>>>>>>> master
             @guest
             <li class="nav-item dropdown" id="menu-category">
                 <a class="nav-link title-menu" href="#" aria-haspopup="true" aria-expanded="false" id="btn-register" >REGISTRATE</a>
@@ -62,7 +86,7 @@
                    aria-haspopup="true" aria-expanded="false" >{{substr(Auth::user()->name,0,8)}}</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <a class="dropdown-item" href="/profile">Mis Datos</a>
-                    <a class="dropdown-item" href="/myOrders">Historial Pedidos</a>
+                    <a class="dropdown-item" href="/my-orders">Historial Pedidos</a>
                     <a class="dropdown-item" href="/myFavourite">Mis favoritos</a>
                     <a class="dropdown-item" href="/coupon">Cupones</a>
                     <a class="dropdown-item" href="{{ route('logout') }}"

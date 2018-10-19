@@ -25,8 +25,9 @@ function Page() {
 //        this.getDataFirebase();
 //        this.getDataFireStore();
         this.getData();
+        this.getBestSeller();
 
-        
+
 
 
         $('#get-checked-data').on('click', function (event) {
@@ -61,6 +62,20 @@ function Page() {
 
             })
         }
+    }
+    this.getBestSeller = function () {
+
+        $.ajax({
+            url: PATH + '/best-seller',
+            method: 'GET',
+            success: function (data) {
+                obj.setBestSeller(data, "quantity_most_product_");
+            }, error: function (xhr, ajaxOptions, thrownError) {
+//                toastr.error(xhr.responseJSON.msg);
+//                elem.attr("disabled", false);
+            }
+
+        })
     }
 
     this.setData = function (data) {
@@ -112,6 +127,111 @@ function Page() {
 
         $("#popover-content").html(html);
 
+    }
+
+    this.setBestSeller = function (data, input_id) {
+        var html = "";
+        data.forEach((row, index) => {
+            html += `
+            <div class="carousel-item ${(index == 0) ? 'active' : ''}" style="padding: 2%;">
+                <div class="row text-center">`
+            row.forEach((value, i) => {
+                html +=
+                        `
+                        <div class="col-lg-3 col-xs-4 col-md-3 col-6">
+                                <div class="card" >
+                                    <img class="card-img-top card-img-product" src="/${value.thumbnail}" alt="Card image cap" 
+                                            onclick="objCounter.redirectProduct('${value.slug}')">
+                                                <div class="card-body text-center">
+
+                                                    <p class="text-left text-muted " style="margin:0;" >
+                                                        <a href="/search/s=${$.slug(value.supplier)}" class="text-supplier">
+                                                            ${value.supplier}
+                                                        </a>        
+                                                    </p>
+                                                    <h5 class="card-title text-left title-products" onclick="objCounter.redirectProduct('${value.slug}')">
+                                                        ${value.title_ec}
+                                                    </h5>
+                                                    <p class="text-left">
+                                                        <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
+                                                        </svg>
+                                                        <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
+                                                        </svg>
+                                                        <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
+                                                        </svg>
+                                                        <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
+                                                        </svg>
+                                                        <svg id="i-star" viewBox="0 0 32 32" class="star" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
+                                                        </svg>
+                                                    </p>
+
+                                                    
+                                                    <p class="text-left">
+                                                        ${(value.price_sf_with_tax == undefined) ? '' : $.formatNumber(value.price_sf_with_tax)}
+                                                    </p>
+                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                         <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                                                    <div class="row row-center ${(value.quantity_order != null) ? '' : 'd-none'}" id="buttonAdd_${value.id}" >
+                                                        <div class="col-lg-6">
+                                                            <div class="row" style="background-color: #5cb19a;color:white;padding-bottom: 2%;padding-top: 5%;
+                                                                 padding-left: 0;padding-right: 0;border-radius: 10px;">
+                                                                <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
+                                                                    <svg id="i-minus" class="btn-minus-card-product" viewBox="0 0 32 32"  fill="white"  style="cursor:pointer;"
+                                                                         stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
+                                                                         onclick=objCounter.deleteUnit(${value.id},'${value.slug}','${input_id + value.id}')>
+                                                                    <path d="M2 16 L30 16" />
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
+                                                                    <input type="text" id="${input_id + value.id}" class="input-quantity-product input-number" 
+                                                                        value="${(value.quantity_order != null) ? value.quantity_order : 0}"
+                                                                           onkeypress=objCounter.addProductEnter(event,${value.id},'${value.slug}',this)>
+                                                                </div>
+                                                                <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
+                                                                    <svg id="i-plus" class="btn-minus-card-product" viewBox="0 0 35 35" fill="white" stroke="#ffffff" 
+                                                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="4" style="cursor:pointer"
+                                                                         onclick="objCounter.addProduct('${value.id}','${value.slug}','${input_id + value.id}'); return false;">
+                                                                    <path d="M16 2 L16 30 M2 16 L30 16" />
+                                                                    </svg>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-2" style="margin-left: 3px">
+                                                            <div class="row icon-ok" style="background-color: #5cb19a;color:white;padding-bottom: 15%;padding-top: 40%;
+                                                                 padding-left: 0;padding-right: 0;border-radius: 10px;">
+                                                                <div class="col-lg-6">
+                                                                    <svg id="i-checkmark" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" 
+                                                                         stroke-linejoin="round" stroke-width="4"
+                                                                         style="cursor:pointer"
+                                                                         onclick="objCounter.addProductCheck('{${value.short_description}',
+                                                                         '${value.slug}','${value.id}','${value.price_sf}}','${value.thumbnail}','${value.tax}','${input_id + value.id}'); return false;"
+                                                                         >
+                                                                    <path d="M2 20 L12 28 30 4" />
+                                                                    </svg>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <button style="background-color: #5cb19a;color:white" class="btn ${(value.quantity_order != null) ? 'd-none' : '' }" 
+                                                            id="btnOption_${value.id}" onclick="objCounter.showButton('${value.id}','${value.slug}','quantity_best_product_${value.id}')">Agregar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                    `
+            })
+            html += `
+                </div>
+            </div>
+            `;
+        })
+
+        $("#content-best-seller").html(html);
     }
 
 //    this.getDataFirebase = function () {

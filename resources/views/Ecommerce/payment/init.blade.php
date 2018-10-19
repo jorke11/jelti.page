@@ -40,7 +40,7 @@
 <div class="container-fluid">
     <div class="row d-none" id="message-mount" >
         <div class=" col-lg-offset-2 col-lg-10">
-            <div class="alert alert-danger">El monto total debe ser Mayor a $10.000 Pesos</div>
+            <div class="alert alert-danger">El monto total debe ser Mayor a ${{number_format($amount,0,".",",")}} Pesos</div>
         </div>
     </div>
     <div class="row">

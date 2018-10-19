@@ -17,7 +17,9 @@ Auth::routes();
 Route::get('/search/{busqueda}', 'PageController@search');
 Route::get('/', 'PageController@index');
 
-Route::get('myOrders', "Ecommerce\PaymentController@getMyOrders");
+Route::get('/best-seller', 'PageController@getBestSeller');
+
+Route::get('my-orders', "Ecommerce\PaymentController@getMyOrders");
 Route::get('coupon', "Ecommerce\PaymentController@showCoupon");
 Route::get('getCoupon', "Ecommerce\PaymentController@getCoupon");
 Route::get('profile', "Administration\ProfileController@index");
@@ -37,6 +39,7 @@ Route::post("activation", 'Auth\RegisterController@userActivation', ["use" => "a
 
 
 Route::get('getDetailOrder/{invoice}', "Ecommerce\PaymentController@getInvoice");
+Route::get('getDetailOrderCurrent/{order_id}', "Ecommerce\PaymentController@getOrder");
 
 Route::post('newVisitan', "PageController@newVisitan");
 Route::post('loginModal', "Auth\LoginController@loginModal");
@@ -45,6 +48,7 @@ Route::get('/products/{slug_category}', "PageController@productSearch");
 Route::get('/categories', "PageController@getCategories");
 Route::get('/suppliers', "PageController@getSuppliers");
 Route::get('/diet', "PageController@getDiet");
+Route::get('/subcategory', "PageController@getSubcagories");
 
 Route::get('/search', 'PageController@getProducts');
 Route::get('/search-input', 'PageController@getProductsInput');
@@ -81,6 +85,4 @@ Route::post('payment/pse', "Ecommerce\PseController@payment");
 Route::get('confirmation', 'Ecommerce\PseController@confirmation');
 Route::get('voucher', 'Ecommerce\PseController@voucher');
 Route::get('finish-payment', 'Ecommerce\PseController@finishPurchase');
-
-
 Route::get('/api/getCity', 'Administration\SeekController@getCity');
