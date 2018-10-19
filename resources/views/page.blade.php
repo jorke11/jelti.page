@@ -29,78 +29,7 @@
     </div>
 </section>
 
-<<<<<<< HEAD
 <section id="divDiets" style="padding-top:2%" class="d-lg-block"></section>
-=======
-<section id="divProduct" style="padding-top:2%" class=" d-lg-block">
-    <div class="container-fluid">
-        <div class="row" style="padding-bottom: 20px">
-            <div class="col-lg-12 col-xs-12">
-                <p class="text-center title-color" style='font-size: 50px;font-family: "dosis" !important'>Conoce Nuestras Dietas</p>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class='col-lg-3 col-xs-6 col-md-3 col-6'>
-                <div class="card">
-                    <a href="{{url("search/c=paleo")}}"><img class="card-img-top" src="{{url("images/page/dietas/paleo.png")}}" alt="Card image cap"></a>
-                    <div class="card-body">
-                        <h2 class="card-title text-center title-diet-header">Paleo</h2>
-                        <p class="text-center justify-content-center"><a href="{{url("search/c=paleo")}}" class="link-green">Ver todos</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class='col-lg-3 col-xs-6 col-md-3 col-xs-6 col-6'>
-                <div class="card">
-                    <a href="{{url("search/c=vegano")}}"><img class="card-img-top" src="{{url("images/page/dietas/vegana.png")}}" alt="Card image cap"></a>
-                    <div class="card-body">
-                        <h2 class="card-title text-center title-diet-header">Vegana</h2>
-                        <p class="text-center justify-content-center"><a href="{{url("search/c=vegano")}}" class="link-green">Ver todos</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class='col-lg-3 col-xs-6 col-md-3 col-xs-6 col-6'>
-                <div class="card">
-                    <a href="{{url("search/c=sin_gluten")}}"><img class="card-img-top" src="{{url("images/page/dietas/sin_gluten.png")}}" alt="Card image cap"></a>
-                    <div class="card-body">
-                        <h2 class="card-title text-center title-diet-header">Sin Gluten</h2>
-                        <p class="text-center justify-content-center"><a href="{{url("search/c=sin_gluten")}}" class="link-green">Ver todos</a></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row justify-content-center" style="padding-top: 50px">
-            <div class='col-lg-3 col-xs-6 col-md-3 col-xs-6 col-6'>
-                <div class="card">
-                    <a href="{{url("search/c=organico")}}"><img class="card-img-top" src="{{url("images/page/dietas/organico.png")}}" alt="Card image cap"></a>
-                    <div class="card-body">
-                        <h2 class="card-title text-center title-diet-header">Orgánico</h2>
-                        <p class="text-center justify-content-center"><a href="{{url("search/c=organico")}}" class="link-green">Ver todos</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class='col-lg-3 col-xs-6 col-md-3 col-xs-6 col-6'>
-                <div class="card">
-                    <a href="{{url("search/c=sin_grasas_trans")}}"><img class="card-img-top" src="{{url("images/page/dietas/singrasastrans.png")}}" alt="Card image cap"></a>
-                    <div class="card-body">
-                        <h2 class="card-title text-center title-diet-header">Sin Grasas Trans</h2>
-                        <p class="text-center justify-content-center"><a href="{{url("search/c=sin_grasas_trans")}}" class="link-green" >Ver todos</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class='col-lg-3 col-xs-6 col-md-3 col-xs-6 col-6'>
-                <div class="card">
-                    <a href="{{url("search/c=sin_azucar")}}"><img class="card-img-top" src="{{url("images/page/dietas/sinazucar.png")}}" alt="Card image cap"></a>
-                    <div class="card-body">
-                        <h2 class="card-title text-center title-diet-header">Sin Azúcar</h2>
-                        <p class="text-center justify-content-center"><a href="{{url("search/c=sin_azucar")}}" class="link-green" >Ver todos</a></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
->>>>>>> master
 
 <section id="slider-new-products"></section>
 <!--Web-->
