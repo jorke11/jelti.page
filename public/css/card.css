@@ -259,6 +259,105 @@
     top:-120px
 }
 
+.carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+}
+
+.carousel-control-next-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+}
+
+.go-top {
+    position: fixed;
+    bottom: 4em;
+    right: 2em;
+    text-decoration: none;
+    color: #fff;
+    background-color: rgb(90,176,153,0.8);
+    font-size: 12px;
+    padding: 1em;
+    display: none;
+    z-index: 1000;
+    border-radius: 50% 50% 50% 50%;
+}
+
+.go-top:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+    color:white;
+}
+
+.slider-main{
+    position:fixed;
+}
+
+.link-green{
+    color:rgba(91,175,152,1);
+    font-weight: 600
+}
+
+.card{
+    -webkit-box-shadow: -9px 8px 12px -2px rgba(0,0,0,0.15);
+    -moz-box-shadow: -9px 8px 12px -2px rgba(0,0,0,0.15);
+    box-shadow: -9px 8px 12px -2px rgba(0,0,0,0.15);
+
+    border: 1px solid rgba(0,0,0,.07);
+    border-radius:10px;
+    margin-bottom: 3%;
+    margin-left: 4%;
+    /*border:none;*/
+}
+
+/* CSS REQUIRED */
+.state-icon {
+    left: -5px;
+}
+.list-group-item-primary {
+    color: rgb(255, 255, 255);
+    background-color: rgb(66, 139, 202);
+}
+
+/* DEMO ONLY - REMOVES UNWANTED MARGIN */
+.well .list-group {
+    margin-bottom: 0px;
+}
+
+
+.list-group-item {
+    background-color: rgba(255,255,255,0);
+    padding: .40rem 1.25rem;
+    border: 0px;
+    font-size: 20px;color: black;
+}
+
+#categories-filter .list-group .list-group-item.active{
+    background-color: #30c594 !important;
+    color:#ffffff
+}
+
+#loading-super{
+    display: scroll;
+    position: fixed;
+    z-index: 10000;
+    left: 50%;
+    top: 40%
+}
+#popover-customer{
+    position: absolute;
+    top: 12%;
+    right: 50px;
+    text-decoration: none;
+    width: 25%;
+    padding-top: 0.1em;
+    z-index: 2000;
+}
+
+#content-cart{
+    padding: 20px;
+    overflow-y: scroll;
+    max-height: 500px;
+}
+
+
 
 @media screen and (max-width: 2000px) {
     #slider-main{
