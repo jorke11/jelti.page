@@ -147,7 +147,7 @@ function Pse() {
                                             <div class="row">
                                                 <div class="input-group mb-3 ">
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text" onclick="obj.deleteUnit('${detail[i].product_id}','${detail[i].slug}',${i})" style="background-color: #30c594;color:white;cursor: pointer">-</span>
+                                                        <span class="input-group-text" onclick="objCounter.deleteUnit('${detail[i].product_id}','${detail[i].slug}',${i})" style="background-color: #30c594;color:white;cursor: pointer">-</span>
                                                         
                                                     </div>
                                                     <input type="text" class="form-control" id="quantity_payment_${detail[i].product_id}" value="${detail[i].quantity}" type="number">
