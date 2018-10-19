@@ -283,7 +283,7 @@
                                                 <div class="col-lg-6 col-6">
                                                     <div class="row" style="background-color: #5cb19a;color:white;padding-bottom: 2%;padding-top: 5%;
                                                          padding-left: 0;padding-right: 0;border-radius: 10px;">
-                                                        <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0" onclick="objCounter.deleteUnit({{$value->id}},'{{$value->slug}}')">
+                                                        <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0" onclick="objCounter.deleteUnit({{$value->id}},'{{$value->slug}}','quantity_list_product_{{$value->id}}')">
                                                             <svg id="i-minus" viewBox="0 0 32 32" class="btn-minus-card-product" fill="white"  style="cursor:pointer;"
                                                                  stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
                                                                  >
@@ -292,12 +292,9 @@
                                                         </div>
                                                         <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
                                                             <input type="text" id="quantity_list_product_{{$value->id}}" class="input-quantity-product" value="{{(isset($value->quantity))?$value->quantity:0}}"
-                                                                   onkeypress="objCounter.addProductEnter(event,'{{$value->short_description}}',
-                                                                               '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}'
-                                                                                           , 'quantity_list_product_{{$value->id}}')">
+                                                                   onkeypress="objCounter.addProductEnter(event,'{{$value->id}}','{{$value->slug}}', 'quantity_list_product_{{$value->id}}')">
                                                         </div>
-                                                        <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0" onclick="objCounter.addProduct('{{$value->short_description}}',
-                                                             '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_list_product_{{$value->id}}'); return false;">
+                                                        <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0" onclick="objCounter.addProduct('{{$value->id}}','{{$value->slug}}','quantity_list_product_{{$value->id}}'); return false;">
                                                             <svg id="i-plus" viewBox="0 0 35 35" class="btn-minus-card-product" fill="white" stroke="#ffffff" 
                                                                  stroke-linecap="round" stroke-linejoin="round" stroke-width="4" style="cursor:pointer"
                                                                  >
@@ -312,8 +309,7 @@
                                                             <svg id="i-checkmark" viewBox="0 0 32 32" class="btn-minus-card-product" fill="none" stroke="currentcolor" stroke-linecap="round" 
                                                                  stroke-linejoin="round" stroke-width="4"
                                                                  style="cursor:pointer"
-                                                                 onclick="objCounter.addProduct('{{$value->short_description}}',
-                                                                 '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_list_product_{{$value->id}}'); return false;"
+                                                                 onclick="objCounter.addProduct('{{$value->id}}','{{$value->slug}}','quantity_list_product_{{$value->id}}','check'); return false;"
                                                                  >
                                                             <path d="M2 20 L12 28 30 4" />
                                                             </svg>
@@ -322,8 +318,7 @@
                                                 </div>
                                             </div>
                                             <button class="btn <?php echo (isset($value->quantity)) ? 'd-none' : '' ?>" 
-                                                    id="btnOption_{{$value->id}}" onclick="objCounter.showButton('{{$value->short_description}}',
-                                                    '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_list_product_{{$value->id}}')" 
+                                                    id="btnOption_{{$value->id}}" onclick="objCounter.showButton('{{$value->id}}','{{$value->slug}}','quantity_list_product_{{$value->id}}')" 
                                                     style="background-color: #5cb19a;color:white">Agregar</button>
 
                                         </div>
