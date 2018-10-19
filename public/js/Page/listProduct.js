@@ -511,42 +511,40 @@ function listProduct() {
                                                  <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
                                                     <svg id="i-minus" viewBox="0 0 32 32" class="btn-minus-card-product" fill="white"  style="cursor:pointer;"
                                                          stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"
-                                                         onclick="objCounter.deleteUnit(${value.id},'${value.slug}')">
+                                                         onclick="objCounter.deleteUnit(${value.id},'${value.slug}','quantity_list_product_${value.id}')">
                                                     <path d="M2 16 L30 16" />
                                                     </svg>
                                                 </div>
                                                 <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
-                                                    <input type="text" id="quantity_product_${value.id}" value="${(value.quantity != null) ? value.quantity : 0}" class="input-quantity-product">
+                                                    <input type="text" id="quantity_list_product_${value.id}" value="${(value.quantity != null) ? value.quantity : 0}" class="input-quantity-product"
+                                                    onkeypress="objCounter.addProductEnter(event,'${value.id}','${value.slug}',this)">
                                                 </div>
                                                 <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
                                                     <svg id="i-plus" viewBox="0 0 35 35"  class="btn-minus-card-product" fill="white" stroke="#ffffff" 
                                                          stroke-linecap="round" stroke-linejoin="round" stroke-width="4" style="cursor:pointer"
-                                                         onclick="objCounter.addProduct('${value.short_description}',
-                                                         '${value.slug}','${value.id}','${value.price_sf}','${value.thumbnail}','${value.tax}'); return false;">
+                                                         onclick="objCounter.addProduct('${value.id}','${value.slug}','quantity_list_product_${value.id}'); return false;">
                                                         <path d="M16 2 L16 30 M2 16 L30 16" />
                                                     </svg>
                                                 </div>
                                             </div>
                                         </div>
                                         
-                                          <div class="col-lg-2 col-2" style="margin-left: 3px">
-                                                    <div class="row icon-ok">
-                                                        <div class="col-lg-6">
-                                                            <svg id="i-checkmark" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" 
-                                                                 stroke-linejoin="round" stroke-width="4"
-                                                                  style="cursor:pointer"
-                                                                 onclick="objCounter.addProductCheck('${value.short_description}',
-                                                                 '${value.slug}','${value.id}','${value.price_sf}','${value.thumbnail}','${value.tax}','quantity_product_${value.id}'); return false;">
-                                                            <path d="M2 20 L12 28 30 4" />
-                                                            </svg>
-                                                        </div>
+                                         <div class="col-lg-2 col-2" style="margin-left: 3px">
+                                                <div class="row icon-ok">
+                                                    <div class="col-lg-6">
+                                                        <svg id="i-checkmark" viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentcolor" stroke-linecap="round" 
+                                                             stroke-linejoin="round" stroke-width="4"
+                                                              style="cursor:pointer"
+                                                             onclick="objCounter.addProductCheck('${value.id}','${value.slug}','quantity_list_product_${value.id}'); return false;">
+                                                        <path d="M2 20 L12 28 30 4" />
+                                                        </svg>
                                                     </div>
-                                            </div>
+                                                </div>
+                                        </div>
                                 </div>
 
                                 <button class="btn ${(value.quantity == null) ? '' : 'd-none'}" 
-                                        id="btnOption_${value.id}" onclick="objCounter.showButton('${value.short_description}',
-                                                    '${value.slug}','${value.id}','${value.price_sf}','${value.thumbnail}','${value.tax}')" 
+                                        id="btnOption_${value.id}" onclick="objCounter.showButton('${value.id}','${value.slug}','quantity_list_product_${value.id}')" 
                                         style="background-color: #5cb19a;color:white">Agregar</button>
                             </div>
                         </div>

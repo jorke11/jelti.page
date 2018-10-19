@@ -292,7 +292,7 @@
                                                         </div>
                                                         <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
                                                             <input type="text" id="quantity_list_product_{{$value->id}}" class="input-quantity-product" value="{{(isset($value->quantity))?$value->quantity:0}}"
-                                                                   onkeypress="objCounter.addProductEnter(event,'{{$value->id}}','{{$value->slug}}', 'quantity_list_product_{{$value->id}}')">
+                                                                   onkeypress="objCounter.addProductEnter(event,'{{$value->id}}','{{$value->slug}}', this)">
                                                         </div>
                                                         <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0" onclick="objCounter.addProduct('{{$value->id}}','{{$value->slug}}','quantity_list_product_{{$value->id}}'); return false;">
                                                             <svg id="i-plus" viewBox="0 0 35 35" class="btn-minus-card-product" fill="white" stroke="#ffffff" 

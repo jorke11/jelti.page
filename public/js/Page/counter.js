@@ -388,19 +388,16 @@ function Counter() {
                                                 <div class="input-group mb-2 offset-1 card-customer">
                                                     <div class="input-group-prepend card-customer">
                                                         <span class="input-group-text card-customer" 
-                                                        onclick="objCounter.deleteUnit('${row.product_id}','${row.slug}',${index},'quantity_${row.product_id}')" 
+                                                        onclick="objCounter.deleteUnit('${row.product_id}','${row.slug}',${index},'quantity_filter_${row.product_id}')" 
                                                     style="background-color: #30c594;color:white;cursor: pointer">-</span>
                                                     </div>
                                                     <input type="text" class="form-control form-control-sm card-customer input-number" 
-                                                        id="quantity_${row.product_id}" name="quantity" value="${row.quantity}" 
-                                                        onkeypress="objCounter.addProductEnter(event,'${row.product}',
-                                                                '${row.slug}','${row.product_id}',
-                                                                '${row.price_sf}}','${row.thumbnail}','${row.tax}','quantity_${row.product_id}')" style="text-align:center">
+                                                        id="quantity_filter_${row.product_id}" name="quantity" value="${row.quantity}" 
+                                                        onkeypress="objCounter.addProductEnter(event,'${row.product_id}','${row.slug}','quantity_${row.product_id}')" style="text-align:center">
                                                     <div class="input-group-append">
                                                         <span class="input-group-text card-customer" 
-                                                                onclick="objCounter.addProduct('${row.product}',
-                                                                '${row.slug}','${row.product_id}',
-                                                                '${row.price_sf}}','${row.thumbnail}','${row.tax}','quantity_${row.product_id}')"
+                                                                onclick="objCounter.addProduct('${row.id}',
+                                                                '${row.slug}','quantity_filter_${row.product_id}')"
                                                             style="background-color: #30c594;color:white;cursor: pointer">+</span>
                                                         
                                                     </div>
