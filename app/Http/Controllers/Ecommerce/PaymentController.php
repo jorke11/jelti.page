@@ -381,11 +381,11 @@ class PaymentController extends Controller {
         $order = Orders::where("insert_id", Auth::user()->id)->where("status_id", 1)->first();
         $current = array();
         if ($order) {
-            $current = OrdersDetail::select("orders.created_at", DB::raw("round(sum(vproducts.price_sf * orders_detail.quantity * orders_detail.units_sf)) subtotal"), DB::raw("round(sum(vproducts.price_sf_with_tax * orders_detail.quantity * orders_detail.units_sf)) total"))
+            $current = OrdersDetail::select("orders.created_at", "orders.id", DB::raw("round(sum(vproducts.price_sf * orders_detail.quantity * orders_detail.units_sf)) subtotal"), DB::raw("round(sum(vproducts.price_sf_with_tax * orders_detail.quantity * orders_detail.units_sf)) total"))
                     ->join("orders", "orders.id", "orders_detail.order_id")
                     ->join("vproducts", "vproducts.id", "orders_detail.product_id")
                     ->where("order_id", $order->id)
-                    ->groupBy("orders.created_at")
+                    ->groupBy("orders.created_at", "orders.id")
                     ->first();
         }
 
@@ -438,6 +438,12 @@ class PaymentController extends Controller {
     public function getInvoice($invoice) {
         $header = Departures::where("invoice", $invoice)->first();
         $detail = $this->formatDetail($header->id);
+        return response()->json($detail);
+    }
+
+    public function getOrder($order_id) {
+        $order=Orders::find($order_id);
+        $detail = $this->formatDetailOrder($order);
         return response()->json($detail);
     }
 

@@ -31,7 +31,7 @@ class PageController extends Controller {
             (object) ["id" => 6, "description" => "Sin azucar", "slug" => "sin_azucar", "image" => "images/page/dietas/sinazucar.png", "search" => "sin_azucar"],
         ];
     }
-
+    
     public function index() {
 
         $end = date("Y-m-d");

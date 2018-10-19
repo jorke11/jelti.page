@@ -19,7 +19,7 @@ Route::get('/', 'PageController@index');
 
 Route::get('/best-seller', 'PageController@getBestSeller');
 
-Route::get('myOrders', "Ecommerce\PaymentController@getMyOrders");
+Route::get('my-orders', "Ecommerce\PaymentController@getMyOrders");
 Route::get('coupon', "Ecommerce\PaymentController@showCoupon");
 Route::get('getCoupon', "Ecommerce\PaymentController@getCoupon");
 Route::get('profile', "Administration\ProfileController@index");
@@ -39,6 +39,7 @@ Route::post("activation", 'Auth\RegisterController@userActivation', ["use" => "a
 
 
 Route::get('getDetailOrder/{invoice}', "Ecommerce\PaymentController@getInvoice");
+Route::get('getDetailOrderCurrent/{order_id}', "Ecommerce\PaymentController@getOrder");
 
 Route::post('newVisitan', "PageController@newVisitan");
 Route::post('loginModal', "Auth\LoginController@loginModal");

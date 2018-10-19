@@ -21,13 +21,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if(count($current)>0)
+                    @if(count((array)$current)>0)
                     <tr>
                         <td>Orden #{{$current->id}}</td>
                         <td>{{date("Y-m-d",strtotime($current->created_at))}}</td>
                         <td>{{$current->subtotal}}</td>
                         <td>{{$current->total}}</td>
-                        <td>Ver mas <button class="btn btn-outline-success btn-sm" type="button" onclick=obj.showContent({{$current->invoice}})>
+                        <td>Ver mas <button class="btn btn-outline-success btn-sm" type="button" onclick=obj.showCurrent({{$current->id}})>
                                 <svg id="i-chevron-right" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                 <path d="M12 30 L24 16 12 2" />
                                 </svg>

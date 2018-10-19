@@ -84,7 +84,7 @@
                    aria-haspopup="true" aria-expanded="false" >{{substr(Auth::user()->name,0,8)}}</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <a class="dropdown-item" href="/profile">Mis Datos</a>
-                    <a class="dropdown-item" href="/myOrders">Historial Pedidos</a>
+                    <a class="dropdown-item" href="/my-orders">Historial Pedidos</a>
                     <a class="dropdown-item" href="/myFavourite">Mis favoritos</a>
                     <a class="dropdown-item" href="/coupon">Cupones</a>
                     <a class="dropdown-item" href="{{ route('logout') }}"
