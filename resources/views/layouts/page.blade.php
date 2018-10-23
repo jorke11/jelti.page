@@ -58,27 +58,30 @@ clearstatcache();
         {!!Html::style('/css/card.css?1')!!}
 
     </head>
-    <body>
-        @include("modalRegister")
-        @include("modalOptions")
+    <body >
+        <div id="page-content">
+            @include("modalRegister")
+            @include("modalOptions")
 
-        <div id="popover-customer" class="d-none">
-            <div class="card">
-                <div class="card-header card-customer">Resumen de venta</div>
-                <div class="card-body card-customer" id="content-cart"></div>
+            <div id="popover-customer" class="d-none">
+                <div class="card">
+                    <div class="card-header card-customer">Resumen de venta</div>
+                    <div class="card-body card-customer" id="content-cart"></div>
+                </div>
             </div>
-        </div>
 
-        <div class="container-fluid" style="padding-left: 0; padding-right: 0">
-            <div id="loading-super" class="d-none" >
-                <img src="{!!asset('images/Gif_final.gif')!!}" width='60%' alt="git loading">
+            <div class="container-fluid" style="padding-left: 0; padding-right: 0">
+                <div id="loading-super" class="d-none" >
+                    <img src="{!!asset('images/Gif_final.gif')!!}" width='60%' alt="git loading">
+                </div>
+                @include("header")
+
+                @yield('content')
             </div>
-            @include("header")
-
-            @yield('content')
+            @include("footer")
         </div>
-        @include("footer")
     </body>
+
 
     <script>
             $('#menuProduct').click(function () {
@@ -113,8 +116,6 @@ if ($exibirModal === true) : // Si nuestra variable de control "$exibirModal" es
         });
     </script>
 <?php endif; ?>
-
-{!!Html::script('js/Page/counter.js')!!}
 
 <link href="{{ asset('/css/fonts.css') }}" rel="stylesheet" type="text/css">
 <!--<script src="{{asset("js/app.js")}}"></script>-->

@@ -145,7 +145,7 @@ function Page() {
                                                 <div class="card-body text-center">
 
                                                     <p class="text-left text-muted " style="margin:0;" >
-                                                        <a href="/search/s=${$.slug(value.supplier)}" class="text-supplier">
+                                                        <a href="/search/s=${value.slug_supplier}" class="text-supplier">
                                                             ${value.supplier}
                                                         </a>        
                                                     </p>

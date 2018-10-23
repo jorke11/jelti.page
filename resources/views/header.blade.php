@@ -14,6 +14,8 @@
 
     <div class="navbar-collapse collapse" id="navbarsExampleDefault" style="">
         <ul class="navbar-nav" id="menu-header">
+<<<<<<< HEAD
+=======
             <li class="nav-item dropdown active" id="menu-diet">
                 <a class="nav-link dropdown-toggle title-menu" href="{{url("/")}}" id="title-categories" data-toggle="dropdown" 
                    aria-haspopup="true" aria-expanded="false" >CATEGORIAS</a>
@@ -37,6 +39,7 @@
                 </div>
             </li>
 
+>>>>>>> master
             @guest
             <li class="nav-item dropdown" id="menu-category">
                 <a class="nav-link title-menu" href="#" aria-haspopup="true" aria-expanded="false" id="btn-register" >REGISTRATE</a>
@@ -51,7 +54,6 @@
         </ul>
 
         <form class="form-inline  my-2 my-lg-1"  id="frmSearch">
-
             <div class="col-auto" id="style-input-search" >
                 <label class="sr-only" for="inlineFormInputGroup">Username</label>
                 <div class="input-group mb-2" style="padding-top:10px">

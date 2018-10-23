@@ -13,4 +13,11 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-require('./components/Example');
+
+
+//require('./components/Example');
+
+//require("./components/Page")
+require("./components/CardDiet")
+require("./components/MenuHeader")
+require("./components/SliderProducts")

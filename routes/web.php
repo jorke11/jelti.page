@@ -18,6 +18,7 @@ Route::get('/search/{busqueda}', 'PageController@search');
 Route::get('/', 'PageController@index');
 
 Route::get('/best-seller', 'PageController@getBestSeller');
+Route::get('/new-products', 'PageController@getNewProducts');
 
 Route::get('my-orders', "Ecommerce\PaymentController@getMyOrders");
 Route::get('coupon', "Ecommerce\PaymentController@showCoupon");
@@ -86,3 +87,4 @@ Route::get('confirmation', 'Ecommerce\PseController@confirmation');
 Route::get('voucher', 'Ecommerce\PseController@voucher');
 Route::get('finish-payment', 'Ecommerce\PseController@finishPurchase');
 Route::get('/api/getCity', 'Administration\SeekController@getCity');
+

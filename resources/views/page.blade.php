@@ -2,7 +2,7 @@
 @section('content')
 
 <section id="slider-main" class="main-slider" style="">
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <div id="carouselExampleIndicators" class="carousel slide">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -29,81 +29,15 @@
     </div>
 </section>
 
-<section id="divProduct" style="padding-top:2%" class=" d-lg-block">
-    <div class="container-fluid">
-        <div class="row" style="padding-bottom: 20px">
-            <div class="col-lg-12 col-xs-12">
-                <p class="text-center title-color" style='font-size: 50px;font-family: "dosis" !important'>Conoce Nuestras Dietas</p>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class='col-lg-3 col-xs-6 col-md-3 col-6'>
-                <div class="card">
-                    <a href="{{url("search/c=paleo")}}"><img class="card-img-top" src="{{url("images/page/dietas/paleo.png")}}" alt="Card image cap"></a>
-                    <div class="card-body">
-                        <h2 class="card-title text-center title-diet-header">Paleo</h2>
-                        <p class="text-center justify-content-center"><a href="{{url("search/c=paleo")}}" class="link-green">Ver todos</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class='col-lg-3 col-xs-6 col-md-3 col-xs-6 col-6'>
-                <div class="card">
-                    <a href="{{url("search/c=vegano")}}"><img class="card-img-top" src="{{url("images/page/dietas/vegana.png")}}" alt="Card image cap"></a>
-                    <div class="card-body">
-                        <h2 class="card-title text-center title-diet-header">Vegana</h2>
-                        <p class="text-center justify-content-center"><a href="{{url("search/c=vegano")}}" class="link-green">Ver todos</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class='col-lg-3 col-xs-6 col-md-3 col-xs-6 col-6'>
-                <div class="card">
-                    <a href="{{url("search/c=sin_gluten")}}"><img class="card-img-top" src="{{url("images/page/dietas/sin_gluten.png")}}" alt="Card image cap"></a>
-                    <div class="card-body">
-                        <h2 class="card-title text-center title-diet-header">Sin Gluten</h2>
-                        <p class="text-center justify-content-center"><a href="{{url("search/c=sin_gluten")}}" class="link-green">Ver todos</a></p>
-                    </div>
-                </div>
-            </div>
-        </div>
+<section id="divDiets" style="padding-top:2%" class="d-lg-block"></section>
 
-        <div class="row justify-content-center" style="padding-top: 50px">
-            <div class='col-lg-3 col-xs-6 col-md-3 col-xs-6 col-6'>
-                <div class="card">
-                    <a href="{{url("search/c=organico")}}"><img class="card-img-top" src="{{url("images/page/dietas/organico.png")}}" alt="Card image cap"></a>
-                    <div class="card-body">
-                        <h2 class="card-title text-center title-diet-header">Orgánico</h2>
-                        <p class="text-center justify-content-center"><a href="{{url("search/c=organico")}}" class="link-green">Ver todos</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class='col-lg-3 col-xs-6 col-md-3 col-xs-6 col-6'>
-                <div class="card">
-                    <a href="{{url("search/c=sin_grasas_trans")}}"><img class="card-img-top" src="{{url("images/page/dietas/singrasastrans.png")}}" alt="Card image cap"></a>
-                    <div class="card-body">
-                        <h2 class="card-title text-center title-diet-header">Sin Grasas Trans</h2>
-                        <p class="text-center justify-content-center"><a href="{{url("search/c=sin_grasas_trans")}}" class="link-green" >Ver todos</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class='col-lg-3 col-xs-6 col-md-3 col-xs-6 col-6'>
-                <div class="card">
-                    <a href="{{url("search/c=sin_azucar")}}"><img class="card-img-top" src="{{url("images/page/dietas/sinazucar.png")}}" alt="Card image cap"></a>
-                    <div class="card-body">
-                        <h2 class="card-title text-center title-diet-header">Sin Azúcar</h2>
-                        <p class="text-center justify-content-center"><a href="{{url("search/c=sin_azucar")}}" class="link-green" >Ver todos</a></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
+<section id="slider-new-products"></section>
 <!--Web-->
-<section style="padding-top: 3%;padding-bottom: 2%">   
+<section style="padding-top: 3%;padding-bottom: 2%" >   
     <div class="container-fluid test">
-        <div class="row row-center text-center " >
+        <div class="row row-center text-center ">
             <div class="col-8">
-                <h1 class="text-center">Lo Más Nuevo <br>en SuperFüds</h1>
+                <h1 class="text-center">Lo Más Nuevo<br>en SuperFüds</h1>
                 <p class="text-center"><a href="/search/all=new" class="link-green">Ver todos</a></p>
             </div>
         </div>
@@ -124,7 +58,7 @@
                                                 <img class="card-img-top card-img-product" src="/{{$value->thumbnail}}" alt="Card image cap" onclick="objCounter.redirectProduct('{{$value->slug}}')">
                                                 <div class="card-body text-center">
                                                     <p class="text-left text-muted " style="margin:0;" >
-                                                        <a href="{{url("search/s=".str_slug(strtolower($value->supplier), '-'))}}" class="text-supplier">{{strtoupper($value->supplier)}}</a>
+                                                        <a href="{{url("search/s=".$value->slug_supplier)}}" class="text-supplier">{{strtoupper($value->supplier)}}</a>
                                                     </p>
                                                     <h5 class="card-title text-left title-products"  onclick="objCounter.redirectProduct('{{$value->slug}}')">
                                                         {{$value->title_ec}}</h5>
@@ -145,11 +79,9 @@
                                                         <path d="M16 2 L20 12 30 12 22 19 25 30 16 23 7 30 10 19 2 12 12 12 Z" />
                                                         </svg>
                                                     </p>
-
                                                     @guest
                                                     <p>
                                                     </p>
-
                                                     @else
                                                     <p class="text-left">
                                                         $ {{number_format($value->price_sf_with_tax,0,",",'.')}}
