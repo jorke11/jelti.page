@@ -118,4 +118,5 @@ if ($exibirModal === true) : // Si nuestra variable de control "$exibirModal" es
 <?php endif; ?>
 
 <link href="{{ asset('/css/fonts.css') }}" rel="stylesheet" type="text/css">
+{!!Html::script('js/Page/counter.js')!!}
 <!--<script src="{{asset("js/app.js")}}"></script>-->
