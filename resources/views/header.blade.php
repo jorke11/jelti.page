@@ -14,8 +14,6 @@
 
     <div class="navbar-collapse collapse" id="navbarsExampleDefault" style="">
         <ul class="navbar-nav" id="menu-header">
-<<<<<<< HEAD
-=======
             <li class="nav-item dropdown active" id="menu-diet">
                 <a class="nav-link dropdown-toggle title-menu" href="{{url("/")}}" id="title-categories" data-toggle="dropdown" 
                    aria-haspopup="true" aria-expanded="false" >CATEGORIAS</a>
@@ -39,7 +37,6 @@
                 </div>
             </li>
 
->>>>>>> master
             @guest
             <li class="nav-item dropdown" id="menu-category">
                 <a class="nav-link title-menu" href="#" aria-haspopup="true" aria-expanded="false" id="btn-register" >REGISTRATE</a>

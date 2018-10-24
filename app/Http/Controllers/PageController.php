@@ -51,7 +51,7 @@ class PageController extends Controller {
 
 
         $sql = "
-            SELECT p.id,p.title as product,sup.business as supplier,p.slug_supplier,
+            SELECT p.id,p.title as product,sup.business as supplier,p.slug_supplier,p.units_sf::int,
             sum(CASE WHEN d.real_quantity IS NULL THEN 0 ELSE d.real_quantity end * CASE WHEN d.packaging=0 THEN 1 WHEN d.packaging IS NULL THEN 1 ELSE d.packaging END) quantity, 
             sum(d.value * CASE WHEN d.real_quantity IS NULL THEN 0 ELSE d.real_quantity end * d.units_sf) as subtotal,p.thumbnail,p.slug,p.short_description,
             p.price_sf,p.tax,p.title,p.title_ec,p.price_sf_with_tax
@@ -61,11 +61,10 @@ class PageController extends Controller {
             JOIN vproducts p ON p.id=d.product_id JOIN stakeholder sup ON sup.id=p.supplier_id and p.thumbnail is not null
             $join
             WHERE s.dispatched BETWEEN '" . date("Y") . "-01-01 00:00' AND '" . $end . " 23:59' AND s.client_id NOT IN(258,264,24) AND p.category_id<>-1
-            GROUP by 1,2,3,p.thumbnail,p.slug,p.title_ec,p.short_description,p.price_sf,p.slug_supplier,price_sf_with_tax,p.tax$group ORDER BY 4 DESC limit 50
+            GROUP by 1,2,3,p.thumbnail,p.slug,p.title_ec,p.short_description,p.price_sf,p.units_sf,p.slug_supplier,price_sf_with_tax,p.tax$group ORDER BY 4 DESC limit 50
             ";
+        
         $most_sales = DB::select($sql);
-
-
 
         $categories = Categories::where("status_id", 1)
                         ->where("type_category_id", 1)
@@ -84,9 +83,8 @@ class PageController extends Controller {
                 ->whereBetween("vproducts.created_at", [$init, date("Y-m-d H:i:s")]);
 
 
-
         if ($orders != null) {
-            $newproducts->select("orders_detail.quantity", "vproducts.title","vproducts.slug_supplier", "vproducts.title_ec", "vproducts.characteristic", "vproducts.price_sf_with_tax", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
+            $newproducts->select(DB::raw("orders_detail.quantity"), "vproducts.title", "vproducts.slug_supplier", DB::raw("vproducts.units_sf::int as units_sf"), "vproducts.title_ec", "vproducts.characteristic", "vproducts.price_sf_with_tax", "vproducts.category_id", "vproducts.thumbnail", "vproducts.slug", "vproducts.id", "vproducts.short_description", "vproducts.price_sf", "vproducts.tax", "vproducts.supplier")->leftjoin("orders_detail", "orders_detail.product_id", DB::raw("vproducts.id and orders_detail.order_id = " . $orders->id));
         }
 
 
@@ -132,7 +130,6 @@ class PageController extends Controller {
             array("url" => "https://superfuds.com/images_blog/referentes/chocolov-6.jpg", "title" => "Chocolov"));
 
         $dietas = $this->dietas;
-        
 
         $suppliers = $this->getSuppliers()->getData();
 
@@ -140,7 +137,7 @@ class PageController extends Controller {
         $newproducts = $this->splitArray($newproducts, 4);
 
 //        dd($newproducts);
-        
+
         return view('page', compact("subcategory", "categories", "dietas", "newproducts", "love_clients", "clients", "most_sales", "suppliers"));
     }
 

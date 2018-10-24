@@ -83,15 +83,22 @@
                                                     <p>
                                                     </p>
                                                     @else
-                                                    <p class="text-left">
-                                                        $ {{number_format($value->price_sf_with_tax,0,",",'.')}}
-                                                    </p>
+                                                    <div class="row">
+                                                        <div class="col-6 text-left">
+                                                            $ {{number_format($value->price_sf_with_tax,0,",",'.')}}  x({{$value->units_sf}})
+                                                        </div>
+                                                        @if(isset($value->quantity) && $value->quantity!=null)
+                                                        <div class="col-6 text-right">
+                                                            Unds<b>(<span id="total_amount_{{$value->id}}">{{$value->quantity * $value->units_sf}}</span>)</b>
+                                                        </div>
+                                                        @endif
+                                                    </div>
                                                     @endguest
 
                                                     @if(isset($value->quantity))
                                                     <button class="btn {{(isset($value->quantity)) ? '' : 'd-none'}}" type="button" 
                                                             onmouseover="objCounter.showOption(this,{{$value->id}})" id="buttonShow_{{$value->id}}" style="background-color: #5cb19a;color:white;"
-                                                            >{{$value->quantity}} en carrito</button>
+                                                            >{{$value->quantity * $value->units_sf}} en carrito</button>
                                                     @endif
 
                                                     <div class="row d-none row-center" id="buttonAdd_{{$value->id}}">
@@ -113,8 +120,7 @@
                                                                 <div class="col-lg-4 col-4" style="padding-left: 0;padding-right: 0">
                                                                     <svg id="i-plus" viewBox="0 0 35 35" class="btn-minus-card-product" fill="white" stroke="#ffffff" 
                                                                          stroke-linecap="round" stroke-linejoin="round" stroke-width="4" style="cursor:pointer"
-                                                                         onclick="objCounter.addProduct('{{$value->short_description}}',
-                                                                         '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_new_product_{{$value->id}}'); return false;">
+                                                                         onclick="objCounter.addProduct('{{$value->id}}','{{$value->slug}}','quantity_new_product_{{$value->id}}'); return false;">
                                                                     <path d="M16 2 L16 30 M2 16 L30 16" />
                                                                     </svg>
                                                                 </div>
@@ -126,8 +132,7 @@
                                                                     <svg id="i-checkmark" viewBox="0 0 32 32" class="btn-minus-card-product" fill="none" stroke="currentcolor" stroke-linecap="round" 
                                                                          stroke-linejoin="round" stroke-width="4"
                                                                          style="cursor:pointer"
-                                                                         onclick="objCounter.addProduct('{{$value->short_description}}',
-                                                                         '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_new_product_{{$value->id}}', 'check'); return false;"
+                                                                         onclick="objCounter.addProduct('{{$value->id}}','{{$value->slug}}','quantity_new_product_{{$value->id}}', 'check'); return false;"
                                                                          >
                                                                     <path d="M2 20 L12 28 30 4" />
                                                                     </svg>
@@ -137,8 +142,7 @@
                                                     </div>
 
                                                     <button class="btn {{(isset($value->quantity)) ? 'd-none' : '' }}" 
-                                                            id="btnOption_{{$value->id}}" onclick="objCounter.showButton('{{$value->short_description}}',
-                                                            '{{$value->slug}}','{{$value->id}}','{{$value->price_sf}}','{{url($value->thumbnail)}}','{{$value->tax}}','quantity_new_product_{{$value->id}}')"
+                                                            id="btnOption_{{$value->id}}" onclick="objCounter.showButton('{{$value->id}}','{{$value->slug}}','quantity_new_product_{{$value->id}}')"
                                                             style="background-color: #5cb19a;color:white;">Agregar</button>
                                                 </div>
                                             </div>
