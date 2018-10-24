@@ -22,9 +22,9 @@ function Page() {
 //        db = firebase.firestore();
 
 //        db.child(user_id).set({id:"prueba"})
-//        this.getDataFirebase();
-//        this.getDataFireStore();
+
         this.getData();
+        this.getDiets();
         this.getBestSeller();
 
 
@@ -56,12 +56,26 @@ function Page() {
                     obj.setData(data);
 
                 }, error: function (xhr, ajaxOptions, thrownError) {
-//                toastr.error(xhr.responseJSON.msg);
-//                elem.attr("disabled", false);
+
                 }
 
             })
         }
+    }
+
+    this.getDiets = function () {
+
+        $.ajax({
+            url: PATH + '/card-diets',
+            method: 'GET',
+            success: function (data) {
+                obj.setDataDiets(data);
+            }, error: function (xhr, ajaxOptions, thrownError) {
+//                toastr.error(xhr.responseJSON.msg);
+//                elem.attr("disabled", false);
+            }
+
+        })
     }
     this.getBestSeller = function () {
 
@@ -76,6 +90,54 @@ function Page() {
             }
 
         })
+    }
+
+    this.setDataDiets = function (data) {
+
+
+        var html = `<div class="container-fluid">
+                
+                    <div class="row row-card">
+                        <div class="col-lg-12 col-xs-12">
+                            <p class="text-center title-color">Conoce Nuestras Dietas</p>
+                        </div>
+                    </div>
+                
+                    <div class="row justify-content-center">
+                        <div class="col-10">
+                            `;
+        if (data != false) {
+            data.forEach((row, index) => {
+                html += `<div class="row">`;
+                row.forEach((val, i) => {
+                    let {image, description, search} = val;
+                    html += `
+                           <div class='col-lg-4 col-xs-6 col-md-6 '>
+                                             <div class="card">
+                                                <img class="card-img-top" 
+                                                     src=${image}
+                                                     alt=${description}
+                                                     />
+                                                <div class="card-body">
+                                                    <h2 class="card-title text-center title-diet" >${description}</h2>
+                                                    <p class="text-center justify-content-center"><a href='/search/c=${search}' class="link-green">Ver todos</a></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                            `;
+                })
+
+                html += `</div>`;
+            })
+            html += `   
+                     
+                        </div>
+                            </div>
+                                </div>`
+        }
+
+        $("#divDiets").html(html);
+
     }
 
     this.setData = function (data) {

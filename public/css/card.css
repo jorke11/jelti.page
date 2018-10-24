@@ -91,6 +91,12 @@
     cursor: pointer;
 }
 
+.title-color{
+    font-size: 50px;
+    font-family: "dosis" !important
+}
+
+
 
 
 #img-cart{

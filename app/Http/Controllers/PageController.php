@@ -63,7 +63,7 @@ class PageController extends Controller {
             WHERE s.dispatched BETWEEN '" . date("Y") . "-01-01 00:00' AND '" . $end . " 23:59' AND s.client_id NOT IN(258,264,24) AND p.category_id<>-1
             GROUP by 1,2,3,p.thumbnail,p.slug,p.title_ec,p.short_description,p.price_sf,p.units_sf,p.slug_supplier,price_sf_with_tax,p.tax$group ORDER BY 4 DESC limit 50
             ";
-        
+
         $most_sales = DB::select($sql);
 
         $categories = Categories::where("status_id", 1)
@@ -229,6 +229,7 @@ class PageController extends Controller {
     }
 
     public function getDiets() {
+        $this->dietas = $this->splitArray($this->dietas, 3);
         return response()->json($this->dietas);
     }
 
